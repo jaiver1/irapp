@@ -1,0 +1,25 @@
+.alert-danger{
+        background-color: #ff3547 !important;
+        border-color: #ff3547 !important;
+        color: #fff !important;
+        outline: transparent !important;
+     }
+    .close{
+        color: white !important;
+        outline: transparent !important;
+    }
+    
+    .menu-sup{
+        background-color:#3E4551 !important;
+      }
+    .menu-sup > a.dropdown-item{
+        background-color:#3E4551 !important;
+        color:white !important;
+      }
+      .menu-sup > a.dropdown-item:hover{
+        background-color:#3F729B !important;
+        color:white !important;
+      }
+
+    
+    

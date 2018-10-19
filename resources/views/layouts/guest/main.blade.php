@@ -1,0 +1,9 @@
+@extends('layouts.app')
+@section('main')
+@include('layouts.guest.nav')
+@include('layouts.guest.footer')
+@yield('navegation')
+<main>
+</main>
+@yield('footer')
+@endsection

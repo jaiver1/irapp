@@ -1,0 +1,10 @@
+@extends('layouts.app')
+@section('main')
+@include('layouts.store.nav')
+@include('layouts.store.footer')
+@yield('navegation')
+<main>
+        @yield('content')
+</main>
+@yield('footer')
+@endsection

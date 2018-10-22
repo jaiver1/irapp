@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Orden;
 use Illuminate\Support\Facades\Validator;
-Use Alert;
+Use SweetAlert;
 
 class OrdenController extends Controller
 {
@@ -59,7 +59,7 @@ class OrdenController extends Controller
 
 
         if ($validator->fails()) {
-            Alert::error('Error','Errores en el formulario.');
+            SweetAlert::error('Error','Errores en el formulario.');
             return Redirect::to('ordenes/create')
                 ->withErrors($validator);
         } else {
@@ -67,7 +67,7 @@ class OrdenController extends Controller
             $orden->nombre = $request->nombre; 
            $orden->save();        
 
-            Alert::success('Exito','La orden "'.$orden->nombre.'" ha sido registrada.');
+            SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido registrada.');
             return Redirect::to('ordenes');
         }
     }
@@ -118,14 +118,14 @@ class OrdenController extends Controller
 
 
     if ($validator->fails()) {
-        Alert::error('Error','Errores en el formulario.');
+        SweetAlert::error('Error','Errores en el formulario.');
         return Redirect::to('ordenes/'+$id+'/edit')
             ->withErrors($validator);
     } else {
         $orden = Orden::findOrFail($request->id);
         $orden->nombre = $request->nombre; 
         $orden->save();
-        Alert::success('Exito','La orden "'.$orden->nombre.'" ha sido editada.');
+        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido editada.');
         return Redirect::to('ordenes');
     }
     }
@@ -141,7 +141,7 @@ class OrdenController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = Orden::findOrFail($id);   
         $orden->delete();
-        Alert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada.');
+        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada.');
         return Redirect::to('ordenes');
 }
 }

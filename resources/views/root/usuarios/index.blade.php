@@ -83,7 +83,7 @@ Lista de usuarios | {{ config('app.name', 'Laravel') }}
       <td>{{$usuario->id}}</td>
       <td>{{$usuario->name}}</td>
       <td>{{$usuario->email}}</td>
-      <td>{{$usuario->roles[0]->display_name}}</td>
+      <td>{{ ($usuario->roles) ? $usuario->roles->first()->display_name : 'Sin rol'}}</td>
       <td>
 
 <a href="{{ route('usuarios.show',$usuario->id) }}" class="text-primary m-1" 

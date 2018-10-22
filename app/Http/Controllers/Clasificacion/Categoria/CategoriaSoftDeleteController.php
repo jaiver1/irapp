@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Clasificacion\Categoria;
 use App\Http\Controllers\Controller;
 use App\Models\Clasificacion\Categoria;
-Use Alert;
+Use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class CategoriaSoftDeleteController extends Controller
         $categoria = Categoria::onlyTrashed()->where('id', $id)->get();
         
         if (count($categoria) != 1) {
-            Alert::error('Error','La categoria no existe.');
+            SweetAlert::error('Error','La categoria no existe.');
             return redirect('/categorias/deleted');
         }
 
@@ -62,7 +62,7 @@ class CategoriaSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $categoria = self::getDeletedCategoria($id);
         $categoria->restore();
-        Alert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido restaurada.');
+        SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido restaurada.');
         return Redirect::to('categorias/deleted');
     }
 
@@ -78,7 +78,7 @@ class CategoriaSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $categoria = self::getDeletedCategoria($id);
         $categoria->forceDelete();
-        Alert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido eliminada permanentemente.');
+        SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido eliminada permanentemente.');
         return Redirect::to('categorias/deleted');
     }
 }

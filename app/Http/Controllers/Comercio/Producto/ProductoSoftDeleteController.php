@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Comercio\Producto;
 use App\Http\Controllers\Controller;
 use App\Models\Comercio\Producto;
-Use Alert;
+Use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class ProductoSoftDeleteController extends Controller
         $producto = Producto::onlyTrashed()->where('id', $id)->get();
         
         if (count($producto) != 1) {
-            Alert::error('Error','El producto no existe.');
+            SweetAlert::error('Error','El producto no existe.');
             return redirect('/productos/deleted');
         }
 
@@ -62,7 +62,7 @@ class ProductoSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $producto = self::getDeletedMarca($id);
         $producto->restore();
-        Alert::success('Exito','El producto "'.$producto->nombre.'" ha sido restaurada.');
+        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido restaurada.');
         return Redirect::to('productos/deleted');
     }
 
@@ -78,7 +78,7 @@ class ProductoSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $producto = self::getDeletedMarca($id);
         $producto->forceDelete();
-        Alert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada permanentemente.');
+        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada permanentemente.');
         return Redirect::to('productos/deleted');
     }
 }

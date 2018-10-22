@@ -15,7 +15,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-balance-scale prefix"></i>
-    <input type="text" required id="nombre" value="{{ $tipo_medida->nombre}}" name="nombre" class="form-control validate" maxlength="50">
+    <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $tipo_medida->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre</label>
 </div>
 @if ($errors->has('nombre'))

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Dato_basico\Tipo_medida;
 use Illuminate\Support\Facades\Validator;
-Use Alert;
+Use SweetAlert;
 
 class Tipo_medidaController extends Controller
 {
@@ -59,7 +59,8 @@ class Tipo_medidaController extends Controller
 
 
         if ($validator->fails()) {
-            Alert::error('Error','Errores en el formulario.');
+            $request->flash();
+            SweetAlert::error('Error','Errores en el formulario.');
             return Redirect::to('tipos_medidas/create')
                 ->withErrors($validator);
         } else {
@@ -67,7 +68,7 @@ class Tipo_medidaController extends Controller
             $tipo_medida->nombre = $request->nombre;      
             $tipo_medida->save();        
 
-            Alert::success('Exito','El tipo de medida "'.$tipo_medida->nombre.'" ha sido registrado.');
+            SweetAlert::success('Exito','El tipo de medida "'.$tipo_medida->nombre.'" ha sido registrado.');
             return Redirect::to('tipos_medidas');
         }
     }
@@ -118,7 +119,8 @@ class Tipo_medidaController extends Controller
 
 
     if ($validator->fails()) {
-        Alert::error('Error','Errores en el formulario.');
+        $request->flash();
+        SweetAlert::error('Error','Errores en el formulario.');
         return Redirect::to('tipos_medidas/'+$id+'/edit')
             ->withErrors($validator);
     } else {
@@ -126,7 +128,7 @@ class Tipo_medidaController extends Controller
         $tipo_medida->nombre = $request->nombre;        
         $tipo_medida->save();
 
-        Alert::success('Exito','El tipo de medida "'.$tipo_medida->nombre.'" ha sido editado.');
+        SweetAlert::success('Exito','El tipo de medida "'.$tipo_medida->nombre.'" ha sido editado.');
         return Redirect::to('tipos_medidas');
     }
     }
@@ -143,7 +145,7 @@ class Tipo_medidaController extends Controller
         $tipo_medida = Tipo_medida::findOrFail($id);
     
         $tipo_medida->delete();
-        Alert::success('Exito','El tipo de medida "'.$tipo_medida->nombre.'" ha sido eliminado.');
+        SweetAlert::success('Exito','El tipo de medida "'.$tipo_medida->nombre.'" ha sido eliminado.');
         return Redirect::to('tipos_medidas');
 }
 }

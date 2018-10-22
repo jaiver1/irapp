@@ -71,8 +71,7 @@ Usuarios eliminados | {{ config('app.name', 'Laravel') }}
       </th>
       <th class="th-sm">Email
       </th>
-      <th class="th-sm">Rol
-      </th>
+
       <th class="th-sm">Acciones
       </th>
    
@@ -84,7 +83,6 @@ Usuarios eliminados | {{ config('app.name', 'Laravel') }}
       <td>{{$usuario->id}}</td>
       <td>{{$usuario->name}}</td>
       <td>{{$usuario->email}}</td>
-      <td>{{$usuario->name}}</td>
       <td>
 
       <a onclick="restaurar_usuario({{ $usuario->id }},'{{ $usuario->name }}')" class="text-success m-1" 

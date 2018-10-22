@@ -6,12 +6,12 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 <link rel="stylesheet" href="{{ asset('css/addons/select2.css') }}" type="text/css"/>
 @endsection
 @section('content')
+<section class="view intro-2">
+        <div class="mask pattern-6 flex-center"></div>
 <!-- Main Container -->
-<div class="container-fluid mt-5 pt-3">
-
-
+<div class="container mt-5 pt-3">
     <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark unique-color-dark mt-5 mb-5">
+    <nav class="navbar navbar-expand-lg navbar-dark unique-color-dark mt-4 mb-4 z-depth-5 hoverable  wow fadeInDown" data-wow-delay="0.3s">
 
         <!-- Navbar brand -->
         <a class="font-weight-bold white-text mr-4" href="#">Lista de Productos</a>
@@ -32,9 +32,9 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                             <div class="col-md-12 col-lg-4 sub-menu my-lg-5 mt-5 mb-4">
                                 <h6 class="sub-title text-uppercase font-weight-bold red-text">Destacado</h6>
                                 <!--Featured image-->
-                                <div class="view overlay mb-3 z-depth-1">
-                                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/9.jpg" class="img-fluid" alt="First sample image">
-                                    <div class="mask flex-center rgba-stylish-slight">
+                                <div class="view overlay mb-3 z-depth-1 hoverable zoom">
+                                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/9.jpg" class="img-fluid hoverable rounded img-thumbnail" alt="First sample image">
+                                    <div class="mask flex-center rgba-white-slight">
                                         <p></p>
                                     </div>
                                 </div>
@@ -77,7 +77,8 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 
     </nav>
     <!--/.Navbar-->
-
+    <div class="card mb-4 z-depth-5 hoverable">
+            <div class="card-body">
 
     <div class="row pl-4 pt-4">
 
@@ -87,18 +88,18 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
             <div class="">
                 <!-- Grid row -->
                 <div class="row">
-                    <div class="col-sm-6 col-lg-12 mb-5">
+                    <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
                         <!-- Panel -->
-                        <h5 class="font-weight-bold brown-text"><strong>Ordenar</strong></h5>
-                            <p class="red-text"><a>Nombre: A-Z</a></p>
-                            <p class="blue-grey-text"><a>Nombre: Z-A</a></p>
-                            <p class="blue-grey-text"><a>Precio: mas bajo</a></p>
-                            <p class="blue-grey-text"><a>Precio: mas alto</a></p>
+                        <h5 class="font-weight-bold brown-text"><i class="fa fa-sort mr-2"></i><em>Ordenar</em></h5>
+                            <p class="red-text"><a><i class="fa fa-sort-alpha-down mr-2"></i><em>Nombre: A-Z</em></a></p>
+                            <p class="blue-grey-text"><a><i class="fa fa-sort-alpha-up mr-2"></i><em>Nombre: Z-A</em></a></p>
+                            <p class="blue-grey-text"><a><i class="fa fa-sort-numeric-down mr-2"></i><em>Precio: mas bajo</em></a></p>
+                            <p class="blue-grey-text"><a><i class="fa fa-sort-numeric-up mr-2"></i><em>Precio: mas alto</em></a></p>
                     </div>
 
   <!-- Filter by price  -->
-  <div class="col-sm-6 col-lg-12 mb-5">
-        <h5 class="font-weight-bold brown-text"><strong>Precio</strong></h5>
+  <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
+        <h5 class="font-weight-bold brown-text"><i class="fa fa-money-bill-alt mr-2"></i><em>Precio</em></h5>
 
             <small class="font-weight-bold blue-grey-text"><strong>Menor precio</strong></small>
 
@@ -150,16 +151,16 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     <!-- /Filter by price -->
 
 <!-- Filter by brand-->
-<div class="col-sm-6 col-lg-12 mb-5">
-        <h5 class="font-weight-bold brown-text"><strong>Marcas</strong></h5>
-        
+<div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
+        <h5 class="font-weight-bold brown-text"><i class="fa fa-trademark mr-2"></i><em>Marca</em></h5>
+        @include('include.comercio.marcas.select', array('marca_selected'=>$marca_actual))
       
     </div>
     <!-- /Filter by brand-->
                     <!-- Filter by category-->
-                    <div class="col-sm-6 col-lg-12 mb-5">
-                        <h5 class="font-weight-bold brown-text"><strong>Categoria</strong></h5>
-                        @include('clasificacion.categorias.sub_categorias_select', array('categoria_selected'=>$categoria))
+                    <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
+                        <h5 class="font-weight-bold brown-text"><i class="fa fa-sitemap mr-2"></i><em>Categoria</em></h5>
+                        @include('include.clasificacion.categorias.select', array('categoria_selected'=>$categoria_actual))
 
                     </div>
                     <!-- /Filter by category-->
@@ -172,27 +173,27 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
         <!-- /.Sidebar -->
 
         <!-- Content -->
-        <div class="col-lg-9">
+        <div class="col-lg-9 wow fadeInUp" data-wow-delay="0.3s">
 
           
 
             <!-- Products Grid -->
-            <section class="section pt-4">
+            <section class="section pt-4 wow fadeIn" data-wow-delay="0.3s">
 
                 <!-- Grid row -->
                 <div class="row">
 
                     <!--Grid column-->
-                    <div class="col-lg-4 col-md-12 mb-4">
+                    <div class="wow fadeIn col-lg-4 col-md-12 mb-4">
 
                         <!--Card-->
-                        <div class="card card-ecommerce">
+                        <div class="card card-ecommerce hoverable">
 
                             <!--Card image-->
-                            <div class="view overlay">
-                                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/1.jpg" class="img-fluid" alt="">
+                            <div class="view overlay hoverable zoom">
+                                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/1.jpg" class="img-fluid rounded img-thumbnail" alt="">
                                 <a>
-                                    <div class="mask rgba-stylish-slight"></div>
+                                    <div class="mask rgba-white-slight"></div>
                                 </a>
                             </div>
                             <!--Card image-->
@@ -248,9 +249,11 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
         <!-- /.Content -->
 
     </div>
-
+</div>
+</div>
 </div>
 <!-- /.Main Container -->
+</section>
 @endsection
 
 @section('js_links')
@@ -263,6 +266,10 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 $(document).ready(function() {
     $('#categoria_id').select2({
         placeholder: "Categorias",
+        theme: "material"
+    });
+    $('#marca_id').select2({
+        placeholder: "Marcas",
         theme: "material"
     });
     $(".select2-selection__arrow")

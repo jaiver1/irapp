@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Clasificacion\Especialidad;
 use Illuminate\Support\Facades\Validator;
-Use Alert;
+Use SweetAlert;
 
 class CategoriaController extends Controller
 {
@@ -69,7 +69,8 @@ class CategoriaController extends Controller
 
 
         if ($validator->fails()) {
-            Alert::error('Error','Errores en el formulario.');
+            $request->flash();
+            SweetAlert::error('Error','Errores en el formulario.');
             return Redirect::to('categorias/create')
                 ->withErrors($validator);
         } else {
@@ -79,7 +80,7 @@ class CategoriaController extends Controller
             $categoria->tipo_categoria()->associate(Tipo_categoria::findOrFail($request->tipo_categoria_id));      
             $categoria->save();        
 
-            Alert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido registrada.');
+            SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido registrada.');
             return Redirect::to('categorias');
         }
     }
@@ -132,7 +133,8 @@ class CategoriaController extends Controller
 
 
     if ($validator->fails()) {
-        Alert::error('Error','Errores en el formulario.');
+        $request->flash();
+        SweetAlert::error('Error','Errores en el formulario.');
         return Redirect::to('categorias/'+$id+'/edit')
             ->withErrors($validator);
     } else {
@@ -142,7 +144,7 @@ class CategoriaController extends Controller
         $categoria->tipo_categoria()->associate(Tipo_categoria::findOrFail($request->tipo_categoria_id)); 
         $categoria->save();
 
-        Alert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido editada.');
+        SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido editada.');
         return Redirect::to('categorias');
     }
     }
@@ -159,7 +161,7 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($id);
     
         $categoria->delete();
-        Alert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido eliminada.');
+        SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido eliminada.');
         return Redirect::to('categorias');
 }
 }

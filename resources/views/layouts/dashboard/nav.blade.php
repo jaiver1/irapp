@@ -63,13 +63,12 @@ function salir(){
         </div>
         <div class="sidebar-header">
             <div class="user-pic">
-                <img class="img-responsive img-rounded" src="{{ asset('img/user.jpg') }}" alt="User picture">
+                <img class="img-responsive img-rounded" src="{{ asset('img/dashboard/sidebar/user.jpg') }}" alt="User picture">
             </div>
             <div class="user-info">
-                <span class="user-name">{{ Auth::user()->name }}
-                    <strong>Smith</strong>
+                <span class="user-name"><strong>{{ Auth::user()->name }}</strong>
                 </span>
-                <span class="user-role">{{ Auth::user()->roles[0]->display_name }}</span>
+                <span class="user-role">{{ (Auth::user()->roles) ? Auth::user()->roles->first()->display_name : 'Sin rol'}}</span>
                 <span class="user-status">
                     <i class="fa fa-circle"></i>
                     <span>Online</span>

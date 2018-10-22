@@ -64,12 +64,12 @@ class Persona extends Model
 
     public function ubicacion()
     {
-        return $this->belongsTo('App\Models\Dato_basico\X_Ubicacion');
+        return $this->belongsTo('App\Models\Dato_basico\XUbicacion');
     }
 
     public function ciudad()
     {
-        return $this->belongsTo('App\Models\Dato_basico\X_Ciudad');
+        return $this->belongsTo('App\Models\Dato_basico\XCiudad');
     }
     
 }

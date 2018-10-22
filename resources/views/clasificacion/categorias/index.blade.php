@@ -87,7 +87,7 @@ Lista de categorias | {{ config('app.name', 'Laravel') }}
 
             <td>
                 @if($categoria->categoria == NULL)
-               <h5> <span class="badge badge-secondary"><i class="fa fa-network-wired mr-1"></i>Categoria raiz</span><h5>
+               <h5> <span class="badge badge-secondary hoverable"><i class="fa fa-network-wired mr-1"></i>Categoria raiz</span><h5>
                 @else
                     <a href="{{ route('categorias.show',$categoria->categoria->id) }}" class="link-text"
                                   data-toggle="tooltip" data-placement="bottom" title='Información de la categoria padre "{{ $categoria->categoria->nombre }}"'>

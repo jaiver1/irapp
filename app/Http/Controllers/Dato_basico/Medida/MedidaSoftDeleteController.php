@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dato_basico\Medida;
 use App\Http\Controllers\Controller;
 use App\Models\Dato_basico\Medida;
-Use Alert;
+Use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class MedidaSoftDeleteController extends Controller
         $medida = Medida::onlyTrashed()->where('id', $id)->get();
         
         if (count($medida) != 1) {
-            Alert::error('Error','La medida no existe.');
+            SweetAlert::error('Error','La medida no existe.');
             return redirect('/medidas/deleted');
         }
 
@@ -62,7 +62,7 @@ class MedidaSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $medida = self::getDeletedMedida($id);
         $medida->restore();
-        Alert::success('Exito','La medida "'.$medida->nombre.'" ha sido restaurada.');
+        SweetAlert::success('Exito','La medida "'.$medida->nombre.'" ha sido restaurada.');
         return Redirect::to('medidas/deleted');
     }
 
@@ -78,7 +78,7 @@ class MedidaSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $medida = self::getDeletedMedida($id);
         $medida->forceDelete();
-        Alert::success('Exito','La medida "'.$medida->nombre.'" ha sido eliminada permanentemente.');
+        SweetAlert::success('Exito','La medida "'.$medida->nombre.'" ha sido eliminada permanentemente.');
         return Redirect::to('medidas/deleted');
     }
 }

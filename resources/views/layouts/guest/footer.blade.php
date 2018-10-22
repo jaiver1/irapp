@@ -1,6 +1,6 @@
 @section('footer')
 <!--Footer-->
-<footer class="page-footer text-center font-small wow fadeIn">
+<footer class="page-footer text-center font-small wow fadeInUp">
  <!--Call to action-->
  <div class="pt-1">
     </div>

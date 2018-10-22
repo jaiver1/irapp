@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
 @include('comercio.productos.form')
 @section('template_title')
-Editar un producto "{{ $producto->nombre }}" | {{ config('app.name', 'Laravel') }}
+Editar el producto "{{ $producto->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
 
@@ -17,7 +17,7 @@ Editar un producto "{{ $producto->nombre }}" | {{ config('app.name', 'Laravel') 
                     <span><i class="fa fa-boxes mr-1"></i></span> 
                         <a href="{{ route('productos.index') }}">Lista de productos</a>
                         <span>/</span>
-                        <span>Editar un producto "{{ $producto->nombre }}"</span>
+                        <span>Editar el producto "{{ $producto->nombre }}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">

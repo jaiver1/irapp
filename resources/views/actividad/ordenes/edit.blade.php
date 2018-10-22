@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
 @include('actividad.ordenes.form')
 @section('template_title')
-Editar una orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel') }}
+Editar la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
 
@@ -17,7 +17,7 @@ Editar una orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel') }}
                     <span><i class="fa fa-object-group mr-1"></i></span> 
                         <a href="{{ route('ordenes.index') }}">Lista de ordenes</a>
                         <span>/</span>
-                        <span>Editar orden "{{ $orden->nombre }}"</span>
+                        <span>Editar la orden "{{ $orden->nombre }}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">

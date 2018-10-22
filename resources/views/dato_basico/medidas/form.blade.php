@@ -18,7 +18,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-ruler prefix"></i>
-    <input type="text" required id="nombre" value="{{ $medida->nombre}}" name="nombre" class="form-control validate" maxlength="50">
+    <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $medida->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre</label>
 </div>
 @if ($errors->has('nombre'))
@@ -36,7 +36,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <input type="text" required id="etiqueta" value="{{ $medida->etiqueta}}" name="etiqueta" class="form-control validate" maxlength="5">
+    <input type="text" required id="etiqueta" value="{{ old('etiqueta') ? old('etiqueta') : $medida->etiqueta}}" name="etiqueta" class="form-control validate" maxlength="5">
     <label for="etiqueta" data-error="Error" data-success="Correcto">Etiqueta</label>
 </div>
 @if ($errors->has('etiqueta'))
@@ -65,7 +65,7 @@
     <select class="form-control" required id="tipo_medida_id" name="tipo_medida_id">
     <option value="" disabled selected>Selecciona una opción</option>
     @foreach($tipos_medidas as $key => $tipo_medida)
-    <option value="{{$tipo_medida->id}}">{{$tipo_medida->nombre}}</option>
+    <option {{ ($medida->tipo_medida->id == $tipo_medida->id) ? 'selected' : '' }} value="{{ $tipo_medida->id }}">{{$tipo_medida->nombre}}</option>
     @endforeach
 </select>
 </div> @if ($errors->has('tipo_medida_id'))

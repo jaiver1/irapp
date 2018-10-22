@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comercio\Marca;
 use Illuminate\Support\Facades\Validator;
-Use Alert;
+Use SweetAlert;
 
 class MarcaController extends Controller
 {
@@ -59,7 +59,8 @@ class MarcaController extends Controller
 
 
         if ($validator->fails()) {
-            Alert::error('Error','Errores en el formulario.');
+            $request->flash();
+            SweetAlert::error('Error','Errores en el formulario.');
             return Redirect::to('marcas/create')
                 ->withErrors($validator);
         } else {
@@ -67,7 +68,7 @@ class MarcaController extends Controller
             $marca->nombre = $request->nombre; 
            $marca->save();        
 
-            Alert::success('Exito','La marca "'.$marca->nombre.'" ha sido registrada.');
+            SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido registrada.');
             return Redirect::to('marcas');
         }
     }
@@ -118,14 +119,15 @@ class MarcaController extends Controller
 
 
     if ($validator->fails()) {
-        Alert::error('Error','Errores en el formulario.');
+        $request->flash();
+        SweetAlert::error('Error','Errores en el formulario.');
         return Redirect::to('marcas/'+$id+'/edit')
             ->withErrors($validator);
     } else {
         $marca = Marca::findOrFail($request->id);
         $marca->nombre = $request->nombre; 
         $marca->save();
-        Alert::success('Exito','La marca "'.$marca->nombre.'" ha sido editada.');
+        SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido editada.');
         return Redirect::to('marcas');
     }
     }
@@ -141,7 +143,7 @@ class MarcaController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $marca = Marca::findOrFail($id);   
         $marca->delete();
-        Alert::success('Exito','La marca "'.$marca->nombre.'" ha sido eliminada.');
+        SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido eliminada.');
         return Redirect::to('marcas');
 }
 }

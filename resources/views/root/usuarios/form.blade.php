@@ -18,7 +18,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-user prefix"></i>
-    <input type="text" required id="name" value="{{ $usuario->name}}" name="name" class="form-control validate" maxlength="50">
+    <input type="text" required id="name" value="{{ old('name') ? old('name') : $usuario->nombre}}" name="name" class="form-control validate" maxlength="50">
     <label for="name" data-error="Error" data-success="Correcto">Usuario</label>
 </div>
 @if ($errors->has('name'))
@@ -42,7 +42,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-unlock-alt prefix"></i>
-    <input type="password" required id="password" value="" name="password" class="form-control validate" maxlength="50">
+    <input type="password" required id="password" value="{{ old('password') }}" name="password" class="form-control validate" maxlength="50">
     <label for="pass" data-error="Error" data-success="Correcto">Contraseña</label>
 </div>
 @if ($errors->has('password'))
@@ -60,7 +60,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-lock prefix"></i>
-    <input type="password" required id="password_confirmation" value="" name="password_confirmation" class="form-control validate" maxlength="50">
+    <input type="password" required id="password_confirmation" value="{{ old('password_confirmation') }}" name="password_confirmation" class="form-control validate" maxlength="50">
     <label for="password_confirmation" data-error="Error" data-success="Correcto">Confirmar Contraseña</label>
 </div>
 @if ($errors->has('password_confirmation'))
@@ -86,7 +86,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-envelope prefix"></i>
-    <input type="email" required id="email" value="{{ $usuario->email}}" name="email" class="form-control validate" maxlength="100">
+    <input type="email" required id="email" value="{{ old('email') ? old('email') : $usuario->email}}" name="email" class="form-control validate" maxlength="100">
     <label for="email" data-error="Error" data-success="Correcto">Email</label>
 </div> @if ($errors->has('email'))
                                             <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
@@ -106,15 +106,15 @@
             <div class="md-form">
             <i class="fa fa-user-tie"></i>
             <small for="rol">Rol</small>
-    <select class="form-control" required id="rol" name="rol">
+    <select class="form-control" required id="rol_id" name="rol_id">
     <option value="" disabled selected>Selecciona una opción</option>
     @foreach($roles as $key => $rol)
-    <option value="{{$rol->id}}">{{$rol->display_name}}</option>
+    <option {{ ($usuario->roles->first()->id == $rol->id) ? 'selected' : '' }} value="{{$rol->id}}">{{$rol->display_name}}</option>
     @endforeach
 </select>
-</div> @if ($errors->has('rol'))
+</div> @if ($errors->has('rol_id'))
                                             <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                           {{ $errors->first('rol') }}
+                                           {{ $errors->first('rol_id') }}
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>

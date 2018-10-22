@@ -109,18 +109,18 @@ body {
 }
 
 [data-bg="bg1"] {
-    background-image: url(../img/bg1.jpg);
+    background-image: url(../img/dashboard/sidebar/bg1.jpg);
 }
 
 [data-bg="bg2"] {
-    background-image: url(../img/bg2.jpg);
+    background-image: url(../img/dashboard/sidebar/bg2.jpg);
 }
 
 [data-bg="bg3"] {
-    background-image: url(../img/bg3.jpg);
+    background-image: url(../img/dashboard/sidebar/bg3.jpg);
 }
 [data-bg="bg4"] {
-    background-image: url(../img/bg4.jpg);
+    background-image: url(../img/dashboard/sidebar/bg4.jpg);
 }
 
 

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
 @include('dato_basico.medidas.form')
 @section('template_title')
-Editar una medida "{{ $medida->nombre }}" | {{ config('app.name', 'Laravel') }}
+Editar la medida "{{ $medida->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
 
@@ -17,7 +17,7 @@ Editar una medida "{{ $medida->nombre }}" | {{ config('app.name', 'Laravel') }}
                     <span><i class="fa fa-ruler mr-1"></i></span> 
                         <a href="{{ route('medidas.index') }}">Lista de medidas</a>
                         <span>/</span>
-                        <span>Editar una medida "{{ $medida->nombre }}"</span>
+                        <span>Editar la medida "{{ $medida->nombre }}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">

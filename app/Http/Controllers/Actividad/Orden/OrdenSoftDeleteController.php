@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Actividad\Orden;
 use App\Http\Controllers\Controller;
 use App\Models\Actividad\Orden;
-Use Alert;
+Use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class OrdenSoftDeleteController extends Controller
         $orden = Orden::onlyTrashed()->where('id', $id)->get();
         
         if (count($orden) != 1) {
-            Alert::error('Error','La orden no existe.');
+            SweetAlert::error('Error','La orden no existe.');
             return redirect('/ordenes/deleted');
         }
 
@@ -62,7 +62,7 @@ class OrdenSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = self::getDeletedOrden($id);
         $orden->restore();
-        Alert::success('Exito','La orden "'.$orden->nombre.'" ha sido restaurada.');
+        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido restaurada.');
         return Redirect::to('ordenes/deleted');
     }
 
@@ -78,7 +78,7 @@ class OrdenSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = self::getDeletedOrden($id);
         $orden->forceDelete();
-        Alert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada permanentemente.');
+        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada permanentemente.');
         return Redirect::to('ordenes/deleted');
     }
 }

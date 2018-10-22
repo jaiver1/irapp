@@ -11,3 +11,8 @@
 .page-footer {
   background-color: #1C2331; }
 
+  body{
+    background: url('../../img/guest/store/background.jpg') no-repeat center center;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.2);
+}

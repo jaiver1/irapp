@@ -12,9 +12,9 @@ use App\Models\Clasificacion\Especialidad;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Dato_basico\Medida;
 use App\Models\Dato_basico\Tipo_medida;
-use App\Models\Dato_basico\X_Tipo_referencia;
+use App\Models\Dato_basico\XTipo_referencia;
 use Illuminate\Support\Facades\Validator;
-Use Alert;
+Use SweetAlert;
 
 class ProductoController extends Controller
 {
@@ -48,15 +48,15 @@ class ProductoController extends Controller
         $producto->medida()->associate(new Medida);
         $producto->categoria()->associate(new Categoria);
         $producto->marca()->associate(new Marca);
-        $producto->tipo_referencia()->associate(new X_Tipo_referencia);
+        $producto->tipo_referencia()->associate(new XTipo_referencia);
         
         $tipos_medidas = Tipo_medida::all();
         $especialidades = Especialidad::all();   
         $marcas = Marca::all(); 
         $grupos = array(array('1D',
-        X_Tipo_referencia::where('dimension' , '=', '1D')->get()),
+        XTipo_referencia::where('dimension' , '=', '1D')->get()),
         array('2D',
-        X_Tipo_referencia::where('dimension' , '=', '2D')->get()),
+        XTipo_referencia::where('dimension' , '=', '2D')->get()),
     );
         $editar = false;
         return View::make('comercio.productos.create')->with(compact('producto','editar','tipos_medidas','especialidades','marcas','grupos'));
@@ -71,22 +71,37 @@ class ProductoController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
-                'nombre'                   => 'required|max:50'
+                'nombre'                   => 'required|max:50',
+                'valor'                   => 'numeric|required|digits_between:1,12',
+                'referencia'                   => 'required|max:50',
+                'medida_id'                   => 'required',
+                'marca_id'                   => 'required',
+                'categoria_id'                   => 'required',
+                'tipo_referencia_id'            => 'required',
+                'descripcion'                => 'required|max:1000'
         );
 
         $validator = Validator::make($request->all(), $rules);
 
 
         if ($validator->fails()) {
-            Alert::error('Error','Errores en el formulario.');
+            $request->flash();
+            SweetAlert::error('Error','Errores en el formulario.');
             return Redirect::to('productos/create')
                 ->withErrors($validator);
         } else {
             $producto = new Producto;
             $producto->nombre = $request->nombre; 
+            $producto->referencia = $request->referencia; 
+            $producto->valor = $request->valor; 
+            $producto->descripcion = $request->descripcion; 
+            $producto->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
+            $producto->medida()->associate(Medida::findOrFail($request->medida_id));      
+            $producto->marca()->associate(Marca::findOrFail($request->marca_id));      
+            $producto->tipo_referencia()->associate(XTipo_referencia::findOrFail($request->tipo_referencia_id));  
            $producto->save();        
 
-            Alert::success('Exito','El producto "'.$producto->nombre.'" ha sido registrada.');
+            SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido registrada.');
             return Redirect::to('productos');
         }
     }
@@ -116,7 +131,15 @@ class ProductoController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $producto = Producto::findOrFail($id);
         $editar = true;
-        return View::make('comercio.productos.edit')->with(compact('producto','editar'));
+        $tipos_medidas = Tipo_medida::all();
+        $especialidades = Especialidad::all();   
+        $marcas = Marca::all(); 
+        $grupos = array(array('1D',
+        XTipo_referencia::where('dimension' , '=', '1D')->get()),
+        array('2D',
+        XTipo_referencia::where('dimension' , '=', '2D')->get()),
+    );
+        return View::make('comercio.productos.edit')->with(compact('producto','editar','tipos_medidas','especialidades','marcas','grupos'));
    
     }
 
@@ -130,21 +153,36 @@ class ProductoController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
-            'nombre'                   => 'required|max:50'
+            'nombre'                   => 'required|max:50',
+            'valor'                   => 'numeric|required|digits_between:1,12',
+            'referencia'                   => 'required|max:50',
+            'medida_id'                   => 'required',
+            'marca_id'                   => 'required',
+            'categoria_id'                   => 'required',
+            'tipo_referencia_id'            => 'required',
+            'descripcion'                => 'required|max:1000'
     );
-
     $validator = Validator::make($request->all(), $rules);
 
 
     if ($validator->fails()) {
-        Alert::error('Error','Errores en el formulario.');
-        return Redirect::to('productos/'+$id+'/edit')
+        $request->flash();
+        SweetAlert::error('Error','Errores en el formulario.');
+        return Redirect::to('productos/'.$id.'/edit')
             ->withErrors($validator);
     } else {
         $producto = Producto::findOrFail($request->id);
         $producto->nombre = $request->nombre; 
-        $producto->save();
-        Alert::success('Exito','El producto "'.$producto->nombre.'" ha sido editada.');
+        $producto->referencia = $request->referencia; 
+        $producto->valor = $request->valor; 
+        $producto->descripcion = $request->descripcion; 
+        $producto->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
+        $producto->medida()->associate(Medida::findOrFail($request->medida_id));      
+        $producto->marca()->associate(Marca::findOrFail($request->marca_id));      
+        $producto->tipo_referencia()->associate(XTipo_referencia::findOrFail($request->tipo_referencia_id));  
+       $producto->save(); 
+      
+        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido editada.');
         return Redirect::to('productos');
     }
     }
@@ -160,7 +198,7 @@ class ProductoController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $producto = Producto::findOrFail($id);   
         $producto->delete();
-        Alert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada.');
+        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada.');
         return Redirect::to('productos');
 }
 }

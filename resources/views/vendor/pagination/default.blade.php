@@ -1,7 +1,7 @@
 @if ($paginator->hasPages())
    <!--Pagination -->
    <nav class="mb-4">
-        <ul class="pagination pagination-circle pg-red mb-0">
+        <ul class="pagination mb-0">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <li class="page-item disabled"> 

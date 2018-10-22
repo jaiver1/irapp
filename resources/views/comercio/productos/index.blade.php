@@ -57,16 +57,26 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                         <div class="card-body">
                         <div class="table-responsive">
                             <!-- Table  -->
-                            <table id="dtcategorias" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="dtproductos" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
   <thead class="th-color white-text">
     <tr class="z-depth-2">
       <th class="th-sm">#
       </th>
       <th class="th-sm">Nombre
       </th>
-      <th class="th-sm">Especialidad
+      <th class="th-sm">Referencia
+    </th>
+    <th class="th-sm">Imagen
+        </th>
+      <th class="th-sm">Valor
       </th>
-      <th class="th-sm">Categoria Padre
+      <th class="th-sm">Descripcion
+    </th>
+    <th class="th-sm">Categoria
+    </th>
+    <th class="th-sm">Medida
+    </th>
+      <th class="th-sm">Marca
       </th>
       <th class="th-sm">Acciones
       </th>
@@ -77,24 +87,38 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
   @foreach($productos as $key => $producto)
     <tr class="hoverable">
       <td>{{$producto->id}}</td>
-      <td>{{$producto->nombre}}</td>
+      <td>{{ $producto->nombre }}
+    </td>
+    <td>
+            @include('include.comercio.productos.modal_ref')
+    </td>
       <td>
-      <a href="{{ route('especialidades.show',$producto->especialidad->id) }}" class="link-text"
-                    data-toggle="tooltip" data-placement="bottom" title='Información del especialidad "{{ $producto->especialidad->nombre }}"'>
-                      <i class="fa fa-object-group"></i> {{$producto->especialidad->nombre}}
+            @include('include.comercio.productos.modal_img')
+      </td>
+      <td>{{$producto->valor}}</td>
+      <td>{{$producto->descripcion}}</td>
+      <td>
+      <a href="{{ route('categorias.show',$producto->categoria->id) }}" class="link-text"
+                    data-toggle="tooltip" data-placement="bottom" title='Información de la categoria "{{ $producto->categoria->nombre }}"'>
+                      <i class="fa fa-sitemap"></i> {{$producto->categoria->nombre}}
                             </a>    
                         </td>
 
             <td>
-                @if($producto->producto == NULL)
-               <h5> <span class="badge badge-secondary">Categoria raiz</span><h5>
-                @else
-                    <a href="{{ route('productos.show',$producto->producto->id) }}" class="link-text"
-                                  data-toggle="tooltip" data-placement="bottom" title='Información del producto padre "{{ $producto->producto->nombre }}"'>
-                                    <i class="fa fa-boxes"></i> {{$producto->producto->nombre}}
-                                          </a>    
-                @endif
+                <a href="{{ route('medidas.show',$producto->medida->id) }}" class="link-text"
+                    data-toggle="tooltip" data-placement="bottom" title='Información de la medida "{{ $producto->medida->nombre }}"'>
+                      <i class="fa fa-ruler"></i> {{$producto->medida->nombre}}
+                            </a> 
             </td>
+
+            <td>
+                <a href="{{ route('marcas.show',$producto->marca->id) }}" class="link-text"
+                    data-toggle="tooltip" data-placement="bottom" title='Información de la marca "{{ $producto->marca->nombre }}"'>
+                      <i class="fa fa-trademark"></i> {{$producto->marca->nombre}}
+                            </a> 
+            </td>
+
+            
                     <td>
 
 <a href="{{ route('productos.show',$producto->id) }}" class="text-primary m-1" 
@@ -107,7 +131,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                       <i class="fa fa-2x fa-pencil-alt"></i>
                             </a>
 
-                            <a onclick="eliminar_categoria({{ $producto->id }},'{{ $producto->nombre }}')" class="text-danger m-1" 
+                            <a onclick="eliminar_producto({{ $producto->id }},'{{ $producto->nombre }}')" class="text-danger m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar el producto "{{ $producto->nombre }}"'>
                       <i class="fa fa-2x fa-trash-alt"></i>
                             </a>
@@ -154,7 +178,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
 
-function eliminar_categoria(id,nombre){
+function eliminar_producto(id,nombre){
     swal({
   title: 'Eliminar el producto',
   text: '¿Desea eliminar el producto "'+nombre+'"?',
@@ -194,7 +218,7 @@ $(document).ready(function() {
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
     var titulo_archivo = "Lista de productos ("+datetime+")";
-     $('#dtcategorias').DataTable( {
+     $('#dtproductos').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
         [ 2, 5, 10, 20, 30, 50, 100, -1 ],

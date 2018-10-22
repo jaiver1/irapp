@@ -5,7 +5,7 @@ Registrarse | {{ config('app.name', 'Laravel') }}
 @section('css_links')
 <link rel="stylesheet" href="{{ asset('css/guest/auth/style.css') }}" type="text/css">
 <style type="text/css">
-.intro-2 {
+body {
     background: url("{{ asset('img/guest/register/background.jpg') }}")no-repeat center center;
     background-size: cover;
 }
@@ -13,7 +13,8 @@ Registrarse | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
   <!--Intro Section-->
-  <section class="view intro-2 hm-gradient">
+  <section class="view intro-2">
+        <div class="mask pattern-6 flex-center"></div>
                 <div class="full-bg-img">
                     <div class="container flex-center">
                         <div class="d-flex align-items-center content-height">
@@ -21,7 +22,7 @@ Registrarse | {{ config('app.name', 'Laravel') }}
                      
                                 <div class="col-md-6 mb-5">
                                     <!--Form-->
-                                    <div class="card wow fadeInRight" data-wow-delay="0.3s">
+                                    <div class=" card z-depth-5 hoverable wow fadeInLeft" data-wow-delay="0.3s">
                                         <div class="card-body">
                                             <!--Header-->
                                             <div class="text-center">
@@ -61,7 +62,8 @@ Registrarse | {{ config('app.name', 'Laravel') }}
 @endif
 
                                             <div class="text-center">
-                                                <button class="btn btn-indigo"><i class="fa fa-user-plus mr-2"></i>Registrarse</button>
+                                                <button class="btn btn-outline-white hoverable waves-light" data-wow-delay="0.4s" role="button">
+                                                    <i class="fa fa-user-plus mr-2"></i>Registrarse</button>
                                                    
                                             </div>
                                             </form>
@@ -72,11 +74,11 @@ Registrarse | {{ config('app.name', 'Laravel') }}
                                 </div>
                                            <div class="text-center text-md-left  col-md-6 col-xl-5 offset-xl-1">
                                     <div class="white-text">
-                                        <h1 class="h1-responsive font-weight-bold wow fadeInLeft" data-wow-delay="0.3s">Login right now! </h1>
-                                        <hr class="hr-light wow fadeInLeft" data-wow-delay="0.3s">
-                                        <h6 class="wow fadeInLeft" data-wow-delay="0.3s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae, quisquam iste, maiores. Nulla.</h6>
+                                        <h1 class="h1-responsive font-weight-bold wow fadeInRight" data-wow-delay="0.3s">Login right now! </h1>
+                                        <hr class="hr-light wow fadeInRight" data-wow-delay="0.3s">
+                                        <h6 class="wow fadeInRight" data-wow-delay="0.3s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae, quisquam iste, maiores. Nulla.</h6>
                                         <br>
-                                        <a class="btn btn-outline-white wow fadeInLeft" data-wow-delay="0.3s">Learn more</a>
+                                        <a class="btn btn-outline-white wow fadeInRight" data-wow-delay="0.3s">Learn more</a>
                                     </div>
                                 </div>
 

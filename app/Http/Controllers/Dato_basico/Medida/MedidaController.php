@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Dato_basico\Medida;
 use App\Models\Dato_basico\Tipo_medida;
 use Illuminate\Support\Facades\Validator;
-Use Alert;
+Use SweetAlert;
 
 class MedidaController extends Controller
 {
@@ -63,7 +63,7 @@ class MedidaController extends Controller
 
 
         if ($validator->fails()) {
-            Alert::error('Error','Errores en el formulario.');
+            SweetAlert::error('Error','Errores en el formulario.');
             return Redirect::to('medidas/create')
                 ->withErrors($validator);
         } else {
@@ -73,7 +73,7 @@ class MedidaController extends Controller
             $medida->tipo_medida()->associate(Tipo_medida::findOrFail($request->tipo_medida_id));      
             $medida->save();        
 
-            Alert::success('Exito','La medida "'.$medida->nombre.'" ha sido registrada.');
+            SweetAlert::success('Exito','La medida "'.$medida->nombre.'" ha sido registrada.');
             return Redirect::to('medidas');
         }
     }
@@ -127,7 +127,7 @@ class MedidaController extends Controller
 
 
     if ($validator->fails()) {
-        Alert::error('Error','Errores en el formulario.');
+        SweetAlert::error('Error','Errores en el formulario.');
         return Redirect::to('medidas/'+$id+'/edit')
             ->withErrors($validator);
     } else {
@@ -137,7 +137,7 @@ class MedidaController extends Controller
         $medida->tipo_medida()->associate(Tipo_medida::findOrFail($request->tipo_medida_id)); 
         $medida->save();
 
-        Alert::success('Exito','La medida "'.$medida->nombre.'" ha sido editada.');
+        SweetAlert::success('Exito','La medida "'.$medida->nombre.'" ha sido editada.');
         return Redirect::to('medidas');
     }
     }
@@ -154,7 +154,7 @@ class MedidaController extends Controller
         $medida = Medida::findOrFail($id);
     
         $medida->delete();
-        Alert::success('Exito','La medida "'.$medida->nombre.'" ha sido eliminada.');
+        SweetAlert::success('Exito','La medida "'.$medida->nombre.'" ha sido eliminada.');
         return Redirect::to('medidas');
 }
 }

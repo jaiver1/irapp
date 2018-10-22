@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Comercio\Marca;
 use App\Http\Controllers\Controller;
 use App\Models\Comercio\Marca;
-Use Alert;
+Use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class MarcaSoftDeleteController extends Controller
         $marca = Marca::onlyTrashed()->where('id', $id)->get();
         
         if (count($marca) != 1) {
-            Alert::error('Error','La marca no existe.');
+            SweetAlert::error('Error','La marca no existe.');
             return redirect('/marcas/deleted');
         }
 
@@ -62,7 +62,7 @@ class MarcaSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $marca = self::getDeletedMarca($id);
         $marca->restore();
-        Alert::success('Exito','La marca "'.$marca->nombre.'" ha sido restaurada.');
+        SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido restaurada.');
         return Redirect::to('marcas/deleted');
     }
 
@@ -78,7 +78,7 @@ class MarcaSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $marca = self::getDeletedMarca($id);
         $marca->forceDelete();
-        Alert::success('Exito','La marca "'.$marca->nombre.'" ha sido eliminada permanentemente.');
+        SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido eliminada permanentemente.');
         return Redirect::to('marcas/deleted');
     }
 }

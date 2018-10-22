@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
 @include('clasificacion.especialidades.form')
 @section('template_title')
-Editar una especialidad "{{ $especialidad->nombre }}" | {{ config('app.name', 'Laravel') }}
+Editar la especialidad "{{ $especialidad->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
 

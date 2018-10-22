@@ -28,8 +28,9 @@ class Producto extends Model
      */
   protected $fillable = [
     'nombre',
-    'valor',
+    'referencia',
     'descripcion',
+    'valor',
     'medida_id',
     'marca_id',
     'categoria_id',
@@ -71,6 +72,6 @@ public function medida()
 
 public function tipo_referencia()
 {
-    return $this->belongsTo('App\Models\Dato_basico\X_Tipo_referencia');
+    return $this->belongsTo('App\Models\Dato_basico\XTipo_referencia');
 }
 }

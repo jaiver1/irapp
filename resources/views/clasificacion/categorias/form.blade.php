@@ -18,7 +18,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-sitemap prefix"></i>
-    <input type="text" required id="nombre" value="{{ $categoria->nombre}}" name="nombre" class="form-control validate" maxlength="50">
+    <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $categoria->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre</label>
 </div>
 @if ($errors->has('nombre'))
@@ -65,7 +65,7 @@
     <select class="form-control" required id="especialidad_id" name="especialidad_id">
     <option value="" disabled selected>Selecciona una opción</option>
     @foreach($especialidades as $key => $especialidad)
-    <option {{($categoria->especialidad->id == $especialidad->id ) ? 'selected' : '' }} value="{{$especialidad->id}}">{{$especialidad->nombre}}</option>
+    <option {{ ($categoria->especialidad->id==$especialidad->id)?'selected':'' }} value="{{$especialidad->id}}">{{$especialidad->nombre}}</option>
     @endforeach
 </select>
 </div> @if ($errors->has('especialidad_id'))
@@ -84,7 +84,7 @@
                 <div class="md-form">
                 <i class="fa fa-sitemap"></i>
                 <small for="categoria_id">Categorias</small>   
-                @include('clasificacion.categorias.sub_categorias_select', array('categoria_selected'=>$categoria))
+                @include('include.clasificacion.categorias.select', array('categoria_selected'=>$categoria))
     </div> @if ($errors->has('categoria_id'))
                                                 <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
                                                {{ $errors->first('categoria_id') }}

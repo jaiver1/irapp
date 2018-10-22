@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Root\User;
 use App\Models\Root\Role;
 use Illuminate\Support\Facades\Validator;
-Use Alert;
+Use SweetAlert;
 
 class UsuarioController extends Controller
 {
@@ -58,18 +58,19 @@ class UsuarioController extends Controller
                 'email'                 => 'required|email|max:100|unique:users',
                 'password'              => 'required|between:6,50|confirmed',
                 'password_confirmation' => 'required|same:password',
-                'rol'                   => 'required',
+                'rol_id'                   => 'required',
         );
 
         $validator = Validator::make($request->all(), $rules);
 
 
         if ($validator->fails()) {
-            Alert::error('Error','Errores en el formulario.');
+            $request->flash();
+            SweetAlert::error('Error','Errores en el formulario.');
             return Redirect::to('usuarios/create')
                 ->withErrors($validator);
         } else {
-            $role = Role::findOrFail($request->rol);
+            $role = Role::findOrFail($request->rol_id);
             $usuario = new User;
             $usuario->name = $request->name;
             $usuario->email = $request->email;
@@ -77,7 +78,7 @@ class UsuarioController extends Controller
             $usuario->save();
             $usuario->roles()->attach($role);
 
-            Alert::success('Exito','El usuario "'.$usuario->name.'" ha sido registrado.');
+            SweetAlert::success('Exito','El usuario "'.$usuario->name.'" ha sido registrado.');
             return Redirect::to('usuarios');
         }
     }
@@ -126,18 +127,19 @@ class UsuarioController extends Controller
             'email'                 => 'required|email|max:100|unique:users',
             'password'              => 'required|between:6,50|confirmed',
             'password_confirmation' => 'required|same:password',
-            'rol'                   => 'required',
+            'rol_id'                   => 'required',
     );
 
     $validator = Validator::make($request->all(), $rules);
 
 
     if ($validator->fails()) {
-        Alert::error('Error','Errores en el formulario.');
+        $request->flash();
+        SweetAlert::error('Error','Errores en el formulario.');
         return Redirect::to('usuarios/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $role = Role::findOrFail($request->rol);
+        $role = Role::findOrFail($request->rol_id);
         $usuario =  User::findOrFail($request->id);
         $usuario->name = $request->name;
         $usuario->email = $request->email;
@@ -145,7 +147,7 @@ class UsuarioController extends Controller
         $usuario->save();
         $usuario->roles()->attach($role);
 
-        Alert::success('Exito','El usuario "'.$usuario->name.'" ha sido editado.');
+        SweetAlert::success('Exito','El usuario "'.$usuario->name.'" ha sido editado.');
         return Redirect::to('usuarios');
     }
     }
@@ -162,7 +164,7 @@ class UsuarioController extends Controller
         $usuario = User::findOrFail($id);
     
         $usuario->delete();
-        Alert::success('Exito','El usuario "'.$usuario->name.'" ha sido eliminado.');
+        SweetAlert::success('Exito','El usuario "'.$usuario->name.'" ha sido eliminado.');
         return Redirect::to('usuarios');
 }
 }

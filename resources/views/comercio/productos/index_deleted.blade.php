@@ -60,7 +60,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
                             
                         <div class="table-responsive">
                             <!-- Table  -->
-                            <table id="dtcategorias" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="dtproductos" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
   <thead class="bg-danger white-text">
     <tr class="z-depth-2">
       <th class="th-sm">#
@@ -95,12 +95,12 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
               </td>
       <td>
 
-      <a onclick="restaurar_categoria({{ $producto->id }},'{{ $producto->nombre }}')" class="text-success m-1" 
+      <a onclick="restaurar_producto({{ $producto->id }},'{{ $producto->nombre }}')" class="text-success m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Restaurar el producto "{{ $producto->nombre }}"'>
                       <i class="fa fa-2x fa-undo"></i>
                             </a>
                 
-                            <a onclick="eliminar_categoria({{ $producto->id }},'{{ $producto->nombre }}')" class="text-danger m-1" 
+                            <a onclick="eliminar_producto({{ $producto->id }},'{{ $producto->nombre }}')" class="text-danger m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar definitivamente el producto "{{ $producto->nombre }}"'>
                       <i class="fa fa-2x fa-trash"></i>
                             </a>
@@ -151,7 +151,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
 
-function eliminar_categoria(id,nombre){
+function eliminar_producto(id,nombre){
     swal({
   title: 'Eliminar el producto',
   text: '¿Desea eliminar definitivamente el producto "'+nombre+'"?',
@@ -183,7 +183,7 @@ function eliminar_categoria(id,nombre){
 })
 }
 
-function restaurar_categoria(id,nombre){
+function restaurar_producto(id,nombre){
     swal({
   title: 'Restaurar el producto',
   text: '¿Desea restaurar el producto "'+nombre+'"?',
@@ -222,7 +222,7 @@ $(document).ready(function() {
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
     var titulo_archivo = "Lista de productos eliminados ("+datetime+")";
-     $('#dtcategorias').DataTable( {
+     $('#dtproductos').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
         [ 2, 5, 10, 20, 30, 50, 100, -1 ],

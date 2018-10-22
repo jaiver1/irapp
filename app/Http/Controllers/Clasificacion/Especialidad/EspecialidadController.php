@@ -58,6 +58,7 @@ class EspecialidadController extends Controller
 
 
         if ($validator->fails()) {
+            $request->flash();
             Alert::error('Error','Errores en el formulario.');
             return Redirect::to('especialidades/create')
                 ->withErrors($validator);
@@ -117,6 +118,7 @@ class EspecialidadController extends Controller
 
 
     if ($validator->fails()) {
+        $request->flash();
         Alert::error('Error','Errores en el formulario.');
         return Redirect::to('especialidades/'+$id+'/edit')
             ->withErrors($validator);

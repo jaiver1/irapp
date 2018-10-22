@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
 @include('comercio.marcas.form')
 @section('template_title')
-Editar una marca "{{ $marca->nombre }}" | {{ config('app.name', 'Laravel') }}
+Editar la marca "{{ $marca->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
 
@@ -17,7 +17,7 @@ Editar una marca "{{ $marca->nombre }}" | {{ config('app.name', 'Laravel') }}
                     <span><i class="fa fa-trademark mr-1"></i></span> 
                         <a href="{{ route('marcas.index') }}">Lista de marcas</a>
                         <span>/</span>
-                        <span>Editar una marca "{{ $marca->nombre }}"</span>
+                        <span>Editar la marca "{{ $marca->nombre }}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
 @include('root.usuarios.form')
 @section('template_title')
-Editar un usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel') }}
+Editar el usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 
 @section('content')
@@ -18,7 +18,7 @@ Editar un usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel') }}
                     <span><i class="fa fa-users mr-1"></i></span>
                         <a href="{{ route('usuarios.index') }}">Lista de usuarios</a>
                         <span>/</span>
-                        <span>Editar un usuario "{{ $usuario->name }}"</span>
+                        <span>Editar el usuario "{{ $usuario->name }}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">

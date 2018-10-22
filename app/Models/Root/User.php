@@ -5,9 +5,10 @@ namespace App\Models\Root;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use EntrustUserTrait { restore as private restoreA; }
@@ -54,6 +55,7 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
         'deleted_at',
+        'email_verified_at',
     ];
 
     protected $hashable = ['password'];

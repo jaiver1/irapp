@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Root\Usuario;
 use App\Http\Controllers\Controller;
 use App\Models\Root\User;
-Use Alert;
+Use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class UsuarioSoftDeleteController extends Controller
         $usuario = User::onlyTrashed()->where('id', $id)->get();
         
         if (count($usuario) != 1) {
-            Alert::error('Error','El usuario no existe.');
+            SweetAlert::error('Error','El usuario no existe.');
             return redirect('/usuarios/deleted');
         }
 
@@ -62,7 +62,7 @@ class UsuarioSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT']);
         $usuario = self::getDeletedUsuario($id);
         $usuario->restore();
-        Alert::success('Exito','El usuario "'.$usuario->name.'" ha sido restaurado.');
+        SweetAlert::success('Exito','El usuario "'.$usuario->name.'" ha sido restaurado.');
         return Redirect::to('usuarios/deleted');
     }
 
@@ -78,7 +78,7 @@ class UsuarioSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT']);
         $usuario = self::getDeletedUsuario($id);
         $usuario->forceDelete();
-        Alert::success('Exito','El usuario "'.$usuario->name.'" ha sido eliminado permanentemente.');
+        SweetAlert::success('Exito','El usuario "'.$usuario->name.'" ha sido eliminado permanentemente.');
         return Redirect::to('usuarios/deleted');
     }
 }

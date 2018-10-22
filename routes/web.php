@@ -14,7 +14,7 @@
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');;
 
 Route::get('/', 'StoreController@index')->name('welcome');
 Route::get('/store/productos', 'StoreController@lista_Productos')->name('store.productos');
@@ -27,9 +27,9 @@ Route::resource('usuarios/deleted', 'Root\Usuario\UsuarioSoftDeleteController',
         'update' => 'usuarios.deleted.update',
         'destroy' => 'usuarios.deleted.destroy'
     ]
-]);
+])->middleware('verified');;
 
-Route::resource('usuarios', 'Root\Usuario\UsuarioController');
+Route::resource('usuarios', 'Root\Usuario\UsuarioController')->middleware('verified');;
 
 Route::resource('tipos_medidas/deleted', 'Dato_basico\Tipo_medida\Tipo_medidaSoftDeleteController',
 [
@@ -38,9 +38,9 @@ Route::resource('tipos_medidas/deleted', 'Dato_basico\Tipo_medida\Tipo_medidaSof
         'update' => 'tipos_medidas.deleted.update',
         'destroy' => 'tipos_medidas.deleted.destroy'
     ]
-]);
+])->middleware('verified');;
 
-Route::resource('tipos_medidas', 'Dato_basico\Tipo_medida\Tipo_medidaController');
+Route::resource('tipos_medidas', 'Dato_basico\Tipo_medida\Tipo_medidaController')->middleware('verified');;
 
 Route::resource('medidas/deleted', 'Dato_basico\Medida\MedidaSoftDeleteController',
 [
@@ -51,7 +51,7 @@ Route::resource('medidas/deleted', 'Dato_basico\Medida\MedidaSoftDeleteControlle
     ]
 ]);
 
-Route::resource('medidas', 'Dato_basico\Medida\MedidaController');
+Route::resource('medidas', 'Dato_basico\Medida\MedidaController')->middleware('verified');;
 
 Route::resource('especialidades/deleted', 'Clasificacion\Especialidad\EspecialidadSoftDeleteController',
 [

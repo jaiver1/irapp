@@ -21,5 +21,16 @@
         color:white !important;
       }
 
+      .modal-dialog.modal-notify.modal-secondary .modal-header {
+        background-color: #3a4d56; }
+      
+      .modal-dialog.modal-notify.modal-secondary .fa {
+        color: #3a4d56; }
+      
+      .modal-dialog.modal-notify.modal-secondary .badge {
+        background-color: #3a4d56; }
     
-    
+        
+          .modal-top{
+            z-index: 1100;
+          }

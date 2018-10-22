@@ -227,6 +227,15 @@ table{
     line-height: 1.33;
 }
 
+.img-border{
+  border: 5px double #3a4d56;
+width: auto; }
+
+.img-zoom {
+  max-height: 100px;
+  cursor: zoom-in;
+}
+
 .switch-input {
   display: none;
 }

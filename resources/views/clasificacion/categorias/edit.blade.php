@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
 @include('clasificacion.categorias.form')
 @section('template_title')
-Editar una categoria "{{ $categoria->nombre }}" | {{ config('app.name', 'Laravel') }}
+Editar la categoria "{{ $categoria->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
 
@@ -17,7 +17,7 @@ Editar una categoria "{{ $categoria->nombre }}" | {{ config('app.name', 'Laravel
                     <span><i class="fa fa-sitemap mr-1"></i></span> 
                         <a href="{{ route('categorias.index') }}">Lista de categorias</a>
                         <span>/</span>
-                        <span>Editar una categoria "{{ $categoria->nombre }}"</span>
+                        <span>Editar la categoria "{{ $categoria->nombre }}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">

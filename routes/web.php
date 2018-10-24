@@ -14,7 +14,7 @@
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');;
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 Route::get('/', 'StoreController@index')->name('welcome');
 Route::get('/store/productos', 'StoreController@lista_Productos')->name('store.productos');
@@ -86,7 +86,7 @@ Route::resource('marcas/deleted', 'Comercio\Marca\MarcaSoftDeleteController',
 
 Route::resource('marcas', 'Comercio\Marca\MarcaController');
 
-Route::resource('productos/deleted', 'Comercio\ProductoMarca\ProductoSoftDeleteController',
+Route::resource('productos/deleted', 'Comercio\Producto\ProductoSoftDeleteController',
 [
     'names' => [
         'index' => 'productos.deleted.index',
@@ -96,6 +96,8 @@ Route::resource('productos/deleted', 'Comercio\ProductoMarca\ProductoSoftDeleteC
 ]);
 
 Route::resource('productos', 'Comercio\Producto\ProductoController');
+
+Route::get('/productos/info/{id}/{class}', 'Comercio\Producto\ProductoController@info')->name('productos.info');
 
 Route::resource('clientes/deleted', 'Contacto\Cliente\ClienteSoftDeleteController',
 [

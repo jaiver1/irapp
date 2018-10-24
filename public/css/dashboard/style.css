@@ -233,6 +233,9 @@ width: auto; }
 
 .img-zoom {
   max-height: 100px;
+}
+
+.cursor-zoom {
   cursor: zoom-in;
 }
 

@@ -1,16 +1,5 @@
-<center>
-    <div class="view overlay hoverable zoom img-border">
-        @if($producto->tipo_referencia->dimension == "1D")
-                            <img  data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ DNS1D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
-                            @elseif($producto->tipo_referencia->dimension == "2D")
-                            <img data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ DNS2D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
-                            @endif
-                          </div>
-                          
-        </center>
-
- <!-- Central Modal Large Info-->
- <div class="modal modal-top fade" id="img{{ $producto->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Central Modal Large Info-->
+ <div class="modal modal-top fade" id="modal_img" tabindex="-1" role="dialog" aria-labelledby="modal_img" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-notify modal-secondary" role="document">
         <!--Content-->
         <div class="modal-content">

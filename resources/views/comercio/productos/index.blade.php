@@ -86,14 +86,35 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
   <tbody>
   @foreach($productos as $key => $producto)
     <tr class="hoverable">
-      <td>{{$producto->id}}</td>
+      <td>{{ $producto->id }}</td>
       <td>{{ $producto->nombre }}
     </td>
     <td>
-            @include('include.comercio.productos.modal_ref')
+            <center>
+                    <div onclick="mostrar_modal('{{ route("productos.info",$producto->id,"REF") }}','ref')" class="cursor-zoom view overlay hoverable zoom img-border">
+                        @if($producto->tipo_referencia->dimension == "1D")
+                                            <img src="{{ asset(DNS1D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                            @elseif($producto->tipo_referencia->dimension == "2D")
+                                            <img src="{{ asset(DNS2D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                            @endif
+                                          </div>
+                                      
+                                            <h5><span class="mt-2 badge badge-secondary hoverable"><i class="fa fa-box-open mr-1"></i>{{ $producto->referencia }}</span><h5>
+                        </center>
+        
     </td>
       <td>
-            @include('include.comercio.productos.modal_img')
+            <center>
+                    <div class="view overlay hoverable zoom img-border">
+                        @if($producto->tipo_referencia->dimension == "1D")
+                                            <img  data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ DNS1D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                            @elseif($producto->tipo_referencia->dimension == "2D")
+                                            <img data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ DNS2D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                            @endif
+                                          </div>
+                                          
+                        </center>
+           
       </td>
       <td>{{$producto->valor}}</td>
       <td>{{$producto->descripcion}}</td>
@@ -159,6 +180,10 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 
           
         </div>
+    <div id="container_ref">
+    </div>
+    <div id="container_img">
+        </div>
 
 @endsection
 @section('js_links')
@@ -176,7 +201,12 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/vfs_fonts.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.print.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
 <script type="text/javascript">
+
+function mostrar_modal(url_send,div_target) {
+    cargar_div(url_send,"GET",{},div_target,true)
+	}
 
 function eliminar_producto(id,nombre){
     swal({

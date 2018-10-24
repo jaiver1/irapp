@@ -21,6 +21,7 @@
 @yield('css_links')
 </head>
 <body>
+    <div id="loading" class="se-pre-con"></div>
         @yield('main')
      <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
   <!-- Bootstrap tooltips -->
@@ -33,6 +34,7 @@
   <!-- Initializations -->
   <script type="text/javascript">
     // Animations initialization
+    $("#loading").fadeOut("slow");
     new WOW().init();
   </script>
 @include('sweetalert::alert')

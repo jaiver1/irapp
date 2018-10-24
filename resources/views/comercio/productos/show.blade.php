@@ -108,6 +108,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 @endsection
 @section('js_links')
 <script type="text/javascript">
+<script type="text/javascript" src="{{ asset('js/addons/vfs_fonts.js') }}"></script>
 function eliminar_producto(id,nombre){
     swal({
   title: 'Eliminar el producto',

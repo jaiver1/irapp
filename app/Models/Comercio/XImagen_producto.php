@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Producto extends Model
+class XImagen_producto extends Model
 {
   use SoftDeletes;
 
@@ -12,7 +12,7 @@ class Producto extends Model
      *
      * @var string
      */
-    protected $table = 'productos';
+    protected $table = 'imagenes_productos';
 
     /**
      * The attributes that are not mass assignable.
@@ -28,13 +28,8 @@ class Producto extends Model
      */
   protected $fillable = [
     'nombre',
-    'referencia',
-    'descripcion',
-    'valor',
-    'medida_id',
-    'marca_id',
-    'categoria_id',
-    'tipo_referencia_id',
+    'ruta',
+    'producto_id',
   ];
 
    /**
@@ -54,28 +49,8 @@ class Producto extends Model
       'deleted_at',
   ];
 
-
-public function marca()
-{
-    return $this->belongsTo('App\Models\Comercio\Marca');
-}
-
-public function categoria()
-{
-    return $this->belongsTo('App\Models\Clasificacion\Categoria');
-}
-
-public function medida()
-{
-    return $this->belongsTo('App\Models\Dato_basico\Medida');
-}
-
-public function tipo_referencia()
-{
-    return $this->belongsTo('App\Models\Dato_basico\XTipo_referencia');
-}
-
-public function productos(){
-    return $this->hasMany('App\Models\Comercio\XImagen_producto');
+  public function producto(){
+    return $this->belongsTo('App\Models\Comercio\Producto');
   }
+  
 }

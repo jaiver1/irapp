@@ -97,7 +97,7 @@ Route::resource('productos/deleted', 'Comercio\Producto\ProductoSoftDeleteContro
 
 Route::resource('productos', 'Comercio\Producto\ProductoController');
 
-Route::get('/productos/info/{id}/{class}', 'Comercio\Producto\ProductoController@info')->name('productos.info');
+Route::get('/productos/info/{id}', ['uses' => 'Comercio\Producto\ProductoController@info', 'as' => 'productos.info']);
 
 Route::resource('clientes/deleted', 'Contacto\Cliente\ClienteSoftDeleteController',
 [

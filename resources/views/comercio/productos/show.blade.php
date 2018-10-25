@@ -2,6 +2,10 @@
 @section('template_title')
 Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
+@section('css_links')
+<link rel="stylesheet" href="{{ asset('css/addons/dropzone.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/addons/basic.css') }}" type="text/css">
+@endsection
 @section('content')
         <div class="container-fluid">
 
@@ -91,7 +95,12 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 
               <!--Card content-->
               <div class="card-body">
-
+                    <h4><i class="fa fa-images mr-2"></i>
+            Imagenes de "{{ $producto->nombre }}"
+        </h4>
+        <hr/>
+       <form action="casa" method="POST" enctype="multipart/form-data" class="dropzone" id="produco_dropzone">
+                </form>
               </div>
 
           </div>
@@ -107,8 +116,8 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 
 @endsection
 @section('js_links')
+<script type="text/javascript" src="{{ asset('js/addons/dropzone.js') }}"></script>
 <script type="text/javascript">
-<script type="text/javascript" src="{{ asset('js/addons/vfs_fonts.js') }}"></script>
 function eliminar_producto(id,nombre){
     swal({
   title: 'Eliminar el producto',

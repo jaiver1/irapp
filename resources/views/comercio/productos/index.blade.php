@@ -91,7 +91,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     </td>
     <td>
             <center>
-                    <div onclick="mostrar_modal('{{ route("productos.info",$producto->id,"REF") }}','ref')" class="cursor-zoom view overlay hoverable zoom img-border">
+                    <div onclick="mostrar_modal('{{ route("productos.info",$producto->id) }}','ref')" class="cursor-zoom view overlay hoverable zoom img-border">
                         @if($producto->tipo_referencia->dimension == "1D")
                                             <img src="{{ asset(DNS1D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                             @elseif($producto->tipo_referencia->dimension == "2D")
@@ -205,7 +205,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript">
 
 function mostrar_modal(url_send,div_target) {
-    cargar_div(url_send,"GET",{},div_target,true)
+    cargar_modal(url_send,"GET",{},div_target,true)
 	}
 
 function eliminar_producto(id,nombre){

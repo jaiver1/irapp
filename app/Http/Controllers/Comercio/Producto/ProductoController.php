@@ -201,4 +201,18 @@ class ProductoController extends Controller
         SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada.');
         return Redirect::to('productos');
 }
+
+ /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function info($id)
+    {  
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $producto = Producto::findOrFail($id);
+        return View::make('include.comercio.productos.modal_ref')->with(compact('producto'));
+        
+        }
 }

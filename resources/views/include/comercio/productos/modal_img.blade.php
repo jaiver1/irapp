@@ -19,18 +19,64 @@
                     <h3> Imagenes de "{{ $producto->nombre }}"</h3>
                 </div>
                 <hr/>
-                <center>
-                  
-                    <div class="view overlay hoverable zoom img-border">
-  @if($producto->tipo_referencia->dimension == "1D")
-                      <img src="{{ DNS1D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre) }}" class="img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
-                      @elseif($producto->tipo_referencia->dimension == "2D")
-                      <img src="{{ DNS2D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre) }}" class="img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
-                      @endif
-                    </div>
-               
-  </center>
-
+              <!--Carousel Wrapper-->
+<div id="carousel_referencias" class="carousel slide carousel-fade" data-ride="carousel">
+        <!--Indicators-->
+        <ol class="carousel-indicators">
+          <li data-target="#carousel_referencias" data-slide-to="0" class="active"></li>
+          @for ($i = 1; $i < $tipos_referencias->count(); $i++)
+          <li data-target="#carousel_referencias" data-slide-to="{{$i}}"></li>
+          @endfor
+        </ol>
+        <!--/.Indicators-->
+        <!--Slides-->
+      
+        <div class="carousel-item active">
+              <!--Mask color-->
+              <div class="view">
+                     
+                    <img src="{{ asset(DNS1D::getBarcodePNGPath($producto->referencia, $tipos_referencias[0]->nombre)) }}" class="d-block w-100" alt="{{ $tipos_referencias[0]->nombre }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                   
+                    <div class="mask rgba-black-slight"></div>
+              </div>
+              <div class="carousel-caption">
+                <h3 class="h3-responsive">Slight mask</h3>
+                <p>Third text</p>
+              </div>
+            </div>
+        @for ($i = 1; $i < $tipos_referencias->count(); $i++)
+      
+        <div class="carousel-item">
+          <!--Mask color-->
+          <div class="view">
+                  @if($tipos_referencias[$i]->dimension == "1D")
+                  <img src="{{ asset(DNS1D::getBarcodePNGPath($producto->referencia, $tipos_referencias[$i]->nombre)) }}" class="d-block w-100" alt="{{ $tipos_referencias[$i]->nombre }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                  @endif
+                  @if($tipos_referencias[$i]->dimension == "2D")
+                <img src="{{ asset(DNS2D::getBarcodePNGPath($producto->referencia, $tipos_referencias[$i]->nombre)) }}" class="d-block w-100" alt="{{ $tipos_referencias[$i]->nombre }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                @endif
+                <div class="mask rgba-black-slight"></div>
+          </div>
+          <div class="carousel-caption">
+            <h3 class="h3-responsive">{{ $tipos_referencias[$i]->dimension }}</h3>
+            <p>{{ $tipos_referencias[$i]->nombre }}</p>
+          </div>
+        </div>
+      
+        @endfor
+        <!--/.Slides-->
+        <!--Controls-->
+        <a class="carousel-control-prev" href="#carousel_referencias" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Anterior</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel_referencias" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Siguiente</span>
+        </a>
+        <!--/.Controls-->
+      </div>
+      <!--/.Carousel Wrapper-->
             </div>
 
             <!--Footer-->

@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Root\User;
 use App\Models\Root\Role;
+use Carbon\Carbon;
 class UsuariosTableSeeder extends Seeder
 {
     /**
@@ -20,6 +21,7 @@ class UsuariosTableSeeder extends Seeder
         $root = new User;
         $root->name = 'Root';
         $root->email = 'root@example.com';
+        $root->email_verified_at = Carbon::now();
         $root->password = bcrypt('root1234');
         $root->save();
         $root->roles()->attach($role_root);

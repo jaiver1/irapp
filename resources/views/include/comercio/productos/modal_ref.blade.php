@@ -23,9 +23,9 @@
                   
                     <div class="view overlay hoverable zoom img-border">
   @if($producto->tipo_referencia->dimension == "1D")
-                      <img src="{{ asset(DNS1D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre)) }}" class="img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                      <img src="{{ 'data:image/png;base64,' .DNS1D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,33,array(58,77,86)) }}" class="img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                       @elseif($producto->tipo_referencia->dimension == "2D")
-                      <img src="{{ asset(DNS2D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre)) }}" class="img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                      <img src="{{ 'data:image/png;base64,' .DNS2D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,3,array(58,77,86)) }}" class="img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                       @endif
                     </div>
                  

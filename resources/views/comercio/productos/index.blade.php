@@ -93,9 +93,9 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
             <center>
                     <div onclick="mostrar_modal('{{ route("productos.info",$producto->id) }}','ref')" class="cursor-zoom view overlay hoverable zoom img-border">
                         @if($producto->tipo_referencia->dimension == "1D")
-                                            <img src="{{ asset(DNS1D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                            <img src="{{ 'data:image/png;base64,' .DNS1D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,33,array(58,77,86)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                             @elseif($producto->tipo_referencia->dimension == "2D")
-                                            <img src="{{ asset(DNS2D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                            <img src="{{ 'data:image/png;base64,' .DNS2D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,3,array(58,77,86)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                             @endif
                                           </div>
                                       
@@ -107,16 +107,16 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
             <center>
                     <div class="view overlay hoverable zoom img-border">
                         @if($producto->tipo_referencia->dimension == "1D")
-                                            <img  data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ DNS1D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                            <img  data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ 'data:image/png;base64,' .DNS1D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,33,array(58,77,86)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                             @elseif($producto->tipo_referencia->dimension == "2D")
-                                            <img data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ DNS2D::getBarcodePNGPath($producto->referencia, $producto->tipo_referencia->nombre) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                            <img data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ 'data:image/png;base64,' .DNS2D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,3,array(58,77,86)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                             @endif
                                           </div>
                                           
                         </center>
            
       </td>
-      <td>{{$producto->valor}}</td>
+      <td>@money($producto->valor)</td>
       <td>{{$producto->descripcion}}</td>
       <td>
       <a href="{{ route('categorias.show',$producto->categoria->id) }}" class="link-text"

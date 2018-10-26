@@ -116,7 +116,8 @@ class ProductoController extends Controller
     {  
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $producto = Producto::findOrFail($id);
-        return View::make('comercio.productos.show')->with(compact('producto'));
+        $tipos_referencias = XTipo_referencia::orderBy('dimension', 'ASC')->get();
+        return View::make('comercio.productos.show')->with(compact('producto','tipos_referencias'));
         
         }
 

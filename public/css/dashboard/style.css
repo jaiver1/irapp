@@ -300,3 +300,20 @@ width: auto; }
 .switch-input:checked + .switch-label .toggle--off {
   display: none;
 }
+
+.referencia-carousel-item {
+  height: 300px !important;
+  background-color: black !important;
+}
+
+.referencia-carousel-img {
+  position: absolute ;
+  background-color: white !important;
+  top: 50% !important;
+  left: 50% !important;
+  -webkit-transform: translate(-50%, -50%) !important;
+  -ms-transform: translate(-50%, -50%) !important;
+  transform: translate(-50%, -50%) !important;
+  max-height: 300px !important;
+  width: auto;
+}

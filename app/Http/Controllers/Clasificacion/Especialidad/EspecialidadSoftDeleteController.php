@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Clasificacion\Especialidad;
 use App\Http\Controllers\Controller;
 use App\Models\Clasificacion\Especialidad;
-Use Alert;
+use Alert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;

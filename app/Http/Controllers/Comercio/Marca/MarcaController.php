@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comercio\Marca;
 use Illuminate\Support\Facades\Validator;
-Use SweetAlert;
+use SweetAlert;
 
 class MarcaController extends Controller
 {

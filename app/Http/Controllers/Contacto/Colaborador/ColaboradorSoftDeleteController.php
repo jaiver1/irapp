@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Contacto\Colaborador;
 use App\Models\Comercio\Producto;
-Use SweetAlert;
+use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;

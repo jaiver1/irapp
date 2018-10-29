@@ -1,4 +1,4 @@
-function cargar_modal(url_send,method_send,data_send,div_target,asincronico){
+function cargar_div(url_send,method_send,data_send,div_target,asincronico,modal){
   inicio_carga()
   $.ajax({
     method: method_send,
@@ -7,13 +7,21 @@ function cargar_modal(url_send,method_send,data_send,div_target,asincronico){
     data: data_send
   })
     .done(function(response) {
+      try{
       $("#container_"+div_target).html(response);
-      $("#modal_"+div_target).modal("show");
+      if(modal){
+        $("#modal_"+div_target).modal("show");
+      }  
+    }
+    catch(err) {
+        console.log(err.message);
+    }
     })
     .fail(function(response) {
+      console.log(response.responseJSON);
       swal({
-        title: 'Error',
-        text: response,
+        title: 'Error '+response.status,
+        text: response.statusText,
         type: 'error',
         confirmButtonText: '<i class="fa fa-check"></i> Continuar',
         showCloseButton: true,

@@ -15,6 +15,7 @@ class XCreateImagenesProductosTable extends Migration
     {
         Schema::create('imagenes_productos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre', 50)->default("")->nullable();
             $table->string('ruta', 255)->default("")->nullable();
             $table->unsignedBigInteger('producto_id')->default(1);
             $table->softDeletes();

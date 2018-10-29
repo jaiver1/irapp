@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Dato_basico\Tipo_medida;
 use Illuminate\Support\Facades\Validator;
-Use SweetAlert;
+use SweetAlert;
 
 class Tipo_medidaController extends Controller
 {

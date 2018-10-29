@@ -32,8 +32,9 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                             <div class="col-md-12 col-lg-4 sub-menu my-lg-5 mt-5 mb-4">
                                 <h6 class="sub-title text-uppercase font-weight-bold red-text">Destacado</h6>
                                 <!--Featured image-->
-                                <div class="view overlay mb-3 z-depth-1 hoverable zoom">
+                                <div class="view overlay mb-3 z-depth-1 hoverable waves-effect zoom">
                                     <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/9.jpg" class="img-fluid hoverable rounded img-thumbnail" alt="First sample image">
+
                                     <div class="mask flex-center rgba-white-slight">
                                         <p></p>
                                     </div>
@@ -183,15 +184,20 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                 <!-- Grid row -->
                 <div class="row">
 
+                    @foreach($productos as $key => $producto)
                     <!--Grid column-->
                     <div class="wow fadeIn col-lg-4 col-md-12 mb-4">
 
                         <!--Card-->
-                        <div class="card card-ecommerce hoverable">
+                        <div class="card card-ecommerce card-producto-img hoverable h-100 z-depth-1">
 
                             <!--Card image-->
-                            <div class="view overlay hoverable zoom">
-                                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/1.jpg" class="img-fluid rounded img-thumbnail" alt="">
+                            <div class="view overlay hoverable waves-effect z-depth-1 zoom">
+                                @if($producto->imagenes->count())
+                                <img src="{{ asset($producto->imagenes->first()->ruta) }}" class="img-fluid rounded img-thumbnail"  alt="{{ $producto->imagenes->first()->nombre }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                @else
+                                <img src="{{ asset('img/dashboard/productos/404.png')  }}" class="img-fluid rounded img-thumbnail" alt="404">
+                                @endif
                                 <a>
                                     <div class="mask rgba-white-slight"></div>
                                 </a>
@@ -202,7 +208,8 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                             <div class="card-body">
                                 <!--Category & Title-->
 
-                                <h5 class="card-title mb-1"><strong><a href="" class="dark-grey-text">iPad</a></strong></h5><span class="badge badge-danger mb-2">bestseller</span>
+                                <h5 class="card-title mb-1"><strong><a href="" class="dark-grey-text">iPad</a></strong></h5>
+                                <span class="badge badge-danger mb-2">Nuevo</span>
                                 <!-- Rating -->
                                 <ul class="rating">
                                     <li><i class="fa fa-star blue-text"></i></li>
@@ -215,10 +222,14 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                                 <!--Card footer-->
                                 <div class="card-footer pb-0">
                                     <div class="row mb-0">
-                                        <span class="float-left"><strong>1439$</strong></span>
-                                        <span class="float-right">
+                                        <span class="float-left">
+                                            <h5><span class="badge badge-success hoverable">
+                                            @money($producto->valor)
+                                            </span></h5>
+                                        </span>
+                                        <span class="float-left">
 
-                                    <a class="" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="fa fa-shopping-cart ml-3"></i></a>
+                                    <a class="float-right" data-toggle="tooltip" data-placement="top" title="Agregar al carrito"><i class="fa fa-2x fa-cart-plus ml-3"></i></a>
                                     </span>
                                     </div>
                                 </div>
@@ -235,6 +246,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 
                 </div>
                 <!--Grid row-->
+                @endforeach
 
               
                 <!--Grid row-->

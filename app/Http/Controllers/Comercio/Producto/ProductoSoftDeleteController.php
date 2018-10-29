@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Comercio\Producto;
 use App\Http\Controllers\Controller;
 use App\Models\Comercio\Producto;
-Use SweetAlert;
+use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;

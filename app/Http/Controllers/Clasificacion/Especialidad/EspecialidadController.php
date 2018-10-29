@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Clasificacion\Especialidad;
 use Illuminate\Support\Facades\Validator;
-Use Alert;
+use Alert;
 
 class EspecialidadController extends Controller
 {

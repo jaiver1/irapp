@@ -97,7 +97,17 @@ Route::resource('productos/deleted', 'Comercio\Producto\ProductoSoftDeleteContro
 
 Route::resource('productos', 'Comercio\Producto\ProductoController');
 
-Route::get('/productos/info/{id}', ['uses' => 'Comercio\Producto\ProductoController@info', 'as' => 'productos.info']);
+Route::get('/productos/test/referencias', ['uses' => 'Comercio\Producto\ProductoController@test_referencias', 'as' => 'productos.testReferencias']);
+
+Route::get('/productos/load/referencias/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_referencias', 'as' => 'productos.loadReferencias']);
+
+Route::get('/productos/load/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_imagenes', 'as' => 'productos.loadImagenes']);
+
+Route::get('/productos/load/row/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_row_imagenes', 'as' => 'productos.loadRowImagenes']);
+
+Route::post('/productos/upload/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@upload_imagenes', 'as' => 'productos.uploadImagenes']);
+
+Route::delete('/productos/delete/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@delete_imagenes', 'as' => 'productos.deleteImagenes']);
 
 Route::resource('clientes/deleted', 'Contacto\Cliente\ClienteSoftDeleteController',
 [

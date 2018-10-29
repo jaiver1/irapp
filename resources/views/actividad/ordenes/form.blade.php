@@ -85,7 +85,7 @@
             <!-- Grid column -->
             <div class="col-md-12">
                     <input id="pac-input" class="controls" type="text" placeholder="Buscar">
-                    <div id="map" class="z-depth-1 hoverable img-border" style="height: 300px"></div>
+                    <div id="map" class="z-depth-1 hoverable div-border" style="height: 300px"></div>
 
  </div>
         

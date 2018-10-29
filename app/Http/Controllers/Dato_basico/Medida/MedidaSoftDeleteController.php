@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dato_basico\Medida;
 use App\Http\Controllers\Controller;
 use App\Models\Dato_basico\Medida;
-Use SweetAlert;
+use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;

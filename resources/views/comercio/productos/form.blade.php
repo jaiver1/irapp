@@ -65,7 +65,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-box-open prefix"></i>
-    <input type="text" required id="referencia" value="{{ old('referencia') ? old('referencia') : $producto->referencia}}" name="referencia" class="form-control validate" maxlength="50">
+    <input type="text" required id="referencia" onchange="test_referencias('{{ route("productos.testReferencias") }}')" value="{{ old('referencia') ? old('referencia') : $producto->referencia}}" name="referencia" class="form-control validate" maxlength="50">
     <label for="referencia" data-error="Error" data-success="Correcto">Referencia</label>
 </div>
 @if ($errors->has('referencia'))
@@ -218,44 +218,87 @@
 <script type="text/javascript" src="{{ asset('js/addons/select2.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/i18n/es.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/imask/imask.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
 <script type="text/javascript">
 
-  $(function () {
-    var numberMask = new IMask(document.getElementById('valor-mask'), {
-      mask: Number,
-      min: 0,
-      max: 999999999999,
-      thousandsSeparator: '.'
-    }).on('accept', function() {
-      document.getElementById('valor').value = numberMask.masked.number;
-    });
-  $('[data-toggle="tooltip"]').tooltip()
-})
-$('#marca_id').select2({
-        placeholder: "Marcas",
-        theme: "material",
-        language: "es"
-    });
-
-    $('#tipo_referencia_id').select2({
-        placeholder: "Tipos de Referencias",
-        theme: "material",
-        language: "es"
-    });
-
-    $('#medida_id').select2({
-        placeholder: "Medidas",
-        theme: "material",
-        language: "es"
-    });
-
-    $('#categoria_id').select2({
-        placeholder: "Categorias",
-        theme: "material",
-        language: "es"
-    });
-    $(".select2-selection__arrow")
-        .addClass("fa fa-chevron-down");
-
-</script>
+    function test_referencias(url_send){
+      inicio_carga()
+      var referencia = $("#referencia").val();
+      $.ajax({
+        method: "GET",
+        url: url_send,
+        async:true,
+        data: {content: referencia}
+      })
+        .done(function(grupos) {
+            try {
+            $("#tipo_referencia_id").empty().append('<option value="" disabled selected>Selecciona una opción</option>');
+            for(var i in grupos) {
+                $("#tipo_referencia_id").append('<optgroup label="'+grupos[i][0]+'">');  
+                for(var j in grupos[i][1]) {
+                    $("#tipo_referencia_id").append('<option  value="'+grupos[i][1][j].id+'">'+grupos[i][1][j].nombre+'</option>');
+                }
+                }
+            }
+    catch(err) {
+        console.log(err.message);
+    }
+        })
+        .fail(function(response) {
+          console.log(response.responseJSON);
+          swal({
+            title: 'Error '+response.status,
+            text: response.statusText,
+            type: 'error',
+            confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+            showCloseButton: true,
+            confirmButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            animation: false,
+            customClass: 'animated zoomIn',
+          });
+        })
+        .always(function() {
+          fin_carga()
+        });
+    }
+    
+      $(function () {
+        var numberMask = new IMask(document.getElementById('valor-mask'), {
+          mask: Number,
+          min: 0,
+          max: 999999999999,
+          thousandsSeparator: ','
+        }).on('accept', function() {
+          document.getElementById('valor').value = numberMask.masked.number;
+        });
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+    $('#marca_id').select2({
+            placeholder: "Marcas",
+            theme: "material",
+            language: "es"
+        });
+    
+        $('#tipo_referencia_id').select2({
+            placeholder: "Tipos de Referencias",
+            theme: "material",
+            language: "es"
+        });
+    
+        $('#medida_id').select2({
+            placeholder: "Medidas",
+            theme: "material",
+            language: "es"
+        });
+    
+        $('#categoria_id').select2({
+            placeholder: "Categorias",
+            theme: "material",
+            language: "es"
+        });
+        $(".select2-selection__arrow")
+            .addClass("fa fa-chevron-down");
+    
+    </script>
 @endsection

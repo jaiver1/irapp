@@ -228,7 +228,16 @@ table{
 }
 
 .img-border{
-  border: 5px double #3a4d56;
+  border: 0.125rem dashed #3a4d56;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  padding:5px;
+width: auto; }
+
+.div-border{
+  border: 8px double #3a4d56;
+  border-radius: 0.8rem;
+  background-color: #fff;
 width: auto; }
 
 .img-zoom {
@@ -301,6 +310,35 @@ width: auto; }
   display: none;
 }
 
+.card-producto-img{
+  max-width: 200px !important;
+}
+
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.imagen-carousel-item {
+  height: 500px !important;
+  background-color: black !important;
+}
+
+
+.imagen-carousel-img {
+  position: absolute ;
+  background-color: white !important;
+  top: 50% !important;
+  left: 50% !important;
+  -webkit-transform: translate(-50%, -50%) !important;
+  -ms-transform: translate(-50%, -50%) !important;
+  transform: translate(-50%, -50%) !important;
+  max-height: 500px !important;
+  width: auto;
+}
+
+
 .referencia-carousel-item {
   height: 300px !important;
   background-color: black !important;
@@ -316,4 +354,12 @@ width: auto; }
   transform: translate(-50%, -50%) !important;
   max-height: 300px !important;
   width: auto;
+}
+
+.referencia-carousel-caption{
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.imagen-carousel-caption{
+  background-color: rgba(0, 0, 0, 0.8);
 }

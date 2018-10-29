@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Clasificacion\Especialidad;
 use Illuminate\Support\Facades\Validator;
-Use SweetAlert;
+use SweetAlert;
 
 class CategoriaController extends Controller
 {

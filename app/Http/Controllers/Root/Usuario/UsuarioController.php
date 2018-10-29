@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Root\User;
 use App\Models\Root\Role;
 use Illuminate\Support\Facades\Validator;
-Use SweetAlert;
+use SweetAlert;
 
 class UsuarioController extends Controller
 {

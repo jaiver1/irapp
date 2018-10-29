@@ -91,7 +91,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     </td>
     <td>
             <center>
-                    <div onclick="mostrar_modal('{{ route("productos.info",$producto->id) }}','ref')" class="cursor-zoom view overlay hoverable zoom img-border">
+                    <div onclick="mostrar_modal('{{ route("productos.loadReferencias",$producto->id) }}','ref')" class="cursor-zoom view overlay hoverable zoom img-border">
                         @if($producto->tipo_referencia->dimension == "1D")
                                             <img src="{{ 'data:image/png;base64,' .DNS1D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,33,array(58,77,86)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                             @elseif($producto->tipo_referencia->dimension == "2D")
@@ -104,19 +104,24 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
         
     </td>
       <td>
-            <center>
-                    <div class="view overlay hoverable zoom img-border">
-                        @if($producto->tipo_referencia->dimension == "1D")
-                                            <img  data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ 'data:image/png;base64,' .DNS1D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,33,array(58,77,86)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
-                                            @elseif($producto->tipo_referencia->dimension == "2D")
-                                            <img data-toggle="modal" data-target="#img{{$producto->id}}" src="{{ 'data:image/png;base64,' .DNS2D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,3,array(58,77,86)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
-                                            @endif
-                                          </div>
-                                          
-                        </center>
+        <center>
+            <div onclick="mostrar_modal('{{ route("productos.loadImagenes",$producto->id) }}','img')" class="cursor-zoom view overlay hoverable zoom img-border">
+                @if($producto->imagenes->count())
+                                    <img src="{{ asset($producto->imagenes->first()->ruta)  }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->imagenes->first()->nombre  }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
+                                    @else
+                                    <img src="{{ asset('img/dashboard/productos/404.png')  }}" class="img-zoom img-fluid rounded img-thumbnail" alt="404">
+                                    @endif
+                                  </div>
+                              
+                                    <h5><span class="mt-2 badge badge-secondary hoverable"><i class="fa fa-box-open mr-1"></i>{{ $producto->referencia }}</span><h5>
+                </center>
            
       </td>
-      <td>@money($producto->valor)</td>
+      <td> <h5><span class="badge badge-success hoverable">
+          @money($producto->valor)
+          </span>
+          </h5>
+        </td>
       <td>{{$producto->descripcion}}</td>
       <td>
       <a href="{{ route('categorias.show',$producto->categoria->id) }}" class="link-text"
@@ -205,7 +210,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript">
 
 function mostrar_modal(url_send,div_target) {
-    cargar_modal(url_send,"GET",{},div_target,true)
+    cargar_div(url_send,"GET",{},div_target,true,true);
 	}
 
 function eliminar_producto(id,nombre){

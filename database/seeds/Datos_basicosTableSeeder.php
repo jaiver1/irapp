@@ -171,25 +171,21 @@ class Datos_basicosTableSeeder extends Seeder
 
         $tipo_referencia = new XTipo_referencia;
         $tipo_referencia->nombre = 'EAN2';
-        $tipo_referencia->deleted_at = Carbon::now();
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
         $tipo_referencia = new XTipo_referencia;
         $tipo_referencia->nombre = 'EAN5';
-        $tipo_referencia->deleted_at = Carbon::now();
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
         $tipo_referencia = new XTipo_referencia;
         $tipo_referencia->nombre = 'EAN8';
-        $tipo_referencia->deleted_at = Carbon::now();
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
         $tipo_referencia = new XTipo_referencia;
         $tipo_referencia->nombre = 'EAN13';
-        $tipo_referencia->deleted_at = Carbon::now();
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 

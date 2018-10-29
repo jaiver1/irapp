@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dato_basico\Tipo_medida;
 use App\Http\Controllers\Controller;
 use App\Models\Dato_basico\Tipo_medida;
-Use SweetAlert;
+use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;

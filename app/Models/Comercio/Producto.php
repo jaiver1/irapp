@@ -75,7 +75,11 @@ public function tipo_referencia()
     return $this->belongsTo('App\Models\Dato_basico\XTipo_referencia');
 }
 
-public function productos(){
+public function imagenes(){
     return $this->hasMany('App\Models\Comercio\XImagen_producto');
+  }
+
+  public function calificaciones(){
+    return $this->hasMany('App\Models\Comercio\XCalificacion_producto');
   }
 }

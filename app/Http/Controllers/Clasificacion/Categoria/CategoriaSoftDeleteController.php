@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Clasificacion\Categoria;
 use App\Http\Controllers\Controller;
 use App\Models\Clasificacion\Categoria;
-Use SweetAlert;
+use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;

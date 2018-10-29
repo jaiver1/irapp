@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Dato_basico\Medida;
 use App\Models\Dato_basico\Tipo_medida;
 use Illuminate\Support\Facades\Validator;
-Use SweetAlert;
+use SweetAlert;
 
 class MedidaController extends Controller
 {

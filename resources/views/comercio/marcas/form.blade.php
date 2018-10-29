@@ -14,7 +14,7 @@
     <!-- Grid row -->
     <div class="form-row">
         <!-- Grid column -->
-        <div class="col-md-6">
+        <div class="col-md-12">
             <!-- Material input -->
             <div class="md-form">
     <i class="fa fa-trademark prefix"></i>

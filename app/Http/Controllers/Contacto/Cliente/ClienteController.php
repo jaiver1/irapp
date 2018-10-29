@@ -1,7 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Cliente;
+namespace App\Http\Controllers\Contacto\Cliente;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Contacto\Cliente;
+use App\Models\Contacto\Persona;
+use Illuminate\Support\Facades\Validator;
+use SweetAlert;
 
 class ClienteController extends Controller
 {
@@ -18,7 +26,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $clientes = Cliente::all();
+        return View::make('contacto.clientes.index')->with(compact('clientes'));
     }
 
     /**
@@ -28,6 +38,11 @@ class ClienteController extends Controller
      */
     public function create()
     {
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $cliente = new Cliente;
+        $cliente->persona()->associate(new Persona);
+        $editar = false;
+        return View::make('contacto.clientes.create')->with(compact('cliente','editar'));
     }
 
     /**
@@ -35,9 +50,29 @@ class ClienteController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-       
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $rules = array(
+                'nombre'  => 'required|max:50',
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+
+
+        if ($validator->fails()) {
+            $request->flash();
+            SweetAlert::error('Error','Errores en el formulario.');
+            return Redirect::to('clientes/create')
+                ->withErrors($validator);
+        } else {
+            $cliente = new Cliente;
+            $cliente->nombre = $request->nombre;      
+            $cliente->save();        
+
+            SweetAlert::success('Exito','El tipo de medida "'.$cliente->nombre.'" ha sido registrado.');
+            return Redirect::to('clientes');
+        }
     }
 
     /**
@@ -47,7 +82,11 @@ class ClienteController extends Controller
      * @return Response
      */
     public function show($id)
-    {       
+    {  
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $cliente = Cliente::findOrFail($id);
+        return View::make('contacto.clientes.show')->with(compact('cliente'));
+        
         }
 
     /**
@@ -58,7 +97,11 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-      
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $cliente = Cliente::findOrFail($id);
+        $editar = true;
+        return View::make('contacto.clientes.edit')->with(compact('cliente','editar'));
+   
     }
 
     /**
@@ -67,9 +110,29 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update($id,Request $request)
     {
-       
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $rules = array(
+            'nombre' => 'required|max:50',
+    );
+
+    $validator = Validator::make($request->all(), $rules);
+
+
+    if ($validator->fails()) {
+        $request->flash();
+        SweetAlert::error('Error','Errores en el formulario.');
+        return Redirect::to('clientes/'+$id+'/edit')
+            ->withErrors($validator);
+    } else {
+        $cliente =  Cliente::findOrFail($request->id);
+        $cliente->nombre = $request->nombre;        
+        $cliente->save();
+
+        SweetAlert::success('Exito','El tipo de medida "'.$cliente->nombre.'" ha sido editado.');
+        return Redirect::to('clientes');
+    }
     }
 
     /**
@@ -80,6 +143,11 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-   
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $cliente = Cliente::findOrFail($id);
+    
+        $cliente->delete();
+        SweetAlert::success('Exito','El tipo de medida "'.$cliente->nombre.'" ha sido eliminado.');
+        return Redirect::to('clientes');
 }
 }

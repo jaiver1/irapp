@@ -208,7 +208,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                             <div class="card-body">
                                 <!--Category & Title-->
 
-                                <h5 class="card-title mb-1"><strong><a href="" class="dark-grey-text">iPad</a></strong></h5>
+                                <h5 class="card-title mb-1"><strong><a href="" class="dark-grey-text">{{ $producto->nombre }}</a></strong></h5>
                                 <span class="badge badge-danger mb-2">Nuevo</span>
                                 <!-- Rating -->
                                 <ul class="rating">

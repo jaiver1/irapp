@@ -78,7 +78,7 @@ class ProductoSoftDeleteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $producto = self::getDeletedMarca($id);
         $producto->forceDelete();
-        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada permanentemente.');
+        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminado permanentemente.');
         return Redirect::to('productos/deleted');
     }
 }

@@ -26,14 +26,14 @@ class ClienteSoftDeleteController extends Controller
      */
     private static function getDeletedMarca($id)
     {
-        $producto = Producto::onlyTrashed()->where('id', $id)->get();
+        $cliente = Producto::onlyTrashed()->where('id', $id)->get();
         
-        if (count($producto) != 1) {
-            SweetAlert::error('Error','El producto no existe.');
-            return redirect('/productos/deleted');
+        if (count($cliente) != 1) {
+            SweetAlert::error('Error','El cliente no existe.');
+            return redirect('/clientes/deleted');
         }
 
-        return $producto[0];
+        return $cliente[0];
     }
 
     /**
@@ -44,8 +44,8 @@ class ClienteSoftDeleteController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $productos = Producto::onlyTrashed()->get();
-        return View('comercio.productos.index_deleted', compact('productos'));
+        $clientes = Producto::onlyTrashed()->get();
+        return View('contacto.clientes.index_deleted', compact('clientes'));
     }
 
 
@@ -60,10 +60,10 @@ class ClienteSoftDeleteController extends Controller
     public function update($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $producto = self::getDeletedMarca($id);
-        $producto->restore();
-        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido restaurada.');
-        return Redirect::to('productos/deleted');
+        $cliente = self::getDeletedMarca($id);
+        $cliente->restore();
+        SweetAlert::success('Exito','El cliente "'.$cliente->nombre.'" ha sido restaurada.');
+        return Redirect::to('clientes/deleted');
     }
 
     /**
@@ -76,9 +76,9 @@ class ClienteSoftDeleteController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $producto = self::getDeletedMarca($id);
-        $producto->forceDelete();
-        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada permanentemente.');
-        return Redirect::to('productos/deleted');
+        $cliente = self::getDeletedMarca($id);
+        $cliente->forceDelete();
+        SweetAlert::success('Exito','El cliente "'.$cliente->nombre.'" ha sido eliminado permanentemente.');
+        return Redirect::to('clientes/deleted');
     }
 }

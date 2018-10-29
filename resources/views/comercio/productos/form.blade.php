@@ -40,7 +40,7 @@
  <div class="md-form">
         <i class="fa fa-money-bill-alt prefix"></i>
         <input type="text" required id="valor-mask" value="{{ old('valor') ? old('valor') : $producto->valor}}" name="valor-mask" class="form-control validate" maxlength="50">
-        <input type="text" required id="valor" value="{{ old('valor') ? old('valor') : $producto->valor}}" name="valor" class="form-control validate" maxlength="12">
+        <input type="hidden" required id="valor" value="{{ old('valor') ? old('valor') : $producto->valor}}" name="valor" class="form-control validate" maxlength="12">
         <label for="valor" data-error="Error" data-success="Correcto">Valor</label>
     </div>
     @if ($errors->has('valor'))

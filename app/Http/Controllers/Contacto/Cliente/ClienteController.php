@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Contacto\Cliente;
 use App\Models\Contacto\Persona;
+use App\Models\Dato_basico\XUbicacion;
 use Illuminate\Support\Facades\Validator;
 use SweetAlert;
 
@@ -40,7 +41,9 @@ class ClienteController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $cliente = new Cliente;
-        $cliente->persona()->associate(new Persona);
+        $persona = new Persona;
+        $persona->ubicacion()->associate(new XUbicacion);
+        $cliente->persona()->associate($persona);
         $editar = false;
         return View::make('contacto.clientes.create')->with(compact('cliente','editar'));
     }

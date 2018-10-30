@@ -1,4 +1,4 @@
-@include('include.contacto.personas.form')
+@include('include.contacto.personas.form', array('persona'=>$cliente->persona))
 @section('crud_form')
 
 @if($editar)
@@ -22,7 +22,7 @@
     <!-- Grid row -->
 
 
-    <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
+    <button type="submit" class="mt-4 waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
     <i class="fa fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
     </button>
 </form>
@@ -34,4 +34,6 @@
   $('[data-toggle="tooltip"]').tooltip()
 })
 </script>
+
+@yield('gmaps_links')
 @endsection

@@ -23,6 +23,8 @@
 <body>
     <div id="loading" class="se-pre-con"></div>
         @yield('main')
+        <script type="text/javascript" src="{{ asset('js/addons/moment.js') }}"></script>
+
      <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
   <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>

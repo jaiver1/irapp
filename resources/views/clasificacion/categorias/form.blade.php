@@ -19,7 +19,7 @@
             <div class="md-form">
     <i class="fa fa-sitemap prefix"></i>
     <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $categoria->nombre}}" name="nombre" class="form-control validate" maxlength="50">
-    <label for="nombre" data-error="Error" data-success="Correcto">Nombre</label>
+    <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
 </div>
 @if ($errors->has('nombre'))
                                             <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
@@ -35,8 +35,8 @@
  <div class="col-md-6">
     <!-- Material input -->
 
-    <input {{ $categoria->categoria == NULL  ? "checked" : ""}} type="checkbox" id="raiz" name="raiz" class="switch-input">
-    <label for="raiz" class="switch-label">Categoria raiz: <span class="toggle--on">Si</span><span class="toggle--off">No</span></label>
+ <input {{ (old('raiz')) ? 'checked' : ( $categoria->categoria == NULL  ? "checked" : "") }} type="checkbox" id="raiz" name="raiz" class="switch-input">
+    <label for="raiz" class="switch-label">Categoria raiz *: <span class="toggle--on">Si</span><span class="toggle--off">No</span></label>
 @if ($errors->has('raiz'))
                                     <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
                                    {{ $errors->first('raiz') }}
@@ -65,7 +65,7 @@
     <select class="form-control" required id="especialidad_id" name="especialidad_id">
     <option value="" disabled selected>Selecciona una opción</option>
     @foreach($especialidades as $key => $especialidad)
-    <option {{ ($categoria->especialidad->id==$especialidad->id)?'selected':'' }} value="{{$especialidad->id}}">{{$especialidad->nombre}}</option>
+    <option {{ old('especialidad_id') ?  ((old('especialidad_id') == $especialidad->id) ? 'selected' : '') : (($categoria->especialidad->id==$especialidad->id)?'selected':'') }} value="{{$especialidad->id}}">{{$especialidad->nombre}}</option>
     @endforeach
 </select>
 </div> @if ($errors->has('especialidad_id'))

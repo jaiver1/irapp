@@ -3,7 +3,7 @@
         @foreach($tipos_medidas as $key => $tipo_medida)
         <optgroup label="{{ $tipo_medida->nombre }}">
         @foreach($tipo_medida->medidas as $medida)
-        <option {{($medida_selected->id == $medida->id ) ? 'selected' : '' }} value="{{$medida->id}}">{{$medida->nombre}}</option>
+        <option {{ old('medida_id') ?  ((old('medida_id') == $medida->id) ? 'selected' : '') : (($medida_selected->id == $medida->id ) ? 'selected' : '') }} value="{{$medida->id}}">{{$medida->nombre}}</option>
         @endforeach
         @endforeach
     </select>

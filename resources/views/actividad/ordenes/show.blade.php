@@ -18,7 +18,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-object-group mr-1"></i></span>
+                    <span><i class="fa fa-business-time mr-1"></i></span>
                         <a href="{{ route('ordenes.index') }}">Lista de ordenes</a>
                         <span>/</span>
                         <span>Información de la orden "{{ $orden->nombre }}"</span>
@@ -27,7 +27,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('ordenes.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de ordenes">
-                      <i class="fa fa-2x fa-object-group"></i>
+                      <i class="fa fa-2x fa-business-time"></i>
                             </a>
 
                              <a href="{{ route('ordenes.edit', $orden->id) }}" class="btn btn-outline-warning btn-circle waves-effect hoverable" 
@@ -65,7 +65,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fa fa-object-group  mr-2"></i><strong>Especialidad #{{ $orden->id }}</strong>
+      <i class="fa fa-business-time  mr-2"></i><strong>Especialidad #{{ $orden->id }}</strong>
     </a>
   <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Nombre: </strong>{{ $orden->nombre }}</a>
 </div>
@@ -123,7 +123,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
       <tr class="hoverable">
         <td>{{$categoria->id}}</td>
         <td>{{$categoria->nombre}}</td>
-        <td><i class="fa fa-object-group"></i> {{$categoria->orden->nombre}}</td>
+        <td><i class="fa fa-business-time"></i> {{$categoria->orden->nombre}}</td>
         <td>
           @if($categoria->categoria == NULL)
          <h5> <span class="badge badge-secondary"><i class="fa fa-sitemap"></i> Categoria raiz</span><h5>
@@ -162,7 +162,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 
 @endsection
 @section('js_links')
-<script type="text/javascript" src="{{ asset('js/addons/moment.js') }}"></script>
+
 <script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/bt4-datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/responsive-datatables.min.js') }}"></script>

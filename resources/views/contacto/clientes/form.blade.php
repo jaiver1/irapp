@@ -1,4 +1,7 @@
 @include('include.contacto.personas.form', array('persona'=>$cliente->persona))
+@section('css_links')
+<link rel="stylesheet" href="{{ asset('css/addons/select2.css') }}" type="text/css"/>
+@endsection
 @section('crud_form')
 
 @if($editar)
@@ -29,10 +32,26 @@
 @endsection
 
 @section('js_links')
+<script type="text/javascript" src="{{ asset('js/addons/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/i18n/es.js')}}"></script>
 <script type="text/javascript">
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+  $('#usuario_id').select2({
+            placeholder: "Usuarios",
+            theme: "material",
+            language: "es"
+        });
+    
+        $('#ciudad_id').select2({
+            placeholder: "Ciudades",
+            theme: "material",
+            language: "es"
+        });
+        $(".select2-selection__arrow")
+            .addClass("fa fa-chevron-down");
 </script>
 
 @yield('gmaps_links')

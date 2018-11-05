@@ -47,4 +47,15 @@ class Orden extends Model
       'deleted_at',
   ];
 
+
+  public function ubicacion()
+  {
+      return $this->belongsTo('App\Models\Dato_basico\XUbicacion');
+  }
+
+  public function ciudad()
+  {
+      return $this->belongsTo('App\Models\Dato_basico\XCiudad');
+  }
+  
 }

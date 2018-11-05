@@ -68,7 +68,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     </th>
     <th class="th-sm">Imagen
         </th>
-      <th class="th-sm">Valor
+      <th class="th-sm">Valor unitario
       </th>
       <th class="th-sm">Descripcion
     </th>
@@ -118,7 +118,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
            
       </td>
       <td> <h5><span class="badge badge-success hoverable">
-          @money($producto->valor)
+          @money($producto->valor_unitario)
           </span>
           </h5>
         </td>
@@ -193,7 +193,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('js_links')
 <!-- DataTables core JavaScript -->
-<script type="text/javascript" src="{{ asset('js/addons/moment.js') }}"></script>
+
 <script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/bt4-datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/responsive-datatables.min.js') }}"></script>

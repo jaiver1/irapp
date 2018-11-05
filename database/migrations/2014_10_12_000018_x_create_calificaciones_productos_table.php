@@ -18,9 +18,11 @@ class XCreateCalificacionesProductosTable extends Migration
             $table->text('descripcion')->nullable();
             $table->unsignedTinyInteger('calificacion')->default(5);
             $table->unsignedBigInteger('producto_id')->default(1);
+            $table->unsignedBigInteger('usuario_id')->default(1)->nullable();
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('cascade');                         
+            $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('cascade');       
+            $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');                                   
         });
     }
 

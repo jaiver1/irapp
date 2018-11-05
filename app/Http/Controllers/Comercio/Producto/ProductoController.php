@@ -74,7 +74,7 @@ class ProductoController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
                 'nombre'                   => 'required|max:50',
-                'valor'                   => 'numeric|required|digits_between:1,12',
+                'valor_unitario'                   => 'numeric|required|digits_between:1,12',
                 'referencia'                   => 'required|max:50',
                 'medida_id'                   => 'required',
                 'marca_id'                   => 'required',
@@ -95,16 +95,16 @@ class ProductoController extends Controller
             $producto = new Producto;
             $producto->nombre = $request->nombre; 
             $producto->referencia = $request->referencia; 
-            $producto->valor = $request->valor; 
+            $producto->valor_unitario = $request->valor_unitario; 
             $producto->descripcion = $request->descripcion; 
             $producto->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
             $producto->medida()->associate(Medida::findOrFail($request->medida_id));      
             $producto->marca()->associate(Marca::findOrFail($request->marca_id));      
             $producto->tipo_referencia()->associate(XTipo_referencia::findOrFail($request->tipo_referencia_id));  
-           $producto->save();        
+            $producto->create();        
 
             SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido registrada.');
-            return Redirect::to('productos');
+            return Redirect::to('productos/'.$producto->id);
         }
     }
 
@@ -153,7 +153,7 @@ class ProductoController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
             'nombre'                   => 'required|max:50',
-            'valor'                   => 'numeric|required|digits_between:1,12',
+            'valor_unitario'                   => 'numeric|required|digits_between:1,12',
             'referencia'                   => 'required|max:50',
             'medida_id'                   => 'required',
             'marca_id'                   => 'required',
@@ -173,7 +173,7 @@ class ProductoController extends Controller
         $producto = Producto::findOrFail($request->id);
         $producto->nombre = $request->nombre; 
         $producto->referencia = $request->referencia; 
-        $producto->valor = $request->valor; 
+        $producto->valor_unitario = $request->valor_unitario; 
         $producto->descripcion = $request->descripcion; 
         $producto->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
         $producto->medida()->associate(Medida::findOrFail($request->medida_id));      

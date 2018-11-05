@@ -47,3 +47,17 @@
 	z-index: 9999;
 	background: url(../img/loader/load.gif) center no-repeat rgba(0, 0, 0, 0.8);
 }
+
+.nav-pills > .nav-item{
+  border-radius: 5px;
+  border: 1px solid #c0324c;
+}
+
+.nav-pills > .nav-item > .nav-link{
+  color: #c0324c;
+}
+
+.nav-pills > .nav-item > .nav-link.active{
+  background-color: #c0324c;
+  color: #fff;
+}

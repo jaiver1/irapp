@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Orden;
+use App\Models\Dato_basico\XUbicacion;
+use App\Models\Dato_basico\XCiudad;
 use Illuminate\Support\Facades\Validator;
 Use SweetAlert;
 
@@ -39,8 +41,12 @@ class OrdenController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = new Orden();
+        $ciudad = new XCiudad;
+        $orden->ciudad()->associate($ciudad);
+        $orden->ubicacion()->associate(new XUbicacion);
         $editar = false;
-        return View::make('actividad.ordenes.create')->with(compact('orden','editar'));
+        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
+        return View::make('actividad.ordenes.create')->with(compact('orden','editar','ciudades'));
     }
 
     /**
@@ -97,7 +103,8 @@ class OrdenController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = Orden::findOrFail($id);
         $editar = true;
-        return View::make('actividad.ordenes.edit')->with(compact('orden','editar'));
+        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
+        return View::make('actividad.ordenes.edit')->with(compact('orden','editar','ciudades'));
    
     }
 

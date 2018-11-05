@@ -62,10 +62,33 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
     <tr class="z-depth-2">
       <th class="th-sm">#
       </th>
-      <th class="th-sm">Nombre
-      </th>
+      <th class="th-sm">Cedula
+      </th>   
+    <th class="th-sm">Primer nombre
+    </th>
+    <th class="th-sm">Segundo nombre
+    </th>
+    <th class="th-sm">Primer apellido
+    </th>
+    <th class="th-sm">Segundo apellido
+    </th>
+    <th class="th-sm">Telefono móvil
+    </th>
+    <th class="th-sm">Telefono fijo
+    </th>
+    <th class="th-sm">Email
+    </th>
+    <th class="th-sm">Ciudad
+    </th>
+    <th class="th-sm">Barrio
+        </th>
+        <th class="th-sm">Dirección
+            </th>
+    <th class="th-sm">Cuenta banco
+    </th>
       <th class="th-sm">Acciones
       </th>
+      
    
     </tr>
   </thead>
@@ -73,21 +96,32 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
   @foreach($clientes as $key => $cliente)
     <tr class="hoverable">
       <td>{{$cliente->id}}</td>
-      <td>{{$cliente->nombre}}</td>
+      <td>{{$cliente->persona->cedula}}</td>
+      <td>{{$cliente->persona->primer_nombre}}</td>
+      <td>{{$cliente->persona->segundo_nombre}}</td>
+      <td>{{$cliente->persona->primer_apellido}}</td>
+      <td>{{$cliente->persona->segundo_apellido}}</td>
+      <td>{{$cliente->persona->telefono_movil}}</td>
+      <td>{{$cliente->persona->telefono_fijo}}</td>
+      <td>{{$cliente->persona->usuario->email}}</td>
+      <td>{{$cliente->persona->ciudad->nombre}}</td>
+      <td>{{$cliente->persona->barrio}}</td>
+      <td>{{$cliente->persona->direccion}}</td>
+      <td>{{$cliente->persona->cuenta_banco}}</td>
       <td>
 
 <a href="{{ route('clientes.show',$cliente->id) }}" class="text-primary m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Información del cliente "{{ $cliente->nombre }}"'>
+                    data-toggle="tooltip" data-placement="bottom" title='Información del cliente "{{ $cliente->persona->cedula }}"'>
                       <i class="fa fa-2x fa-info-circle"></i>
                             </a>
 
       <a href="{{ route('clientes.edit',$cliente->id) }}" class="text-warning m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Editar el cliente "{{ $cliente->nombre }}"'>
+                    data-toggle="tooltip" data-placement="bottom" title='Editar el cliente "{{ $cliente->persona->cedula }}"'>
                       <i class="fa fa-2x fa-pencil-alt"></i>
                             </a>
 
                             <a onclick="eliminar_cliente({{ $cliente->id }},'{{ $cliente->nombre }}')" class="text-danger m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Eliminar el cliente "{{ $cliente->nombre }}"'>
+                    data-toggle="tooltip" data-placement="bottom" title='Eliminar el cliente "{{ $cliente->persona->cedula }} "'>
                       <i class="fa fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $cliente->id }}" method="POST" action="{{ route('clientes.destroy', $cliente->id) }}" accept-charset="UTF-8">
@@ -118,7 +152,7 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('js_links')
 <!-- DataTables core JavaScript -->
-<script type="text/javascript" src="{{ asset('js/addons/moment.js') }}"></script>
+
 <script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/bt4-datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/responsive-datatables.min.js') }}"></script>
@@ -260,7 +294,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-user-tie"></i> Datos de cliente "'+ data[1]+'"';
+                        return '<i class="fa fa-user-tie"></i> Datos del cliente "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

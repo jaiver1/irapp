@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Contacto\Cliente;
 use App\Models\Contacto\Persona;
 use App\Models\Dato_basico\XUbicacion;
+use App\Models\Dato_basico\XCiudad;
+use App\Models\Root\User;
 use Illuminate\Support\Facades\Validator;
 use SweetAlert;
 
@@ -42,10 +44,18 @@ class ClienteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $cliente = new Cliente;
         $persona = new Persona;
+        $usuario = new User;
+        $ciudad = new XCiudad;
         $persona->ubicacion()->associate(new XUbicacion);
+        $persona->ciudad()->associate($ciudad);
+        $persona->usuario()->associate($usuario);
         $cliente->persona()->associate($persona);
         $editar = false;
-        return View::make('contacto.clientes.create')->with(compact('cliente','editar'));
+        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
+        $usuarios = User::whereHas('roles', function ($query) {
+            $query->where('name', '=', 'ROLE_CLIENTE');
+ })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
+        return View::make('contacto.clientes.create')->with(compact('cliente','editar','ciudades','usuarios'));
     }
 
     /**
@@ -56,9 +66,23 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+
         $rules = array(
-                'nombre'  => 'required|max:50',
-        );
+            'cedula'                   => 'required|max:50|unique:personas',
+            'cuenta_banco'                   => 'max:50|unique:personas',
+            'primer_nombre'                   => 'required|max:50',
+            'segundo_nombre'                   => 'max:50',
+            'primer_apellido'                   => 'required|max:50',
+            'segundo_apellido'                   => 'required|max:50',
+            'telefono_fijo'                   => 'max:50',
+            'telefono_movil'                   => 'required|max:50',
+            'barrio'                   => 'required|max:50',
+            'direccion'                   => 'required|max:50',
+            'latitud'                   => 'required|max:50',
+            'longitud'                   => 'required|max:50',
+            'ciudad_id'              => 'required',
+            'usuario_id'                   => 'required|unique:personas',
+    );
 
         $validator = Validator::make($request->all(), $rules);
 
@@ -70,10 +94,33 @@ class ClienteController extends Controller
                 ->withErrors($validator);
         } else {
             $cliente = new Cliente;
-            $cliente->nombre = $request->nombre;      
+            $persona = new Persona;
+            $ubicacion = new XUbicacion;
+            $ubicacion->latitud = $request->latitud;
+            $ubicacion->longitud = $request->longitud;
+            $ubicacion->save();
+            $usuario = User::findOrFail($request->usuario_id);
+            $ciudad = XCiudad::findOrFail($request->ciudad_id);
+
+            $persona->cedula = $request->cedula;
+            $persona->cuenta_banco = $request->cuenta_banco;
+            $persona->primer_nombre = $request->primer_nombre;
+            $persona->segundo_nombre = $request->segundo_nombre;
+            $persona->primer_apellido = $request->primer_apellido;
+            $persona->segundo_apellido = $request->segundo_apellido;
+            $persona->telefono_movil = $request->telefono_movil;
+            $persona->telefono_fijo = $request->telefono_fijo;       
+            $persona->barrio = $request->barrio;
+            $persona->direccion = $request->direccion;
+
+            $persona->usuario()->associate($usuario);
+            $persona->ciudad()->associate($ciudad);
+            $persona->ubicacion()->associate($ubicacion);
+            $persona->save();
+            $cliente->persona()->associate($persona);     
             $cliente->save();        
 
-            SweetAlert::success('Exito','El tipo de medida "'.$cliente->nombre.'" ha sido registrado.');
+            SweetAlert::success('Exito','El cliente "'.$cliente->nombre.'" ha sido registrado.');
             return Redirect::to('clientes');
         }
     }
@@ -103,7 +150,11 @@ class ClienteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $cliente = Cliente::findOrFail($id);
         $editar = true;
-        return View::make('contacto.clientes.edit')->with(compact('cliente','editar'));
+        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
+        $usuarios = User::whereHas('roles', function ($query) {
+            $query->where('name', '=', 'ROLE_CLIENTE');
+ })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
+        return View::make('contacto.clientes.edit')->with(compact('cliente','editar','ciudades','usuarios'));
    
     }
 
@@ -117,23 +168,52 @@ class ClienteController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
-            'nombre' => 'required|max:50',
+            'cedula'                   => 'required|max:50|unique:personas',
+            'cuenta_banco'                   => 'max:50|unique:personas',
+            'primer_nombre'                   => 'required|max:50',
+            'segundo_nombre'                   => 'max:50',
+            'primer_apellido'                   => 'required|max:50',
+            'segundo_apellido'                   => 'required|max:50',
+            'telefono_fijo'                   => 'max:50',
+            'telefono_movil'                   => 'required|max:50',
+            'barrio'                   => 'required|max:50',
+            'direccion'                   => 'required|max:50',
+            'latitud'                   => 'required|max:50',
+            'longitud'                   => 'required|max:50',
+            'ciudad_id'              => 'required',
+            'usuario_id'                   => 'required|unique:personas',
     );
 
-    $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
 
-    if ($validator->fails()) {
-        $request->flash();
-        SweetAlert::error('Error','Errores en el formulario.');
-        return Redirect::to('clientes/'+$id+'/edit')
-            ->withErrors($validator);
-    } else {
-        $cliente =  Cliente::findOrFail($request->id);
-        $cliente->nombre = $request->nombre;        
-        $cliente->save();
+        if ($validator->fails()) {
+            $request->flash();
+            SweetAlert::error('Error','Errores en el formulario.');
+            return Redirect::to('clientes/create')
+                ->withErrors($validator);
+        } else {
+            $cliente = Cliente::findOrFail($id);
+            $cliente->ubicacion->latitud = $request->latitud;
+            $cliente->ubicacion->longitud = $request->longitud;
+            $usuario = User::findOrFail($request->usuario_id);
+            $ciudad = XCiudad::findOrFail($request->ciudad_id);
+            $cliente->persona->ciudad()->associate($ciudad);
 
-        SweetAlert::success('Exito','El tipo de medida "'.$cliente->nombre.'" ha sido editado.');
+            $cliente->persona->cedula = $request->cedula;
+            $cliente->persona->cuenta_banco = $request->cuenta_banco;
+            $cliente->persona->primer_nombre = $request->primer_nombre;
+            $cliente->persona->segundo_nombre = $request->segundo_nombre;
+            $cliente->cliente->persona->primer_apellido = $request->primer_apellido;
+            $cliente->persona->segundo_apellido = $request->segundo_apellido;
+            $cliente->persona->telefono_movil = $request->telefono_movil;
+            $cliente->persona->telefono_fijo = $request->telefono_fijo;       
+            $cliente->persona->barrio = $request->barrio;
+            $cliente->persona->direccion = $request->direccion;    
+            $cliente->save();        
+
+
+        SweetAlert::success('Exito','El cliente "'.$cliente->nombre.'" ha sido editado.');
         return Redirect::to('clientes');
     }
     }
@@ -150,7 +230,7 @@ class ClienteController extends Controller
         $cliente = Cliente::findOrFail($id);
     
         $cliente->delete();
-        SweetAlert::success('Exito','El tipo de medida "'.$cliente->nombre.'" ha sido eliminado.');
+        SweetAlert::success('Exito','El cliente "'.$cliente->nombre.'" ha sido eliminado.');
         return Redirect::to('clientes');
 }
 }

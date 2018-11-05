@@ -24,8 +24,8 @@ class CreatePersonasTable extends Migration
             $table->string('telefono_movil', 50)->default("")->nullable();
             $table->unsignedBigInteger('ciudad_id')->default(1)->nullable();
             $table->unsignedBigInteger('ubicacion_id')->default(1)->nullable();
-            $table->string('barrio')->default("")->nullable()->nullable();
-            $table->string('direccion')->default("")->nullable()->nullable();
+            $table->string('barrio',50)->default("")->nullable();
+            $table->string('direccion',50)->default("")->nullable();
             $table->string('cuenta_banco', 50)->default("")->nullable();
             $table->unsignedBigInteger('usuario_id')->default(1)->nullable();
             $table->foreign('ubicacion_id')->references('id')->on('ubicaciones')->onUpdate('cascade')->onDelete('cascade'); 

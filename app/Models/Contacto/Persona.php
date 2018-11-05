@@ -72,4 +72,9 @@ class Persona extends Model
         return $this->belongsTo('App\Models\Dato_basico\XCiudad');
     }
     
+    public function usuario()
+    {
+        return $this->belongsTo('App\Models\Root\User');
+    }
+    
 }

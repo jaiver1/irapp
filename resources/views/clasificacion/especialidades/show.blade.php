@@ -120,13 +120,14 @@ Información de la especialidad "{{ $especialidad->nombre }}" | {{ config('app.n
     </thead>
     <tbody>
     @foreach($especialidad->categorias as $key => $categoria)
+    @if($categoria->categoria == NULL)
       <tr class="hoverable">
         <td>{{$categoria->id}}</td>
         <td>{{$categoria->nombre}}</td>
         <td><i class="fa fa-object-group"></i> {{$categoria->especialidad->nombre}}</td>
         <td>
           @if($categoria->categoria == NULL)
-         <h5> <span class="badge badge-secondary"><i class="fa fa-sitemap"></i> Categoria raiz</span><h5>
+         <h5> <span class="badge badge-secondary"><i class="fa fa-network-wired mr-1"></i> Categoria raiz</span><h5>
           @else
               <a href="{{ route('categorias.show',$categoria->categoria->id) }}" class="link-text"
                             data-toggle="tooltip" data-placement="bottom" title='Información de la categoria padre "{{ $categoria->categoria->nombre }}"'>
@@ -142,6 +143,7 @@ Información de la especialidad "{{ $especialidad->nombre }}" | {{ config('app.n
                                     </a>
               </td>
       </tr>
+      @endif
       @endforeach
     </tbody>
   </table>
@@ -162,7 +164,7 @@ Información de la especialidad "{{ $especialidad->nombre }}" | {{ config('app.n
 
 @endsection
 @section('js_links')
-<script type="text/javascript" src="{{ asset('js/addons/moment.js') }}"></script>
+
 <script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/bt4-datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/responsive-datatables.min.js') }}"></script>

@@ -34,13 +34,13 @@ Registrar un cliente | {{ config('app.name', 'Laravel') }}
 
          
             <!--Grid row-->
-            <div class="row wow fadeIn">
+            <div class="row">
 
                 <!--Grid column-->
                 <div class="col-12">
 
                     <!--Card-->
-                    <div class="card wow fadeIn hoverable">
+                    <div class="card hoverable">
 
                         <!--Card content-->
                         <div class="card-body">

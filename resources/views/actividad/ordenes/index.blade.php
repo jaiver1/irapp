@@ -7,6 +7,8 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-responsive-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-buttons-datatables.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/addons/fullcalendar.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/addons/fullcalendar.print.css') }}" type="text/css" media="print"
 @endsection
 @section('content')
         <div class="container-fluid">
@@ -18,7 +20,7 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-object-group mr-1"></i></span> <span> @if ($ordenes->count() === 1)
+                    <span><i class="fa fa-business-time mr-1"></i></span> <span> @if ($ordenes->count() === 1)
                 Una orden
             @elseif ($ordenes->count() > 1)
                 {{ $ordenes->count() }} ordenes
@@ -55,52 +57,72 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                     <div class="card hoverable"> 
                         <!--Card content-->
                         <div class="card-body">
-                        <div class="table-responsive">
-                            <!-- Table  -->
-                            <table id="dtordenes" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
-  <thead class="th-color white-text">
-    <tr class="z-depth-2">
-      <th class="th-sm">#
-      </th>
-      <th class="th-sm">Nombre
-      </th>
-      <th class="th-sm">Acciones
-      </th>
-   
-    </tr>
-  </thead>
-  <tbody>
-  @foreach($ordenes as $key => $orden)
-    <tr class="hoverable">
-      <td>{{$orden->id}}</td>
-      <td>{{$orden->nombre}}</td>          
-      <td>
+                                <ul class="nav nav-pills mb-3" id="views-tab" role="tablist">
+                                        <li class="nav-item hoverable waves-effect">
+                                          <a class="nav-link active z-depth-5" id="pills-list-tab" data-toggle="pill" href="#pills-list" role="tab" aria-controls="pills-list" aria-selected="true">
+                                            <h5> <i class="fa fa-clipboard-list mr-2"></i>Lista</h5></a>
+                                        </li>
+                                        <li class="nav-item hoverable waves-effect">
+                                          <a class="nav-link z-depth-5" id="pills-calendar-tab" data-toggle="pill" href="#pills-calendar" role="tab" aria-controls="pills-calendar" aria-selected="false">
+                                              <h5> <i class="fa fa-calendar-alt mr-2"></i>Calendario</h5></a>
+                                        </li>
+                                      </ul>
+                                <div class="tab-content" id="pills-tab-views">
+                                        <div class="tab-pane fade show active" id="pills-list" role="tabpanel" aria-labelledby="pills-list-tab">
+                                                <div class="table-responsive">
+                                                        <!-- Table  -->
+                                                        <table id="dtordenes" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                              <thead class="th-color white-text">
+                                <tr class="z-depth-2">
+                                  <th class="th-sm">#
+                                  </th>
+                                  <th class="th-sm">Nombre
+                                  </th>
+                                  <th class="th-sm">Acciones
+                                  </th>
+                               
+                                </tr>
+                              </thead>
+                              <tbody>
+                              @foreach($ordenes as $key => $orden)
+                                <tr class="hoverable">
+                                  <td>{{$orden->id}}</td>
+                                  <td>{{$orden->nombre}}</td>          
+                                  <td>
+                            
+                            <a href="{{ route('ordenes.show', $orden->id) }}" class="text-primary m-1" 
+                                                data-toggle="tooltip" data-placement="bottom" title='Información de la orden "{{ $orden->nombre }}"'>
+                                                  <i class="fa fa-2x fa-info-circle"></i>
+                                                        </a>
+                            
+                                  <a href="{{ route('ordenes.edit', $orden->id) }}" class="text-warning m-1" 
+                                                data-toggle="tooltip" data-placement="bottom" title='Editar la orden "{{ $orden->nombre }}"'>
+                                                  <i class="fa fa-2x fa-pencil-alt"></i>
+                                                        </a>
+                            
+                                                        <a onclick="eliminar_orden({{ $orden->id }},'{{ $orden->nombre }}')" class="text-danger m-1" 
+                                                data-toggle="tooltip" data-placement="bottom" title='Eliminar la orden "{{ $orden->nombre }}"'>
+                                                  <i class="fa fa-2x fa-trash-alt"></i>
+                                                        </a>
+                                                        <form id="eliminar{{ $orden->id }}" method="POST" action="{{ route('ordenes.destroy', $orden->id) }}" accept-charset="UTF-8">
+                                <input name="_method" type="hidden" value="DELETE">
+                                {{ csrf_field() }}
+                            </form>
+                                  </td>
+                                </tr>
+                                @endforeach
+                              </tbody>
+                            </table>
+                                                        <!-- Table  -->
+                                                        </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="pills-calendar" role="tabpanel" aria-labelledby="pills-calendar-tab">
+                                                <div id='calendar'></div>
 
-<a href="{{ route('ordenes.show', $orden->id) }}" class="text-primary m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Información de la orden "{{ $orden->nombre }}"'>
-                      <i class="fa fa-2x fa-info-circle"></i>
-                            </a>
-
-      <a href="{{ route('ordenes.edit', $orden->id) }}" class="text-warning m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Editar la orden "{{ $orden->nombre }}"'>
-                      <i class="fa fa-2x fa-pencil-alt"></i>
-                            </a>
-
-                            <a onclick="eliminar_orden({{ $orden->id }},'{{ $orden->nombre }}')" class="text-danger m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Eliminar la orden "{{ $orden->nombre }}"'>
-                      <i class="fa fa-2x fa-trash-alt"></i>
-                            </a>
-                            <form id="eliminar{{ $orden->id }}" method="POST" action="{{ route('ordenes.destroy', $orden->id) }}" accept-charset="UTF-8">
-    <input name="_method" type="hidden" value="DELETE">
-    {{ csrf_field() }}
-</form>
-      </td>
-    </tr>
-    @endforeach
-  </tbody>
-</table>
-                            <!-- Table  -->
-                            </div>
+                                        </div>
+    
+                                      </div>
+                      
                         </div>
 
                     </div>
@@ -118,7 +140,8 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('js_links')
 <!-- DataTables core JavaScript -->
-<script type="text/javascript" src="{{ asset('js/addons/moment.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/calendar/fullcalendar.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/calendar/es.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/bt4-datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/responsive-datatables.min.js') }}"></script>
@@ -168,6 +191,8 @@ function eliminar_orden(id,nombre){
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+
 $(document).ready(function() {
     var currentdate = new Date(); 
     moment.locale('es');
@@ -262,7 +287,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-object-group"></i> Datos de la orden "'+ data[1]+'"';
+                        return '<i class="fa fa-business-time"></i> Datos de la orden "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -271,9 +296,81 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
             }
         }
     } );
-
-
             $('.dataTables_length').addClass('bs-select');
+
         });
+
+$(document).ready(function() {
+
+$('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listWeek'
+      },
+      defaultDate: '2018-11-01',
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+      locale: 'es',
+      themeSystem: 'bootstrap4',
+      events: [
+        {
+          title: 'All Day Event',
+          start: '2018-03-01',
+        },
+        {
+          title: 'Long Event',
+          start: '2018-03-07',
+          end: '2018-03-10'
+        },
+        {
+          id: 999,
+          title: 'Repeating Event',
+          start: '2018-03-09T16:00:00'
+        },
+        {
+          id: 999,
+          title: 'Repeating Event',
+          start: '2018-03-16T16:00:00'
+        },
+        {
+          title: 'Conference',
+          start: '2018-03-11',
+          end: '2018-03-13'
+        },
+        {
+          title: 'Meeting',
+          start: '2018-03-12T10:30:00',
+          end: '2018-03-12T12:30:00'
+        },
+        {
+          title: 'Lunch',
+          start: '2018-03-12T12:00:00'
+        },
+        {
+          title: 'Meeting',
+          start: '2018-03-12T14:30:00'
+        },
+        {
+          title: 'Happy Hour',
+          start: '2018-03-12T17:30:00'
+        },
+        {
+          title: 'Dinner',
+          start: '2018-03-12T20:00:00'
+        },
+        {
+          title: 'Birthday Party',
+          start: '2018-03-13T07:00:00'
+        },
+        {
+          title: 'Click for Google',
+          url: 'http://google.com/',
+          start: '2018-03-28'
+        }
+      ]
+    });
+});
 </script>
 @endsection

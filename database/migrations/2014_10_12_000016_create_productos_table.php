@@ -17,7 +17,7 @@ class CreateProductosTable extends Migration
             $table->bigIncrements('id');
             $table->string('referencia', 50);
             $table->string('nombre', 50);
-            $table->double('valor', 12, 2);
+            $table->double('valor_unitario', 12, 2);
             $table->text('descripcion');
             $table->unsignedBigInteger('medida_id')->default(1);
             $table->unsignedBigInteger('categoria_id')->default(1);

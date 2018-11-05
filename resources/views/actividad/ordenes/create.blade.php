@@ -14,7 +14,7 @@ Registrar una orden | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-object-group mr-1"></i></span> 
+                    <span><i class="fa fa-business-time mr-1"></i></span> 
                         <a href="{{ route('ordenes.index') }}">Lista de ordenes</a>
                         <span>/</span>
                         <span>Registrar una orden</span>
@@ -23,7 +23,7 @@ Registrar una orden | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('ordenes.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de ordenes">
-                      <i class="fa fa-2x fa-object-group"></i>
+                      <i class="fa fa-2x fa-business-time"></i>
                             </a>
                     </div>
 
@@ -34,13 +34,13 @@ Registrar una orden | {{ config('app.name', 'Laravel') }}
 
          
             <!--Grid row-->
-            <div class="row wow fadeIn">
+            <div class="row">
 
                 <!--Grid column-->
                 <div class="col-12">
 
                     <!--Card-->
-                    <div class="card wow fadeIn hoverable">
+                    <div class="card hoverable">
 
                         <!--Card content-->
                         <div class="card-body">

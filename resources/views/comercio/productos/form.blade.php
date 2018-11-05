@@ -19,7 +19,7 @@
             <div class="md-form">
     <i class="fa fa-boxes prefix"></i>
     <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $producto->nombre}}" name="nombre" class="form-control validate" maxlength="50">
-    <label for="nombre" data-error="Error" data-success="Correcto">Nombre</label>
+    <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
 </div>
 @if ($errors->has('nombre'))
                                             <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
@@ -39,13 +39,13 @@
  <!-- Material input -->
  <div class="md-form">
         <i class="fa fa-money-bill-alt prefix"></i>
-        <input type="text" required id="valor-mask" value="{{ old('valor') ? old('valor') : $producto->valor}}" name="valor-mask" class="form-control validate" maxlength="50">
-        <input type="hidden" required id="valor" value="{{ old('valor') ? old('valor') : $producto->valor}}" name="valor" class="form-control validate" maxlength="12">
-        <label for="valor" data-error="Error" data-success="Correcto">Valor</label>
+        <input type="text" required id="valor_unitario-mask" value="{{ old('valor_unitario') ? old('valor_unitario') : $producto->valor_unitario}}" name="valor_unitario-mask" class="form-control validate" maxlength="50">
+        <input type="hidden" required id="valor_unitario" value="{{ old('valor_unitario') ? old('valor_unitario') : $producto->valor_unitario}}" name="valor_unitario" class="form-control validate" maxlength="12">
+        <label for="valor_unitario" data-error="Error" data-success="Correcto">Valor *</label>
     </div>
-    @if ($errors->has('valor'))
+    @if ($errors->has('valor_unitario'))
                                                 <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                               {{ $errors->first('valor') }}
+                                               {{ $errors->first('valor_unitario') }}
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -66,7 +66,7 @@
             <div class="md-form">
     <i class="fa fa-box-open prefix"></i>
     <input type="text" required id="referencia" onchange="test_referencias('{{ route("productos.testReferencias") }}')" value="{{ old('referencia') ? old('referencia') : $producto->referencia}}" name="referencia" class="form-control validate" maxlength="50">
-    <label for="referencia" data-error="Error" data-success="Correcto">Referencia</label>
+    <label for="referencia" data-error="Error" data-success="Correcto">Referencia *</label>
 </div>
 @if ($errors->has('referencia'))
                                             <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
@@ -85,13 +85,13 @@
 
 <div class="md-form">
 <i class="fa fa-barcode"></i>
-<small for="tipo_referencia_id">Tipo de referencia</small>   
+<small for="tipo_referencia_id">Tipo de referencia *</small>   
 <select class="form-control" required id="tipo_referencia_id" name="tipo_referencia_id">
         <option value="" disabled selected>Selecciona una opción</option>
         @foreach($grupos as $key => $grupo)
         <optgroup label="{{ $grupo[0] }}">
                 @foreach($grupo[1] as $tipo_referencia)
-        <option {{($producto->tipo_referencia->id == $tipo_referencia->id ) ? 'selected' : '' }} value="{{$tipo_referencia->id}}">{{$tipo_referencia->nombre}}</option>
+        <option {{ old('tipo_referencia_id') ?  ((old('tipo_referencia__id') == $tipo_referencia->id) ? 'selected' : '') : (($producto->tipo_referencia->id == $tipo_referencia->id ) ? 'selected' : '') }} value="{{$tipo_referencia->id}}">{{$tipo_referencia->nombre}}</option>
         @endforeach
         @endforeach
     </select>
@@ -120,7 +120,7 @@
 
 <div class="md-form">
 <i class="fa fa-ruler"></i>
-<small for="medida_id">Medida</small>   
+<small for="medida_id">Medida *</small>   
 @include('include.dato_basico.medidas.select', array('medida_selected'=>$producto->medida))
 
 </div> @if ($errors->has('medida_id'))
@@ -143,7 +143,7 @@
 
 <div class="md-form">
 <i class="fa fa-sitemap"></i>
-<small for="categoria_id">Categoria</small>   
+<small for="categoria_id">Categoria *</small>   
  @include('include.clasificacion.categorias.select', array('categoria_selected'=>$producto->categoria))
 </div> @if ($errors->has('categoria_id'))
                           <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
@@ -168,7 +168,7 @@
             <!-- Material input -->
             <div class="md-form">
                     <i class="fa fa-trademark"></i>
-                    <small for="marca_id">Marca</small>   
+                    <small for="marca_id">Marca *</small>   
                      @include('include.comercio.marcas.select', array('marca_selected'=>$producto->marca))
                     </div> 
                      @if ($errors->has('marca_id'))
@@ -193,7 +193,7 @@
             <div class="md-form">
     <i class="fa fa-comment-dots prefix"></i>
     <textarea type="text" required id="descripcion" name="descripcion" class="md-textarea form-control validate" maxlength="1000">{{ old('descripcion') ? old('descripcion') : $producto->descripcion}}</textarea>
-    <label for="descripcion" data-error="Error" data-success="Correcto">Descripción</label>
+    <label for="descripcion" data-error="Error" data-success="Correcto">Descripción *</label>
 </div> @if ($errors->has('descripcion'))
                           <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
                          {{ $errors->first('descripcion') }}
@@ -264,13 +264,13 @@
     }
     
       $(function () {
-        var numberMask = new IMask(document.getElementById('valor-mask'), {
+        var numberMask = new IMask(document.getElementById('valor_unitario-mask'), {
           mask: Number,
           min: 0,
           max: 999999999999,
           thousandsSeparator: ','
         }).on('accept', function() {
-          document.getElementById('valor').value = numberMask.masked.number;
+          document.getElementById('valor_unitario').value = numberMask.masked.number;
         });
       $('[data-toggle="tooltip"]').tooltip()
     })

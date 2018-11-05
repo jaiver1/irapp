@@ -6,8 +6,8 @@
                 <!-- Material input -->
                 <div class="md-form">
         <i class="fa fa-location-arrow prefix"></i>
-        <input type="text" readonly required id="latitud" value="{{ ($ubicacion->latitud) ? $ubicacion->latitud : 0}}" name="latitud" class="form-control validate" maxlength="50">
-        <label for="latitud" data-error="Error" data-success="Correcto">Latitud</label>
+        <input type="text" readonly required id="latitud" value="{{ old('latitud') ? old('latitud') : (($ubicacion->latitud) ? $ubicacion->latitud : 0 ) }}" name="latitud" class="form-control validate" maxlength="50">
+        <label for="latitud" data-error="Error" data-success="Correcto">Latitud *</label>
     </div>
     @if ($errors->has('latitud'))
                                                 <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
@@ -26,8 +26,8 @@
                 <!-- Material input -->
                 <div class="md-form">
         <i class="fa fa-map-marker-alt prefix"></i>
-        <input type="text" readonly required id="longitud" value="{{($ubicacion->longitud) ? $ubicacion->longitud : 0}}" name="longitud" class="form-control validate" maxlength="50">
-        <label for="longitud" data-error="Error" data-success="Correcto">Longitud</label>
+        <input type="text" readonly required id="longitud" value="{{ old('longitud') ? old('longitud') : (($ubicacion->longitud) ? $ubicacion->longitud : 0) }}" name="longitud" class="form-control validate" maxlength="50">
+        <label for="longitud" data-error="Error" data-success="Correcto">Longitud *</label>
     </div>
     @if ($errors->has('longitud'))
                                                 <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">

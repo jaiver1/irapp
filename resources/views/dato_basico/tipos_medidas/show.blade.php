@@ -153,7 +153,7 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
 @endsection
 @section('js_links')
 <!-- DataTables core JavaScript -->
-<script type="text/javascript" src="{{ asset('js/addons/moment.js') }}"></script>
+
 <script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/bt4-datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/responsive-datatables.min.js') }}"></script>

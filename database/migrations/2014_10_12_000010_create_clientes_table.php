@@ -17,7 +17,6 @@ class CreateClientesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('persona_id');
             $table->foreign('persona_id')->references('id')->on('personas')->onUpdate('cascade')->onDelete('cascade');
-            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

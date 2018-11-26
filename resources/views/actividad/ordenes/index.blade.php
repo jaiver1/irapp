@@ -20,7 +20,7 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-business-time mr-1"></i></span> <span> @if ($ordenes->count() === 1)
+                    <span><i class="fa fa-business-time fa-lg mr-1"></i></span> <span> @if ($ordenes->count() === 1)
                 Una orden
             @elseif ($ordenes->count() > 1)
                 {{ $ordenes->count() }} ordenes
@@ -117,7 +117,36 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                                                         </div>
                                         </div>
                                         <div class="tab-pane fade" id="pills-calendar" role="tabpanel" aria-labelledby="pills-calendar-tab">
-                                                <div id='calendar'></div>
+                                            <div class='fc-right'>
+                                                
+  <!-- Basic dropdown -->
+  
+  <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group btn-group-sm" role="group" aria-label="First group">
+  <a class="btn btn-secondary  btn-sm dropdown-toggle mr-4" type="button" data-toggle="dropdown" aria-haspopup="true"
+  aria-expanded="false"><i class="fa fa-eye mr-1"></i>Ver</a>
+
+<div class="dropdown-menu">
+        <a class="dropdown-item disabled" href="#"><i class="fa fa-calendar-alt mr-1"></i>Calendario</a>
+        <div class="dropdown-divider"></div>
+  <a class="dropdown-item" href="#" onclick="cambio('agendaDay')">Día</a>
+  <a class="dropdown-item" href="#" onclick="cambio('agendaWeek')">Semana</a>
+  <a class="dropdown-item" href="#" onclick="cambio('month')">Mes</a>
+
+  <div class="dropdown-divider"></div>
+  <a class="dropdown-item disabled" href="#"><i class="fa fa-clipboard-list mr-1"></i>Listas</a>
+  <div class="dropdown-divider"></div>
+  <a class="dropdown-item" href="#" onclick="cambio('listDay')">Día</a>
+  <a class="dropdown-item" href="#" onclick="cambio('listWeek')">Semana</a>
+  <a class="dropdown-item" href="#" onclick="cambio('listMonth')">Mes</a>
+  <a class="dropdown-item" href="#" onclick="cambio('listYear')">Año</a>
+</div>
+<!-- Basic dropdown -->
+</div>
+</div>
+
+                                            </div>
+                                            <div id='calendar'></div>
 
                                         </div>
     
@@ -155,6 +184,10 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/buttons.print.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
+
+function cambio(view){
+  $('#calendar').fullCalendar('changeView', view);
+}
 
 function eliminar_orden(id,nombre){
     swal({
@@ -287,7 +320,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-business-time"></i> Datos de la orden "'+ data[1]+'"';
+                        return '<i class="fa fa-business-time fa-lg"></i> Datos de la orden "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -301,19 +334,30 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
         });
 
 $(document).ready(function() {
-
-$('#calendar').fullCalendar({
-      header: {
-        left: 'prev,next today',
+var ahora = moment().local();
+var ahora_fecha = ahora.format('YYYY-MM-DD');
+var ahora_hora = ahora.format('HH:mm:ss');
+console.log(ahora);
+var calendar = $('#calendar').fullCalendar({
+       header: {
+        left: 'prev,next,today,prevYear,nextYear',
         center: 'title',
-        right: 'month,agendaWeek,agendaDay,listWeek'
+        right: ''
       },
-      defaultDate: '2018-11-01',
+      buttonText: {
+        listMonth: 'Mes',
+        listYear: 'Año',
+        listWeek: 'Semana',
+        listDay: 'Dia'
+    },
+      defaultDate: ahora_fecha,
       navLinks: true, // can click day/week names to navigate views
-      editable: true,
+      editable: false,
       eventLimit: true, // allow "more" link when too many events
       locale: 'es',
       themeSystem: 'bootstrap4',
+      nowIndicator: true,
+      now: ahora_fecha+'T'+ahora_hora,
       events: [
         {
           title: 'All Day Event',
@@ -369,8 +413,46 @@ $('#calendar').fullCalendar({
           url: 'http://google.com/',
           start: '2018-03-28'
         }
-      ]
-    });
+      ],
+      businessHours: [
+  {
+    dow: [ 1, 2, 3, 4, 5 ], // semana
+    start: '08:00', // 8am
+    end: '18:00' // 6pm
+  },
+  {
+    dow: [ 6 ], // sabado
+    start: '08:00', // 8am
+    end: '14:00' // 2pm
+  }
+], eventRender: function(eventObj, $el) {
+   
+      },
+      eventClick: function(calEvent, jsEvent, view) {
+
+alert('Event: ' + calEvent.title);
+alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+alert('View: ' + view.name);
+
+// change the border color just for fun
+$(this).css('border-color', 'red');
+
+},
+      windowResize: function(view) {
+  }, 
+  dayClick: function(date, jsEvent, view) {
+
+alert('Clicked on: ' + date.format());
+
+alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+alert('Current view: ' + view.name);
+
+// change the day's background color just for fun
+$(this).css('background-color', 'red');
+
+}
 });
+    });
 </script>
 @endsection

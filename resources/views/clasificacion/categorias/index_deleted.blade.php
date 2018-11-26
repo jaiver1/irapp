@@ -20,8 +20,8 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
                     <span class="fa-stack">
-  <i class="fa fa-sitemap fa-stack-1x"></i>
-  <i class="fa fa-ban fa-stack-2x text-danger"></i>
+  <i class="fa fa-sitemap fa-stack-1x fa-lg"></i>
+   <i class="fa fa-ban fa-stack-1x fa-2x text-danger"></i>
 </span>
                     <a href="{{ route('categorias.index') }}">Lista de categorias</a>
                         <span>/</span>
@@ -315,7 +315,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<span class="fa-stack"><i class="fa fa-sitemap fa-stack-1x"></i> <i class="fa fa-ban fa-stack-2x text-danger"></i></span> Datos de la categoria eliminada"'+ data[1]+'"';
+                        return '<span class="fa-stack"><i class="fa fa-sitemap fa-stack-1x fa-lg"></i>  <i class="fa fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de la categoria eliminada"'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

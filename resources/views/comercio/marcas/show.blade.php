@@ -61,7 +61,7 @@ Información de la marca "{{ $marca->nombre }}" | {{ config('app.name', 'Laravel
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
       <i class="fa fa-trademark  mr-2"></i><strong>Marca #{{ $marca->id }}</strong>
     </a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Nombre: </strong>{{ $marca->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $marca->nombre }}</a>
 </div>
                         </div>
 

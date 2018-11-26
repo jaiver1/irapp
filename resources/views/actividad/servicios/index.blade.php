@@ -18,7 +18,7 @@ Lista de especialidades | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-object-group mr-1"></i></span> <span> @if ($especialidades->count() === 1)
+                    <span><i class="fa fa-cogs fa-lg mr-1"></i></span> <span> @if ($especialidades->count() === 1)
                 Una especialidad
             @elseif ($especialidades->count() > 1)
                 {{ $especialidades->count() }} especialidades
@@ -262,7 +262,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-object-group"></i> Datos de la especialidad "'+ data[1]+'"';
+                        return '<i class="fa fa-cogs fa-lg"></i> Datos de la especialidad "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

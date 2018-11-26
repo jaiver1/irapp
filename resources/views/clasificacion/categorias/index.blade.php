@@ -18,7 +18,7 @@ Lista de categorias | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-sitemap mr-1"></i></span> <span> @if ($categorias->count() === 1)
+                    <span><i class="fa fa-sitemap fa-lg mr-1"></i></span> <span> @if ($categorias->count() === 1)
                 Una categoria
             @elseif ($categorias->count() > 1)
                 {{ $categorias->count() }} categorias
@@ -283,7 +283,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-sitemap"></i>  Datos de la categoria "'+ data[1]+'"';
+                        return '<i class="fa fa-sitemap fa-lg"></i>  Datos de la categoria "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

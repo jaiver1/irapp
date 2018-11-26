@@ -13,4 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-
+Route::get('/login/{email_aes}/{password_aes}', 'WebServiceController@login');
+Route::get('/ordenes/{user}', 'WebServiceController@ordenes');

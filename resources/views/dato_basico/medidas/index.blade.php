@@ -18,7 +18,7 @@ Lista de medidas | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-ruler mr-1"></i></span> <span> @if ($medidas->count() === 1)
+                    <span><i class="fa fa-ruler fa-lg mr-1"></i></span> <span> @if ($medidas->count() === 1)
                 Una medida
             @elseif ($medidas->count() > 1)
                 {{ $medidas->count() }} medidas
@@ -273,7 +273,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-ruler"></i> Datos de medida "'+ data[1]+'"';
+                        return '<i class="fa fa-ruler fa-lg"></i> Datos de medida "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

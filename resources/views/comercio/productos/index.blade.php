@@ -18,7 +18,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-boxes mr-1"></i></span> <span> @if ($productos->count() === 1)
+                    <span><i class="fa fa-boxes fa-lg mr-1"></i></span> <span> @if ($productos->count() === 1)
                 Un producto
             @elseif ($productos->count() > 1)
                 {{ $productos->count() }} productos
@@ -342,7 +342,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-boxes"></i>  Datos del producto "'+ data[1]+'"';
+                        return '<i class="fa fa-boxes fa-lg"></i>  Datos del producto "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

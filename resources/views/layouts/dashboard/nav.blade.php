@@ -126,10 +126,10 @@ function salir(){
                     <div class="sidebar-submenu" style="{{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*') || \Request::is('medidas') || \Request::is('medidas/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('tipos_medidas.index')}}"> <i class="fa fa-balance-scale"></i><span>Tipos de medidas</span></a>
+                            <a href="{{route('tipos_medidas.index')}}"> <i class="fa fa-balance-scale mr-1"></i><span>Tipos de medidas</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('medidas') || \Request::is('medidas/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('medidas.index')}}"><i class="fa fa-ruler"></i><span>Medidas</span></a>
+                                <a href="{{route('medidas.index')}}"><i class="fa fa-ruler mr-1"></i><span>Medidas</span></a>
                             </li>
                         </ul>
                     </div>
@@ -143,10 +143,10 @@ function salir(){
                     <div class="sidebar-submenu" style="{{ (\Request::is('especialidades') || \Request::is('especialidades/*') || \Request::is('categorias') || \Request::is('categorias/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('especialidades') || \Request::is('especialidades/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('especialidades.index')}}"> <i class="fa fa-object-group"></i><span>Especialidades</span></a>
+                            <a href="{{route('especialidades.index')}}"> <i class="fa fa-object-group mr-1"></i><span>Especialidades</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('categorias') || \Request::is('categorias/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('categorias.index')}}"><i class="fa fa-sitemap"></i><span>Categorias</span></a>
+                                <a href="{{route('categorias.index')}}"><i class="fa fa-sitemap mr-1"></i><span>Categorias</span></a>
                             </li>
                         </ul>
                     </div>
@@ -160,10 +160,10 @@ function salir(){
                     <div class="sidebar-submenu" style="{{ (\Request::is('marcas') || \Request::is('marcas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('marcas') || \Request::is('marcas/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('marcas.index')}}"> <i class="fa fa-trademark "></i><span>Marcas</span></a>
+                            <a href="{{route('marcas.index')}}"> <i class="fa fa-trademark mr-1"></i><span>Marcas</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('productos') || \Request::is('productos/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('productos.index')}}"><i class="fa fa-boxes"></i><span>Productos</span></a>
+                                <a href="{{route('productos.index')}}"><i class="fa fa-boxes mr-1"></i><span>Productos</span></a>
                             </li>
                         </ul>
                     </div>
@@ -181,10 +181,10 @@ function salir(){
                     <div class="sidebar-submenu" style="{{ (\Request::is('clientes') || \Request::is('clientes/*') || \Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('clientes') || \Request::is('clientes/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('clientes.index')}}"> <i class="fa fa-user-tie "></i><span>Clientes</span></a>
+                            <a href="{{route('clientes.index')}}"> <i class="fa fa-user-tie mr-1"></i><span>Clientes</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('colaboradores.index')}}"><i class="fa fa-user-cog"></i><span>Colaboradores</span></a>
+                                <a href="{{route('colaboradores.index')}}"><i class="fa fa-user-cog mr-1"></i><span>Colaboradores</span></a>
                             </li>
                         </ul>
                     </div>
@@ -198,10 +198,10 @@ function salir(){
                     <div class="sidebar-submenu" style="{{ (\Request::is('servicios') || \Request::is('servicios/*') || \Request::is('ordenes') || \Request::is('ordenes/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('servicios') || \Request::is('servicios/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('servicios.index')}}"> <i class="fa fa-cogs "></i><span>Servicios</span></a>
+                            <a href="{{route('servicios.index')}}"> <i class="fa fa-cogs mr-1"></i><span>Servicios</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('ordenes') || \Request::is('ordenes/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('ordenes.index')}}"><i class="fa fa-business-time"></i><span>Ordenes</span></a>
+                                <a href="{{route('ordenes.index')}}"><i class="fa fa-business-time mr-1"></i><span>Ordenes</span></a>
                             </li>
                         </ul>
                     </div>

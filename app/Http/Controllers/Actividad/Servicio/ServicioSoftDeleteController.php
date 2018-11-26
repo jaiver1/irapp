@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Contacto\Colaborador;
-use App\Models\Comercio\Producto;
-use SweetAlert;
+namespace App\Http\Controllers\Actividad\Servicio;
+use App\Http\Controllers\Controller;
+use App\Models\Actividad\Orden;
+Use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
-class ColaboradorSoftDeleteController extends Controller
+class ServicioSoftDeleteController extends Controller
 {
     protected $redirectTo = '/login';
     
@@ -24,16 +24,16 @@ class ColaboradorSoftDeleteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    private static function getDeletedMarca($id)
+    private static function getDeletedOrden($id)
     {
-        $producto = Producto::onlyTrashed()->where('id', $id)->get();
+        $orden = Orden::onlyTrashed()->where('id', $id)->get();
         
-        if (count($producto) != 1) {
-            SweetAlert::error('Error','El producto no existe.');
-            return redirect('/productos/deleted');
+        if (count($orden) != 1) {
+            SweetAlert::error('Error','La orden no existe.');
+            return redirect('/ordenes/deleted');
         }
 
-        return $producto[0];
+        return $orden[0];
     }
 
     /**
@@ -44,8 +44,8 @@ class ColaboradorSoftDeleteController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $productos = Producto::onlyTrashed()->get();
-        return View('comercio.productos.index_deleted', compact('productos'));
+        $ordenes = Orden::onlyTrashed()->get();
+        return View('actividad.ordenes.index_deleted', compact('ordenes'));
     }
 
 
@@ -60,10 +60,10 @@ class ColaboradorSoftDeleteController extends Controller
     public function update($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $producto = self::getDeletedMarca($id);
-        $producto->restore();
-        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido restaurada.');
-        return Redirect::to('productos/deleted');
+        $orden = self::getDeletedOrden($id);
+        $orden->restore();
+        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido restaurada.');
+        return Redirect::to('ordenes/deleted');
     }
 
     /**
@@ -76,9 +76,9 @@ class ColaboradorSoftDeleteController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $producto = self::getDeletedMarca($id);
-        $producto->forceDelete();
-        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada permanentemente.');
-        return Redirect::to('productos/deleted');
+        $orden = self::getDeletedOrden($id);
+        $orden->forceDelete();
+        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada permanentemente.');
+        return Redirect::to('ordenes/deleted');
     }
 }

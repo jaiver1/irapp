@@ -18,7 +18,7 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-user-tie mr-1"></i></span>   <span>@if ($clientes->count() === 1)
+                    <span><i class="fa fa-user-tie fa-lg mr-1"></i></span>   <span>@if ($clientes->count() === 1)
                 Un cliente
             @elseif ($clientes->count() > 1)
                 {{ $clientes->count() }} clientes
@@ -294,7 +294,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-user-tie"></i> Datos del cliente "'+ data[1]+'"';
+                        return '<i class="fa fa-user-tie fa-lg"></i> Datos del cliente "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

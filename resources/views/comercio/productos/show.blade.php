@@ -65,9 +65,9 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
       <i class="fa fa-boxes  mr-2"></i><strong>Producto #{{ $producto->id }}</strong>
     </a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Nombre: </strong>{{ $producto->nombre }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Referencia: </strong>{{ $producto->referencia }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Valor unitario: </strong> <span class="h5"><span class="badge badge-success hoverable">@money($producto->valor_unitario)</span></span></a>
+  <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $producto->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Referencia: </strong>{{ $producto->referencia }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Valor unitario: </strong> <span class="h5"><span class="badge badge-success hoverable">@money($producto->valor_unitario)</span></span></a>
   <a href ="{{ route('categorias.show', $producto->categoria->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fa fa-sitemap mr-2"></i>Categoria: </strong>{{ $producto->categoria->nombre }}</a>
   <a href ="{{ route('medidas.show', $producto->medida->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fa fa-ruler mr-2"></i>Medida: </strong>{{ $producto->medida->nombre }}</a>
   <a href ="{{ route('marcas.show', $producto->marca->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fa fa-trademark mr-2"></i>Marca: </strong>{{ $producto->marca->nombre }}</a>

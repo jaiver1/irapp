@@ -101,7 +101,7 @@ class ProductoController extends Controller
             $producto->medida()->associate(Medida::findOrFail($request->medida_id));      
             $producto->marca()->associate(Marca::findOrFail($request->marca_id));      
             $producto->tipo_referencia()->associate(XTipo_referencia::findOrFail($request->tipo_referencia_id));  
-            $producto->create();        
+            $producto->save();        
 
             SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido registrada.');
             return Redirect::to('productos/'.$producto->id);

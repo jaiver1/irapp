@@ -67,7 +67,7 @@ Información de la especialidad "{{ $especialidad->nombre }}" | {{ config('app.n
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
       <i class="fa fa-object-group  mr-2"></i><strong>Especialidad #{{ $especialidad->id }}</strong>
     </a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Nombre: </strong>{{ $especialidad->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $especialidad->nombre }}</a>
 </div>
                         </div>
 

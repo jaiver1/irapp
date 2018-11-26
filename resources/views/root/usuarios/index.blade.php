@@ -22,7 +22,7 @@ Lista de usuarios | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-users mr-1"></i></span>  <span> @if ($usuarios->count() === 1)
+                    <span><i class="fa fa-users fa-lg mr-1"></i></span>  <span> @if ($usuarios->count() === 1)
                 Un usuario
             @elseif ($usuarios->count() > 1)
                 {{ $usuarios->count() }} usuarios
@@ -272,7 +272,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-users"></i> Datos de usuario "'+ data[1]+'"';
+                        return '<i class="fa fa-users fa-lg"></i> Datos de usuario "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

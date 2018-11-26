@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Colaborador;
+namespace App\Http\Controllers\Contacto\Colaborador;
 use App\Http\Controllers\Controller;
 
 class ColaboradorController extends Controller

@@ -58,7 +58,7 @@
 @endsection
 @section('gmaps_links')
 
-<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDShqXOrTD_donWeWH4OJQwefouQ1mGbz8&libraries=places"
 async defer></script>
 
 
@@ -76,7 +76,8 @@ var location = new google.maps.LatLng(position.coords.latitude, position.coords.
 document.getElementById("latitud").value = position.coords.latitude;
 document.getElementById("longitud").value = position.coords.longitude;
 var map = new google.maps.Map(document.getElementById('map'), {
-zoom: 8,
+zoom: 15,
+center: location,
 panControl: true,
 zoomControl: true,
 mapTypeControl: true,
@@ -86,34 +87,64 @@ overviewMapControl: true,
 rotateControl: true,
 mapTypeId: google.maps.MapTypeId.ROADMAP
 });
-
+var markers = [];
+var image ="{{ asset('img/gmaps/pin.png')  }}";
+var image2 ="{{ asset('img/gmaps/goal.png')  }}";
 var marker = new google.maps.Marker({
 map: map,
 position: location,
+icon: image,
 animation:google.maps.Animation.BOUNCE
 });
-google.maps.Map.prototype.clearMarkers = function() {
-for(var i=0; i < this.markers.length; i++){
-this.markers[i].setMap(null);
-}
-this.markers = new Array();
-};
 
-map.setCenter(location);
+ markers.push(marker);
+
+
 google.maps.event.addListener(marker, 'dragend', function(event) {
-
-
 document.getElementById("latitud").value = event.latLng.lat();
 document.getElementById("longitud").value = event.latLng.lng();
 });
 
 google.maps.event.addListener(map, 'click', function(event) {
-
-
+  deleteMarkers();
 document.getElementById("latitud").value = event.latLng.lat();
 document.getElementById("longitud").value = event.latLng.lng();
-marker.setPosition(event.latLng);
+addMarker(event.latLng);
 });
+
+ // Adds a marker to the map and push to the array.
+ function addMarker(location) {
+        var marker2 = new google.maps.Marker({
+          position: location,
+map: map,
+icon: image2,
+animation:google.maps.Animation.BOUNCE
+});
+        markers.push(marker2);
+      }
+
+      // Sets the map on all markers in the array.
+      function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+      // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        setMapOnAll(null);
+      }
+
+      // Shows any markers currently in the array.
+      function showMarkers() {
+        setMapOnAll(map);
+      }
+
+      // Deletes all markers in the array by removing references to them.
+      function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+      }
 
 var searchBox = new google.maps.places.SearchBox(document.getElementById('pac-input'));
 map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('pac-input'));

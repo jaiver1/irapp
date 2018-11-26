@@ -47,6 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'created_at',
         'updated_at',
         'deleted_at',
+        'email_verified_at',
         'password',
         'remember_token',
     ];

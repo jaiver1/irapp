@@ -67,7 +67,7 @@ Información de la categoria "{{ $categoria->nombre }}" | {{ config('app.name', 
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
       <i class="fa fa-sitemap  mr-2"></i><strong>Categoria #{{ $categoria->id }}</strong>
     </a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Nombre: </strong>{{ $categoria->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $categoria->nombre }}</a>
   <a href ="{{ route('especialidades.show', $categoria->especialidad->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fa fa-object-group mr-2"></i>Especialidad: </strong>{{ $categoria->especialidad->nombre }}</a>
   @if($categoria->categoria == NULL)
   <a class="list-group-item waves-effect hoverable"><span class="h5"><span class="badge badge-secondary hoverable"><i class="fa fa-network-wired mr-1"></i>Categoria raiz</span></a>

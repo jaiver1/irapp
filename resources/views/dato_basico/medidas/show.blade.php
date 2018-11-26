@@ -59,10 +59,10 @@ Información de la medida "{{ $medida->nombre }}" | {{ config('app.name', 'Larav
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fa fa-ruler  mr-2"></i><strong>Medida #{{ $medida->id }}</strong>
+      <i class="fa fa-ruler mr-2"></i><strong>Medida #{{ $medida->id }}</strong>
     </a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Nombre: </strong>{{ $medida->nombre }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fa mr-4"></i>Etiqueta: </strong>{{ $medida->etiqueta }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $medida->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Etiqueta: </strong>{{ $medida->etiqueta }}</a>
   <a href ="{{ route('tipos_medidas.show' , $medida->tipo_medida->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fa fa-balance-scale mr-2"></i>Tipo de medida: </strong>{{ $medida->tipo_medida->nombre }}</a>
 </div>
                         </div>

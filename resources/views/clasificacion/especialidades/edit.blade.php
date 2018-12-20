@@ -14,7 +14,7 @@ Editar la especialidad "{{ $especialidad->nombre }}" | {{ config('app.name', 'La
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-object-group mr-1"></i></span> 
+                    <span><i class="fas fa-object-group mr-1"></i></span> 
                         <a href="{{ route('especialidades.index') }}">Lista de especialidades</a>
                         <span>/</span>
                         <span>Editar la especialidad "{{ $especialidad->nombre }}"</span>
@@ -23,12 +23,12 @@ Editar la especialidad "{{ $especialidad->nombre }}" | {{ config('app.name', 'La
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('especialidades.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de especialidades">
-                      <i class="fa fa-2x fa-object-group "></i>
+                      <i class="fas fa-2x fa-object-group "></i>
                             </a>
 
                             <a href="{{ route('especialidades.show', $especialidad->id) }}" class="btn btn-outline-primary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Informacion de la especialidad "{{ $especialidad->nombre }}"'>
-                      <i class="fa fa-2x fa-info"></i>
+                      <i class="fas fa-2x fa-info"></i>
                             </a>
                     </div>
 

@@ -25,8 +25,8 @@ class CreateOrdenesTable extends Migration
             $table->string('barrio',50)->default("")->nullable()->nullable();
             $table->string('direccion',50)->default("")->nullable();
             $table->foreign('ubicacion_id')->references('id')->on('ubicaciones')->onUpdate('cascade')->onDelete('cascade');      
-            $table->foreign('ciudad_id')->references('id')->on('ciudades')->onUpdate('cascade')->onDelete('cascade'); 
-            $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('ciudad_id')->references('id')->on('ciudades')->onUpdate('cascade'); 
+            $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -5,7 +5,7 @@
             <div class="col-md-6">
                 <!-- Material input -->
                 <div class="md-form">
-        <i class="fa fa-location-arrow prefix"></i>
+        <i class="fas fa-location-arrow prefix"></i>
         <input type="text" readonly required id="latitud" value="{{ old('latitud') ? old('latitud') : (($ubicacion->latitud) ? $ubicacion->latitud : 0 ) }}" name="latitud" class="form-control validate" maxlength="50">
         <label for="latitud" data-error="Error" data-success="Correcto">Latitud *</label>
     </div>
@@ -25,7 +25,7 @@
              <div class="col-md-6">
                 <!-- Material input -->
                 <div class="md-form">
-        <i class="fa fa-map-marker-alt prefix"></i>
+        <i class="fas fa-map-marker-alt prefix"></i>
         <input type="text" readonly required id="longitud" value="{{ old('longitud') ? old('longitud') : (($ubicacion->longitud) ? $ubicacion->longitud : 0) }}" name="longitud" class="form-control validate" maxlength="50">
         <label for="longitud" data-error="Error" data-success="Correcto">Longitud *</label>
     </div>
@@ -146,39 +146,65 @@ animation:google.maps.Animation.BOUNCE
         markers = [];
       }
 
-var searchBox = new google.maps.places.SearchBox(document.getElementById('pac-input'));
-map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('pac-input'));
-google.maps.event.addListener(searchBox, 'places_changed', function() {
-searchBox.set('map', null);
+// Create the search box and link it to the UI element.
+var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
 
-var places = searchBox.getPlaces();
+        var markers3 = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
 
-var bounds = new google.maps.LatLngBounds();
-var i, place;
-for (i = 0; place = places[i]; i++) {
-(function(place) {
- marker = new google.maps.Marker({
-   animation:google.maps.Animation.BOUNCE,
-  position: place.geometry.location
-});
-marker.bindTo('map', searchBox, 'map');
-google.maps.event.addListener(marker, 'map_changed', function() {
-  if (!this.getMap()) {
-    this.unbindAll();
-  }
-});
-bounds.extend(place.geometry.location);
+          if (places.length == 0) {
+            return;
+          }
 
+          // Clear out the old markers.
+          markers3.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers3 = [];
 
-}(place));
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
 
-}
-map.fitBounds(bounds);
-searchBox.set('map', map);
-map.setZoom(Math.min(map.getZoom(),12));
+            // Create a marker for each place.
+            markers3.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
 
-});
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+
 
 }
 

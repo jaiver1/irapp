@@ -5,7 +5,7 @@
         <div class="modal-content">
             <!--Header-->
             <div class="modal-header">
-                <h3 class="heading lead"><i class="white-text fa fa-box-open mr-1"></i>Usuarios tipo "{{ $producto->nombre }}"</h3>
+                <h3 class="heading lead"><i class="white-text fas fa-box-open mr-1"></i>Usuarios tipo "{{ $producto->nombre }}"</h3>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="white-text">&times;</span>
@@ -15,7 +15,7 @@
             <!--Body-->
             <div class="modal-body">
                 <div class="text-center">
-                    <i class="fa fa-5x mb-3 animated rotateIn fa-users"></i>
+                    <i class="fas fa-5x mb-3 animated rotateIn fa-users"></i>
                     <h3> Codigo: {{ $producto->tipo_referencia->nombre }} ({{ $producto->tipo_referencia->dimension }})</h3>
                 </div>
                 <hr/>

@@ -20,7 +20,7 @@
      <!-- Button -->  
       <a onclick="eliminar_imagen({{ $imagen->id }} ,'{{$imagen->nombre}}', '{{ route('productos.deleteImagenes', $imagen->id) }}')" 
         class="btn btn-outline-danger btn-circle waves-effect hoverable">
-          <i class="fa fa-2x fa-trash-alt"></i>
+          <i class="fas fa-2x fa-trash-alt"></i>
                 </a>
   </center>
     </div>

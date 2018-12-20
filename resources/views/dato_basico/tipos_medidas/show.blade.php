@@ -18,7 +18,7 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-balance-scale mr-1"></i></span> <a href="{{ route('tipos_medidas.index') }}">Lista de tipos de medidas</a>
+                    <span><i class="fas fa-balance-scale mr-1"></i></span> <a href="{{ route('tipos_medidas.index') }}">Lista de tipos de medidas</a>
                         <span>/</span>
                         <span>Información del tipo de medida "{{ $tipo_medida->nombre }}"</span>
                     </h4>
@@ -26,17 +26,17 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('tipos_medidas.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de tipos de medidas">
-                      <i class="fa fa-2x fa-balance-scale"></i>
+                      <i class="fas fa-2x fa-balance-scale"></i>
                             </a>
 
                              <a href="{{ route('tipos_medidas.edit',$tipo_medida->id) }}" class="btn btn-outline-warning btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Editar el tipo de medida "{{ $tipo_medida->nombre }}"'>
-                      <i class="fa fa-2x fa-pencil-alt"></i>
+                      <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
                                        <a onclick="eliminar_tipo_medida({{ $tipo_medida->id }},'{{ $tipo_medida->nombre }}')"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar el tipo de medida "{{ $tipo_medida->nombre }}"'>
-                      <i class="fa fa-2x fa-trash-alt"></i>
+                      <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $tipo_medida->id }}" method="POST" action="{{ route('tipos_medidas.destroy',$tipo_medida->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="DELETE">
@@ -64,7 +64,7 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fa fa-balance-scale mr-2"></i><strong>Tipo de medida #{{ $tipo_medida->id }}</strong>
+      <i class="fas fa-balance-scale mr-2"></i><strong>Tipo de medida #{{ $tipo_medida->id }}</strong>
     </a>
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $tipo_medida->nombre }}</a>
 </div>
@@ -90,7 +90,7 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
                     <div class="card hoverable"> 
                         <!--Card content-->
                         <div class="card-body">
-                            <h4><i class="fa fa-ruler mr-2"></i>
+                            <h4><i class="fas fa-ruler mr-2"></i>
                             @if ($tipo_medida->medidas->count() === 1)
                 Una medida de "{{ $tipo_medida->nombre }}"
             @elseif ($tipo_medida->medidas->count() > 1)
@@ -124,12 +124,12 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
       <td>{{$medida->id}}</td>
       <td>{{$medida->nombre}}</td>
       <td>{{$medida->etiqueta}}</td>
-      <td><i class="fa fa-balance-scale"></i> {{$medida->tipo_medida->nombre}}</td>
+      <td><i class="fas fa-balance-scale"></i> {{$medida->tipo_medida->nombre}}</td>
       <td>
 
 <a href="{{ route('medidas.show',$medida->id) }}" class="text-primary m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Información de la medida "{{ $medida->nombre }}"'>
-                      <i class="fa fa-2x fa-info-circle"></i>
+                      <i class="fas fa-2x fa-info-circle"></i>
                             </a>
       </td>
     </tr>
@@ -173,8 +173,8 @@ function eliminar_tipo_medida(id,nombre){
   title: 'Eliminar el tipo de medida',
   text: '¿Desea eliminar el tipo de medida "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-trash-alt"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -238,41 +238,41 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
 
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-2x fa-cog fa-spin"></i>',
+                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
                 titleAttr: 'Opciones',
                 buttons: [
                     {
                 extend:    'copyHtml5',
-                text:      '<i class="fa fa-copy"></i> Copiar',
+                text:      '<i class="fas fa-copy"></i> Copiar',
                 titleAttr: 'Copiar',
                 title: titulo_archivo
             },
             {
                 extend:    'print',
-                text:      '<i class="fa fa-print"></i> Imprimir',
+                text:      '<i class="fas fa-print"></i> Imprimir',
                 titleAttr: 'Imprimir',
                 title: titulo_archivo
             },
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-cloud-download-alt"></i> Exportar',
+                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
                 titleAttr: 'Exportar',
                 buttons: [         
             {
                 extend:    'csvHtml5',
-                text:      '<i class="fa fa-file-alt"></i> Csv',
+                text:      '<i class="fas fa-file-alt"></i> Csv',
                 titleAttr: 'Csv',
                 title: titulo_archivo
             }, 
             {
                 extend:    'excelHtml5',
-                text:      '<i class="fa fa-file-excel"></i> Excel',
+                text:      '<i class="fas fa-file-excel"></i> Excel',
                 titleAttr: 'Excel',
                 title: titulo_archivo
             },
             {
                 extend:    'pdfHtml5',
-                text:      '<i class="fa fa-file-pdf"></i> Pdf',
+                text:      '<i class="fas fa-file-pdf"></i> Pdf',
                 titleAttr: 'Pdf',
                 title: titulo_archivo
             }
@@ -281,7 +281,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
            
             {
                 extend:    'colvis',
-                text:      '<i class="fa fa-low-vision"></i> Ver/Ocultar',
+                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
                 titleAttr: 'Ver/Ocultar',
             }
            
@@ -294,7 +294,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-ruler"></i> Datos de medida "'+ data[1]+'"';
+                        return '<i class="fas fa-ruler"></i> Datos de medida "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

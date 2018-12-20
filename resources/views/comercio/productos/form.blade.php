@@ -17,7 +17,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-boxes prefix"></i>
+    <i class="fas fa-boxes prefix"></i>
     <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $producto->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
 </div>
@@ -38,7 +38,7 @@
 
  <!-- Material input -->
  <div class="md-form">
-        <i class="fa fa-money-bill-alt prefix"></i>
+        <i class="fas fa-money-bill-alt prefix"></i>
         <input type="text" required id="valor_unitario-mask" value="{{ old('valor_unitario') ? old('valor_unitario') : $producto->valor_unitario}}" name="valor_unitario-mask" class="form-control validate" maxlength="50">
         <input type="hidden" required id="valor_unitario" value="{{ old('valor_unitario') ? old('valor_unitario') : $producto->valor_unitario}}" name="valor_unitario" class="form-control validate" maxlength="12">
         <label for="valor_unitario" data-error="Error" data-success="Correcto">Valor *</label>
@@ -64,7 +64,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-box-open prefix"></i>
+    <i class="fas fa-box-open prefix"></i>
     <input type="text" required id="referencia" onchange="test_referencias('{{ route("productos.testReferencias") }}')" value="{{ old('referencia') ? old('referencia') : $producto->referencia}}" name="referencia" class="form-control validate" maxlength="50">
     <label for="referencia" data-error="Error" data-success="Correcto">Referencia *</label>
 </div>
@@ -84,7 +84,7 @@
         <!-- Material input -->
 
 <div class="md-form">
-<i class="fa fa-barcode"></i>
+<i class="fas fa-barcode"></i>
 <small for="tipo_referencia_id">Tipo de referencia *</small>   
 <select class="form-control" required id="tipo_referencia_id" name="tipo_referencia_id">
         <option value="" disabled selected>Selecciona una opción</option>
@@ -119,7 +119,7 @@
         <!-- Material input -->
 
 <div class="md-form">
-<i class="fa fa-ruler"></i>
+<i class="fas fa-ruler"></i>
 <small for="medida_id">Medida *</small>   
 @include('include.dato_basico.medidas.select', array('medida_selected'=>$producto->medida))
 
@@ -142,7 +142,7 @@
         <!-- Material input -->
 
 <div class="md-form">
-<i class="fa fa-sitemap"></i>
+<i class="fas fa-sitemap"></i>
 <small for="categoria_id">Categoria *</small>   
  @include('include.clasificacion.categorias.select', array('categoria_selected'=>$producto->categoria))
 </div> @if ($errors->has('categoria_id'))
@@ -167,7 +167,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-                    <i class="fa fa-trademark"></i>
+                    <i class="fas fa-trademark"></i>
                     <small for="marca_id">Marca *</small>   
                      @include('include.comercio.marcas.select', array('marca_selected'=>$producto->marca))
                     </div> 
@@ -191,7 +191,7 @@
         <div class="col-md-12">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-comment-dots prefix"></i>
+    <i class="fas fa-comment-dots prefix"></i>
     <textarea type="text" required id="descripcion" name="descripcion" class="md-textarea form-control validate" maxlength="1000">{{ old('descripcion') ? old('descripcion') : $producto->descripcion}}</textarea>
     <label for="descripcion" data-error="Error" data-success="Correcto">Descripción *</label>
 </div> @if ($errors->has('descripcion'))
@@ -210,7 +210,7 @@
     <!-- Grid row -->
 
     <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
-    <i class="fa fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
+    <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
     </button>
 </form>
 @endsection
@@ -250,7 +250,7 @@
             title: 'Error '+response.status,
             text: response.statusText,
             type: 'error',
-            confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+            confirmButtonText: '<i class="fas fa-check"></i> Continuar',
             showCloseButton: true,
             confirmButtonClass: 'btn btn-danger',
             buttonsStyling: false,
@@ -298,7 +298,7 @@
             language: "es"
         });
         $(".select2-selection__arrow")
-            .addClass("fa fa-chevron-down");
+            .addClass("fas fa-chevron-down");
     
     </script>
 @endsection

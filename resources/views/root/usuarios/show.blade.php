@@ -16,7 +16,7 @@ Información del usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-users mr-1"></i></span>
+                    <span><i class="fas fa-users mr-1"></i></span>
                         <a href="{{ route('usuarios.index') }}">Lista de usuarios</a>
                         <span>/</span>
                         <span>Información del usuario "{{ $usuario->name }}"</span>
@@ -25,17 +25,17 @@ Información del usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de usuarios">
-                      <i class="fa fa-2x fa-users"></i>
+                      <i class="fas fa-2x fa-users"></i>
                             </a>
 
                              <a href="{{ route('usuarios.edit',$usuario->id) }}" class="btn btn-outline-warning btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Editar el usuario "{{ $usuario->name }}"'>
-                      <i class="fa fa-2x fa-pencil-alt"></i>
+                      <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
                                     <a onclick="eliminar_usuario({{ $usuario->id }},'{{ $usuario->name }}')"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar el usuario "{{ $usuario->name }}"'>
-                      <i class="fa fa-2x fa-trash-alt"></i>
+                      <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $usuario->id }}" method="POST" action="{{ route('usuarios.destroy',$usuario->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="DELETE">
@@ -63,7 +63,7 @@ Información del usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fa fa-user mr-2"></i><strong>Usuario #{{ $usuario->id }}</strong>
+      <i class="fas fa-user mr-2"></i><strong>Usuario #{{ $usuario->id }}</strong>
     </a>
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $usuario->name }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Email: </strong>{{ $usuario->email }}</a>
@@ -92,8 +92,8 @@ function eliminar_usuario(id,nombre){
   title: 'Eliminar el usuario',
   text: '¿Desea eliminar el usuario "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-trash-alt"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',

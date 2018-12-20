@@ -15,7 +15,7 @@ Editar el usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-users mr-1"></i></span>
+                    <span><i class="fas fa-users mr-1"></i></span>
                         <a href="{{ route('usuarios.index') }}">Lista de usuarios</a>
                         <span>/</span>
                         <span>Editar el usuario "{{ $usuario->name }}"</span>
@@ -24,12 +24,12 @@ Editar el usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de usuarios">
-                      <i class="fa fa-2x fa-users"></i>
+                      <i class="fas fa-2x fa-users"></i>
                             </a>
 
                             <a href="{{ route('usuarios.show',$usuario->id) }}" class="btn btn-outline-primary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Informacion del usuario "{{ $usuario->name }}"'>
-                      <i class="fa fa-2x fa-info"></i>
+                      <i class="fas fa-2x fa-info"></i>
                             </a>
                     </div>
 

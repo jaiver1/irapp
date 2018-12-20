@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+Use DB;
 
 class Orden extends Model
 {
@@ -47,6 +48,18 @@ class Orden extends Model
       'deleted_at',
   ];
 
+  public static function getEstados()
+{
+  $type = DB::select( DB::raw("SHOW COLUMNS FROM ordenes WHERE Field = 'estado'") )[0]->Type;
+  preg_match('/^enum\((.*)\)$/', $type, $matches);
+  $enum = array();
+  foreach( explode(',', $matches[1]) as $value )
+  {
+    $v = trim( $value, "'" );
+    $enum = array_add($enum, $v, $v);
+  }
+  return $enum;
+}
 
   public function ubicacion()
   {
@@ -58,4 +71,9 @@ class Orden extends Model
       return $this->belongsTo('App\Models\Dato_basico\XCiudad');
   }
   
+  public function cliente()
+  {
+      return $this->belongsTo('App\Models\Contacto\Cliente');
+  }
+
 }

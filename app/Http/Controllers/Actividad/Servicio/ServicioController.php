@@ -41,8 +41,7 @@ class ServicioController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = new Orden();
-        $ciudad = new XCiudad;
-        $orden->ciudad()->associate($ciudad);
+        $orden->ciudad()->associate(new XCiudad);
         $orden->ubicacion()->associate(new XUbicacion);
         $editar = false;
         $ciudades = XCiudad::orderBy('nombre', 'asc')->get();

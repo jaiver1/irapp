@@ -17,7 +17,7 @@
         <div class="col-md-12">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-trademark prefix"></i>
+    <i class="fas fa-trademark prefix"></i>
     <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $marca->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
 </div>
@@ -37,7 +37,7 @@
     <!-- Grid row -->
 
     <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
-    <i class="fa fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
+    <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
     </button>
 </form>
 @endsection

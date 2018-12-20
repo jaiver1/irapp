@@ -24,7 +24,7 @@ class CreateDetallesOrdenesTable extends Migration
             $table->unsignedBigInteger('orden_id');
             $table->foreign('servicio_id')->references('id')->on('servicios')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('orden_id')->references('id')->on('ordenes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('colaborador_id')->references('id')->on('colaboradores')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('colaborador_id')->references('id')->on('colaboradores')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

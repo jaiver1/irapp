@@ -20,8 +20,8 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
                     <span class="fa-stack">
-  <i class="fa fa-boxes fa-stack-1x fa-lg"></i>
-   <i class="fa fa-ban fa-stack-1x fa-2x text-danger"></i>
+  <i class="fas fa-boxes fa-stack-1x fa-lg"></i>
+   <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i>
 </span>
                     <a href="{{ route('productos.index') }}">Lista de productos</a>
                         <span>/</span>
@@ -37,7 +37,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('productos.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de productos">
-                      <i class="fa fa-2x fa-boxes "></i>
+                      <i class="fas fa-2x fa-boxes "></i>
                             </a>
                     </div>
 
@@ -79,7 +79,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
       <td>
         <a href="{{ route('especialidades.show',$producto->especialidad->id) }}" class="link-text"
                       data-toggle="tooltip" data-placement="bottom" title='Información del especialidad "{{ $producto->especialidad->nombre }}"'>
-                        <i class="fa fa-object-group"></i> {{$producto->especialidad->nombre}}
+                        <i class="fas fa-object-group"></i> {{$producto->especialidad->nombre}}
                               </a>    
                           </td>
   
@@ -89,7 +89,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
                   @else
                       <a href="{{ route('productos.show',$producto->producto->id) }}" class="link-text"
                                     data-toggle="tooltip" data-placement="bottom" title='Información del producto padre "{{ $producto->producto->nombre }}"'>
-                                      <i class="fa fa-boxes"></i> {{$producto->producto->nombre}}
+                                      <i class="fas fa-boxes"></i> {{$producto->producto->nombre}}
                                             </a>    
                   @endif
               </td>
@@ -97,12 +97,12 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
 
       <a onclick="restaurar_producto({{ $producto->id }},'{{ $producto->nombre }}')" class="text-success m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Restaurar el producto "{{ $producto->nombre }}"'>
-                      <i class="fa fa-2x fa-undo"></i>
+                      <i class="fas fa-2x fa-undo"></i>
                             </a>
                 
                             <a onclick="eliminar_producto({{ $producto->id }},'{{ $producto->nombre }}')" class="text-danger m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar definitivamente el producto "{{ $producto->nombre }}"'>
-                      <i class="fa fa-2x fa-trash"></i>
+                      <i class="fas fa-2x fa-trash"></i>
                             </a>
                             <form id="restaurar{{ $producto->id }}" method="POST" action="{{ route('productos.deleted.update',$producto->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="PUT">
@@ -156,8 +156,8 @@ function eliminar_producto(id,nombre){
   title: 'Eliminar el producto',
   text: '¿Desea eliminar definitivamente el producto "'+nombre+'"?',
   type: 'warning',
-  confirmButtonText: '<i class="fa fa-trash"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -188,8 +188,8 @@ function restaurar_producto(id,nombre){
   title: 'Restaurar el producto',
   text: '¿Desea restaurar el producto "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-undo"></i> Restaurar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-undo"></i> Restaurar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -255,41 +255,41 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
 
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-2x fa-cog fa-spin"></i>',
+                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
                 titleAttr: 'Opciones',
                 buttons: [
                     {
                 extend:    'copyHtml5',
-                text:      '<i class="fa fa-copy"></i> Copiar',
+                text:      '<i class="fas fa-copy"></i> Copiar',
                 titleAttr: 'Copiar',
                 title: titulo_archivo
             },
             {
                 extend:    'print',
-                text:      '<i class="fa fa-print"></i> Imprimir',
+                text:      '<i class="fas fa-print"></i> Imprimir',
                 titleAttr: 'Imprimir',
                 title: titulo_archivo
             },
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-cloud-download-alt"></i> Exportar',
+                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
                 titleAttr: 'Exportar',
                 buttons: [         
             {
                 extend:    'csvHtml5',
-                text:      '<i class="fa fa-file-csv"></i> Csv',
+                text:      '<i class="fas fa-file-csv"></i> Csv',
                 titleAttr: 'Csv',
                 title: titulo_archivo
             }, 
             {
                 extend:    'excelHtml5',
-                text:      '<i class="fa fa-file-excel"></i> Excel',
+                text:      '<i class="fas fa-file-excel"></i> Excel',
                 titleAttr: 'Excel',
                 title: titulo_archivo
             },
             {
                 extend:    'pdfHtml5',
-                text:      '<i class="fa fa-file-pdf"></i> Pdf',
+                text:      '<i class="fas fa-file-pdf"></i> Pdf',
                 titleAttr: 'Pdf',
                 title: titulo_archivo
             }
@@ -298,7 +298,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
            
             {
                 extend:    'colvis',
-                text:      '<i class="fa fa-low-vision"></i> Ver/Ocultar',
+                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
                 titleAttr: 'Ver/Ocultar',
             }
            
@@ -311,7 +311,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<span class="fa-stack"><i class="fa fa-boxes fa-stack-1x fa-lg"></i>  <i class="fa fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos del producto eliminada"'+ data[1]+'"';
+                        return '<span class="fa-stack"><i class="fas fa-boxes fa-stack-1x fa-lg"></i>  <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos del producto eliminada"'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

@@ -21,8 +21,8 @@ function salir(){
   title: 'Salir',
   text: '¿Desea cerrar la sesion"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-check"></i> Si',
-  cancelButtonText: '<i class="fa fa-times"></i> No',
+  confirmButtonText: '<i class="fas fa-check"></i> Si',
+  cancelButtonText: '<i class="fas fa-times"></i> No',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -56,9 +56,9 @@ function salir(){
 <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
         <div class="sidebar-brand waves-light">
-            <a href="#"><i class="fa fa-hammer mr-2"></i> IRAPP</a>
+            <a href="#"><i class="fas fa-tools mr-2"></i> IRAPP</a>
             <div id="close-sidebar">
-                <i class="fas fa-times-circle"></i>
+                <i class="fas  fa-times-circle"></i>
             </div>
         </div>
         <div class="sidebar-header">
@@ -70,7 +70,7 @@ function salir(){
                 </span>
                 <span class="user-role">{{ (Auth::user()->roles) ? Auth::user()->roles->first()->display_name : 'Sin rol'}}</span>
                 <span class="user-status">
-                    <i class="fa fa-circle"></i>
+                    <i class="fas fa-circle"></i>
                     <span>Online</span>
                 </span>
             </div>
@@ -82,7 +82,7 @@ function salir(){
                     <input type="text" class="form-control search-menu" placeholder="Search...">
                     <div class="input-group-append">
                         <span class="input-group-text">
-                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <i class="fas fa-search" aria-hidden="true"></i>
                         </span>
                     </div>
                 </div>
@@ -97,7 +97,7 @@ function salir(){
                 </li>
                 <li class="hoverable waves-light {{ \Request::is('home') ? 'default' : 'simple' }}">
                     <a href="{{route('home')}}">
-                        <i class="fa fa-home"></i>
+                        <i class="fas fa-home"></i>
                         <span>Página principal</span>
                     </a>
                 </li>
@@ -108,7 +108,7 @@ function salir(){
                 </li>
                 <li class="hoverable waves-light {{ (\Request::is('usuarios') || \Request::is('usuarios/*')) ? 'default' : 'simple' }}">
                     <a href="{{route('usuarios.index')}}">
-                        <i class="fa fa-users"></i>
+                        <i class="fas fa-users"></i>
                         <span>Usuarios</span>
                     </a>
                 </li>
@@ -120,16 +120,16 @@ function salir(){
 
                 <li class="sidebar-dropdown {{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*') || \Request::is('medidas') || \Request::is('medidas/*')) ? 'active default' : 'simple' }}">
                     <a href="#">
-                        <i class="fa fa-file-signature"></i>
+                        <i class="fas fa-file-signature"></i>
                         <span>Datos basicos</span>
                     </a>
                     <div class="sidebar-submenu" style="{{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*') || \Request::is('medidas') || \Request::is('medidas/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('tipos_medidas.index')}}"> <i class="fa fa-balance-scale mr-1"></i><span>Tipos de medidas</span></a>
+                            <a href="{{route('tipos_medidas.index')}}"> <i class="fas fa-balance-scale mr-1"></i><span>Tipos de medidas</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('medidas') || \Request::is('medidas/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('medidas.index')}}"><i class="fa fa-ruler mr-1"></i><span>Medidas</span></a>
+                                <a href="{{route('medidas.index')}}"><i class="fas fa-ruler mr-1"></i><span>Medidas</span></a>
                             </li>
                         </ul>
                     </div>
@@ -137,16 +137,16 @@ function salir(){
 
                 <li class="sidebar-dropdown {{ (\Request::is('especialidades') || \Request::is('especialidades/*') || \Request::is('categorias') || \Request::is('categorias/*')) ? 'active default' : 'simple' }}">
                     <a href="#">
-                        <i class="fa fa-project-diagram "></i>
+                        <i class="fas fa-project-diagram "></i>
                         <span>Clasificación</span>
                     </a>
                     <div class="sidebar-submenu" style="{{ (\Request::is('especialidades') || \Request::is('especialidades/*') || \Request::is('categorias') || \Request::is('categorias/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('especialidades') || \Request::is('especialidades/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('especialidades.index')}}"> <i class="fa fa-object-group mr-1"></i><span>Especialidades</span></a>
+                            <a href="{{route('especialidades.index')}}"> <i class="fas fa-object-group mr-1"></i><span>Especialidades</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('categorias') || \Request::is('categorias/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('categorias.index')}}"><i class="fa fa-sitemap mr-1"></i><span>Categorias</span></a>
+                                <a href="{{route('categorias.index')}}"><i class="fas fa-sitemap mr-1"></i><span>Categorias</span></a>
                             </li>
                         </ul>
                     </div>
@@ -154,16 +154,16 @@ function salir(){
           
                 <li class="sidebar-dropdown {{ (\Request::is('marcas') || \Request::is('marcas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'active default' : 'simple' }}">
                     <a href="#">
-                        <i class="fa fa-handshake"></i>
+                        <i class="fas fa-handshake"></i>
                         <span>Comercio</span>
                     </a>
                     <div class="sidebar-submenu" style="{{ (\Request::is('marcas') || \Request::is('marcas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('marcas') || \Request::is('marcas/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('marcas.index')}}"> <i class="fa fa-trademark mr-1"></i><span>Marcas</span></a>
+                            <a href="{{route('marcas.index')}}"> <i class="fas fa-trademark mr-1"></i><span>Marcas</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('productos') || \Request::is('productos/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('productos.index')}}"><i class="fa fa-boxes mr-1"></i><span>Productos</span></a>
+                                <a href="{{route('productos.index')}}"><i class="fas fa-boxes mr-1"></i><span>Productos</span></a>
                             </li>
                         </ul>
                     </div>
@@ -175,16 +175,16 @@ function salir(){
 
                 <li class="sidebar-dropdown {{ (\Request::is('clientes') || \Request::is('clientes/*') || \Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'active default' : 'simple' }}">
                     <a href="#">
-                        <i class="fa fa-address-book"></i>
+                        <i class="fas fa-address-book"></i>
                         <span>Contactos</span>
                     </a>
                     <div class="sidebar-submenu" style="{{ (\Request::is('clientes') || \Request::is('clientes/*') || \Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('clientes') || \Request::is('clientes/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('clientes.index')}}"> <i class="fa fa-user-tie mr-1"></i><span>Clientes</span></a>
+                            <a href="{{route('clientes.index')}}"> <i class="fas fa-user-tie mr-1"></i><span>Clientes</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('colaboradores.index')}}"><i class="fa fa-user-cog mr-1"></i><span>Colaboradores</span></a>
+                                <a href="{{route('colaboradores.index')}}"><i class="fas fa-user-cog mr-1"></i><span>Colaboradores</span></a>
                             </li>
                         </ul>
                     </div>
@@ -192,16 +192,16 @@ function salir(){
 
                 <li class="sidebar-dropdown {{ (\Request::is('servicios') || \Request::is('servicios/*') || \Request::is('ordenes') || \Request::is('ordenes/*')) ? 'active default' : 'simple' }}">
                     <a href="#">
-                        <i class="fa fa-people-carry"></i>
+                        <i class="fas fa-people-carry"></i>
                         <span>Actividades</span>
                     </a>
                     <div class="sidebar-submenu" style="{{ (\Request::is('servicios') || \Request::is('servicios/*') || \Request::is('ordenes') || \Request::is('ordenes/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('servicios') || \Request::is('servicios/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('servicios.index')}}"> <i class="fa fa-cogs mr-1"></i><span>Servicios</span></a>
+                            <a href="{{route('servicios.index')}}"> <i class="fas fa-cogs mr-1"></i><span>Servicios</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('ordenes') || \Request::is('ordenes/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('ordenes.index')}}"><i class="fa fa-business-time mr-1"></i><span>Ordenes</span></a>
+                                <a href="{{route('ordenes.index')}}"><i class="fas fa-business-time mr-1"></i><span>Ordenes</span></a>
                             </li>
                         </ul>
                     </div>
@@ -215,18 +215,18 @@ function salir(){
     <div class="sidebar-footer">
             <div class="dropdown">
                     <a href="#" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-store"></i>
+                        <i class="fas fa-store"></i>
                     </a>
                     <div class="dropdown-menu messages" aria-labelledby="dropdownMenuMessage">
                         <div class="messages-header">
-                            <i class="fa fa-store"></i>
+                            <i class="fas fa-store"></i>
                             Tienda
                         </div>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('store.productos') }}">
                             <div class="message-content">
                                 <div class="pic">
-                                        <i class="fa fa-2x fa-boxes indigo-text"></i>
+                                        <i class="fas fa-2x fa-boxes indigo-text"></i>
                                 </div>
                                 <div class="content">
                                     <div class="message-title">
@@ -240,7 +240,7 @@ function salir(){
                         <a class="dropdown-item" href="{{ route('store.servicios') }}">
                             <div class="message-content">
                                 <div class="pic">
-                                        <i class="fa fa-2x fa-cogs indigo-text"></i>
+                                        <i class="fas fa-2x fa-cogs indigo-text"></i>
                                 </div>
                                 <div class="content">
                                     <div class="message-title">
@@ -259,19 +259,19 @@ function salir(){
         <div class="dropdown">
 
             <a href="#" class="" id="dropdownMenuNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-bell"></i>
+                <i class="fas fa-bell"></i>
                 <span class="badge badge-pill teal darken-1 notification">3</span>
             </a>
             <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuMessage">
                 <div class="notifications-header">
-                    <i class="fa fa-bell"></i>
+                    <i class="fas fa-bell"></i>
                     Notifications
                 </div>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">
                     <div class="notification-content">
                         <div class="icon">
-                            <i class="fas fa-check text-success border border-success"></i>
+                            <i class="fas  fa-check text-success border border-success"></i>
                         </div>
                         <div class="content">
                             <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing elit. In totam explicabo</div>
@@ -284,7 +284,7 @@ function salir(){
                 <a class="dropdown-item" href="#">
                     <div class="notification-content">
                         <div class="icon">
-                            <i class="fas fa-exclamation text-info border border-info"></i>
+                            <i class="fas  fa-exclamation text-info border border-info"></i>
                         </div>
                         <div class="content">
                             <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing elit. In totam explicabo</div>
@@ -297,7 +297,7 @@ function salir(){
                 <a class="dropdown-item" href="#">
                     <div class="notification-content">
                         <div class="icon">
-                            <i class="fas fa-exclamation-triangle text-warning border border-warning"></i>
+                            <i class="fas  fa-exclamation-triangle text-warning border border-warning"></i>
                         </div>
                         <div class="content">
                             <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing elit. In totam explicabo</div>
@@ -314,7 +314,7 @@ function salir(){
      
         <div class="dropdown">
             <a href="#" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-cog"></i>
+                <i class="fas fa-cog"></i>
                 <span class="badge-sonar"></span>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
@@ -328,7 +328,7 @@ function salir(){
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                <i class="fa fa-door-open"></i>
+                <i class="fas fa-door-open"></i>
             </a>
         </div>
     </div>

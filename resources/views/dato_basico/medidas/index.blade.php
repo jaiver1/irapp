@@ -18,7 +18,7 @@ Lista de medidas | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-ruler fa-lg mr-1"></i></span> <span> @if ($medidas->count() === 1)
+                    <span><i class="fas fa-ruler fa-lg mr-1"></i></span> <span> @if ($medidas->count() === 1)
                 Una medida
             @elseif ($medidas->count() > 1)
                 {{ $medidas->count() }} medidas
@@ -31,11 +31,11 @@ Lista de medidas | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('medidas.create') }}" class="btn btn-outline-success btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Registrar una medida">
-                      <i class="fa fa-2x fa-plus"></i>
+                      <i class="fas fa-2x fa-plus"></i>
                             </a>
                             <a href="{{ route('medidas.deleted.index') }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Medidas eliminadas">
-                      <i class="fa fa-2x fa-recycle"></i>
+                      <i class="fas fa-2x fa-recycle"></i>
                             </a>
                     </div>
 
@@ -82,24 +82,24 @@ Lista de medidas | {{ config('app.name', 'Laravel') }}
       <td>
       <a href="{{ route('tipos_medidas.show',$medida->tipo_medida->id) }}" class="link-text"
                     data-toggle="tooltip" data-placement="bottom" title='Información del tipo de medida "{{ $medida->tipo_medida->nombre }}"'>
-                      <i class="fa fa-balance-scale"></i> {{$medida->tipo_medida->nombre}}
+                      <i class="fas fa-balance-scale"></i> {{$medida->tipo_medida->nombre}}
                      </a></td>
                              
       <td>
 
 <a href="{{ route('medidas.show', $medida->id) }}" class="text-primary m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Información de la medida "{{ $medida->nombre }}"'>
-                      <i class="fa fa-2x fa-info-circle"></i>
+                      <i class="fas fa-2x fa-info-circle"></i>
                             </a>
 
       <a href="{{ route('medidas.edit', $medida->id) }}" class="text-warning m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Editar la medida "{{ $medida->nombre }}"'>
-                      <i class="fa fa-2x fa-pencil-alt"></i>
+                      <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
                             <a onclick="eliminar_medida({{ $medida->id }},'{{ $medida->nombre }}')" class="text-danger m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar la medida "{{ $medida->nombre }}"'>
-                      <i class="fa fa-2x fa-trash-alt"></i>
+                      <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $medida->id }}" method="POST" action="{{ route('medidas.destroy', $medida->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="DELETE">
@@ -149,8 +149,8 @@ function eliminar_medida(id,nombre){
   title: 'Eliminar la medida',
   text: '¿Desea eliminar la medida "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-trash-alt"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -217,41 +217,41 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
 
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-2x fa-cog fa-spin"></i>',
+                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
                 titleAttr: 'Opciones',
                 buttons: [
                     {
                 extend:    'copyHtml5',
-                text:      '<i class="fa fa-copy"></i> Copiar',
+                text:      '<i class="fas fa-copy"></i> Copiar',
                 titleAttr: 'Copiar',
                 title: titulo_archivo
             },
             {
                 extend:    'print',
-                text:      '<i class="fa fa-print"></i> Imprimir',
+                text:      '<i class="fas fa-print"></i> Imprimir',
                 titleAttr: 'Imprimir',
                 title: titulo_archivo
             },
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-cloud-download-alt"></i> Exportar',
+                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
                 titleAttr: 'Exportar',
                 buttons: [         
             {
                 extend:    'csvHtml5',
-                text:      '<i class="fa fa-file-csv"></i> Csv',
+                text:      '<i class="fas fa-file-csv"></i> Csv',
                 titleAttr: 'Csv',
                 title: titulo_archivo
             }, 
             {
                 extend:    'excelHtml5',
-                text:      '<i class="fa fa-file-excel"></i> Excel',
+                text:      '<i class="fas fa-file-excel"></i> Excel',
                 titleAttr: 'Excel',
                 title: titulo_archivo
             },
             {
                 extend:    'pdfHtml5',
-                text:      '<i class="fa fa-file-pdf"></i> Pdf',
+                text:      '<i class="fas fa-file-pdf"></i> Pdf',
                 titleAttr: 'Pdf',
                 title: titulo_archivo
             }
@@ -260,7 +260,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
            
             {
                 extend:    'colvis',
-                text:      '<i class="fa fa-low-vision"></i> Ver/Ocultar',
+                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
                 titleAttr: 'Ver/Ocultar',
             }
            
@@ -273,7 +273,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-ruler fa-lg"></i> Datos de medida "'+ data[1]+'"';
+                        return '<i class="fas fa-ruler fa-lg"></i> Datos de medida "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

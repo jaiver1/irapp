@@ -17,7 +17,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-sitemap prefix"></i>
+    <i class="fas fa-sitemap prefix"></i>
     <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $categoria->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
 </div>
@@ -60,7 +60,7 @@
             <!-- Material input -->
             <div id="especialidad_div">
             <div class="md-form">
-            <i class="fa fa-balance-scale"></i>
+            <i class="fas fa-balance-scale"></i>
             <small for="especialidad_id">Especialidades</small>   
     <select class="form-control" required id="especialidad_id" name="especialidad_id">
     <option value="" disabled selected>Selecciona una opción</option>
@@ -82,7 +82,7 @@
                               <!-- Material input -->
             <div id="categoria_div">
                 <div class="md-form">
-                <i class="fa fa-sitemap"></i>
+                <i class="fas fa-sitemap"></i>
                 <small for="categoria_id">Categorias</small>   
                 @include('include.clasificacion.categorias.select', array('categoria_selected'=>$categoria))
     </div> @if ($errors->has('categoria_id'))
@@ -101,7 +101,7 @@
     <!-- Grid row -->
 
     <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
-    <i class="fa fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
+    <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
     </button>
 </form>
 @endsection
@@ -124,31 +124,31 @@ $('#especialidad_id').select2({
         language: "es"
     });
     $(".select2-selection__arrow")
-        .addClass("fa fa-chevron-down");
+        .addClass("fas fa-chevron-down");
 
          $(document).ready(function(){
 if($("#raiz").prop("checked") == true) {
-	$("#especialidad_div").slideDown('fast');
+	$("#especialidad_div").slideDown('fas t');
 		$('#especialidad_id').prop( 'required', true );
-		$("#categoria_div").slideUp('fast');
+		$("#categoria_div").slideUp('fas t');
 		$('#categoria_id').prop( 'required', false );     
     }else{
-		$("#especialidad_div").slideUp('fast');
+		$("#especialidad_div").slideUp('fas t');
 		$('#especialidad_id').prop( 'required', false );
-		$("#categoria_div").slideDown('fast');
+		$("#categoria_div").slideDown('fas t');
 		$('#categoria_id').prop( 'required', true );  
 	}
 });
 $("#raiz").change(function() {
     if(this.checked) {
-		$("#especialidad_div").slideDown('fast');
+		$("#especialidad_div").slideDown('fas t');
 		$('#especialidad_id').prop( 'required', true );
-		$("#categoria_div").slideUp('fast');
+		$("#categoria_div").slideUp('fas t');
 		$('#categoria_id').prop( 'required', false );
     }else{
-		$("#especialidad_div").slideUp('fast');
+		$("#especialidad_div").slideUp('fas t');
 		$('#especialidad_id').prop( 'required', false );
-		$("#categoria_div").slideDown('fast');
+		$("#categoria_div").slideDown('fas t');
 		$('#categoria_id').prop( 'required', true );  
 	}
 });

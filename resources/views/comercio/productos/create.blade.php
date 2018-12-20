@@ -14,7 +14,7 @@ Registrar un producto | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-boxes mr-1"></i></span> 
+                    <span><i class="fas fa-boxes mr-1"></i></span> 
                         <a href="{{ route('productos.index') }}">Lista de productos</a>
                         <span>/</span>
                         <span>Registrar un producto</span>
@@ -23,7 +23,7 @@ Registrar un producto | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('productos.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de productos">
-                      <i class="fa fa-2x fa-boxes"></i>
+                      <i class="fas fa-2x fa-boxes"></i>
                             </a>
                     </div>
 

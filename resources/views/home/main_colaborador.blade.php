@@ -18,7 +18,7 @@
                         <!-- Default input -->
                         <input type="search" placeholder="Type your query" aria-label="Search" class="form-control">
                         <button class="btn btn-primary btn-sm my-0 p" type="submit">
-                            <i class="fa fa-search"></i>
+                            <i class="fas fa-search"></i>
                         </button>
 
                     </form>

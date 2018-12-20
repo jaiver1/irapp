@@ -15,13 +15,15 @@
 @endif
 
  {{ csrf_field() }}
+
+
     <!-- Grid row -->
     <div class="form-row">
         <!-- Grid column -->
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-business-time prefix"></i>
+    <i class="fas fa-business-time prefix"></i>
     <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $orden->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre</label>
 </div>
@@ -42,7 +44,7 @@
   <div class="col-md-6">
     <!-- Material input -->
     <div class="md-form">
-<i class="prefix fa fa-calendar-alt"></i>
+<i class="prefix fas fa-calendar-alt"></i>
 <input type="text" required id="fecha_inicio" value="{{ old('fecha_inicio') ? old('fecha_inicio') : $orden->fecha_inicio}}" name="fecha_inicio" class="form-control validate" maxlength="50">
 <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha inicio</label>
 </div>
@@ -59,6 +61,34 @@
 
 <!-- Grid column -->
 @endif
+
+@if ($editar)
+
+<!-- Grid column -->
+<div class="col-md-6">
+  <!-- Material input -->
+  
+  <div class="md-form">
+  <i class="fas {{($orden->estado == 'Abierta' ) ? 'fa-tools' : (($orden->estado == 'Cerrada' ) ? 'fa-check-circle' : (($orden->estado == 'Cancelada' ) ? 'fa-times-circle' : (($orden->estado == 'Pendiente' ) ? 'fa-stopwatch' : 'fa-asterisk')))}} "></i>
+  <small for="estado">Estado *</small>   
+<select class="form-control" required id="estado" name="estado">
+<option value="" disabled selected>Selecciona una opción</option>
+@foreach($estados as $key => $estado)
+<option {{ old('estado') ?  ((old('estado') == $estado) ? 'selected' : '') : ( ($orden->estado == $estado) ? 'selected' : '') }} value="{{ $estado}}">{{$estado}}</option>
+@endforeach
+</select>
+</div> @if ($errors->has('estado'))
+                                  <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                 {{ $errors->first('estado') }}
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+                      
+                      @endif
+</div>
+<!-- Grid column -->
+@endif
         </div>
     <!-- Grid row -->
     @if ($editar)
@@ -68,7 +98,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="prefix fa fa-calendar-alt"></i>
+    <i class="prefix fas fa-calendar-alt"></i>
     <input type="text" required id="fecha_inicio" value="{{ old('fecha_inicio') ? old('fecha_inicio') : $orden->fecha_inicio}}" name="fecha_inicio" class="form-control validate" maxlength="50">
     <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha inicio</label>
 </div>
@@ -89,8 +119,8 @@
          <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="prefix fa fa-calendar-check"></i>
-    <input type="text" required id="fecha_fin" value="{{ old('fecha_fin') ? old('fecha_fin') : $orden->fecha_fin}}" name="fecha_fin" class="form-control validate" maxlength="50">
+    <i class="prefix fas fa-calendar-check"></i>
+    <input type="text" id="fecha_fin" value="{{ old('fecha_fin') ? old('fecha_fin') : $orden->fecha_fin}}" name="fecha_fin" class="form-control validate" maxlength="50">
     <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha fin</label>
 </div>
 @if ($errors->has('fecha_fin'))
@@ -116,10 +146,13 @@
       <!-- Material input -->
       
       <div class="md-form">
-      <i class="fa fa-user-tie"></i>
+      <i class="fas fa-user-tie"></i>
       <small for="cliente_id">Cliente *</small>   
   <select class="form-control" required id="cliente_id" name="cliente_id">
   <option value="" disabled selected>Selecciona una opción</option>
+    @foreach($clientes as $key => $cliente)
+    <option {{ old('cliente_id') ?  ((old('cliente_id') == $cliente->id) ? 'selected' : '') : ( ($orden->cliente->id == $cliente->id) ? 'selected' : '') }} value="{{ $cliente->id }}">{{$cliente->primer_nombre}} {{$cliente->segundo_nombre}} {{$cliente->primer_apellido}} {{$cliente->segundo_apellido}}</option>
+    @endforeach
   </select>
   </div> @if ($errors->has('cliente_id'))
                                       <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
@@ -137,14 +170,9 @@
       <!-- Material input -->
       
       <div class="md-form">
-      <i class="fa fa-city"></i>
+      <i class="fas fa-city"></i>
       <small for="ciudad_id">Ciudad *</small>   
-  <select class="form-control" required id="ciudad_id" name="ciudad_id">
-  <option value="" disabled selected>Selecciona una opción</option>
-  @foreach($ciudades as $key => $ciudad)
-  <option {{ old('ciudad_id') ?  ((old('ciudad_id') == $ciudad->id) ? 'selected' : '') : (($orden->ciudad->id == $ciudad->id) ? 'selected' : '') }} value="{{ $ciudad->id }}">{{$ciudad->nombre}}</option>
-  @endforeach
-  </select>
+      @include('include.dato_basico.ciudades.select', array('ciudad_selected'=>$orden->ciudad))
   </div> @if ($errors->has('ciudad_id'))
                                       <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
                                      {{ $errors->first('ciudad_id') }}
@@ -165,7 +193,7 @@
     <div class="col-md-6">
         <!-- Material input -->
         <div class="md-form">
-  <i class="prefix fa fa-map-marked-alt"></i>
+  <i class="prefix fas fa-map-marked-alt"></i>
   <input type="text" required id="barrio" value="{{ old('barrio') ? old('barrio') : $orden->barrio}}" name="barrio" class="form-control validate" maxlength="50">
   <label for="barrio" data-error="Error" data-success="Correcto">Barrio *</label>
   </div>
@@ -186,7 +214,7 @@
       <div class="col-md-6">
         <!-- Material input -->
         <div class="md-form">
-  <i class="prefix fa fa-home"></i>
+  <i class="prefix fas fa-home"></i>
   <input type="text" required id="direccion" value="{{ old('direccion') ? old('direccion') : $orden->direccion}}" name="direccion" class="form-control validate" maxlength="50">
   <label for="direccion" data-error="Error" data-success="Correcto">Dirección *</label>
   </div>
@@ -208,7 +236,7 @@
     @yield('gmaps_form')
 
     <button type="submit" class="mt-4 waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
-    <i class="fa fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
+    <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
     </button>
 </form>
 @endsection
@@ -239,7 +267,7 @@ $('#estado').select2({
         language: "es"
     });
     $(".select2-selection__arrow")
-        .addClass("fa fa-chevron-down");
+        .addClass("fas fa-chevron-down");
 
 $('#fecha_inicio').bootstrapMaterialDatePicker({
 
@@ -269,10 +297,10 @@ weekStart : 1,
 shortTime : false, 
 
 // text for cancel button
-'cancelText' : '<i class="fa fa-times fa-2x"></i>', 
+'cancelText' : '<i class="fas fa-times fa-2x"></i>', 
 
 // text for ok button
-'okText' : '<i class="fa fa-check fa-2x"></i>' 
+'okText' : '<i class="fas fa-check fa-2x"></i>' 
 
 }).on('change', function(e, date)
 {
@@ -308,10 +336,10 @@ weekStart : 1,
 shortTime : false, 
 
 // text for cancel button
-'cancelText' : '<i class="fa fa-times fa-2x"></i>', 
+'cancelText' : '<i class="fas fa-times fa-2x"></i>', 
 
 // text for ok button
-'okText' : '<i class="fa fa-check fa-2x"></i>' 
+'okText' : '<i class="fas fa-check fa-2x"></i>' 
 
 });
 

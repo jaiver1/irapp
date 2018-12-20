@@ -14,7 +14,7 @@ Registrar una categoria | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-sitemap mr-1"></i></span> 
+                    <span><i class="fas fa-sitemap mr-1"></i></span> 
                         <a href="{{ route('categorias.index') }}">Lista de categorias</a>
                         <span>/</span>
                         <span>Registrar una categoria</span>
@@ -23,7 +23,7 @@ Registrar una categoria | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('categorias.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de categorias">
-                      <i class="fa fa-2x fa-sitemap"></i>
+                      <i class="fas fa-2x fa-sitemap"></i>
                             </a>
                     </div>
 

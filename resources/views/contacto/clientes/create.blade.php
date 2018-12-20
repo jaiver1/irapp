@@ -14,7 +14,7 @@ Registrar un cliente | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-user-tie mr-1"></i></span>
+                    <span><i class="fas fa-user-tie mr-1"></i></span>
                         <a href="{{ route('clientes.index') }}">Lista de clientes</a>
                         <span>/</span>
                         <span>Registrar un cliente</span>
@@ -23,7 +23,7 @@ Registrar un cliente | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('clientes.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de clientes">
-                      <i class="fa fa-2x fa-user-tie"></i>
+                      <i class="fas fa-2x fa-user-tie"></i>
                             </a>
                     </div>
 

@@ -14,7 +14,7 @@ Registrar un tipo de medida | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-balance-scale mr-1"></i></span>
+                    <span><i class="fas fa-balance-scale mr-1"></i></span>
                         <a href="{{ route('tipos_medidas.index') }}">Lista de tipos de medidas</a>
                         <span>/</span>
                         <span>Registrar un tipo de medida</span>
@@ -23,7 +23,7 @@ Registrar un tipo de medida | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('tipos_medidas.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de tipos de medidas">
-                      <i class="fa fa-2x fa-balance-scale"></i>
+                      <i class="fas fa-2x fa-balance-scale"></i>
                             </a>
                     </div>
 

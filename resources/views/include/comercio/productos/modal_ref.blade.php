@@ -5,7 +5,7 @@
         <div class="modal-content">
             <!--Header-->
             <div class="modal-header">
-                <h3 class="heading lead"><i class="white-text fa fa-box-open mr-1"></i>Referencia de "{{ $producto->nombre }}"</h3>
+                <h3 class="heading lead"><i class="white-text fas fa-box-open mr-1"></i>Referencia de "{{ $producto->nombre }}"</h3>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="white-text">&times;</span>
@@ -15,7 +15,7 @@
             <!--Body-->
             <div class="modal-body">
                 <div class="text-center">
-                    <i class="fa fa-5x mb-3 animated rotateIn {{($producto->tipo_referencia->dimension == '2D') ? 'fa-qrcode' : 'fa-barcode'}}"></i>
+                    <i class="fas fa-5x mb-3 animated rotateIn {{($producto->tipo_referencia->dimension == '2D') ? 'fa-qrcode' : 'fa-barcode'}}"></i>
                     <h3> Codigo: {{ $producto->tipo_referencia->nombre }} ({{ $producto->tipo_referencia->dimension }})</h3>
                 </div>
                 <hr/>
@@ -29,7 +29,7 @@
                       @endif
                     </div>
                  
-                    <h1> <span class="mt-4 badge badge-secondary hoverable"><i class="white-text fa fa-box-open mr-1"></i>{{ $producto->referencia }}</span><h1>
+                    <h1> <span class="mt-4 badge badge-secondary hoverable"><i class="white-text fas fa-box-open mr-1"></i>{{ $producto->referencia }}</span><h1>
   </center>
 
             </div>

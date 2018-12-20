@@ -69,8 +69,9 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 
             <!-- Search form -->
             <form class="search-form" role="search">
-                <div class="form-group md-form my-0 waves-light">
-                    <input type="text" class="form-control" placeholder="Buscar">
+                <div class="form-group md-form my-0">
+                        <i class="fas fa-search prefix white-text"></i>
+                    <input type="text" class="ml-5 form-control white-text" placeholder="Buscar">
                 </div>
             </form>
         </div>
@@ -91,16 +92,16 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                 <div class="row">
                     <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
                         <!-- Panel -->
-                        <h5 class="font-weight-bold brown-text"><i class="fa fa-sort mr-2"></i><em>Ordenar</em></h5>
-                            <p class="red-text"><a><i class="fa fa-sort-alpha-down mr-2"></i><em>Nombre: A-Z</em></a></p>
-                            <p class="blue-grey-text"><a><i class="fa fa-sort-alpha-up mr-2"></i><em>Nombre: Z-A</em></a></p>
-                            <p class="blue-grey-text"><a><i class="fa fa-sort-numeric-down mr-2"></i><em>Precio: mas bajo</em></a></p>
-                            <p class="blue-grey-text"><a><i class="fa fa-sort-numeric-up mr-2"></i><em>Precio: mas alto</em></a></p>
+                        <h5 class="font-weight-bold brown-text"><i class="fas fa-sort mr-2"></i><em>Ordenar</em></h5>
+                            <p class="red-text"><a><i class="fas fa-sort-alpha-down mr-2"></i><em>Nombre: A-Z</em></a></p>
+                            <p class="blue-grey-text"><a><i class="fas fa-sort-alpha-up mr-2"></i><em>Nombre: Z-A</em></a></p>
+                            <p class="blue-grey-text"><a><i class="fas fa-sort-numeric-down mr-2"></i><em>Precio: mas bajo</em></a></p>
+                            <p class="blue-grey-text"><a><i class="fas fa-sort-numeric-up mr-2"></i><em>Precio: mas alto</em></a></p>
                     </div>
 
   <!-- Filter by price  -->
   <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
-        <h5 class="font-weight-bold brown-text"><i class="fa fa-money-bill-alt mr-2"></i><em>Precio</em></h5>
+        <h5 class="font-weight-bold brown-text"><i class="fas fa-money-bill-alt mr-2"></i><em>Precio</em></h5>
 
             <small class="font-weight-bold blue-grey-text"><strong>Menor precio</strong></small>
 
@@ -153,14 +154,14 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 
 <!-- Filter by brand-->
 <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
-        <h5 class="font-weight-bold brown-text"><i class="fa fa-trademark mr-2"></i><em>Marca</em></h5>
+        <h5 class="font-weight-bold brown-text"><i class="fas fa-trademark mr-2"></i><em>Marca</em></h5>
         @include('include.comercio.marcas.select', array('marca_selected'=>$marca_actual))
       
     </div>
     <!-- /Filter by brand-->
                     <!-- Filter by category-->
                     <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
-                        <h5 class="font-weight-bold brown-text"><i class="fa fa-sitemap mr-2"></i><em>Categoria</em></h5>
+                        <h5 class="font-weight-bold brown-text"><i class="fas fa-sitemap mr-2"></i><em>Categoria</em></h5>
                         @include('include.clasificacion.categorias.select', array('categoria_selected'=>$categoria_actual))
 
                     </div>
@@ -212,11 +213,11 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                                 <span class="badge badge-danger mb-2">Nuevo</span>
                                 <!-- Rating -->
                                 <ul class="rating">
-                                    <li><i class="fa fa-star blue-text"></i></li>
-                                    <li><i class="fa fa-star blue-text"></i></li>
-                                    <li><i class="fa fa-star blue-text"></i></li>
-                                    <li><i class="fa fa-star blue-text"></i></li>
-                                    <li><i class="fa fa-star blue-text"></i></li>
+                                    <li><i class="fas fa-star blue-text"></i></li>
+                                    <li><i class="fas fa-star blue-text"></i></li>
+                                    <li><i class="fas fa-star blue-text"></i></li>
+                                    <li><i class="fas fa-star blue-text"></i></li>
+                                    <li><i class="fas fa-star blue-text"></i></li>
                                 </ul>
 
                                 <!--Card footer-->
@@ -229,7 +230,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                                         </span>
                                         <span class="float-left">
 
-                                    <a class="float-right" data-toggle="tooltip" data-placement="top" title="Agregar al carrito"><i class="fa fa-2x fa-cart-plus ml-3"></i></a>
+                                    <a class="float-right" data-toggle="tooltip" data-placement="top" title="Agregar al carrito"><i class="fas fa-2x fa-cart-plus ml-3"></i></a>
                                     </span>
                                     </div>
                                 </div>
@@ -285,7 +286,7 @@ $(document).ready(function() {
         theme: "material"
     });
     $(".select2-selection__arrow")
-        .addClass("fa fa-chevron-down");
+        .addClass("fas fa-chevron-down");
 });
 </script>
 @endsection

@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Orden;
 use App\Models\Dato_basico\XUbicacion;
+use App\Models\Dato_basico\XPais;
 use App\Models\Dato_basico\XCiudad;
+use App\Models\Root\User;
+use App\Models\Contacto\Cliente;
+use App\Models\Contacto\Persona;
 use Illuminate\Support\Facades\Validator;
 Use SweetAlert;
+Use DB;
 
 class OrdenController extends Controller
 {
@@ -41,12 +46,20 @@ class OrdenController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = new Orden();
-        $ciudad = new XCiudad;
-        $orden->ciudad()->associate($ciudad);
+        $orden->ciudad()->associate(new XCiudad);
         $orden->ubicacion()->associate(new XUbicacion);
+        $orden->cliente()->associate(new Cliente);
+        $estados = Orden::getEstados();
         $editar = false;
-        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
-        return View::make('actividad.ordenes.create')->with(compact('orden','editar','ciudades'));
+        $paises = XPais::orderBy('nombre', 'asc')->get();
+        $clientes = DB::table('clientes')
+        ->join('personas', 'clientes.persona_id', '=', 'personas.id')
+        ->select('clientes.id', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido')
+        ->whereIn('clientes.persona_id',Persona::distinct()->select('id')->whereIn('usuario_id',User::distinct()->select('id')->whereHas('roles', function ($query) {
+            $query->where('name', '=', 'ROLE_CLIENTE');
+})))->get();
+
+       return View::make('actividad.ordenes.create')->with(compact('orden','editar','paises','clientes','estados'));
     }
 
     /**
@@ -58,7 +71,14 @@ class OrdenController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
-                'nombre'                   => 'required|max:50'
+                'nombre'                   => 'required|max:50',
+                'barrio'                   => 'required|max:50',
+            'direccion'                   => 'required|max:50',
+            'latitud'                   => 'required|max:50',
+            'longitud'                   => 'required|max:50',
+            'ciudad_id'              => 'required',
+            'cliente_id'                   => 'required',
+            'fecha_inicio'                   => 'required|date'
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -69,8 +89,21 @@ class OrdenController extends Controller
             return Redirect::to('ordenes/create')
                 ->withErrors($validator);
         } else {
-            $orden = new Orden();
+            $orden = new Orden;
+            $ubicacion = new XUbicacion;
+            $cliente = Cliente::findOrFail($request->cliente_id);
+            $ciudad = XCiudad::findOrFail($request->ciudad_id);
+            $ubicacion->latitud = $request->latitud;
+            $ubicacion->longitud = $request->longitud;
+            $ubicacion->save();        
             $orden->nombre = $request->nombre; 
+            $orden->estado = "Abierta";
+            $orden->barrio = $request->barrio;
+            $orden->direccion = $request->direccion;   
+            $orden->fecha_inicio = $request->fecha_inicio;
+            $orden->ciudad()->associate($ciudad);
+            $orden->cliente()->associate($cliente);
+            $orden->ubicacion()->associate($ubicacion);
            $orden->save();        
 
             SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido registrada.');
@@ -103,8 +136,15 @@ class OrdenController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = Orden::findOrFail($id);
         $editar = true;
-        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
-        return View::make('actividad.ordenes.edit')->with(compact('orden','editar','ciudades'));
+        $paises = XPais::orderBy('nombre', 'asc')->get();
+        $estados = Orden::getEstados();
+        $clientes = DB::table('clientes')
+        ->join('personas', 'clientes.persona_id', '=', 'personas.id')
+        ->select('clientes.id', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido')
+        ->whereIn('clientes.persona_id',Persona::distinct()->select('id')->whereIn('usuario_id',User::distinct()->select('id')->whereHas('roles', function ($query) {
+            $query->where('name', '=', 'ROLE_CLIENTE');
+})))->get();
+        return View::make('actividad.ordenes.edit')->with(compact('orden','editar','paises','clientes','estados'));
    
     }
 
@@ -118,7 +158,13 @@ class OrdenController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
-            'nombre'                   => 'required|max:50'
+            'nombre'                   => 'required|max:50',
+                'barrio'                   => 'required|max:50',
+            'direccion'                   => 'required|max:50',
+            'latitud'                   => 'required|max:50',
+            'longitud'                   => 'required|max:50',
+            'ciudad_id'              => 'required',
+            'fecha_inicio'                   => 'required|date'
     );
 
     $validator = Validator::make($request->all(), $rules);
@@ -130,7 +176,21 @@ class OrdenController extends Controller
             ->withErrors($validator);
     } else {
         $orden = Orden::findOrFail($request->id);
+        $ubicacion = new XUbicacion;
+        $cliente = Cliente::findOrFail($request->cliente_id);
+        $ciudad = XCiudad::findOrFail($request->ciudad_id);
+        $ubicacion->latitud = $request->latitud;
+        $ubicacion->longitud = $request->longitud;
+        $ubicacion->save();        
         $orden->nombre = $request->nombre; 
+        $orden->estado = $request->estado;
+        $orden->barrio = $request->barrio;
+        $orden->direccion = $request->direccion;   
+        $orden->fecha_inicio = $request->fecha_inicio;
+        $orden->fecha_fin = $request->fecha_fin;
+        $orden->ciudad()->associate($ciudad);
+        $orden->cliente()->associate($cliente);
+        $orden->ubicacion()->associate($ubicacion);
         $orden->save();
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido editada.');
         return Redirect::to('ordenes');
@@ -151,4 +211,5 @@ class OrdenController extends Controller
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada.');
         return Redirect::to('ordenes');
 }
+
 }

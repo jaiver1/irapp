@@ -16,7 +16,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-boxes mr-1"></i></span>
+                    <span><i class="fas fa-boxes mr-1"></i></span>
                         <a href="{{ route('productos.index') }}">Lista de productos</a>
                         <span>/</span>
                         <span>Información del producto "{{ $producto->nombre }}"</span>
@@ -25,17 +25,17 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('productos.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de productos">
-                      <i class="fa fa-2x fa-boxes"></i>
+                      <i class="fas fa-2x fa-boxes"></i>
                             </a>
 
                              <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-outline-warning btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Editar el producto "{{ $producto->nombre }}"'>
-                      <i class="fa fa-2x fa-pencil-alt"></i>
+                      <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
                                     <a onclick="eliminar_producto({{ $producto->id }},'{{ $producto->nombre }}')"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar el producto "{{ $producto->nombre }}"'>
-                      <i class="fa fa-2x fa-trash-alt"></i>
+                      <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $producto->id }}" method="POST" action="{{ route('productos.destroy', $producto->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="DELETE">
@@ -63,14 +63,14 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fa fa-boxes  mr-2"></i><strong>Producto #{{ $producto->id }}</strong>
+      <i class="fas fa-boxes  mr-2"></i><strong>Producto #{{ $producto->id }}</strong>
     </a>
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $producto->nombre }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Referencia: </strong>{{ $producto->referencia }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Valor unitario: </strong> <span class="h5"><span class="badge badge-success hoverable">@money($producto->valor_unitario)</span></span></a>
-  <a href ="{{ route('categorias.show', $producto->categoria->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fa fa-sitemap mr-2"></i>Categoria: </strong>{{ $producto->categoria->nombre }}</a>
-  <a href ="{{ route('medidas.show', $producto->medida->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fa fa-ruler mr-2"></i>Medida: </strong>{{ $producto->medida->nombre }}</a>
-  <a href ="{{ route('marcas.show', $producto->marca->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fa fa-trademark mr-2"></i>Marca: </strong>{{ $producto->marca->nombre }}</a>
+  <a href ="{{ route('categorias.show', $producto->categoria->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-sitemap mr-2"></i>Categoria: </strong>{{ $producto->categoria->nombre }}</a>
+  <a href ="{{ route('medidas.show', $producto->medida->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-ruler mr-2"></i>Medida: </strong>{{ $producto->medida->nombre }}</a>
+  <a href ="{{ route('marcas.show', $producto->marca->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-trademark mr-2"></i>Marca: </strong>{{ $producto->marca->nombre }}</a>
 </div>
                         </div>
 
@@ -95,7 +95,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 
               <!--Card content-->
               <div class="card-body">
-                    <h4><i class="fa fa-images mr-2"></i>
+                    <h4><i class="fas fa-images mr-2"></i>
             Imagenes de "{{ $producto->nombre }}"
         </h4>
         <hr/>
@@ -139,7 +139,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 
             <!--Card content-->
             <div class="card-body">
-                  <h4><i class="fa fa-box-open mr-2"></i>
+                  <h4><i class="fas fa-box-open mr-2"></i>
           Referencias de "{{ $producto->nombre }}"
       </h4>
       <hr/>
@@ -230,9 +230,9 @@ Dropzone.prototype.defaultOptions.dictFallbackText = "Utilice el formulario de r
 Dropzone.prototype.defaultOptions.dictFileTooBig = "El archivo es demasiado grande (@{{filesize}}MiB). Tamaño máximo de archivo: @{{maxFilesize}}MiB.";
 Dropzone.prototype.defaultOptions.dictInvalidFileType = "No puedes subir archivos de este tipo.";
 Dropzone.prototype.defaultOptions.dictResponseError = "Servidor respondió con código @{{statusCode}}.";
-Dropzone.prototype.defaultOptions.dictCancelUpload = "<i class='fa fa-times-circle'></i> Cancelar";
+Dropzone.prototype.defaultOptions.dictCancelUpload = "<i class='fas fa-times-circle'></i> Cancelar";
 Dropzone.prototype.defaultOptions.dictCancelUploadConfirmation = "¿Estás seguro de que quieres cancelar esta carga?";
-Dropzone.prototype.defaultOptions.dictRemoveFile = "<i class='fa fa-trash-alt'></i> Eliminar";
+Dropzone.prototype.defaultOptions.dictRemoveFile = "<i class='fas fa-trash-alt'></i> Eliminar";
 Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "No puedes subir más archivos.";
 
 jQuery(document).ready(function() {
@@ -244,7 +244,7 @@ jQuery(document).ready(function() {
         title: 'Error',
         text: err.message,
         type: 'error',
-        confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+        confirmButtonText: '<i class="fas fa-check"></i> Continuar',
         showCloseButton: true,
         confirmButtonClass: 'btn btn-danger',
         buttonsStyling: false,
@@ -280,7 +280,7 @@ jQuery(document).ready(function() {
         title: 'Error 500',
         text: 'La imagen "'+file.name+'" no pudo ser subida al servidor',
         type: 'error',
-        confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+        confirmButtonText: '<i class="fas fa-check"></i> Continuar',
         showCloseButton: true,
         confirmButtonClass: 'btn btn-danger',
         buttonsStyling: false,
@@ -298,7 +298,7 @@ jQuery(document).ready(function() {
         title: 'Error',
         text: "Dropzone no es compatible con este navegador.",
         type: 'error',
-        confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+        confirmButtonText: '<i class="fas fa-check"></i> Continuar',
         showCloseButton: true,
         confirmButtonClass: 'btn btn-danger',
         buttonsStyling: false,
@@ -333,7 +333,7 @@ function confirmar_eliminar(id,url_deleted){
         title: 'Error 500',
         text: response.message,
         type: 'error',
-        confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+        confirmButtonText: '<i class="fas fa-check"></i> Continuar',
         showCloseButton: true,
         confirmButtonClass: 'btn btn-danger',
         buttonsStyling: false,
@@ -351,7 +351,7 @@ function confirmar_eliminar(id,url_deleted){
         title: 'Error '+response.status,
         text: response.statusText,
         type: 'error',
-        confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+        confirmButtonText: '<i class="fas fa-check"></i> Continuar',
         showCloseButton: true,
         confirmButtonClass: 'btn btn-danger',
         buttonsStyling: false,
@@ -369,8 +369,8 @@ function eliminar_imagen(id,nombre,url_deleted){
   title: 'Eliminar la imagen',
   text: '¿Desea eliminar la imagen "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-trash-alt"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -401,8 +401,8 @@ function eliminar_producto(id,nombre){
   title: 'Eliminar el producto',
   text: '¿Desea eliminar el producto "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-trash-alt"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',

@@ -20,8 +20,8 @@ Medidas eliminadas | {{ config('app.name', 'Laravel') }}
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
                     <span class="fa-stack">
-  <i class="fa fa-ruler fa-stack-1x fa-lg"></i>
-   <i class="fa fa-ban fa-stack-1x fa-2x text-danger"></i>
+  <i class="fas fa-ruler fa-stack-1x fa-lg"></i>
+   <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i>
 </span>
                     <a href="{{ route('medidas.index') }}">Lista de medidas</a>
                         <span>/</span>
@@ -37,7 +37,7 @@ Medidas eliminadas | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('medidas.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de medidas">
-                      <i class="fa fa-2x fa-ruler "></i>
+                      <i class="fas fa-2x fa-ruler "></i>
                             </a>
                     </div>
 
@@ -80,12 +80,12 @@ Medidas eliminadas | {{ config('app.name', 'Laravel') }}
 
       <a onclick="restaurar_medida({{ $tipo_medida->id }},'{{ $tipo_medida->nombre }}')" class="text-success m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Restaurar la medida "{{ $tipo_medida->nombre }}"'>
-                      <i class="fa fa-2x fa-undo"></i>
+                      <i class="fas fa-2x fa-undo"></i>
                             </a>
                 
                             <a onclick="eliminar_medida({{ $tipo_medida->id }},'{{ $tipo_medida->nombre }}')" class="text-danger m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar definitivamente la medida "{{ $tipo_medida->nombre }}"'>
-                      <i class="fa fa-2x fa-trash"></i>
+                      <i class="fas fa-2x fa-trash"></i>
                             </a>
                             <form id="restaurar{{ $tipo_medida->id }}" method="POST" action="{{ route('medidas.deleted.update', $tipo_medida->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="PUT">
@@ -139,8 +139,8 @@ function eliminar_medida(id,nombre){
   title: 'Eliminar la medida',
   text: '¿Desea eliminar definitivamente la medida "'+nombre+'"?',
   type: 'warning',
-  confirmButtonText: '<i class="fa fa-trash"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -171,8 +171,8 @@ function restaurar_medida(id,nombre){
   title: 'Restaurar la medida',
   text: '¿Desea restaurar la medida "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-undo"></i> Restaurar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-undo"></i> Restaurar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -238,41 +238,41 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
 
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-2x fa-cog fa-spin"></i>',
+                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
                 titleAttr: 'Opciones',
                 buttons: [
                     {
                 extend:    'copyHtml5',
-                text:      '<i class="fa fa-copy"></i> Copiar',
+                text:      '<i class="fas fa-copy"></i> Copiar',
                 titleAttr: 'Copiar',
                 title: titulo_archivo
             },
             {
                 extend:    'print',
-                text:      '<i class="fa fa-print"></i> Imprimir',
+                text:      '<i class="fas fa-print"></i> Imprimir',
                 titleAttr: 'Imprimir',
                 title: titulo_archivo
             },
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-cloud-download-alt"></i> Exportar',
+                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
                 titleAttr: 'Exportar',
                 buttons: [         
             {
                 extend:    'csvHtml5',
-                text:      '<i class="fa fa-file-csv"></i> Csv',
+                text:      '<i class="fas fa-file-csv"></i> Csv',
                 titleAttr: 'Csv',
                 title: titulo_archivo
             }, 
             {
                 extend:    'excelHtml5',
-                text:      '<i class="fa fa-file-excel"></i> Excel',
+                text:      '<i class="fas fa-file-excel"></i> Excel',
                 titleAttr: 'Excel',
                 title: titulo_archivo
             },
             {
                 extend:    'pdfHtml5',
-                text:      '<i class="fa fa-file-pdf"></i> Pdf',
+                text:      '<i class="fas fa-file-pdf"></i> Pdf',
                 titleAttr: 'Pdf',
                 title: titulo_archivo
             }
@@ -281,7 +281,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
            
             {
                 extend:    'colvis',
-                text:      '<i class="fa fa-low-vision"></i> Ver/Ocultar',
+                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
                 titleAttr: 'Ver/Ocultar',
             }
            
@@ -294,7 +294,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<span class="fa-stack"><i class="fa fa-ruler fa-stack-1x fa-lg"></i> <i class="fa fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de medida eliminado "'+ data[1]+'"';
+                        return '<span class="fa-stack"><i class="fas fa-ruler fa-stack-1x fa-lg"></i> <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de medida eliminado "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

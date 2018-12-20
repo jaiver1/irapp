@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-user-tie prefix"></i>
+    <i class="fas fa-user-tie prefix"></i>
     <input type="text" required id="cedula" value="{{ old('cedula') ? old('cedula') : $persona->cedula}}" name="cedula" class="form-control validate" maxlength="50">
     <label for="cedula" data-error="Error" data-success="Correcto">Cedula *</label>
 </div>
@@ -28,7 +28,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-credit-card prefix"></i>
+    <i class="fas fa-credit-card prefix"></i>
     <input type="text"  id="cuenta_banco" value="{{ old('cuenta_banco') ? old('cuenta_banco') : $persona->cuenta_banco}}" name="cuenta_banco" class="form-control validate" maxlength="50">
     <label for="cuenta_banco" data-error="Error" data-success="Correcto">Cuenta banco</label>
 </div>
@@ -146,7 +146,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="prefix fa fa-mobile-alt"></i>
+    <i class="prefix fas fa-mobile-alt"></i>
     <input type="tel" required id="telefono_movil" value="{{ old('telefono_movil') ? old('telefono_movil') : $persona->telefono_movil}}" name="telefono_movil" class="form-control validate" maxlength="50">
     <label for="telefono_movil" data-error="Error" data-success="Correcto">Telefono móvil *</label>
 </div>
@@ -167,7 +167,7 @@
           <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="prefix fa fa-phone"></i>
+    <i class="prefix fas fa-phone fa-flip-horizontal"></i>
     <input type="tel" id="telefono_fijo" value="{{ old('telefono_fijo') ? old('telefono_fijo') : $persona->telefono_fijo}}" name="telefono_fijo" class="form-control validate" maxlength="50">
     <label for="telefono_fijo" data-error="Error" data-success="Correcto">Telefono fijo *</label>
 </div>
@@ -193,7 +193,7 @@
     <!-- Material input -->
     
     <div class="md-form">
-    <i class="fa fa-user-circle"></i>
+    <i class="fas fa-user-circle"></i>
     <small for="usuario_id">Usuario *</small>   
 <select class="form-control" required id="usuario_id" name="usuario_id">
     @if ($editar)
@@ -221,14 +221,10 @@
     <!-- Material input -->
     
     <div class="md-form">
-    <i class="fa fa-city"></i>
+    <i class="fas fa-city"></i>
     <small for="ciudad_id">Ciudad *</small>   
-<select class="form-control" required id="ciudad_id" name="ciudad_id">
-<option value="" disabled selected>Selecciona una opción</option>
-@foreach($ciudades as $key => $ciudad)
-<option {{ old('ciudad_id') ?  ((old('ciudad_id') == $ciudad->id) ? 'selected' : '') : (($persona->ciudad->id == $ciudad->id) ? 'selected' : '') }} value="{{ $ciudad->id }}">{{$ciudad->nombre}}</option>
-@endforeach
-</select>
+    @include('include.dato_basico.ciudades.select', array('ciudad_selected'=>$persona->ciudad))
+
 </div> @if ($errors->has('ciudad_id'))
                                     <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
                                    {{ $errors->first('ciudad_id') }}
@@ -249,7 +245,7 @@
   <div class="col-md-6">
       <!-- Material input -->
       <div class="md-form">
-<i class="prefix fa fa-map-marked-alt"></i>
+<i class="prefix fas fa-map-marked-alt"></i>
 <input type="text" required id="barrio" value="{{ old('barrio') ? old('barrio') : $persona->barrio}}" name="barrio" class="form-control validate" maxlength="50">
 <label for="barrio" data-error="Error" data-success="Correcto">Barrio *</label>
 </div>
@@ -270,7 +266,7 @@
     <div class="col-md-6">
       <!-- Material input -->
       <div class="md-form">
-<i class="prefix fa fa-home"></i>
+<i class="prefix fas fa-home"></i>
 <input type="text" required id="direccion" value="{{ old('direccion') ? old('direccion') : $persona->direccion}}" name="direccion" class="form-control validate" maxlength="50">
 <label for="direccion" data-error="Error" data-success="Correcto">Dirección *</label>
 </div>

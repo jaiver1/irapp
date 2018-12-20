@@ -26,14 +26,14 @@ body {
                                         <div class="card-body">
                                             <!--Header-->
                                             <div class="text-center">
-                                                <h3 class="white-text"><i class="fa fa-user-plus mr-2"></i>Registrarse</h3>
+                                                <h3 class="white-text"><i class="fas fa-user-plus mr-2"></i>Registrarse</h3>
                                                 <hr class="hr-light">
                                             </div>
                                             <form method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
                                             <div class="md-form">
-                                                <i class="fa fa-envelope prefix white-text"></i>
+                                                <i class="far fa-envelope prefix white-text"></i>
                                                 <input id="email" type="email" class="form-control validate white-text" name="email" value="{{ old('email') }}" required autofocus>
                                                 <label for="email" data-error="Error" data-success="Correcto">Email</label>
                                             </div>
@@ -48,7 +48,7 @@ body {
                                 @endif
 
                                             <div class="md-form">
-                                                <i class="fa fa-lock prefix white-text"></i>
+                                                <i class="fas fa-lock prefix white-text"></i>
                                                 <input id="password" type="password" class="form-control validate white-text" name="password" required>
                                                 <label for="password" data-error="Error" data-success="Correcto">Contraseña</label>
                                             </div>
@@ -63,7 +63,7 @@ body {
 
                                             <div class="text-center">
                                                 <button class="btn btn-outline-white hoverable waves-light" data-wow-delay="0.4s" role="button">
-                                                    <i class="fa fa-user-plus mr-2"></i>Registrarse</button>
+                                                    <i class="fas fa-user-plus mr-2"></i>Registrarse</button>
                                                    
                                             </div>
                                             </form>

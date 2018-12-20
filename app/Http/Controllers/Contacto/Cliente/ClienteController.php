@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Contacto\Cliente;
 use App\Models\Contacto\Persona;
 use App\Models\Dato_basico\XUbicacion;
+use App\Models\Dato_basico\XPais;
 use App\Models\Dato_basico\XCiudad;
 use App\Models\Root\User;
 use Illuminate\Support\Facades\Validator;
@@ -44,18 +45,16 @@ class ClienteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $cliente = new Cliente;
         $persona = new Persona;
-        $usuario = new User;
-        $ciudad = new XCiudad;
         $persona->ubicacion()->associate(new XUbicacion);
-        $persona->ciudad()->associate($ciudad);
-        $persona->usuario()->associate($usuario);
+        $persona->ciudad()->associate(new XCiudad);
+        $persona->usuario()->associate(new User);
         $cliente->persona()->associate($persona);
         $editar = false;
-        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
+        $paises = XPais::orderBy('nombre', 'asc')->get();
         $usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
-        return View::make('contacto.clientes.create')->with(compact('cliente','editar','ciudades','usuarios'));
+        return View::make('contacto.clientes.create')->with(compact('cliente','editar','paises','usuarios'));
     }
 
     /**
@@ -150,11 +149,11 @@ class ClienteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $cliente = Cliente::findOrFail($id);
         $editar = true;
-        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
+        $paises = XPais::orderBy('nombre', 'asc')->get();
         $usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
-        return View::make('contacto.clientes.edit')->with(compact('cliente','editar','ciudades','usuarios'));
+        return View::make('contacto.clientes.edit')->with(compact('cliente','editar','paises','usuarios'));
    
     }
 

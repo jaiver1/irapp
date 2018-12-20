@@ -17,7 +17,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fa fa-ruler prefix"></i>
+    <i class="fas fa-ruler prefix"></i>
     <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $medida->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
 </div>
@@ -60,7 +60,7 @@
             <!-- Material input -->
             
             <div class="md-form">
-            <i class="fa fa-balance-scale"></i>
+            <i class="fas fa-balance-scale"></i>
             <small for="tipo_medida_id">Tipo de medida *</small>   
     <select class="form-control" required id="tipo_medida_id" name="tipo_medida_id">
     <option value="" disabled selected>Selecciona una opción</option>
@@ -83,7 +83,7 @@
     <!-- Grid row -->
 
     <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
-    <i class="fa fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
+    <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
     </button>
 </form>
 @endsection
@@ -100,6 +100,6 @@ $('#tipo_medida_id').select2({
         language: "es"
     });
     $(".select2-selection__arrow")
-        .addClass("fa fa-chevron-down");
+        .addClass("fas fa-chevron-down");
 </script>
 @endsection

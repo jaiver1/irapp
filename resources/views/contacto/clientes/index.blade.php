@@ -18,7 +18,7 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-user-tie fa-lg mr-1"></i></span>   <span>@if ($clientes->count() === 1)
+                    <span><i class="fas fa-user-tie fa-lg mr-1"></i></span>   <span>@if ($clientes->count() === 1)
                 Un cliente
             @elseif ($clientes->count() > 1)
                 {{ $clientes->count() }} clientes
@@ -31,11 +31,11 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('clientes.create') }}" class="btn btn-outline-success btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Registrar un cliente">
-                      <i class="fa fa-2x fa-plus"></i>
+                      <i class="fas fa-2x fa-plus"></i>
                             </a>
                             <a href="{{ route('clientes.deleted.index') }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Clientes eliminados">
-                      <i class="fa fa-2x fa-recycle"></i>
+                      <i class="fas fa-2x fa-recycle"></i>
                             </a>
                     </div>
 
@@ -112,17 +112,17 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
 
 <a href="{{ route('clientes.show',$cliente->id) }}" class="text-primary m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Información del cliente "{{ $cliente->persona->cedula }}"'>
-                      <i class="fa fa-2x fa-info-circle"></i>
+                      <i class="fas fa-2x fa-info-circle"></i>
                             </a>
 
       <a href="{{ route('clientes.edit',$cliente->id) }}" class="text-warning m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Editar el cliente "{{ $cliente->persona->cedula }}"'>
-                      <i class="fa fa-2x fa-pencil-alt"></i>
+                      <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
                             <a onclick="eliminar_cliente({{ $cliente->id }},'{{ $cliente->nombre }}')" class="text-danger m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar el cliente "{{ $cliente->persona->cedula }} "'>
-                      <i class="fa fa-2x fa-trash-alt"></i>
+                      <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $cliente->id }}" method="POST" action="{{ route('clientes.destroy', $cliente->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="DELETE">
@@ -172,8 +172,8 @@ function eliminar_cliente(id,nombre){
   title: 'Eliminar el cliente',
   text: '¿Desea eliminar el cliente "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-trash-alt"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -238,41 +238,41 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
 
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-2x fa-cog fa-spin"></i>',
+                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
                 titleAttr: 'Opciones',
                 buttons: [
                     {
                 extend:    'copyHtml5',
-                text:      '<i class="fa fa-copy"></i> Copiar',
+                text:      '<i class="fas fa-copy"></i> Copiar',
                 titleAttr: 'Copiar',
                 title: titulo_archivo
             },
             {
                 extend:    'print',
-                text:      '<i class="fa fa-print"></i> Imprimir',
+                text:      '<i class="fas fa-print"></i> Imprimir',
                 titleAttr: 'Imprimir',
                 title: titulo_archivo
             },
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-cloud-download-alt"></i> Exportar',
+                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
                 titleAttr: 'Exportar',
                 buttons: [         
             {
                 extend:    'csvHtml5',
-                text:      '<i class="fa fa-file-csv"></i> Csv',
+                text:      '<i class="fas fa-file-csv"></i> Csv',
                 titleAttr: 'Csv',
                 title: titulo_archivo
             }, 
             {
                 extend:    'excelHtml5',
-                text:      '<i class="fa fa-file-excel"></i> Excel',
+                text:      '<i class="fas fa-file-excel"></i> Excel',
                 titleAttr: 'Excel',
                 title: titulo_archivo
             },
             {
                 extend:    'pdfHtml5',
-                text:      '<i class="fa fa-file-pdf"></i> Pdf',
+                text:      '<i class="fas fa-file-pdf"></i> Pdf',
                 titleAttr: 'Pdf',
                 title: titulo_archivo
             }
@@ -281,7 +281,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
            
             {
                 extend:    'colvis',
-                text:      '<i class="fa fa-low-vision"></i> Ver/Ocultar',
+                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
                 titleAttr: 'Ver/Ocultar',
             }
            
@@ -294,7 +294,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-user-tie fa-lg"></i> Datos del cliente "'+ data[1]+'"';
+                        return '<i class="fas fa-user-tie fa-lg"></i> Datos del cliente "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

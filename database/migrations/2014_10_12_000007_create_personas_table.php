@@ -28,8 +28,8 @@ class CreatePersonasTable extends Migration
             $table->string('direccion',50)->default("")->nullable();
             $table->string('cuenta_banco', 50)->default("")->nullable();
             $table->unsignedBigInteger('usuario_id')->default(1)->nullable();
-            $table->foreign('ubicacion_id')->references('id')->on('ubicaciones')->onUpdate('cascade')->onDelete('cascade'); 
-            $table->foreign('ciudad_id')->references('id')->on('ciudades')->onUpdate('cascade')->onDelete('cascade'); 
+            $table->foreign('ubicacion_id')->references('id')->on('ubicaciones')->onUpdate('cascade'); 
+            $table->foreign('ciudad_id')->references('id')->on('ciudades')->onUpdate('cascade'); 
             $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');                 
             $table->softDeletes();
             $table->timestamps();

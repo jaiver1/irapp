@@ -26,7 +26,7 @@
 
 
     <button type="submit" class="mt-4 waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
-    <i class="fa fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
+    <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
     </button>
 </form>
 @endsection
@@ -51,7 +51,7 @@
             language: "es"
         });
         $(".select2-selection__arrow")
-            .addClass("fa fa-chevron-down");
+            .addClass("fas fa-chevron-down");
 </script>
 
 @yield('gmaps_links')

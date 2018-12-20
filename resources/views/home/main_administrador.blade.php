@@ -18,7 +18,7 @@
                         <!-- Default input -->
                         <input type="search" placeholder="Type your query" aria-label="Search" class="form-control">
                         <button class="btn btn-primary btn-sm my-0 p" type="submit">
-                            <i class="fa fa-search"></i>
+                            <i class="fas fa-search"></i>
                         </button>
 
                     </form>
@@ -81,12 +81,12 @@
                             <div class="list-group list-group-flush">
                                 <a class="list-group-item list-group-item-action waves-effect">Sales
                                     <span class="badge badge-success badge-pill pull-right">22%
-                                        <i class="fa fa-arrow-up ml-1"></i>
+                                        <i class="fas fa-arrow-up ml-1"></i>
                                     </span>
                                 </a>
                                 <a class="list-group-item list-group-item-action waves-effect">Traffic
                                     <span class="badge badge-danger badge-pill pull-right">5%
-                                        <i class="fa fa-arrow-down ml-1"></i>
+                                        <i class="fas fa-arrow-down ml-1"></i>
                                     </span>
                                 </a>
                                 <a class="list-group-item list-group-item-action waves-effect">Orders
@@ -349,7 +349,7 @@
                                                     provident fugiat reprehenderit nostrum quos..</p>
 
                                                 <a role="button" class="btn btn-info">Get it now
-                                                    <i class="fa fa-diamond ml-1"></i>
+                                                    <i class="fas fa-diamond ml-1"></i>
                                                 </a>
                                                 <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">No, thanks</a>
                                             </div>
@@ -374,7 +374,7 @@
                                                     provident fugiat reprehenderit nostrum quos..</p>
 
                                                 <a role="button" class="btn btn-success">Get it now
-                                                    <i class="fa fa-diamond ml-1"></i>
+                                                    <i class="fas fa-diamond ml-1"></i>
                                                 </a>
                                                 <a role="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">No, thanks</a>
                                             </div>
@@ -403,7 +403,7 @@
                                         <!--Body-->
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                                                <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit iusto nulla
                                                     aperiam blanditiis ad consequatur in dolores culpa, dignissimos, eius
                                                     non possimus fugiat. Esse ratione fuga, enim, ab officiis totam.
@@ -414,7 +414,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer justify-content-center">
                                             <a role="button" class="btn btn-success">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -455,7 +455,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer justify-content-center">
                                             <a role="button" class="btn btn-info">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -487,7 +487,7 @@
                                                 <div class="col-3">
                                                     <p></p>
                                                     <p class="text-center">
-                                                        <i class="fa fa-shopping-cart fa-4x"></i>
+                                                        <i class="fas fa-shopping-cart fa-4x"></i>
                                                     </p>
                                                 </div>
 
@@ -504,7 +504,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer justify-content-center">
                                             <a role="button" class="btn btn-danger">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -556,7 +556,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer justify-content-center">
                                             <a role="button" class="btn btn-warning">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -588,7 +588,7 @@
 
                                             <div class="text-center mt-4">
                                                 <button class="btn btn-cyan">Login
-                                                    <i class="fa fa-sign-in ml-1"></i>
+                                                    <i class="fas fa-sign-in ml-1"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -638,7 +638,7 @@
                                         <!--Body-->
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                                                <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit iusto nulla
                                                     aperiam blanditiis ad consequatur in dolores culpa, dignissimos, eius
                                                     non possimus fugiat. Esse ratione fuga, enim, ab officiis totam.
@@ -652,7 +652,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer">
                                             <a role="button" class="btn btn-info">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -679,7 +679,7 @@
                                         <!--Body-->
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                                                <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit iusto nulla
                                                     aperiam blanditiis ad consequatur in dolores culpa, dignissimos, eius
                                                     non possimus fugiat. Esse ratione fuga, enim, ab officiis totam.
@@ -716,7 +716,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer">
                                             <a role="button" class="btn btn-success">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -744,7 +744,7 @@
                                         <!--Body-->
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                                                <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit iusto nulla
                                                     aperiam blanditiis ad consequatur in dolores culpa, dignissimos, eius
                                                     non possimus fugiat. Esse ratione fuga, enim, ab officiis totam.
@@ -781,7 +781,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer justify-content-center">
                                             <a role="button" class="btn btn-success">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -809,7 +809,7 @@
                                         <!--Body-->
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                                                <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit iusto nulla
                                                     aperiam blanditiis ad consequatur in dolores culpa, dignissimos, eius
                                                     non possimus fugiat. Esse ratione fuga, enim, ab officiis totam.
@@ -846,7 +846,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer justify-content-center">
                                             <a role="button" class="btn btn-info">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -874,7 +874,7 @@
                                         <!--Body-->
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                                                <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                                             </div>
                                             <ul class="list-group z-depth-0">
                                                 <li class="list-group-item justify-content-between">
@@ -895,7 +895,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer">
                                             <a role="button" class="btn btn-warning">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>
@@ -923,7 +923,7 @@
                                         <!--Body-->
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                                                <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                                             </div>
                                             <ul class="list-group z-depth-0">
                                                 <li class="list-group-item justify-content-between">
@@ -944,7 +944,7 @@
                                         <!--Footer-->
                                         <div class="modal-footer">
                                             <a role="button" class="btn btn-danger">Get it now
-                                                <i class="fa fa-diamond ml-1"></i>
+                                                <i class="fas fa-diamond ml-1"></i>
                                             </a>
                                             <a role="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">No, thanks</a>
                                         </div>

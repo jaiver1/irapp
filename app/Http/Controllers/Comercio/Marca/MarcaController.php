@@ -52,7 +52,7 @@ class MarcaController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
-                'nombre'                   => 'required|max:50'
+                'nombre'  => 'required|max:50'
         );
 
         $validator = Validator::make($request->all(), $rules);

@@ -18,7 +18,7 @@ Lista de categorias | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fa fa-sitemap fa-lg mr-1"></i></span> <span> @if ($categorias->count() === 1)
+                    <span><i class="fas fa-sitemap fa-lg mr-1"></i></span> <span> @if ($categorias->count() === 1)
                 Una categoria
             @elseif ($categorias->count() > 1)
                 {{ $categorias->count() }} categorias
@@ -31,11 +31,11 @@ Lista de categorias | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('categorias.create') }}" class="btn btn-outline-success btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Registrar una categoria">
-                      <i class="fa fa-2x fa-plus"></i>
+                      <i class="fas fa-2x fa-plus"></i>
                             </a>
                             <a href="{{ route('categorias.deleted.index') }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Categorias eliminadas">
-                      <i class="fa fa-2x fa-recycle"></i>
+                      <i class="fas fa-2x fa-recycle"></i>
                             </a>
                     </div>
 
@@ -81,17 +81,17 @@ Lista de categorias | {{ config('app.name', 'Laravel') }}
       <td>
       <a href="{{ route('especialidades.show',$categoria->especialidad->id) }}" class="link-text"
                     data-toggle="tooltip" data-placement="bottom" title='Información de la especialidad "{{ $categoria->especialidad->nombre }}"'>
-                      <i class="fa fa-object-group"></i> {{$categoria->especialidad->nombre}}
+                      <i class="fas fa-object-group"></i> {{$categoria->especialidad->nombre}}
                             </a>    
                         </td>
 
             <td>
                 @if($categoria->categoria == NULL)
-               <h5> <span class="badge badge-secondary hoverable"><i class="fa fa-network-wired mr-1"></i>Categoria raiz</span><h5>
+               <h5> <span class="badge badge-secondary hoverable"><i class="fas fa-network-wired mr-1"></i>Categoria raiz</span><h5>
                 @else
                     <a href="{{ route('categorias.show',$categoria->categoria->id) }}" class="link-text"
                                   data-toggle="tooltip" data-placement="bottom" title='Información de la categoria padre "{{ $categoria->categoria->nombre }}"'>
-                                    <i class="fa fa-sitemap"></i> {{$categoria->categoria->nombre}}
+                                    <i class="fas fa-sitemap"></i> {{$categoria->categoria->nombre}}
                                           </a>    
                 @endif
             </td>
@@ -99,17 +99,17 @@ Lista de categorias | {{ config('app.name', 'Laravel') }}
 
 <a href="{{ route('categorias.show',$categoria->id) }}" class="text-primary m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Información de la categoria "{{ $categoria->nombre }}"'>
-                      <i class="fa fa-2x fa-info-circle"></i>
+                      <i class="fas fa-2x fa-info-circle"></i>
                             </a>
 
       <a href="{{ route('categorias.edit',$categoria->id) }}" class="text-warning m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Editar la categoria "{{ $categoria->nombre }}"'>
-                      <i class="fa fa-2x fa-pencil-alt"></i>
+                      <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
                             <a onclick="eliminar_categoria({{ $categoria->id }},'{{ $categoria->nombre }}')" class="text-danger m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar la categoria "{{ $categoria->nombre }}"'>
-                      <i class="fa fa-2x fa-trash-alt"></i>
+                      <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $categoria->id }}" method="POST" action="{{ route('categorias.destroy', $categoria->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="DELETE">
@@ -159,8 +159,8 @@ function eliminar_categoria(id,nombre){
   title: 'Eliminar la categoria',
   text: '¿Desea eliminar la categoria "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fa fa-trash-alt"></i> Eliminar',
-  cancelButtonText: '<i class="fa fa-times"></i> Cancelar',
+  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
@@ -227,41 +227,41 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
 
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-2x fa-cog fa-spin"></i>',
+                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
                 titleAttr: 'Opciones',
                 buttons: [
                     {
                 extend:    'copyHtml5',
-                text:      '<i class="fa fa-copy"></i> Copiar',
+                text:      '<i class="fas fa-copy"></i> Copiar',
                 titleAttr: 'Copiar',
                 title: titulo_archivo
             },
             {
                 extend:    'print',
-                text:      '<i class="fa fa-print"></i> Imprimir',
+                text:      '<i class="fas fa-print"></i> Imprimir',
                 titleAttr: 'Imprimir',
                 title: titulo_archivo
             },
             {
                 extend: 'collection',
-                text:      '<i class="fa fa-cloud-download-alt"></i> Exportar',
+                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
                 titleAttr: 'Exportar',
                 buttons: [         
             {
                 extend:    'csvHtml5',
-                text:      '<i class="fa fa-file-csv"></i> Csv',
+                text:      '<i class="fas fa-file-csv"></i> Csv',
                 titleAttr: 'Csv',
                 title: titulo_archivo
             }, 
             {
                 extend:    'excelHtml5',
-                text:      '<i class="fa fa-file-excel"></i> Excel',
+                text:      '<i class="fas fa-file-excel"></i> Excel',
                 titleAttr: 'Excel',
                 title: titulo_archivo
             },
             {
                 extend:    'pdfHtml5',
-                text:      '<i class="fa fa-file-pdf"></i> Pdf',
+                text:      '<i class="fas fa-file-pdf"></i> Pdf',
                 titleAttr: 'Pdf',
                 title: titulo_archivo
             }
@@ -270,7 +270,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
            
             {
                 extend:    'colvis',
-                text:      '<i class="fa fa-low-vision"></i> Ver/Ocultar',
+                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
                 titleAttr: 'Ver/Ocultar',
             }
            
@@ -283,7 +283,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fa fa-sitemap fa-lg"></i>  Datos de la categoria "'+ data[1]+'"';
+                        return '<i class="fas fa-sitemap fa-lg"></i>  Datos de la categoria "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

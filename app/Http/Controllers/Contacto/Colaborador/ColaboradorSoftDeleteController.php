@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Contacto\Colaborador;
-use App\Models\Comercio\Producto;
+namespace App\Http\Controllers\Contacto\colaborador;
+use App\Http\Controllers\Controller;
+use App\Models\Contacto\colaborador;
 use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
 class ColaboradorSoftDeleteController extends Controller
 {
@@ -24,16 +24,16 @@ class ColaboradorSoftDeleteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    private static function getDeletedMarca($id)
+    private static function getDeletedCliente($id)
     {
-        $producto = Producto::onlyTrashed()->where('id', $id)->get();
+        $colaborador = colaborador::onlyTrashed()->where('id', $id)->get();
         
-        if (count($producto) != 1) {
-            SweetAlert::error('Error','El producto no existe.');
-            return redirect('/productos/deleted');
+        if (count($colaborador) != 1) {
+            SweetAlert::error('Error','El colaborador no existe.');
+            return redirect('/colaboradores/deleted');
         }
 
-        return $producto[0];
+        return $colaborador[0];
     }
 
     /**
@@ -44,8 +44,8 @@ class ColaboradorSoftDeleteController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $productos = Producto::onlyTrashed()->get();
-        return View('comercio.productos.index_deleted', compact('productos'));
+        $colaboradores = colaborador::onlyTrashed()->get();
+        return View('contacto.colaboradores.index_deleted', compact('colaboradores'));
     }
 
 
@@ -60,10 +60,10 @@ class ColaboradorSoftDeleteController extends Controller
     public function update($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $producto = self::getDeletedMarca($id);
-        $producto->restore();
-        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido restaurada.');
-        return Redirect::to('productos/deleted');
+        $colaborador = self::getDeletedCliente($id);
+        $colaborador->restore();
+        SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre." ".$colaborador->persona->primer_apellido.'" ha sido restaurada.');
+        return Redirect::to('colaboradores/deleted');
     }
 
     /**
@@ -76,9 +76,9 @@ class ColaboradorSoftDeleteController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $producto = self::getDeletedMarca($id);
-        $producto->forceDelete();
-        SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada permanentemente.');
-        return Redirect::to('productos/deleted');
+        $colaborador = self::getDeletedCliente($id);
+        $colaborador->forceDelete();
+        SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre." ".$colaborador->persona->primer_apellido.'" ha sido eliminado permanentemente.');
+        return Redirect::to('colaboradores/deleted');
     }
 }

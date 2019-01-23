@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Comercio\Producto;
 
 class Marca extends Model
 {
@@ -48,7 +49,7 @@ class Marca extends Model
   ];
 
   public function productos(){
-    return $this->hasMany('App\Models\Comercio\Producto');
+    return $this->hasMany(Producto::class);
   }
   
 }

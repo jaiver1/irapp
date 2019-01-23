@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Clasificacion\Categoria;
+use App\Models\Dato_basico\Medida;
+use App\Models\Contacto\Colaborador;
 
 class Servicio extends Model
 {
@@ -27,7 +30,11 @@ class Servicio extends Model
      * @var array
      */
   protected $fillable = [
-    'nombre'
+    'nombre',
+    'descripcion',
+    'valor_unitario',
+    'medida_id',
+    'categoria_id',
   ];
 
    /**
@@ -47,4 +54,17 @@ class Servicio extends Model
       'deleted_at',
   ];
 
+ public function categoria()
+{
+    return $this->belongsTo(Categoria::class);
+}
+
+public function medida()
+{
+    return $this->belongsTo(Medida::class);
+}
+  public function colaboradores()
+  {
+      return $this->belongsToMany(Colaborador::class);
+  }
 }

@@ -16,7 +16,7 @@ Información del usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-users mr-1"></i></span>
+                    <span><i class="fas fa-users mr-1 fa-lg"></i></span>
                         <a href="{{ route('usuarios.index') }}">Lista de usuarios</a>
                         <span>/</span>
                         <span>Información del usuario "{{ $usuario->name }}"</span>
@@ -67,7 +67,47 @@ Información del usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel
     </a>
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $usuario->name }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Email: </strong>{{ $usuario->email }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong>Rol: </strong>{{$usuario->roles[0]->display_name}}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Rol: </strong>
+
+    <span class="h5">
+        @if($usuario->roles->count() > 0)
+      <span class="hoverable badge
+@switch($usuario->roles->first()->name)
+    @case('ROLE_ROOT')
+        red
+    @break
+    @case('ROLE_ADMINISTRADOR')
+        indigo
+    @break
+    @case('ROLE_COLABORADOR')
+        teal
+    @break
+    @default
+        blue-grey
+    @endswitch
+        ">
+        <i class="mr-1 fas
+        @switch($usuario->roles->first()->name)
+    @case('ROLE_ROOT')
+        fa-user-secret
+    @break
+    @case('ROLE_ADMINISTRADOR')
+    fa-user-shield  
+    @break
+    @case('ROLE_COLABORADOR')
+    fa-user-cog 
+    @break
+    @default
+    fa-user-tie 
+    @endswitch
+        "></i>{{$usuario->roles->first()->display_name}}</span>
+        @else
+        <span class="hoverable badge black">
+            <i class="mr-1 fas fa-user-times"></i>Sin rol 
+      </span>
+        @endif
+      </span>
+    </a>
 </div>
                         </div>
 

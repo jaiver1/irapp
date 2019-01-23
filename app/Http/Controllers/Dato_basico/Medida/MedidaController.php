@@ -40,6 +40,8 @@ class MedidaController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $medida = new Medida;
+        $tipo_medida = new Tipo_medida;
+        $medida->tipo_medida()->associate($tipo_medida);
         $tipos_medidas = Tipo_medida::all();
         $editar = false;
         return View::make('dato_basico.medidas.create')->with(compact('tipos_medidas','medida','editar'));

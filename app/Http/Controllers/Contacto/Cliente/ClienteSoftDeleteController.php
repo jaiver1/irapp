@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Contacto\Cliente;
 use App\Http\Controllers\Controller;
-use App\Models\Comercio\Producto;
+use App\Models\Contacto\Cliente;
 use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
@@ -24,9 +24,9 @@ class ClienteSoftDeleteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    private static function getDeletedMarca($id)
+    private static function getDeletedCliente($id)
     {
-        $cliente = Producto::onlyTrashed()->where('id', $id)->get();
+        $cliente = Cliente::onlyTrashed()->where('id', $id)->get();
         
         if (count($cliente) != 1) {
             SweetAlert::error('Error','El cliente no existe.');
@@ -44,7 +44,7 @@ class ClienteSoftDeleteController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $clientes = Producto::onlyTrashed()->get();
+        $clientes = Cliente::onlyTrashed()->get();
         return View('contacto.clientes.index_deleted', compact('clientes'));
     }
 
@@ -60,9 +60,9 @@ class ClienteSoftDeleteController extends Controller
     public function update($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $cliente = self::getDeletedMarca($id);
+        $cliente = self::getDeletedCliente($id);
         $cliente->restore();
-        SweetAlert::success('Exito','El cliente "'.$cliente->nombre.'" ha sido restaurada.');
+        SweetAlert::success('Exito','El cliente "'.$cliente->persona->primer_nombre." ".$cliente->persona->primer_apellido.'" ha sido restaurada.');
         return Redirect::to('clientes/deleted');
     }
 
@@ -76,9 +76,9 @@ class ClienteSoftDeleteController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $cliente = self::getDeletedMarca($id);
+        $cliente = self::getDeletedCliente($id);
         $cliente->forceDelete();
-        SweetAlert::success('Exito','El cliente "'.$cliente->nombre.'" ha sido eliminado permanentemente.');
+        SweetAlert::success('Exito','El cliente "'.$cliente->persona->primer_nombre." ".$cliente->persona->primer_apellido.'" ha sido eliminado permanentemente.');
         return Redirect::to('clientes/deleted');
     }
 }

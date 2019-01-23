@@ -261,8 +261,14 @@ class ProductoController extends Controller
             if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {                
                 $image = $request->file('imagen');
                 $producto = Producto::findOrFail($id);
-                $filename = $producto->id.'-'.$image->getClientOriginalName();  
-                $route = 'img/dashboard/productos/imagenes/' . $filename;
+                $filename = $producto->id.'-'.$image->getClientOriginalName(); 
+                $dir = 'img/dashboard/productos/imagenes';
+                $public_dir = public_path($dir);
+                
+                $route =  $dir.'/'. $filename;
+                if (!file_exists($public_dir)) {
+                    mkdir($public_dir, 0777);
+                } 
                 $path = public_path($route);          
                     Image::make($image->getRealPath())->save($path);
                     $imagen_producto = new XImagen_producto;
@@ -272,14 +278,14 @@ class ProductoController extends Controller
                     $imagen_producto->save();
                    return response()->json(['status'=>200,'message'=>'OK']);
                }else{ 
-                return response()->json(['status'=>500,'message'=>'Error al subir']);
+                return response()->json(['status'=>500,'message'=>'Error al subir la imagen.']);
             }
         }
 
         } catch (Throwable $e) {
-            return response()->json(['status'=>500,'message'=>$e]);
+            return response()->json(['status'=>500,'message'=>$e->getMessage()]);
         } catch (Exception $e) {
-            return response()->json(['status'=>500,'message'=>$e]);
+            return response()->json(['status'=>500,'message'=>$e->getMessage()]);
         }
             }
 
@@ -339,13 +345,15 @@ class ProductoController extends Controller
         $imagen = XImagen_producto::findOrFail($id);   
 
         $imagen->delete();
-        unlink($imagen->ruta);
+        if (file_exists($imagen->ruta)) {
+            unlink($imagen->ruta);
+        } 
         return response()->json(['status'=>200,'message'=>"OK"]);
 
     } catch (Throwable $e) {
-        return response()->json(['status'=>500,'message'=>$e]);
+        return response()->json(['status'=>500,'message'=>$e->getMessage()]);
     } catch (Exception $e) {
-        return response()->json(['status'=>500,'message'=>$e]);
+        return response()->json(['status'=>500,'message'=>$e->getMessage()]);
     }
 }
 }

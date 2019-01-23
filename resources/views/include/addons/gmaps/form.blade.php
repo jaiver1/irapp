@@ -3,10 +3,14 @@
         <div class="form-row">
             <!-- Grid column -->
             <div class="col-md-6">
+                <div class="md-form">
+                  
+                    <input type="hidden" readonly id="infowindow" value="{{$infowindow}}" name="infowindow" class="form-control validate" maxlength="50">               
+                   </div>
                 <!-- Material input -->
                 <div class="md-form">
         <i class="fas fa-location-arrow prefix"></i>
-        <input type="text" readonly required id="latitud" value="{{ old('latitud') ? old('latitud') : (($ubicacion->latitud) ? $ubicacion->latitud : 0 ) }}" name="latitud" class="form-control validate" maxlength="50">
+        <input type="text" readonly required id="latitud" value="{{ old('latitud') ? old('latitud') : (($ubicacion->latitud != null && $ubicacion->latitud != 0 && $ubicacion->latitud != "") ? $ubicacion->latitud : 0 ) }}" name="latitud" class="form-control validate" maxlength="50">
         <label for="latitud" data-error="Error" data-success="Correcto">Latitud *</label>
     </div>
     @if ($errors->has('latitud'))
@@ -26,7 +30,7 @@
                 <!-- Material input -->
                 <div class="md-form">
         <i class="fas fa-map-marker-alt prefix"></i>
-        <input type="text" readonly required id="longitud" value="{{ old('longitud') ? old('longitud') : (($ubicacion->longitud) ? $ubicacion->longitud : 0) }}" name="longitud" class="form-control validate" maxlength="50">
+        <input type="text" readonly required id="longitud" value="{{ old('longitud') ? old('longitud') : (($ubicacion->longitud != null && $ubicacion->longitud != 0 && $ubicacion->longitud != "") ? $ubicacion->longitud : 0) }}" name="longitud" class="form-control validate" maxlength="50">
         <label for="longitud" data-error="Error" data-success="Correcto">Longitud *</label>
     </div>
     @if ($errors->has('longitud'))
@@ -47,7 +51,7 @@
         <div class="form-row">
             <!-- Grid column -->
             <div class="col-md-12">
-                    <input id="pac-input" class="controls" type="text" placeholder="Buscar">
+                    <input id="pac-input" class="mt-2 controls form-control z-depth-1 hoverable" type="search" placeholder="Buscar">
                     <div id="map" class="z-depth-1 hoverable div-border" style="height: 300px"></div>
 
  </div>
@@ -60,7 +64,8 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDShqXOrTD_donWeWH4OJQwefouQ1mGbz8&libraries=places"
 async defer></script>
-
+<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABNZTIj3RqipcAdvc7aZ9YM6Uv_pylqjA&libraries=places"
+async defer></script-->
 
 <script type="text/javascript">
 // This example adds a search box to a map, using the Google Place Autocomplete
@@ -71,7 +76,7 @@ async defer></script>
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-function GoogleMap(position) {
+function GoogleMap(position,infowindow) {
 var location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 document.getElementById("latitud").value = position.coords.latitude;
 document.getElementById("longitud").value = position.coords.longitude;
@@ -85,20 +90,47 @@ scaleControl: true,
 streetViewControl: true,
 overviewMapControl: true,
 rotateControl: true,
+mapTypeControlOptions: {
+              style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+              position: google.maps.ControlPosition.LEFT_BOTTOM
+          },
+          streetViewControlOptions: {
+              position: google.maps.ControlPosition.RIGHT_BOTTOM
+          },
+          zoomControlOptions: {
+              position: google.maps.ControlPosition.RIGHT_CENTER
+          },
+
+
+
 mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 var markers = [];
 var image ="{{ asset('img/gmaps/pin.png')  }}";
 var image2 ="{{ asset('img/gmaps/goal.png')  }}";
+
+ var infowindow_gmaps = new google.maps.InfoWindow({
+    content: "<h6>"+infowindow+"</h6>"
+  });
+
+
 var marker = new google.maps.Marker({
 map: map,
 position: location,
 icon: image,
+title:infowindow,
 animation:google.maps.Animation.BOUNCE
 });
 
  markers.push(marker);
 
+marker.addListener('click', function() {
+  infowindow = document.getElementById("infowindow").value;
+  infowindow_gmaps = new google.maps.InfoWindow({
+    content: "<strong>"+infowindow+"</strong>"
+  });
+  infowindow_gmaps.open(map, marker);
+  });
 
 google.maps.event.addListener(marker, 'dragend', function(event) {
 document.getElementById("latitud").value = event.latLng.lat();
@@ -121,6 +153,14 @@ icon: image2,
 animation:google.maps.Animation.BOUNCE
 });
         markers.push(marker2);
+
+        marker2.addListener('click', function() {
+  infowindow = document.getElementById("infowindow").value;
+  infowindow_gmaps = new google.maps.InfoWindow({
+    content: "<strong>"+infowindow+"</strong>"
+  });
+  infowindow_gmaps.open(map, marker2);
+  });
       }
 
       // Sets the map on all markers in the array.
@@ -179,6 +219,7 @@ var input = document.getElementById('pac-input');
               console.log("Returned place contains no geometry");
               return;
             }
+            /*
             var icon = {
               url: place.icon,
               size: new google.maps.Size(71, 71),
@@ -188,13 +229,14 @@ var input = document.getElementById('pac-input');
             };
 
             // Create a marker for each place.
+           
             markers3.push(new google.maps.Marker({
               map: map,
               icon: icon,
               title: place.name,
               position: place.geometry.location
             }));
-
+*/
             if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
@@ -209,28 +251,38 @@ var input = document.getElementById('pac-input');
 }
 
 
-function DefaultLocation() {
-GoogleMap({ coords: { latitude: 4.60971, longitude: -74.08175}});
+function DefaultLocation(infowindow) {
+GoogleMap({ coords: { latitude: 3.5379625380068456, longitude: -76.29720673509519}},infowindow);
 }
 
 // show error if location can't be found
 function showError() {
-DefaultLocation();
+DefaultLocation("Ubicacion");
 }
 
-// execute geolocation
+$(document).ready(function () {
+
+  try {
+  // execute geolocation
 var default_latitude = document.getElementById("latitud").value;
 var default_longitude = document.getElementById("longitud").value;
+var infowindow = document.getElementById("infowindow").value;
 
 if(default_latitude == 0 && default_longitude == 0){      
 if (navigator.geolocation) {
 navigator.geolocation.getCurrentPosition(GoogleMap, showError);
 } else {
-DefaultLocation();
+DefaultLocation(infowindow);
 }
 }else{
-GoogleMap({ coords: { latitude: default_latitude, longitude: default_longitude}});
+GoogleMap({ coords: { latitude: default_latitude, longitude: default_longitude}},infowindow);
 }
+}
+catch(err) {
+  console.log(err.message);
+  DefaultLocation(infowindow);
+}
+});
 
 
 </script>

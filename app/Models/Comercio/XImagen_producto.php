@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Comercio\Producto;
 
 class XImagen_producto extends Model
 {
@@ -50,7 +51,7 @@ class XImagen_producto extends Model
   ];
 
   public function producto(){
-    return $this->belongsTo('App\Models\Comercio\Producto');
+    return $this->belongsTo(Producto::class);
   }
   
 }

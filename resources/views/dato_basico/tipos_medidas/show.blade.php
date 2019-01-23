@@ -18,7 +18,7 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-balance-scale mr-1"></i></span> <a href="{{ route('tipos_medidas.index') }}">Lista de tipos de medidas</a>
+                    <span><i class="fas fa-balance-scale mr-1 fa-lg"></i></span> <a href="{{ route('tipos_medidas.index') }}">Lista de tipos de medidas</a>
                         <span>/</span>
                         <span>Información del tipo de medida "{{ $tipo_medida->nombre }}"</span>
                     </h4>

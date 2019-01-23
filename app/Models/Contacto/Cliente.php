@@ -4,6 +4,7 @@ namespace App\Models\Contacto;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Contacto\Persona;
 
 class Cliente extends Model
 {
@@ -52,6 +53,6 @@ class Cliente extends Model
 
     public function persona()
     {
-        return $this->belongsTo('App\Models\Contacto\Persona');
+        return $this->belongsTo(Persona::class);
     }
 }

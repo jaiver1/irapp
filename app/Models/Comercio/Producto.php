@@ -2,6 +2,12 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Comercio\Marca;
+use App\Models\Comercio\XCalificacion_producto;
+use App\Models\Comercio\XImagen_producto;
+use App\Models\Clasificacion\Categoria;
+use App\Models\Dato_basico\Medida;
+use App\Models\Dato_basico\XTipo_referencia;
 
 class Producto extends Model
 {
@@ -30,7 +36,7 @@ class Producto extends Model
     'nombre',
     'referencia',
     'descripcion',
-    'valor',
+    'valor_unitario',
     'medida_id',
     'marca_id',
     'categoria_id',
@@ -57,29 +63,29 @@ class Producto extends Model
 
 public function marca()
 {
-    return $this->belongsTo('App\Models\Comercio\Marca');
+    return $this->belongsTo(Marca::class);
 }
 
 public function categoria()
 {
-    return $this->belongsTo('App\Models\Clasificacion\Categoria');
+    return $this->belongsTo(Categoria::class);
 }
 
 public function medida()
 {
-    return $this->belongsTo('App\Models\Dato_basico\Medida');
+    return $this->belongsTo(Medida::class);
 }
 
 public function tipo_referencia()
 {
-    return $this->belongsTo('App\Models\Dato_basico\XTipo_referencia');
+    return $this->belongsTo(XTipo_referencia::class);
 }
 
 public function imagenes(){
-    return $this->hasMany('App\Models\Comercio\XImagen_producto');
+    return $this->hasMany(XImagen_producto::class);
   }
 
   public function calificaciones(){
-    return $this->hasMany('App\Models\Comercio\XCalificacion_producto');
+    return $this->hasMany(XCalificacion_producto::class);
   }
 }

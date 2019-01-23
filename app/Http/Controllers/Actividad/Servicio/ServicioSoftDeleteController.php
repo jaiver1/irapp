@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Actividad\Servicio;
 use App\Http\Controllers\Controller;
-use App\Models\Actividad\Orden;
+use App\Models\Actividad\Servicio;
 Use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
@@ -24,16 +24,16 @@ class ServicioSoftDeleteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    private static function getDeletedOrden($id)
+    private static function getDeletedServicio($id)
     {
-        $orden = Orden::onlyTrashed()->where('id', $id)->get();
+        $servicio = Servicio::onlyTrashed()->where('id', $id)->get();
         
-        if (count($orden) != 1) {
-            SweetAlert::error('Error','La orden no existe.');
-            return redirect('/ordenes/deleted');
+        if (count($servicio) != 1) {
+            SweetAlert::error('Error','El servicio no existe.');
+            return redirect('/servicios/deleted');
         }
 
-        return $orden[0];
+        return $servicio[0];
     }
 
     /**
@@ -44,8 +44,8 @@ class ServicioSoftDeleteController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $ordenes = Orden::onlyTrashed()->get();
-        return View('actividad.ordenes.index_deleted', compact('ordenes'));
+        $servicios = Servicio::onlyTrashed()->get();
+        return View('actividad.servicios.index_deleted', compact('servicios'));
     }
 
 
@@ -60,10 +60,10 @@ class ServicioSoftDeleteController extends Controller
     public function update($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $orden = self::getDeletedOrden($id);
-        $orden->restore();
-        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido restaurada.');
-        return Redirect::to('ordenes/deleted');
+        $servicio = self::getDeletedServicio($id);
+        $servicio->restore();
+        SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido restaurado.');
+        return Redirect::to('servicios/deleted');
     }
 
     /**
@@ -76,9 +76,9 @@ class ServicioSoftDeleteController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $orden = self::getDeletedOrden($id);
-        $orden->forceDelete();
-        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada permanentemente.');
-        return Redirect::to('ordenes/deleted');
+        $servicio = self::getDeletedServicio($id);
+        $servicio->forceDelete();
+        SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido eliminado permanentemente.');
+        return Redirect::to('servicios/deleted');
     }
 }

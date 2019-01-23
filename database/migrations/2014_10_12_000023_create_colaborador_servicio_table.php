@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateColaboradoresServiciosTable extends Migration
+class CreateColaboradorServicioTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateColaboradoresServiciosTable extends Migration
      */
     public function up()
     {
-        Schema::create('colaboradores_servicios', function (Blueprint $table) {
+        Schema::create('colaborador_servicio', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('colaborador_id');
             $table->unsignedBigInteger('servicio_id');
@@ -31,6 +31,6 @@ class CreateColaboradoresServiciosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('colaboradores_servicios');
+        Schema::dropIfExists('colaborador_servicio');
     }
 }

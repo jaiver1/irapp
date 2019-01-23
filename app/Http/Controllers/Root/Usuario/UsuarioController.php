@@ -40,7 +40,7 @@ class UsuarioController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT']);
         $usuario = new User;
-        $roles = Role::all();
+        $roles = Role::limit(2)->get();
         $editar = false;
         return View::make('root.usuarios.create')->with(compact('usuario','roles','editar'));
     }
@@ -58,7 +58,7 @@ class UsuarioController extends Controller
                 'email'                 => 'required|email|max:100|unique:users',
                 'password'              => 'required|between:6,50|confirmed',
                 'password_confirmation' => 'required|same:password',
-                'rol_id'                   => 'required',
+                'role_id'                   => 'required',
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -70,7 +70,7 @@ class UsuarioController extends Controller
             return Redirect::to('usuarios/create')
                 ->withErrors($validator);
         } else {
-            $role = Role::findOrFail($request->rol_id);
+            $role = Role::findOrFail($request->role_id);
             $usuario = new User;
             $usuario->name = $request->name;
             $usuario->email = $request->email;
@@ -107,9 +107,17 @@ class UsuarioController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT']);
         $usuario = User::findOrFail($id);
-        $roles = Role::all();
+        $roles = Role::limit(2)->get();
         $editar = true;
-        return View::make('root.usuarios.edit')->with(compact('usuario','roles','editar'));
+        $default_role = NULL;
+        if($usuario->roles()->count() > 0){
+            $first_role = $usuario->roles()->first();
+            if($first_role->id > 2){
+                $default_role = $first_role;
+            }
+        }
+        
+        return View::make('root.usuarios.edit')->with(compact('usuario','roles','editar','default_role'));
    
     }
 
@@ -127,7 +135,7 @@ class UsuarioController extends Controller
             'email'                 => 'required|email|max:100|unique:users',
             'password'              => 'required|between:6,50|confirmed',
             'password_confirmation' => 'required|same:password',
-            'rol_id'                   => 'required',
+            'role_id'                   => 'required',
     );
 
     $validator = Validator::make($request->all(), $rules);
@@ -139,7 +147,7 @@ class UsuarioController extends Controller
         return Redirect::to('usuarios/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $role = Role::findOrFail($request->rol_id);
+        $role = Role::findOrFail($request->role_id);
         $usuario =  User::findOrFail($request->id);
         $usuario->name = $request->name;
         $usuario->email = $request->email;

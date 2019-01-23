@@ -16,3 +16,11 @@
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.2);
 }
+.card-producto-img-store{
+  max-width: auto !important;
+}
+
+.card-producto-img-store > .card-body{
+  bottom: 0 !important;
+  background-color: aqua !important;
+}

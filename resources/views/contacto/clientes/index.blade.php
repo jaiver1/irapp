@@ -76,8 +76,6 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
     </th>
     <th class="th-sm">Telefono fijo
     </th>
-    <th class="th-sm">Email
-    </th>
     <th class="th-sm">Ciudad
     </th>
     <th class="th-sm">Barrio
@@ -86,6 +84,8 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
             </th>
     <th class="th-sm">Cuenta banco
     </th>
+    <th class="th-sm">Usuario
+        </th>
       <th class="th-sm">Acciones
       </th>
       
@@ -103,25 +103,30 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
       <td>{{$cliente->persona->segundo_apellido}}</td>
       <td>{{$cliente->persona->telefono_movil}}</td>
       <td>{{$cliente->persona->telefono_fijo}}</td>
-      <td>{{$cliente->persona->usuario->email}}</td>
       <td>{{$cliente->persona->ciudad->nombre}}</td>
       <td>{{$cliente->persona->barrio}}</td>
       <td>{{$cliente->persona->direccion}}</td>
       <td>{{$cliente->persona->cuenta_banco}}</td>
       <td>
+            <a href="{{ route('usuarios.show',$cliente->persona->usuario->id) }}" class="link-text"
+                data-toggle="tooltip" data-placement="bottom" title='Información del usuario "{{ $cliente->persona->usuario->name }}"'>
+                  <i class="fas fa-user"></i> {{$cliente->persona->usuario->name}}
+                        </a> 
+        </td>
+      <td>
 
 <a href="{{ route('clientes.show',$cliente->id) }}" class="text-primary m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Información del cliente "{{ $cliente->persona->cedula }}"'>
+                    data-toggle="tooltip" data-placement="bottom" title='Información del cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}"'>
                       <i class="fas fa-2x fa-info-circle"></i>
                             </a>
 
       <a href="{{ route('clientes.edit',$cliente->id) }}" class="text-warning m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Editar el cliente "{{ $cliente->persona->cedula }}"'>
+                    data-toggle="tooltip" data-placement="bottom" title='Editar el cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}"'>
                       <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
-                            <a onclick="eliminar_cliente({{ $cliente->id }},'{{ $cliente->nombre }}')" class="text-danger m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Eliminar el cliente "{{ $cliente->persona->cedula }} "'>
+                            <a onclick="eliminar_cliente({{ $cliente->id }},'{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}')" class="text-danger m-1" 
+                    data-toggle="tooltip" data-placement="bottom" title='Eliminar el cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}"'>
                       <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $cliente->id }}" method="POST" action="{{ route('clientes.destroy', $cliente->id) }}" accept-charset="UTF-8">
@@ -294,7 +299,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fas fa-user-tie fa-lg"></i> Datos del cliente "'+ data[1]+'"';
+                        return '<i class="fas fa-user-tie fa-lg"></i> Datos del cliente "'+ data[2]+' '+ data[4]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

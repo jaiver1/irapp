@@ -187,13 +187,13 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 
                     @foreach($productos as $key => $producto)
                     <!--Grid column-->
-                    <div class="wow fadeIn col-lg-4 col-md-12 mb-4">
+                    <div class="wow fadeIn col-md-4 col-sm-6 col-lg-4 mb-4">
 
                         <!--Card-->
-                        <div class="card card-ecommerce card-producto-img hoverable h-100 z-depth-1">
+                        <div class="card card-ecommerce card-producto-img-store hoverable h-100 z-depth-1 list-card">
 
                             <!--Card image-->
-                            <div class="view overlay hoverable waves-effect z-depth-1 zoom">
+                            <div class="view overlay hoverable waves-effect z-depth-1 zoom div img-list-card">
                                 @if($producto->imagenes->count())
                                 <img src="{{ asset($producto->imagenes->first()->ruta) }}" class="img-fluid rounded img-thumbnail"  alt="{{ $producto->imagenes->first()->nombre }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                 @else
@@ -225,7 +225,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                                     <div class="row mb-0">
                                         <span class="float-left">
                                             <h5><span class="badge badge-success hoverable">
-                                            @money($producto->valor)
+                                            @money($producto->valor_unitario)
                                             </span></h5>
                                         </span>
                                         <span class="float-left">
@@ -244,11 +244,9 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                     </div>
                     <!--Grid column-->
 
-
-                </div>
-                <!--Grid row-->
                 @endforeach
-
+            </div>
+            <!--Grid row-->
               
                 <!--Grid row-->
                 <div class="row justify-content-center mb-4">

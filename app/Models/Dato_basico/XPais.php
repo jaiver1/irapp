@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Dato_basico\XDepartamento;
 
 class XPais extends Model
 {
@@ -49,7 +50,7 @@ class XPais extends Model
   ];
 
   public function departamentos(){
-    return $this->hasMany('App\Models\Dato_basico\XDepartamento');
+    return $this->hasMany(XDepartamento::class);
   }
   
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Dato_basico\Medida;
 
 class Tipo_medida extends Model
 {
@@ -50,6 +51,6 @@ class Tipo_medida extends Model
 
 
   public function medidas(){
-    return $this->hasMany('App\Models\Dato_basico\Medida');
+    return $this->hasMany(Medida::class);
 }
 }

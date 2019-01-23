@@ -12,6 +12,7 @@ use App\Models\Dato_basico\XUbicacion;
 use App\Models\Dato_basico\XPais;
 use App\Models\Dato_basico\XCiudad;
 use App\Models\Root\User;
+use App\Models\Root\Role;
 use Illuminate\Support\Facades\Validator;
 use SweetAlert;
 
@@ -51,10 +52,11 @@ class ClienteController extends Controller
         $cliente->persona()->associate($persona);
         $editar = false;
         $paises = XPais::orderBy('nombre', 'asc')->get();
-        $usuarios = User::whereHas('roles', function ($query) {
+        /*$usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
-        return View::make('contacto.clientes.create')->with(compact('cliente','editar','paises','usuarios'));
+        return View::make('contacto.clientes.create')->with(compact('cliente','editar','paises','usuarios'));*/
+        return View::make('contacto.clientes.create')->with(compact('cliente','editar','paises'));
     }
 
     /**
@@ -80,7 +82,11 @@ class ClienteController extends Controller
             'latitud'                   => 'required|max:50',
             'longitud'                   => 'required|max:50',
             'ciudad_id'              => 'required',
-            'usuario_id'                   => 'required|unique:personas',
+            'name'                  => 'required|max:50|unique:users',
+                'email'                 => 'required|email|max:100|unique:users',
+                'password'              => 'required|between:6,50|confirmed',
+                'password_confirmation' => 'required|same:password',
+                // 'usuario_id'                   => 'required|unique:personas',
     );
 
         $validator = Validator::make($request->all(), $rules);
@@ -92,13 +98,22 @@ class ClienteController extends Controller
             return Redirect::to('clientes/create')
                 ->withErrors($validator);
         } else {
+
+            $role = Role::findOrFail(4);
+            $usuario = new User;
+            $usuario->name = $request->name;
+            $usuario->email = $request->email;
+            $usuario->password =  bcrypt($request->password);         
+            $usuario->save();
+            $usuario->roles()->attach($role);
+
             $cliente = new Cliente;
             $persona = new Persona;
             $ubicacion = new XUbicacion;
             $ubicacion->latitud = $request->latitud;
             $ubicacion->longitud = $request->longitud;
             $ubicacion->save();
-            $usuario = User::findOrFail($request->usuario_id);
+            $usuario = User::findOrFail($usuario->id);
             $ciudad = XCiudad::findOrFail($request->ciudad_id);
 
             $persona->cedula = $request->cedula;
@@ -150,11 +165,12 @@ class ClienteController extends Controller
         $cliente = Cliente::findOrFail($id);
         $editar = true;
         $paises = XPais::orderBy('nombre', 'asc')->get();
-        $usuarios = User::whereHas('roles', function ($query) {
+        /*$usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
-        return View::make('contacto.clientes.edit')->with(compact('cliente','editar','paises','usuarios'));
-   
+        return View::make('contacto.clientes.edit')->with(compact('cliente','editar','paises','usuarios'));*/
+           return View::make('contacto.clientes.edit')->with(compact('cliente','editar','paises'));
+
     }
 
     /**
@@ -180,7 +196,7 @@ class ClienteController extends Controller
             'latitud'                   => 'required|max:50',
             'longitud'                   => 'required|max:50',
             'ciudad_id'              => 'required',
-            'usuario_id'                   => 'required|unique:personas',
+           // 'usuario_id'                   => 'required|unique:personas',
     );
 
         $validator = Validator::make($request->all(), $rules);

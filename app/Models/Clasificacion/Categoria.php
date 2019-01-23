@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Comercio\Producto;
+use App\Models\Actividad\Servicio;
+use App\Models\Clasificacion\Especialidad;
+
 
 class Categoria extends Model
 {
@@ -52,24 +56,24 @@ class Categoria extends Model
 
 public function especialidad()
 {
-    return $this->belongsTo('App\Models\Clasificacion\Especialidad');
+    return $this->belongsTo(Especialidad::class);
 }
 
 public function categorias(){
-  return $this->hasMany('App\Models\Clasificacion\Categoria');
+  return $this->hasMany(Categoria::class);
 }
 
 public function categoria()
 {
-  return $this->belongsTo('App\Models\Clasificacion\Categoria');
+  return $this->belongsTo(Categoria::class);
 }
 
 public function productos(){
-  return $this->hasMany('App\Models\Comercio\Producto');
+  return $this->hasMany(Producto::class);
 }
 
 public function servicios(){
-  return $this->hasMany('App\Models\Actividad\Servicio');
+  return $this->hasMany(Servicio::class);
 }
 
 }

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
-@include('clasificacion.especialidades.form')
+@include('actividad.servicios.form')
 @section('template_title')
-Registrar una especialidad | {{ config('app.name', 'Laravel') }}
+Registrar un servicio | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
 
@@ -14,16 +14,16 @@ Registrar una especialidad | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-object-group mr-1"></i></span> 
-                        <a href="{{ route('especialidades.index') }}">Lista de especialidades</a>
+                    <span><i class="fas fa-cogs mr-1 fa-lg"></i></span> 
+                        <a href="{{ route('servicios.index') }}">Lista de servicios</a>
                         <span>/</span>
-                        <span>Registrar una especialidad</span>
+                        <span>Registrar un servicio</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">
-                    <a href="{{ route('especialidades.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title="Lista de especialidades">
-                      <i class="fas fa-2x fa-object-group"></i>
+                    <a href="{{ route('servicios.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
+                    data-toggle="tooltip" data-placement="bottom" title="Lista de servicios">
+                      <i class="fas fa-2x fa-cogs"></i>
                             </a>
                     </div>
 

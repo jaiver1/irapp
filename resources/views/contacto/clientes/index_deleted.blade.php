@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.main')
 @section('template_title')
-Clientes eliminadas | {{ config('app.name', 'Laravel') }}
+Clientes eliminados | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('css_links')
 <link rel="stylesheet" href="{{ asset('css/addons/datatables.min.css') }}" type="text/css">
@@ -64,8 +64,30 @@ Clientes eliminadas | {{ config('app.name', 'Laravel') }}
     <tr class="z-depth-2">
       <th class="th-sm">#
       </th>
-      <th class="th-sm">Nombre
+      <th class="th-sm">Cedula
+    </th>   
+  <th class="th-sm">Primer nombre
+  </th>
+  <th class="th-sm">Segundo nombre
+  </th>
+  <th class="th-sm">Primer apellido
+  </th>
+  <th class="th-sm">Segundo apellido
+  </th>
+  <th class="th-sm">Telefono móvil
+  </th>
+  <th class="th-sm">Telefono fijo
+  </th>
+  <th class="th-sm">Ciudad
+  </th>
+  <th class="th-sm">Barrio
       </th>
+      <th class="th-sm">Dirección
+          </th>
+  <th class="th-sm">Cuenta banco
+  </th>
+  <th class="th-sm">Usuario
+    </th>
       <th class="th-sm">Acciones
       </th>
     </tr>
@@ -73,17 +95,34 @@ Clientes eliminadas | {{ config('app.name', 'Laravel') }}
   <tbody>
   @foreach($clientes as $key => $cliente)
     <tr class="hoverable">
-      <td>{{$cliente->id}}</td>
-      <td>{{$cliente->nombre}}</td>
+        <td>{{$cliente->id}}</td>
+        <td>{{$cliente->persona->cedula}}</td>
+        <td>{{$cliente->persona->primer_nombre}}</td>
+        <td>{{$cliente->persona->segundo_nombre}}</td>
+        <td>{{$cliente->persona->primer_apellido}}</td>
+        <td>{{$cliente->persona->segundo_apellido}}</td>
+        <td>{{$cliente->persona->telefono_movil}}</td>
+        <td>{{$cliente->persona->telefono_fijo}}</td>
+        <td>{{$cliente->persona->usuario->email}}</td>
+        <td>{{$cliente->persona->ciudad->nombre}}</td>
+        <td>{{$cliente->persona->barrio}}</td>
+        <td>{{$cliente->persona->direccion}}</td>
+        <td>{{$cliente->persona->cuenta_banco}}</td>
+        <td>
+                <a href="{{ route('usuarios.show',$cliente->persona->usuario->id) }}" class="link-text"
+                    data-toggle="tooltip" data-placement="bottom" title='Información del usuario "{{ $cliente->persona->usuario->name }}"'>
+                      <i class="fas fa-user"></i> {{$cliente->persona->usuario->name}}
+                            </a> 
+            </td>
       <td>
 
-      <a onclick="restaurar_cliente({{ $cliente->id }},'{{ $cliente->nombre }}')" class="text-success m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Restaurar el tipos_medida "{{ $cliente->nombre }}"'>
+      <a onclick="restaurar_cliente({{ $cliente->id }},'{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}')" class="text-success m-1" 
+                    data-toggle="tooltip" data-placement="bottom" title='Restaurar el cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}"'>
                       <i class="fas fa-2x fa-undo"></i>
                             </a>
                 
-                            <a onclick="eliminar_cliente({{ $cliente->id }},'{{ $cliente->nombre }}')" class="text-danger m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Eliminar definitivamente el tipos_medida "{{ $cliente->nombre }}"'>
+                            <a onclick="eliminar_cliente({{ $cliente->id }},'{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}')" class="text-danger m-1" 
+                    data-toggle="tooltip" data-placement="bottom" title='Eliminar definitivamente el cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}"'>
                       <i class="fas fa-2x fa-trash"></i>
                             </a>
                             <form id="restaurar{{ $cliente->id }}" method="POST" action="{{ route('clientes.deleted.update', $cliente->id) }}" accept-charset="UTF-8">
@@ -293,7 +332,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<span class="fa-stack"><i class="fas fa-user-tie fa-stack-1x fa-lg"></i>  <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de cliente eliminado "'+ data[1]+'"';
+                        return '<span class="fa-stack"><i class="fas fa-user-tie fa-stack-1x fa-lg"></i>  <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de cliente eliminado "'+ data[2]+' '+ data[4]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

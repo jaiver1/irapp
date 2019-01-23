@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Clasificacion\Categoria;
 
 class Especialidad extends Model
 {
@@ -49,6 +50,6 @@ class Especialidad extends Model
 
 
   public function categorias(){
-    return $this->hasMany('App\Models\Clasificacion\Categoria');
+    return $this->hasMany(Categoria::class);
   }
 }

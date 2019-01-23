@@ -16,10 +16,10 @@ class XCreateCiudadesTable extends Migration
         Schema::create('ciudades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre', 50);
-            $table->unsignedBigInteger('x_departamento_id')->nullable();
+            $table->unsignedBigInteger('departamento_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('x_departamento_id')->references('id')->on('departamentos')->onUpdate('cascade')->onDelete('cascade');            
+            $table->foreign('departamento_id')->references('id')->on('departamentos')->onUpdate('cascade')->onDelete('cascade');            
         });
     }
 

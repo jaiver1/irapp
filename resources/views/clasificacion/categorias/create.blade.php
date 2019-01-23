@@ -14,7 +14,7 @@ Registrar una categoria | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-sitemap mr-1"></i></span> 
+                    <span><i class="fas fa-sitemap fa-lg mr-1"></i></span> 
                         <a href="{{ route('categorias.index') }}">Lista de categorias</a>
                         <span>/</span>
                         <span>Registrar una categoria</span>

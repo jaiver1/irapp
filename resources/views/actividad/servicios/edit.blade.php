@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.main')
-@include('clasificacion.especialidades.form')
+@include('actividad.servicios.form')
 @section('template_title')
-Editar la especialidad "{{ $especialidad->nombre }}" | {{ config('app.name', 'Laravel') }}
+Editar el servicio "{{ $servicio->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('content')
 
@@ -14,20 +14,20 @@ Editar la especialidad "{{ $especialidad->nombre }}" | {{ config('app.name', 'La
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-object-group mr-1"></i></span> 
-                        <a href="{{ route('especialidades.index') }}">Lista de especialidades</a>
+                    <span><i class="fas fa-cogs mr-1 fa-lg"></i></span> 
+                        <a href="{{ route('servicios.index') }}">Lista de servicios</a>
                         <span>/</span>
-                        <span>Editar especialidad "{{ $especialidad->nombre }}"</span>
+                        <span>Editar servicio "{{ $servicio->nombre }}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">
-                    <a href="{{ route('especialidades.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title="Lista de especialidades">
-                      <i class="fas fa-2x fa-object-group "></i>
+                    <a href="{{ route('servicios.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
+                    data-toggle="tooltip" data-placement="bottom" title="Lista de servicios">
+                      <i class="fas fa-2x fa-cogs "></i>
                             </a>
 
-                            <a href="{{ route('especialidades.show', $especialidad->id) }}" class="btn btn-outline-primary btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title='Informacion de la especialidad "{{ $especialidad->nombre }}"'>
+                            <a href="{{ route('servicios.show', $servicio->id) }}" class="btn btn-outline-primary btn-circle waves-effect hoverable" 
+                    data-toggle="tooltip" data-placement="bottom" title='Informacion del servicio "{{ $servicio->nombre }}"'>
                       <i class="fas fa-2x fa-info"></i>
                             </a>
                     </div>

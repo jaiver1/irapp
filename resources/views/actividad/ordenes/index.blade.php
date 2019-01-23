@@ -8,7 +8,7 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-responsive-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-buttons-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/fullcalendar.css') }}" type="text/css">
-<link rel="stylesheet" href="{{ asset('css/addons/fullcalendar.print.css') }}" type="text/css" media="print"
+<link rel="stylesheet" href="{{ asset('css/addons/fullcalendar.print.css') }}" type="text/css" media="print">
 @endsection
 @section('content')
         <div class="container-fluid">
@@ -58,7 +58,7 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                         <!--Card content-->
                         <div class="card-body">
                                 <ul class="nav nav-pills mb-3" id="views-tab" role="tablist">
-                                        <li class="nav-item hoverable waves-effect">
+                                        <li class="nav-item hoverable waves-effect mr-2">
                                           <a class="nav-link active z-depth-5" id="pills-list-tab" data-toggle="pill" href="#pills-list" role="tab" aria-controls="pills-list" aria-selected="true">
                                             <h5> <i class="fas fa-clipboard-list mr-2"></i>Lista</h5></a>
                                         </li>
@@ -78,6 +78,18 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                                   </th>
                                   <th class="th-sm">Nombre
                                   </th>
+                                  <th class="th-sm">Estado
+                                  </th>
+                                  <th class="th-sm">Fecha
+                                  </th>
+                                  <th class="th-sm">Cliente
+                                  </th>
+                                  <th class="th-sm">Ciudad
+                                    </th>
+                                    <th class="th-sm">Barrio
+                                    </th>
+                                    <th class="th-sm">Direccion
+                                    </th>
                                   <th class="th-sm">Acciones
                                   </th>
                                
@@ -87,7 +99,51 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                               @foreach($ordenes as $key => $orden)
                                 <tr class="hoverable">
                                   <td>{{$orden->id}}</td>
-                                  <td>{{$orden->nombre}}</td>          
+                                  <td>{{$orden->nombre}}</td>  
+                                  <td> 
+                                      <span class="h5"><span class="hoverable badge
+                                        @switch($orden->estado)
+                                            @case('Abierta')
+                                                blue darken-3
+                                            @break
+                                            @case('Cerrada')
+                                                teal darken-3
+                                            @break
+                                            @case('Cancelada')
+                                                red darken-3 
+                                            @break
+                                            @default
+                                                amber darken-3
+                                            @endswitch
+                                                ">
+                                                <i class="mr-1 fas
+                                                @switch($orden->estado)
+                                            @case('Abierta')
+                                                fa-business-time
+                                            @break
+                                            @case('Cerrada')
+                                                fa-flag-checkered  
+                                            @break
+                                            @case('Cancelada')
+                                                fa-times  
+                                            @break
+                                            @default
+                                                fa-stopwatch 
+                                            @endswitch
+                                                "></i>{{ $orden->estado }}</span></span>
+                                   </td> 
+                                  <td> 
+                                     <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($orden->fecha_inicio)->format('d/m/Y -:- h:i A') }}</span></span>
+                                    @if($orden->fecha_fin &&  $orden->estado == "Cerrada")
+                                       <br/> <span class="h5"><span class="badge teal darken-3 hoverable"><i class="far fa-calendar-check mr-1"></i>{{ Carbon\Carbon::parse($orden->fecha_fin)->format('d/m/Y -:- h:i A') }}</span></span>
+                                    @endif
+                                  </td> 
+                                  <td>
+                                      {{$orden->cliente->persona->primer_nombre}} {{$orden->cliente->persona->segundo_nombre}} {{$orden->cliente->persona->primer_apellido}} {{$orden->cliente->persona->segundo_apellido}}
+                                  </td>     
+                                  <td>{{$orden->ciudad->nombre}}</td>  
+                                  <td>{{$orden->barrio}}</td>
+                                  <td>{{$orden->direccion}}</td>       
                                   <td>
                             
                             <a href="{{ route('ordenes.show', $orden->id) }}" class="text-primary m-1" 
@@ -358,62 +414,8 @@ var calendar = $('#calendar').fullCalendar({
       themeSystem: 'bootstrap4',
       nowIndicator: true,
       now: ahora_fecha+'T'+ahora_hora,
-      events: [
-        {
-          title: 'All Day Event',
-          start: '2018-03-01',
-        },
-        {
-          title: 'Long Event',
-          start: '2018-03-07',
-          end: '2018-03-10'
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2018-03-09T16:00:00'
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2018-03-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2018-03-11',
-          end: '2018-03-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2018-03-12T10:30:00',
-          end: '2018-03-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2018-03-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2018-03-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2018-03-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2018-03-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2018-03-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2018-03-28'
-        }
-      ],
+      events: @json($eventos) ,
+      timeFormat: 'HH:mm',
       businessHours: [
   {
     dow: [ 1, 2, 3, 4, 5 ], // semana
@@ -425,18 +427,20 @@ var calendar = $('#calendar').fullCalendar({
     start: '08:00', // 8am
     end: '14:00' // 2pm
   }
-], eventRender: function(eventObj, $el) {
-   
+], eventRender: function(eventObj, element) {
+    if(eventObj.icon){          
+        element.find(".fc-title").prepend("<i class='fas "+eventObj.icon+"'></i> &nbsp;");
+     }
       },
       eventClick: function(calEvent, jsEvent, view) {
 
-alert('Event: ' + calEvent.title);
-alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-alert('View: ' + view.name);
+//alert('Event: ' + calEvent.title);
+//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+//alert('View: ' + view.name);
 
 // change the border color just for fun
-$(this).css('border-color', 'red');
-
+$(this).css('background-color', '#3a4d56');
+$(this).css('border-color', '#3a4d56');
 },
       windowResize: function(view) {
   }, 

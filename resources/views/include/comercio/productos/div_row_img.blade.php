@@ -5,12 +5,14 @@
 <div class="card card-producto-img hoverable h-100 z-depth-1">
 
     <!-- Card image -->
+    <a target="_blank" href="{{ asset($imagen->ruta) }}">
     <div class="view overlay zoom hoverable waves-effect z-depth-1">
     <img class="card-img-top img-fluid" src="{{ asset($imagen->ruta) }}" alt="{{ $imagen->nombre }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
       <a href="#!">
         <div class="mask rgba-white-slight"></div>
       </a>
     </div>
+  </a>
   
     <!-- Card content -->
     <div class="card-body">

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Dato_basico\XDepartamento;
 
 class XCiudad extends Model
 {
@@ -50,7 +51,7 @@ class XCiudad extends Model
   ];
 
   public function departamento(){
-    return $this->belongsTo('App\Models\Dato_basico\XDepartamento');
+    return $this->belongsTo(XDepartamento::class);
   }
   
 }

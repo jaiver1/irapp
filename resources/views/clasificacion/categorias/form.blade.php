@@ -61,7 +61,7 @@
             <div id="especialidad_div">
             <div class="md-form">
             <i class="fas fa-balance-scale"></i>
-            <small for="especialidad_id">Especialidades</small>   
+            <small for="especialidad_id">Especialidades *</small>   
     <select class="form-control" required id="especialidad_id" name="especialidad_id">
     <option value="" disabled selected>Selecciona una opción</option>
     @foreach($especialidades as $key => $especialidad)
@@ -83,7 +83,7 @@
             <div id="categoria_div">
                 <div class="md-form">
                 <i class="fas fa-sitemap"></i>
-                <small for="categoria_id">Categorias</small>   
+                <small for="categoria_id">Categorias *</small>   
                 @include('include.clasificacion.categorias.select', array('categoria_selected'=>$categoria))
     </div> @if ($errors->has('categoria_id'))
                                                 <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
@@ -128,28 +128,28 @@ $('#especialidad_id').select2({
 
          $(document).ready(function(){
 if($("#raiz").prop("checked") == true) {
-	$("#especialidad_div").slideDown('fas t');
-		$('#especialidad_id').prop( 'required', true );
-		$("#categoria_div").slideUp('fas t');
-		$('#categoria_id').prop( 'required', false );     
+	$("#especialidad_div").slideDown('fast');
+		$('#especialidad_id').attr( 'required', true );
+		$("#categoria_div").slideUp('fast');
+		$('#categoria_id').attr( 'required', false );     
     }else{
-		$("#especialidad_div").slideUp('fas t');
-		$('#especialidad_id').prop( 'required', false );
-		$("#categoria_div").slideDown('fas t');
-		$('#categoria_id').prop( 'required', true );  
+		$("#especialidad_div").slideUp('fast');
+		$('#especialidad_id').attr( 'required', false );
+		$("#categoria_div").slideDown('fast');
+		$('#categoria_id').attr( 'required', true );  
 	}
 });
 $("#raiz").change(function() {
     if(this.checked) {
-		$("#especialidad_div").slideDown('fas t');
-		$('#especialidad_id').prop( 'required', true );
-		$("#categoria_div").slideUp('fas t');
-		$('#categoria_id').prop( 'required', false );
+		$("#especialidad_div").slideDown('fast');
+		$('#especialidad_id').attr( 'required', true );
+		$("#categoria_div").slideUp('fast');
+		$('#categoria_id').attr( 'required', false );
     }else{
-		$("#especialidad_div").slideUp('fas t');
-		$('#especialidad_id').prop( 'required', false );
-		$("#categoria_div").slideDown('fas t');
-		$('#categoria_id').prop( 'required', true );  
+		$("#especialidad_div").slideUp('fast');
+		$('#especialidad_id').attr( 'required', false );
+		$("#categoria_div").slideDown('fast');
+		$('#categoria_id').attr( 'required', true );  
 	}
 });
 </script>

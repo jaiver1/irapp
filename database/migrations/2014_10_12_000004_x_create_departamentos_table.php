@@ -16,10 +16,10 @@ class XCreateDepartamentosTable extends Migration
         Schema::create('departamentos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre', 50);
-            $table->unsignedBigInteger('x_pais_id')->default(1);
+            $table->unsignedBigInteger('pais_id')->default(1);
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('x_pais_id')->references('id')->on('paises')->onUpdate('cascade')->onDelete('cascade');            
+            $table->foreign('pais_id')->references('id')->on('paises')->onUpdate('cascade')->onDelete('cascade');            
         });
     }
 

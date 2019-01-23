@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Contacto\Cliente;
+use App\Models\Actividad\Detalle_orden;
+use App\Models\Dato_basico\XUbicacion;
+use App\Models\Dato_basico\XCiudad;
 Use DB;
 
 class Orden extends Model
@@ -28,7 +32,15 @@ class Orden extends Model
      * @var array
      */
   protected $fillable = [
-    'nombre'
+    'nombre',
+    'estado',
+    'fecha_inicio',
+    'fecha_fin',
+    'barrio',
+    'direccion',
+    'ciudad_id',  
+    'ubicacion_id',
+    'cliente_id' 
   ];
 
    /**
@@ -61,19 +73,23 @@ class Orden extends Model
   return $enum;
 }
 
-  public function ubicacion()
-  {
-      return $this->belongsTo('App\Models\Dato_basico\XUbicacion');
-  }
+public function ubicacion()
+{
+    return $this->belongsTo(XUbicacion::class);
+}
 
-  public function ciudad()
-  {
-      return $this->belongsTo('App\Models\Dato_basico\XCiudad');
-  }
+public function ciudad()
+{
+    return $this->belongsTo(XCiudad::class);
+}
   
   public function cliente()
   {
-      return $this->belongsTo('App\Models\Contacto\Cliente');
+    return $this->belongsTo(Cliente::class);
+  }
+
+  public function detalles(){
+    return $this->hasMany(Detalle_orden::class);
   }
 
 }

@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Dato_basico\XPais;
+use App\Models\Dato_basico\XCiudad;
 
 class XDepartamento extends Model
 {
@@ -51,11 +53,11 @@ class XDepartamento extends Model
 
 
   public function ciudades(){
-    return $this->hasMany('App\Models\Dato_basico\XCiudad');
+    return $this->hasMany(XCiudad::class);
   }
   
   public function pais()
 {
-    return $this->belongsTo('App\Models\Dato_basico\XPais');
+    return $this->belongsTo(XPais::class);
 }
 }

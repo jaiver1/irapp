@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.main')
 @section('template_title')
-Lista de especialidades | {{ config('app.name', 'Laravel') }}
+Lista de servicios | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('css_links')
 <link rel="stylesheet" href="{{ asset('css/addons/datatables.min.css') }}" type="text/css">
@@ -18,23 +18,23 @@ Lista de especialidades | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-cogs fa-lg mr-1"></i></span> <span> @if ($especialidades->count() === 1)
-                Una especialidad
-            @elseif ($especialidades->count() > 1)
-                {{ $especialidades->count() }} especialidades
+                    <span><i class="fas fa-cogs fa-lg mr-1"></i></span> <span> @if ($servicios->count() === 1)
+                Un servicio
+            @elseif ($servicios->count() > 1)
+                {{ $servicios->count() }} servicios
             @else
-               No hay especialidades
+               No hay servicios
             @endif
             </span>
                     </h4>
 
                     <div class="d-flex justify-content-center">
-                    <a href="{{ route('especialidades.create') }}" class="btn btn-outline-success btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title="Registrar una especialidad">
+                    <a href="{{ route('servicios.create') }}" class="btn btn-outline-success btn-circle waves-effect hoverable" 
+                    data-toggle="tooltip" data-placement="bottom" title="Registrar un servicio">
                       <i class="fas fa-2x fa-plus"></i>
                             </a>
-                            <a href="{{ route('especialidades.deleted.index') }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title="Especialidades eliminadas">
+                            <a href="{{ route('servicios.deleted.index') }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
+                    data-toggle="tooltip" data-placement="bottom" title="Servicios eliminados">
                       <i class="fas fa-2x fa-recycle"></i>
                             </a>
                     </div>
@@ -57,12 +57,20 @@ Lista de especialidades | {{ config('app.name', 'Laravel') }}
                         <div class="card-body">
                         <div class="table-responsive">
                             <!-- Table  -->
-                            <table id="dtespecialidades" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="dtservicios" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
   <thead class="th-color white-text">
     <tr class="z-depth-2">
       <th class="th-sm">#
       </th>
       <th class="th-sm">Nombre
+      </th>
+      <th class="th-sm">Valor unitario
+        </th>
+        <th class="th-sm">Descripcion
+      </th>
+      <th class="th-sm">Categoria
+      </th>
+      <th class="th-sm">Medida
       </th>
       <th class="th-sm">Acciones
       </th>
@@ -70,27 +78,46 @@ Lista de especialidades | {{ config('app.name', 'Laravel') }}
     </tr>
   </thead>
   <tbody>
-  @foreach($especialidades as $key => $especialidad)
+  @foreach($servicios as $key => $servicio)
     <tr class="hoverable">
-      <td>{{$especialidad->id}}</td>
-      <td>{{$especialidad->nombre}}</td>          
+      <td>{{$servicio->id}}</td>
+      <td>{{$servicio->nombre}}</td>  
+      <td> <h5><span class="badge badge-success hoverable">
+            @money($servicio->valor_unitario)
+            </span>
+            </h5>
+          </td>
+        <td>{{$servicio->descripcion}}</td>
+        <td>
+        <a href="{{ route('categorias.show',$servicio->categoria->id) }}" class="link-text"
+                      data-toggle="tooltip" data-placement="bottom" title='Información de la categoria "{{ $servicio->categoria->nombre }}"'>
+                        <i class="fas fa-sitemap"></i> {{$servicio->categoria->nombre}}
+                              </a>    
+                          </td>
+  
+              <td>
+                  <a href="{{ route('medidas.show',$servicio->medida->id) }}" class="link-text"
+                      data-toggle="tooltip" data-placement="bottom" title='Información de la medida "{{ $servicio->medida->nombre }}"'>
+                        <i class="fas fa-ruler"></i> {{$servicio->medida->nombre}}
+                              </a> 
+              </td>
       <td>
 
-<a href="{{ route('especialidades.show', $especialidad->id) }}" class="text-primary m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Información de la especialidad "{{ $especialidad->nombre }}"'>
+<a href="{{ route('servicios.show', $servicio->id) }}" class="text-primary m-1" 
+                    data-toggle="tooltip" data-placement="bottom" title='Información del servicio "{{ $servicio->nombre }}"'>
                       <i class="fas fa-2x fa-info-circle"></i>
                             </a>
 
-      <a href="{{ route('especialidades.edit', $especialidad->id) }}" class="text-warning m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Editar la especialidad "{{ $especialidad->nombre }}"'>
+      <a href="{{ route('servicios.edit', $servicio->id) }}" class="text-warning m-1" 
+                    data-toggle="tooltip" data-placement="bottom" title='Editar el servicio "{{ $servicio->nombre }}"'>
                       <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
-                            <a onclick="eliminar_especialidad({{ $especialidad->id }},'{{ $especialidad->nombre }}')" class="text-danger m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Eliminar la especialidad "{{ $especialidad->nombre }}"'>
+                            <a onclick="eliminar_servicio({{ $servicio->id }},'{{ $servicio->nombre }}')" class="text-danger m-1" 
+                    data-toggle="tooltip" data-placement="bottom" title='Eliminar el servicio "{{ $servicio->nombre }}"'>
                       <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
-                            <form id="eliminar{{ $especialidad->id }}" method="POST" action="{{ route('especialidades.destroy', $especialidad->id) }}" accept-charset="UTF-8">
+                            <form id="eliminar{{ $servicio->id }}" method="POST" action="{{ route('servicios.destroy', $servicio->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="DELETE">
     {{ csrf_field() }}
 </form>
@@ -133,10 +160,10 @@ Lista de especialidades | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
 
-function eliminar_especialidad(id,nombre){
+function eliminar_servicio(id,nombre){
     swal({
-  title: 'Eliminar la especialidad',
-  text: '¿Desea eliminar la especialidad "'+nombre+'"?',
+  title: 'Eliminar el servicio',
+  text: '¿Desea eliminar el servicio "'+nombre+'"?',
   type: 'question',
   confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
@@ -172,8 +199,8 @@ $(document).ready(function() {
     var currentdate = new Date(); 
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
-    var titulo_archivo = "Lista de especialidades ("+datetime+")";
-     $('#dtespecialidades').DataTable( {
+    var titulo_archivo = "Lista de servicios ("+datetime+")";
+     $('#dtservicios').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
         [ 2, 5, 10, 20, 30, 50, 100, -1 ],
@@ -262,7 +289,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fas fa-cogs fa-lg"></i> Datos de la especialidad "'+ data[1]+'"';
+                        return '<i class="fas fa-cogs fa-lg"></i> Datos del servicio "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

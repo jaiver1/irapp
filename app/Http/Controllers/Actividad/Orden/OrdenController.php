@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Orden;
+use App\Models\Actividad\Servicio;
 use App\Models\Dato_basico\XUbicacion;
 use App\Models\Dato_basico\XPais;
 use App\Models\Dato_basico\XCiudad;
@@ -16,10 +17,17 @@ use App\Models\Contacto\Persona;
 use Illuminate\Support\Facades\Validator;
 Use SweetAlert;
 Use DB;
+use Carbon\Carbon;
+
 
 class OrdenController extends Controller
 {
     protected $redirectTo = '/login';
+    
+    private $blue = '#1565c0'; //blue darken-3
+    private $teal = '#00695c'; //teal darken-3
+    private $red = '#c62828'; //red darken-3
+    private $amber = '#ff8f00'; //amber darken-3
     
     public function __construct()
     {
@@ -34,7 +42,23 @@ class OrdenController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $ordenes = Orden::all();
-        return View::make('actividad.ordenes.index')->with(compact('ordenes'));
+        $eventos = Orden::select(DB::raw("id AS id,nombre AS title,
+        REPLACE(fecha_inicio,' ','T') AS start,
+        CASE estado
+        WHEN 'Abierta' THEN '$this->blue'
+        WHEN 'Cerrada' THEN '$this->teal'
+        WHEN 'Cancelada' THEN '$this->red'
+        ELSE '$this->amber'
+        END AS color,
+        CASE estado
+        WHEN 'Abierta' THEN 'fa-business-time'
+        WHEN 'Cerrada' THEN 'fa-flag-checkered'
+        WHEN 'Cancelada' THEN 'fa-times'
+        ELSE 'fa-stopwatch'
+        END AS icon
+        "))->get();
+        //return $eventos;
+        return View::make('actividad.ordenes.index')->with(compact('ordenes','eventos'));
     }
 
     /**
@@ -45,20 +69,25 @@ class OrdenController extends Controller
     public function create()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $orden = new Orden();
+        $orden = new Orden;
+        $cliente =new Cliente;
+        $cliente->persona()->associate(new Persona);
         $orden->ciudad()->associate(new XCiudad);
         $orden->ubicacion()->associate(new XUbicacion);
-        $orden->cliente()->associate(new Cliente);
+        $orden->cliente()->associate($cliente);
         $estados = Orden::getEstados();
         $editar = false;
         $paises = XPais::orderBy('nombre', 'asc')->get();
         $clientes = DB::table('clientes')
         ->join('personas', 'clientes.persona_id', '=', 'personas.id')
-        ->select('clientes.id', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido')
+        ->join('users', 'personas.usuario_id', '=', 'users.id')
+        ->join('ciudades', 'personas.ciudad_id', '=', 'ciudades.id')
+        ->select('clientes.id', 'personas.cedula', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido'
+        , 'personas.telefono_movil', 'personas.telefono_fijo', 'personas.barrio', 'personas.direccion', 'personas.cuenta_banco'
+        , 'ciudades.nombre AS ciudad', 'users.email AS email')
         ->whereIn('clientes.persona_id',Persona::distinct()->select('id')->whereIn('usuario_id',User::distinct()->select('id')->whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
 })))->get();
-
        return View::make('actividad.ordenes.create')->with(compact('orden','editar','paises','clientes','estados'));
     }
 
@@ -96,11 +125,17 @@ class OrdenController extends Controller
             $ubicacion->latitud = $request->latitud;
             $ubicacion->longitud = $request->longitud;
             $ubicacion->save();        
-            $orden->nombre = $request->nombre; 
-            $orden->estado = "Abierta";
+            $orden->nombre = $request->nombre;
             $orden->barrio = $request->barrio;
             $orden->direccion = $request->direccion;   
             $orden->fecha_inicio = $request->fecha_inicio;
+$carbon_fecha = Carbon::parse($orden->fecha_inicio);
+            if($carbon_fecha->isFuture()){
+                $orden->estado = "Pendiente";
+            }else{
+                $orden->estado = "Abierta";
+            }
+
             $orden->ciudad()->associate($ciudad);
             $orden->cliente()->associate($cliente);
             $orden->ubicacion()->associate($ubicacion);
@@ -121,6 +156,7 @@ class OrdenController extends Controller
     {  
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = Orden::findOrFail($id);
+        $servicios = Servicio::all();
         return View::make('actividad.ordenes.show')->with(compact('orden'));
         
         }
@@ -140,7 +176,11 @@ class OrdenController extends Controller
         $estados = Orden::getEstados();
         $clientes = DB::table('clientes')
         ->join('personas', 'clientes.persona_id', '=', 'personas.id')
-        ->select('clientes.id', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido')
+        ->join('users', 'personas.usuario_id', '=', 'users.id')
+        ->join('ciudades', 'personas.ciudad_id', '=', 'ciudades.id')
+        ->select('clientes.id', 'personas.cedula', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido'
+        , 'personas.telefono_movil', 'personas.telefono_fijo', 'personas.barrio', 'personas.direccion', 'personas.cuenta_banco'
+        , 'ciudades.nombre AS ciudad', 'users.email AS email')
         ->whereIn('clientes.persona_id',Persona::distinct()->select('id')->whereIn('usuario_id',User::distinct()->select('id')->whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
 })))->get();
@@ -159,12 +199,14 @@ class OrdenController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
             'nombre'                   => 'required|max:50',
-                'barrio'                   => 'required|max:50',
-            'direccion'                   => 'required|max:50',
-            'latitud'                   => 'required|max:50',
-            'longitud'                   => 'required|max:50',
-            'ciudad_id'              => 'required',
-            'fecha_inicio'                   => 'required|date'
+            'barrio'                   => 'required|max:50',
+            'estado'                   => 'required|in:Abierta,Cerrada,Cancelada,Pendiente',
+        'direccion'                   => 'required|max:50',
+        'latitud'                   => 'required|max:50',
+        'longitud'                   => 'required|max:50',
+        'ciudad_id'              => 'required',
+        'cliente_id'                   => 'required',
+        'fecha_inicio'                   => 'required|date'
     );
 
     $validator = Validator::make($request->all(), $rules);
@@ -187,7 +229,12 @@ class OrdenController extends Controller
         $orden->barrio = $request->barrio;
         $orden->direccion = $request->direccion;   
         $orden->fecha_inicio = $request->fecha_inicio;
-        $orden->fecha_fin = $request->fecha_fin;
+        
+        if($orden->estado == "Cerrada"){
+            $orden->fecha_fin = Carbon::now()->format('Y-m-d H:i');
+        }else{
+            $orden->fecha_fin = NULL;
+        }
         $orden->ciudad()->associate($ciudad);
         $orden->cliente()->associate($cliente);
         $orden->ubicacion()->associate($ubicacion);

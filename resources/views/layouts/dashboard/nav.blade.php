@@ -70,7 +70,7 @@ function salir(){
                 </span>
                 <span class="user-role">{{ (Auth::user()->roles) ? Auth::user()->roles->first()->display_name : 'Sin rol'}}</span>
                 <span class="user-status">
-                    <i class="fas fa-circle"></i>
+                    <i class="fas fa-circle stutus-on"></i>
                     <span>Online</span>
                 </span>
             </div>

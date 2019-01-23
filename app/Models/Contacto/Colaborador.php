@@ -4,6 +4,8 @@ namespace App\Models\Contacto;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Actividad\Servicio;
+use App\Models\Contacto\Persona;
 
 class Colaborador extends Model
 {
@@ -53,6 +55,10 @@ class Colaborador extends Model
 
     public function persona()
     {
-        return $this->belongsTo('App\Models\Contacto\Persona');
+        return $this->belongsTo(Persona::class);
     }
+
+    public function servicios(){
+        return $this->belongsToMany(Servicio::class);
+      }
 }

@@ -14,7 +14,7 @@
     <!-- Grid row -->
     <div class="form-row">
         <!-- Grid column -->
-        <div class="col-md-12">
+        <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
     <i class="fas fa-user prefix"></i>
@@ -32,11 +32,74 @@
                                 @endif
         </div>
         <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-6">
+            <!-- Material input -->
+            <div class="md-form">
+            <i class="fas fa-user-tie"></i>
+            <small for="rol">Rol *</small>
+    <select class="form-control" required id="role_id" name="role_id">
+    <option value="" disabled selected>Selecciona una opción</option>
+    
+    @if ($default_role)
+    <option selected value="{{$default_role->id}}">{{$default_role->display_name}}</option>
+    @else
+        @if ($usuario->roles->count() > 0)
+            @foreach($roles as $key => $role)
+                <option {{ old('role_id') ?  ((old('role__id') == $role->id) ? 'selected' : '') : (($editar && $usuario->roles->first()->id == $role->id) ? 'selected' : '') }} value="{{$role->id}}">{{$role->display_name}}</option>
+            @endforeach
+        @endif
+    @endif
+</select>
+</div> @if ($errors->has('role_id'))
+                                            <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                           {{ $errors->first('role_id') }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+                                
+                                @endif
+        </div>
+        <!-- Grid column -->
         </div>
     <!-- Grid row -->
 
 <!-- Grid row -->
 <div class="form-row">
+    <!-- Grid column -->
+    <div class="col-md-6">
+        <!-- Material input -->
+        <div class="md-form">
+<i class="far fa-envelope prefix"></i>
+<input type="email" required id="email" value="{{ old('email') ? old('email') : $usuario->email}}" name="email" class="form-control validate" maxlength="100">
+<label for="email" data-error="Error" data-success="Correcto">Email *</label>
+</div> @if ($errors->has('email'))
+                                        <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                       {{ $errors->first('email') }}
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+                            
+                            @endif
+    </div>
+    <!-- Grid column -->
+<!-- Grid column -->
+<div class="col-md-6">
+<!-- Material input -->
+
+<input {{ (old('edit_password')) ? 'checked' : "" }} type="checkbox" id="edit_password" name="edit_password" class="switch-input">
+<label for="edit_password" class="switch-label">Modificar contraseña: <span class="toggle--on">Si</span><span class="toggle--off">No</span></label>
+</div>
+<!-- Grid column -->
+  
+</div>
+<!-- Grid row -->
+
+<!-- Grid row -->
+<div id="password_div" class="form-row">
         <!-- Grid column -->
         <div class="col-md-6">
             <!-- Material input -->
@@ -79,52 +142,7 @@
     
    
 
-  <!-- Grid row -->
-  <div class="form-row">
-        <!-- Grid column -->
-        <div class="col-md-6">
-            <!-- Material input -->
-            <div class="md-form">
-    <i class="far fa-envelope prefix"></i>
-    <input type="email" required id="email" value="{{ old('email') ? old('email') : $usuario->email}}" name="email" class="form-control validate" maxlength="100">
-    <label for="email" data-error="Error" data-success="Correcto">Email *</label>
-</div> @if ($errors->has('email'))
-                                            <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                           {{ $errors->first('email') }}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-                                
-                                @endif
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-md-6">
-            <!-- Material input -->
-            <div class="md-form">
-            <i class="fas fa-user-tie"></i>
-            <small for="rol">Rol *</small>
-    <select class="form-control" required id="rol_id" name="rol_id">
-    <option value="" disabled selected>Selecciona una opción</option>
-    @foreach($roles as $key => $rol)
-    <option {{ ($usuario->roles->first()->id == $rol->id) ? 'selected' : '' }} value="{{$rol->id}}">{{$rol->display_name}}</option>
-    @endforeach
-</select>
-</div> @if ($errors->has('rol_id'))
-                                            <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                           {{ $errors->first('rol_id') }}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-                                
-                                @endif
-        </div>
-        <!-- Grid column -->
-    </div>
-    <!-- Grid row -->
+  
     <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
     <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
     </button>
@@ -139,13 +157,36 @@
   $('[data-toggle="tooltip"]').tooltip()
 })
 $(document).ready(function() {
-    $('#rol').select2({
+    $('#role_id').select2({
         placeholder: "Roles",
         theme: "material",
         language: "es"
     });
     $(".select2-selection__arrow")
         .addClass("fas fa-chevron-down");
+        
+    if($("#edit_password").prop("checked") == true) {
+        $('#password').attr( 'required', true );	
+        $('#password_confirmation').attr( 'required', true );
+        $("#password_div").slideDown('fast');     
+    }else{
+		$('#password').attr( 'required', false );	
+        $('#password_confirmation').attr( 'required', false ); 
+        $("#password_div").slideUp('fast');
+	}
+});
+
+
+$("#edit_password").change(function() {
+    if(this.checked) {
+		$('#password').attr( 'required', true );	
+        $('#password_confirmation').attr( 'required', true );
+        $("#password_div").slideDown('fast');
+    }else{
+		$('#password').attr( 'required', false );	
+        $('#password_confirmation').attr( 'required', false ); 
+        $("#password_div").slideUp('fast');
+	}
 });
 </script>
 @endsection

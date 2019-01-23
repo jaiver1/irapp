@@ -32,7 +32,7 @@ class UsuariosTableSeeder extends Seeder
         $administrador->password = bcrypt('administrador');
         $administrador->save();
         $administrador->roles()->attach($role_administrador);
-
+/*
         $colaborador = new User;
         $colaborador->name = 'Colaborador';
         $colaborador->email = 'colaborador@example.com';
@@ -46,7 +46,7 @@ class UsuariosTableSeeder extends Seeder
         $cliente->password = bcrypt('cliente');
         $cliente->save();
         $cliente->roles()->attach($role_cliente);
-
+*/
 
     }
 }

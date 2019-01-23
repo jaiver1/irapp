@@ -18,7 +18,7 @@ Información de la categoria "{{ $categoria->nombre }}" | {{ config('app.name', 
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-sitemap mr-1"></i></span>
+                    <span><i class="fas fa-sitemap fa-lg mr-1"></i></span>
                         <a href="{{ route('categorias.index') }}">Lista de categorias</a>
                         <span>/</span>
                         <span>Información de la categoria "{{ $categoria->nombre }}"</span>
@@ -68,13 +68,17 @@ Información de la categoria "{{ $categoria->nombre }}" | {{ config('app.name', 
       <i class="fas fa-sitemap  mr-2"></i><strong>Categoria #{{ $categoria->id }}</strong>
     </a>
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $categoria->nombre }}</a>
-  <a href ="{{ route('especialidades.show', $categoria->especialidad->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-object-group mr-2"></i>Especialidad: </strong>{{ $categoria->especialidad->nombre }}</a>
   @if($categoria->categoria == NULL)
-  <a class="list-group-item waves-effect hoverable"><span class="h5"><span class="badge badge-secondary hoverable"><i class="fas fa-network-wired mr-1"></i>Categoria raiz</span></a>
+  
+  <a class="list-group-item waves-effect hoverable">
+        <strong>Categoria padre: </strong>
+        <span class="h5"><span class="badge badge-secondary hoverable"><i class="fas fa-network-wired mr-1"></i>Categoria raiz</span></span></a>
 
    @else
   <a href ="{{ route('categorias.show', $categoria->categoria->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-sitemap mr-2"></i>Categoria padre: </strong>{{ $categoria->categoria->nombre }}</a>
 @endif
+<a href ="{{ route('especialidades.show', $categoria->especialidad->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-object-group mr-2"></i>Especialidad: </strong>{{ $categoria->especialidad->nombre }}</a>
+
 </div>
                         </div>
 

@@ -4,6 +4,9 @@ namespace App\Models\Contacto;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Dato_basico\XUbicacion;
+use App\Models\Dato_basico\XCiudad;
+use App\Models\Root\User;
 
 class Persona extends Model
 {
@@ -64,17 +67,17 @@ class Persona extends Model
 
     public function ubicacion()
     {
-        return $this->belongsTo('App\Models\Dato_basico\XUbicacion');
+        return $this->belongsTo(XUbicacion::class);
     }
 
     public function ciudad()
     {
-        return $this->belongsTo('App\Models\Dato_basico\XCiudad');
+        return $this->belongsTo(XCiudad::class);
     }
     
     public function usuario()
     {
-        return $this->belongsTo('App\Models\Root\User');
+        return $this->belongsTo(User::class);
     }
     
 }

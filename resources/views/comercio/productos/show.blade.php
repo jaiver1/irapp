@@ -16,7 +16,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-boxes mr-1"></i></span>
+                    <span><i class="fas fa-boxes mr-1 fa-lg"></i></span>
                         <a href="{{ route('productos.index') }}">Lista de productos</a>
                         <span>/</span>
                         <span>Información del producto "{{ $producto->nombre }}"</span>
@@ -68,6 +68,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $producto->nombre }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Referencia: </strong>{{ $producto->referencia }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Valor unitario: </strong> <span class="h5"><span class="badge badge-success hoverable">@money($producto->valor_unitario)</span></span></a>
+  <a class="list-group-item waves-effect hoverable"><strong>Descripción: </strong>{{ $producto->descripcion }}</a>
   <a href ="{{ route('categorias.show', $producto->categoria->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-sitemap mr-2"></i>Categoria: </strong>{{ $producto->categoria->nombre }}</a>
   <a href ="{{ route('medidas.show', $producto->medida->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-ruler mr-2"></i>Medida: </strong>{{ $producto->medida->nombre }}</a>
   <a href ="{{ route('marcas.show', $producto->marca->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-trademark mr-2"></i>Marca: </strong>{{ $producto->marca->nombre }}</a>
@@ -258,7 +259,8 @@ jQuery(document).ready(function() {
                 maxFilesize: 2, // MB
                 addRemoveLinks : true,
     acceptedFiles: '.png,.jpg,.jpeg',
-
+    timeout: 5000,
+        parallelUploads: 10,
                 init: function() {
                             this.on("addedfile", function(file) {
                             });
@@ -268,26 +270,35 @@ jQuery(document).ready(function() {
                               $(file.previewElement).find('.dz-error-message').text(response.message);
                             });
 
+this.on("sending", function(file, xhr, formData) {
+  /*Called just before each file is sent*/
+        xhr.ontimeout = (() => {
+          /*Execute on case of timeout only*/
+            console.log('Server Timeout');
+            this.removeFile(file);
+
+        });
+});
+
                             this.on("success", function(file, response) {
-                              console.log(response);
-                              var _this = this;
-                                _this.removeFile(file);
-                                
+                              console.log(response);  
+                              this.removeFile(file);  
                                 if(response.message == "OK"){
                                   cargar_imagenes(); 
-                                }else{
-                                  swal({
-        title: 'Error 500',
-        text: 'La imagen "'+file.name+'" no pudo ser subida al servidor',
-        type: 'error',
-        confirmButtonText: '<i class="fas fa-check"></i> Continuar',
-        showCloseButton: true,
-        confirmButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        animation: false,
-        customClass: 'animated zoomIn',
-      });
                                 }
+                                /*else{
+                                  var markEl = $(file.previewElement).find('.dz-error-mark');
+                                    markEl.show();
+                                    markEl.css("opacity", 1);
+                                  var barEl = $(file.previewElement).find('.dz-progress');
+                                    barEl.hide();
+                                    barEl.css("opacity", 0);
+                                  var msgEl = $(file.previewElement).find('.dz-error-message');
+                                    msgEl.text(response.message);
+                                    msgEl.show();
+                                    msgEl.css("opacity", 1);
+               
+                                }*/
                                       
                           });
                           }

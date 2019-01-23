@@ -83,7 +83,46 @@ Lista de usuarios | {{ config('app.name', 'Laravel') }}
       <td>{{$usuario->id}}</td>
       <td>{{$usuario->name}}</td>
       <td>{{$usuario->email}}</td>
-      <td>{{ ($usuario->roles) ? $usuario->roles->first()->display_name : 'Sin rol'}}</td>
+      <td>
+            <h5> 
+                    @if($usuario->roles->count() > 0)
+                  <span class="hoverable badge
+            @switch($usuario->roles->first()->name)
+                @case('ROLE_ROOT')
+                    red
+                @break
+                @case('ROLE_ADMINISTRADOR')
+                    indigo
+                @break
+                @case('ROLE_COLABORADOR')
+                    teal
+                @break
+                @default
+                    blue-grey
+                @endswitch
+                    ">
+                    <i class="mr-1 fas
+                    @switch($usuario->roles->first()->name)
+                @case('ROLE_ROOT')
+                    fa-user-secret
+                @break
+                @case('ROLE_ADMINISTRADOR')
+                fa-user-shield  
+                @break
+                @case('ROLE_COLABORADOR')
+                fa-user-cog 
+                @break
+                @default
+                fa-user-tie 
+                @endswitch
+                    "></i>{{$usuario->roles->first()->display_name}}</span>
+                    @else
+                    <span class="hoverable badge black">
+                        <i class="mr-1 fas fa-user-times"></i>Sin rol 
+                  </span>
+                    @endif
+                  </h5>
+    </td>
       <td>
 
 <a href="{{ route('usuarios.show',$usuario->id) }}" class="text-primary m-1" 

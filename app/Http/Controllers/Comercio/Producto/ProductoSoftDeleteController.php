@@ -24,7 +24,7 @@ class ProductoSoftDeleteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    private static function getDeletedMarca($id)
+    private static function getDeletedProducto($id)
     {
         $producto = Producto::onlyTrashed()->where('id', $id)->get();
         
@@ -60,7 +60,7 @@ class ProductoSoftDeleteController extends Controller
     public function update($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $producto = self::getDeletedMarca($id);
+        $producto = self::getDeletedProducto($id);
         $producto->restore();
         SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido restaurada.');
         return Redirect::to('productos/deleted');
@@ -76,7 +76,7 @@ class ProductoSoftDeleteController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $producto = self::getDeletedMarca($id);
+        $producto = self::getDeletedProducto($id);
         $producto->forceDelete();
         SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminado permanentemente.');
         return Redirect::to('productos/deleted');

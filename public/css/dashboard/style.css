@@ -311,7 +311,7 @@ width: auto; }
 }
 
 .card-producto-img{
-  max-width: 200px !important;
+  max-width: auto !important;
 }
 
 .truncate-text {
@@ -362,4 +362,7 @@ width: auto; }
 
 .imagen-carousel-caption{
   background-color: rgba(0, 0, 0, 0.8);
+}
+.stutus-on{
+  color: springgreen !important;
 }

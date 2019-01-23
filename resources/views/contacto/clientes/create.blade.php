@@ -14,7 +14,7 @@ Registrar un cliente | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-user-tie mr-1"></i></span>
+                    <span><i class="fas fa-user-tie mr-1 fa-lg"></i></span>
                         <a href="{{ route('clientes.index') }}">Lista de clientes</a>
                         <span>/</span>
                         <span>Registrar un cliente</span>

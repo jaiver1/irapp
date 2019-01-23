@@ -1,4 +1,4 @@
-@include('include.addons.gmaps.form', array('ubicacion'=>$persona->ubicacion))
+@include('include.addons.gmaps.form', array('ubicacion'=>$persona->ubicacion,'infowindow'=>$persona->primer_nombre." ".$persona->segundo_nombre." ".$persona->primer_apellido." ".$persona->segundo_apellido))
 @section('persona_form')
 
     <!-- Grid row -->
@@ -54,7 +54,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="prefix"></i>
-    <input type="text" required id="primer_nombre" value="{{ old('primer_nombre') ? old('primer_nombre') : $persona->primer_nombre}}" name="primer_nombre" class="form-control validate" maxlength="50">
+    <input onchange="cambiar_info()" type="text" required id="primer_nombre" value="{{ old('primer_nombre') ? old('primer_nombre') : $persona->primer_nombre}}" name="primer_nombre" class="form-control validate" maxlength="50">
     <label for="primer_nombre" data-error="Error" data-success="Correcto">Primer nombre *</label>
 </div>
 @if ($errors->has('primer_nombre'))
@@ -75,7 +75,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="prefix"></i>
-    <input type="text" id="segundo_nombre" value="{{ old('segundo_nombre') ? old('segundo_nombre') : $persona->segundo_nombre}}" name="segundo_nombre" class="form-control validate" maxlength="50">
+    <input onchange="cambiar_info()" type="text" id="segundo_nombre" value="{{ old('segundo_nombre') ? old('segundo_nombre') : $persona->segundo_nombre}}" name="segundo_nombre" class="form-control validate" maxlength="50">
     <label for="segundo_nombre" data-error="Error" data-success="Correcto">Segundo nombre</label>
 </div>
 @if ($errors->has('segundo_nombre'))
@@ -101,7 +101,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="prefix"></i>
-    <input type="text" required id="primer_apellido" value="{{ old('primer_apellido') ? old('primer_apellido') : $persona->primer_apellido}}" name="primer_apellido" class="form-control validate" maxlength="50">
+    <input onchange="cambiar_info()" type="text" required id="primer_apellido" value="{{ old('primer_apellido') ? old('primer_apellido') : $persona->primer_apellido}}" name="primer_apellido" class="form-control validate" maxlength="50">
     <label for="primer_apellido" data-error="Error" data-success="Correcto">Primer apellido *</label>
 </div>
 @if ($errors->has('primer_apellido'))
@@ -122,7 +122,7 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="prefix"></i>
-    <input type="text" required id="segundo_apellido" value="{{ old('segundo_apellido') ? old('segundo_apellido') : $persona->segundo_apellido}}" name="segundo_apellido" class="form-control validate" maxlength="50">
+    <input onchange="cambiar_info()" type="text" required id="segundo_apellido" value="{{ old('segundo_apellido') ? old('segundo_apellido') : $persona->segundo_apellido}}" name="segundo_apellido" class="form-control validate" maxlength="50">
     <label for="segundo_apellido" data-error="Error" data-success="Correcto">Segundo apellido *</label>
 </div>
 @if ($errors->has('segundo_apellido'))
@@ -188,6 +188,7 @@
 
 <!-- Grid row -->
 <div class="form-row">
+  {{-- 
   <!-- Grid column -->
   <div class="col-md-6">
     <!-- Material input -->
@@ -216,7 +217,7 @@
                         @endif
 </div>
 <!-- Grid column -->
-
+--}}
   <div class="col-md-6">
     <!-- Material input -->
     
@@ -236,31 +237,32 @@
                         @endif
 </div>
 <!-- Grid column -->
-  </div>
-<!-- Grid row -->
-
-<!-- Grid row -->
-<div class="form-row">
-  <!-- Grid column -->
-  <div class="col-md-6">
-      <!-- Material input -->
-      <div class="md-form">
+<!-- Grid column -->
+<div class="col-md-6">
+    <!-- Material input -->
+    <div class="md-form">
 <i class="prefix fas fa-map-marked-alt"></i>
 <input type="text" required id="barrio" value="{{ old('barrio') ? old('barrio') : $persona->barrio}}" name="barrio" class="form-control validate" maxlength="50">
 <label for="barrio" data-error="Error" data-success="Correcto">Barrio *</label>
 </div>
 @if ($errors->has('barrio'))
-                                      <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                     {{ $errors->first('barrio') }}
+                                    <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                   {{ $errors->first('barrio') }}
 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 <span aria-hidden="true">&times;</span>
 </button>
 </div>
-                          
-                          @endif
-  </div>
+                        
+                        @endif
+</div>
 
-  <!-- Grid column -->
+<!-- Grid column -->
+  </div>
+<!-- Grid row -->
+
+<!-- Grid row -->
+<div class="form-row">
+  
 
     <!-- Grid column -->
     <div class="col-md-6">

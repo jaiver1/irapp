@@ -21,7 +21,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
                     <span><i class="fas fa-business-time mr-1"></i></span>
                         <a href="{{ route('ordenes.index') }}">Lista de ordenes</a>
                         <span>/</span>
-                        <span>Información de la orden "{{ $orden->nombre }}"</span>
+                        <span>Información del orden "{{ $orden->nombre }}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">
@@ -65,9 +65,53 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fas fa-business-time  mr-2"></i><strong>Especialidad #{{ $orden->id }}</strong>
+      <i class="fas fa-business-time  mr-2"></i><strong>Orden #{{ $orden->id }}</strong>
     </a>
-  <a class="list-group-item waves-effect hoverable"><strong><i class="fas mr-4"></i>Nombre: </strong>{{ $orden->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $orden->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Estado: </strong>
+    <span class="h5"><span class="hoverable badge
+@switch($orden->estado)
+    @case('Abierta')
+        blue darken-3
+    @break
+    @case('Cerrada')
+        teal darken-3
+    @break
+    @case('Cancelada')
+        red darken-3
+    @break
+    @default
+        amber darken-3
+    @endswitch
+        ">
+        <i class="mr-1 fas
+        @switch($orden->estado)
+    @case('Abierta')
+        fa-business-time
+    @break
+    @case('Cerrada')
+        fa-flag-checkered  
+    @break
+    @case('Cancelada')
+        fa-times  
+    @break
+    @default
+        fa-stopwatch 
+    @endswitch
+        "></i>{{ $orden->estado }}</span></span>
+</a>
+  <a class="list-group-item waves-effect hoverable">
+    <strong>Fecha:&nbsp;</strong>
+    <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($orden->fecha_inicio)->format('d/m/Y -:- h:i A') }}</span></span>
+@if($orden->fecha_fin &&  $orden->estado == "Cerrada")
+<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<span class="h5"><span class="badge teal darken-3 hoverable"><i class="far fa-calendar-check mr-1"></i>{{ Carbon\Carbon::parse($orden->fecha_fin)->format('d/m/Y -:- h:i A') }}</span></span>
+@endif
+</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Cliente: </strong>{{$orden->cliente->persona->primer_nombre}} {{$orden->cliente->persona->segundo_nombre}} {{$orden->cliente->persona->primer_apellido}} {{$orden->cliente->persona->segundo_apellido}}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Ciudad: </strong>{{ $orden->ciudad->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Barrio: </strong>{{ $orden->barrio }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Direccion: </strong>{{ $orden->direccion }}</a>
 </div>
                         </div>
 
@@ -90,13 +134,13 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
                       <div class="card hoverable"> 
                           <!--Card content-->
                           <div class="card-body">
-                              <h4><i class="fas fa-sitemap mr-2"></i>
-                              @if ($orden->categorias->count() === 1)
-                  Una categoria de "{{ $orden->nombre }}"
-              @elseif ($orden->categorias->count() > 1)
-                  {{ $orden->categorias->count() }} categorias de "{{ $orden->nombre }}"
+                              <h4><i class="fas fa-tasks mr-2"></i>
+                              @if ($orden->detalles->count() === 1)
+                  Un detalle de "{{ $orden->nombre }}"
+              @elseif ($orden->detalles->count() > 1)
+                  {{ $orden->detalles->count() }} detalles de "{{ $orden->nombre }}"
               @else
-                 No hay categorias de "{{ $orden->nombre }}"
+                 No hay detalles de "{{ $orden->nombre }}"
               @endif
               </h4>
               <hr/>
@@ -109,7 +153,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
         </th>
         <th class="th-sm">Nombre
         </th>
-        <th class="th-sm">Especialidad
+        <th class="th-sm">Orden
         </th>
         <th class="th-sm">Categoria padre
         </th>
@@ -119,25 +163,25 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
       </tr>
     </thead>
     <tbody>
-    @foreach($orden->categorias as $key => $categoria)
+    @foreach($orden->detalles as $key => $detalle)
       <tr class="hoverable">
-        <td>{{$categoria->id}}</td>
-        <td>{{$categoria->nombre}}</td>
-        <td><i class="fas fa-business-time"></i> {{$categoria->orden->nombre}}</td>
+        <td>{{$detalle->id}}</td>
+        <td>{{$detalle->nombre}}</td>
+        <td><i class="fas fa-business-time"></i> {{$detalle->orden->nombre}}</td>
         <td>
-          @if($categoria->categoria == NULL)
-         <h5> <span class="badge badge-secondary"><i class="fas fa-sitemap"></i> Categoria raiz</span><h5>
+          @if($detalle->detalle == NULL)
+         <h5> <span class="badge badge-secondary"><i class="fas fa-tasks"></i> Categoria raiz</span><h5>
           @else
-              <a href="{{ route('categorias.show',$categoria->categoria->id) }}" class="link-text"
-                            data-toggle="tooltip" data-placement="bottom" title='Información de la categoria padre "{{ $categoria->categoria->nombre }}"'>
-                              <i class="fas fa-sitemap"></i> {{$categoria->categoria->nombre}}
+              <a href="{{ route('detalles.show',$detalle->detalle->id) }}" class="link-text"
+                            data-toggle="tooltip" data-placement="bottom" title='Información del detalle padre "{{ $detalle->detalle->nombre }}"'>
+                              <i class="fas fa-tasks"></i> {{$detalle->detalle->nombre}}
                                     </a>    
           @endif
       </td>
       <td>
 
-        <a href="{{ route('categorias.show',$categoria->id) }}" class="text-primary m-1" 
-                            data-toggle="tooltip" data-placement="bottom" title='Información de la categoria "{{ $categoria->nombre }}"'>
+        <a href="{{ route('detalles.show',$detalle->id) }}" class="text-primary m-1" 
+                            data-toggle="tooltip" data-placement="bottom" title='Información del detalle "{{ $detalle->nombre }}"'>
                               <i class="fas fa-2x fa-info-circle"></i>
                                     </a>
               </td>
@@ -157,6 +201,222 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
   
               </div>
               <!--Grid row-->
+
+              <!--Grid row-->
+              <div class="row mt-5">
+
+                <!--Grid column-->
+                <div class="col-12">
+
+                    <!--Card-->
+                    <div class="card hoverable"> 
+                        <!--Card content-->
+                        <div class="card-body">
+                            <h4><i class="far fa-calendar-plus mr-2"></i> Agregar detalle</h4>
+            <hr/>
+            <form method="POST" action="{{ route('ordenes.store') }}" accept-charset="UTF-8">
+                    
+                    
+                     {{ csrf_field() }}
+                    
+                    
+                        <!-- Grid row -->
+                        <div class="form-row">
+                    
+                    
+                          
+                    
+                            <!-- Grid column -->
+                            <div class="col-md-6">
+                              <!-- Material input -->
+                              
+                              <div class="md-form">
+                              <i class="fas {{($orden->estado == 'Abierta' ) ? 'fa-tools' : (($orden->estado == 'Cerrada' ) ? 'fa-check-circle' : (($orden->estado == 'Cancelada' ) ? 'fa-times-circle' : (($orden->estado == 'Pendiente' ) ? 'fa-stopwatch' : 'fa-asterisk')))}} "></i>
+                              <small for="estado">Estado *</small>   
+                            <select class="form-control" required id="estado" name="estado">
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            @foreach($estados as $key => $estado)
+                            <option {{ old('estado') ?  ((old('estado') == $estado) ? 'selected' : '') : ( ($orden->estado == $estado) ? 'selected' : '') }} value="{{ $estado}}">{{$estado}}</option>
+                            @endforeach
+                            </select>
+                            </div> @if ($errors->has('estado'))
+                                                              <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                                             {{ $errors->first('estado') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                                                  
+                                                  @endif
+                            </div>
+                            <!-- Grid column -->
+                          
+                                    </div>
+                                <!-- Grid row -->
+                    
+                    <!-- Grid row -->
+                    <div class="form-row">
+                    
+                            <!-- Grid column -->
+                            <div class="col-md-6">
+                                <!-- Material input -->
+                                <div class="md-form">
+                        <i class="fas fa-business-time prefix"></i>
+                        <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $orden->nombre}}" name="nombre" class="form-control validate" maxlength="50">
+                        <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
+                    </div>
+                    @if ($errors->has('nombre'))
+                                                                <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                                               {{ $errors->first('nombre') }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                                                    
+                                                    @endif
+                            </div>
+                        
+                            <!-- Grid column -->
+                         
+                      <!-- Grid column -->
+                      <div class="col-md-6">
+                        <!-- Material input -->
+                        <div class="md-form">
+                    <i class="prefix far fa-calendar-alt"></i>
+                    <input type="text" required id="fecha_inicio" value="{{ old('fecha_inicio') ? old('fecha_inicio') : $orden->fecha_inicio}}" name="fecha_inicio" class="form-control validate" maxlength="50">
+                    <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha inicio *</label>
+                    </div>
+                    @if ($errors->has('fecha_inicio'))
+                                                        <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                                       {{ $errors->first('fecha_inicio') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                                            
+                                            @endif
+                    </div>
+                    
+                    <!-- Grid column -->
+                    
+                            </div>
+                        <!-- Grid row -->
+                    
+                        {{--
+                        @if ($editar)
+                         <!-- Grid row -->
+                         <div class="form-row">
+                            <!-- Grid column -->
+                            <div class="col-md-6">
+                                <!-- Material input -->
+                                <div class="md-form">
+                        <i class="prefix far fa-calendar-alt"></i>
+                        <input type="text" required id="fecha_inicio" value="{{ old('fecha_inicio') ? old('fecha_inicio') : $orden->fecha_inicio}}" name="fecha_inicio" class="form-control validate" maxlength="50">
+                        <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha inicio</label>
+                    </div>
+                    @if ($errors->has('fecha_inicio'))
+                                                                <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                                               {{ $errors->first('fecha_inicio') }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                                                    
+                                                    @endif
+                            </div>
+                        
+                            <!-- Grid column -->
+                    
+                             <!-- Grid column -->
+                             <div class="col-md-6">
+                                <!-- Material input -->
+                                <div class="md-form">
+                        <i class="prefix far fa-calendar-check"></i>
+                        <input type="text" id="fecha_fin" value="{{ old('fecha_fin') ? old('fecha_fin') : $orden->fecha_fin}}" name="fecha_fin" class="form-control validate" maxlength="50">
+                        <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha fin *</label>
+                    </div>
+                    @if ($errors->has('fecha_fin'))
+                                                                <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                                               {{ $errors->first('fecha_fin') }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                                                    
+                                                    @endif
+                            </div>
+                        
+                            <!-- Grid column -->
+                            </div>
+                        <!-- Grid row -->
+                        @endif
+                        --}}
+                    <!-- Grid row -->
+                    <div class="form-row">
+                        <!-- Grid column -->
+                        <div class="col-md-6">
+                          <!-- Material input -->
+                          
+                          <div class="md-form">
+                          <i class="fas fa-user-tie"></i>
+                          <small for="cliente_id">Cliente *</small>   
+                      <select class="form-control" required id="cliente_id" name="cliente_id">
+                      <option value="" disabled selected>Selecciona una opción</option>
+                      @if($editar)
+                        <option selected value="{{ $orden->cliente->id }}">{{$orden->cliente->persona->primer_nombre}} {{$orden->cliente->persona->segundo_nombre}} {{$orden->cliente->persona->primer_apellido}} {{$orden->cliente->persona->segundo_apellido}}</option>
+                        @endif
+                      </select>
+                      </div> @if ($errors->has('cliente_id'))
+                                                          <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                                         {{ $errors->first('cliente_id') }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                                              
+                                              @endif
+                      </div>
+                      <!-- Grid column -->
+                      
+                        <div class="col-md-6">
+                          <!-- Material input -->
+                          
+                          <div class="md-form">
+                          <i class="fas fa-city"></i>
+                          <small for="ciudad_id">Ciudad *</small>   
+                          @include('include.dato_basico.ciudades.select', array('ciudad_selected'=>$orden->ciudad))
+                      </div> @if ($errors->has('ciudad_id'))
+                                                          <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                                         {{ $errors->first('ciudad_id') }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                                              
+                                              @endif
+                      </div>
+                      <!-- Grid column -->
+                        </div>
+                      <!-- Grid row -->
+                      
+                     
+                
+                    
+                        <button type="submit" class="mt-4 waves-effect btn btn-success btn-md hoverable">
+                        <i class="fas fa-2x fa-plus"></i> Registrar
+                        </button>
+                    </form>
+                    @include('include.contacto.clientes.modal_search')
+                        </div>
+
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
           
         </div>
 
@@ -213,7 +473,7 @@ $(document).ready(function() {
     var currentdate = new Date(); 
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
-    var titulo_archivo = 'Lista de categorias de "'+orden+'" ('+datetime+')';
+    var titulo_archivo = 'Lista de detalles de "'+orden+'" ('+datetime+')';
      $('#dtcategorias').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
@@ -299,7 +559,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fas fa-sitemap"></i>  Datos de la categoria "'+ data[1]+'"';
+                        return '<i class="fas fa-tasks"></i>  Datos del detalle "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

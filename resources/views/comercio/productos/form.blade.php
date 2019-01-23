@@ -41,7 +41,7 @@
         <i class="fas fa-money-bill-alt prefix"></i>
         <input type="text" required id="valor_unitario-mask" value="{{ old('valor_unitario') ? old('valor_unitario') : $producto->valor_unitario}}" name="valor_unitario-mask" class="form-control validate" maxlength="50">
         <input type="hidden" required id="valor_unitario" value="{{ old('valor_unitario') ? old('valor_unitario') : $producto->valor_unitario}}" name="valor_unitario" class="form-control validate" maxlength="12">
-        <label for="valor_unitario" data-error="Error" data-success="Correcto">Valor *</label>
+        <label for="valor_unitario" data-error="Error" data-success="Correcto">Valor unitario *</label>
     </div>
     @if ($errors->has('valor_unitario'))
                                                 <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">

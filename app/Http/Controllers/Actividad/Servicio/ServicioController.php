@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Actividad\Orden;
-use App\Models\Dato_basico\XUbicacion;
-use App\Models\Dato_basico\XCiudad;
+use App\Models\Actividad\Servicio;
+use App\Models\Clasificacion\Especialidad;
+use App\Models\Clasificacion\Categoria;
+use App\Models\Dato_basico\Medida;
+use App\Models\Dato_basico\Tipo_medida;
 use Illuminate\Support\Facades\Validator;
 Use SweetAlert;
 
@@ -28,8 +30,8 @@ class ServicioController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $ordenes = Orden::all();
-        return View::make('actividad.ordenes.index')->with(compact('ordenes'));
+        $servicios = Servicio::all();
+        return View::make('actividad.servicios.index')->with(compact('servicios'));
     }
 
     /**
@@ -40,12 +42,13 @@ class ServicioController extends Controller
     public function create()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $orden = new Orden();
-        $orden->ciudad()->associate(new XCiudad);
-        $orden->ubicacion()->associate(new XUbicacion);
+        $servicio = new Servicio; 
+        $servicio->medida()->associate(new Medida);
+        $servicio->categoria()->associate(new Categoria);
+        $tipos_medidas = Tipo_medida::all();
+        $especialidades = Especialidad::all();   
         $editar = false;
-        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
-        return View::make('actividad.ordenes.create')->with(compact('orden','editar','ciudades'));
+        return View::make('actividad.servicios.create')->with(compact('servicio','editar','tipos_medidas','especialidades'));
     }
 
     /**
@@ -57,7 +60,11 @@ class ServicioController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $rules = array(
-                'nombre'                   => 'required|max:50'
+            'nombre'                   => 'required|max:50',
+            'valor_unitario'                   => 'numeric|required|digits_between:1,12',
+            'medida_id'                   => 'required',
+            'categoria_id'                   => 'required',
+            'descripcion'                => 'required|max:1000'
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -65,15 +72,19 @@ class ServicioController extends Controller
 
         if ($validator->fails()) {
             SweetAlert::error('Error','Errores en el formulario.');
-            return Redirect::to('ordenes/create')
+            return Redirect::to('servicios/create')
                 ->withErrors($validator);
         } else {
-            $orden = new Orden();
-            $orden->nombre = $request->nombre; 
-           $orden->save();        
+            $servicio = new Servicio;
+            $servicio->nombre = $request->nombre; 
+            $servicio->valor_unitario = $request->valor_unitario; 
+            $servicio->descripcion = $request->descripcion; 
+            $servicio->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
+            $servicio->medida()->associate(Medida::findOrFail($request->medida_id));
+           $servicio->save();        
 
-            SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido registrada.');
-            return Redirect::to('ordenes');
+            SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido registrada.');
+            return Redirect::to('servicios');
         }
     }
 
@@ -86,8 +97,8 @@ class ServicioController extends Controller
     public function show($id)
     {  
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $orden = Orden::findOrFail($id);
-        return View::make('actividad.ordenes.show')->with(compact('orden'));
+        $servicio = Servicio::findOrFail($id);
+        return View::make('actividad.servicios.show')->with(compact('servicio'));
         
         }
 
@@ -100,10 +111,11 @@ class ServicioController extends Controller
     public function edit($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $orden = Orden::findOrFail($id);
+        $servicio = Servicio::findOrFail($id);
+        $tipos_medidas = Tipo_medida::all();
+        $especialidades = Especialidad::all();  
         $editar = true;
-        $ciudades = XCiudad::orderBy('nombre', 'asc')->get();
-        return View::make('actividad.ordenes.edit')->with(compact('orden','editar','ciudades'));
+        return View::make('actividad.servicios.edit')->with(compact('servicio','editar','tipos_medidas','especialidades'));
    
     }
 
@@ -116,23 +128,31 @@ class ServicioController extends Controller
     public function update($id,Request $request)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $rules = array(
-            'nombre'                   => 'required|max:50'
-    );
+       $rules = array(
+            'nombre'                   => 'required|max:50',
+            'valor_unitario'                   => 'numeric|required|digits_between:1,12',
+            'medida_id'                   => 'required',
+            'categoria_id'                   => 'required',
+            'descripcion'                => 'required|max:1000'
+        );
 
     $validator = Validator::make($request->all(), $rules);
 
 
     if ($validator->fails()) {
         SweetAlert::error('Error','Errores en el formulario.');
-        return Redirect::to('ordenes/'+$id+'/edit')
+        return Redirect::to('servicios/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $orden = Orden::findOrFail($request->id);
-        $orden->nombre = $request->nombre; 
-        $orden->save();
-        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido editada.');
-        return Redirect::to('ordenes');
+        $servicio = Servicio::findOrFail($request->id);
+        $servicio->nombre = $request->nombre; 
+        $servicio->valor_unitario = $request->valor_unitario; 
+        $servicio->descripcion = $request->descripcion; 
+        $servicio->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
+        $servicio->medida()->associate(Medida::findOrFail($request->medida_id));
+        $servicio->save();
+        SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido editada.');
+        return Redirect::to('servicios');
     }
     }
 
@@ -145,9 +165,9 @@ class ServicioController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $orden = Orden::findOrFail($id);   
-        $orden->delete();
-        SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada.');
-        return Redirect::to('ordenes');
+        $servicio = Servicio::findOrFail($id);   
+        $servicio->delete();
+        SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido eliminada.');
+        return Redirect::to('servicios');
 }
 }

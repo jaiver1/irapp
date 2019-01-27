@@ -57,7 +57,7 @@ Lista de colaboradores | {{ config('app.name', 'Laravel') }}
                         <div class="card-body">
                         <div class="table-responsive">
                             <!-- Table  -->
-                            <table id="dtclientes" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="dtcolaboradors" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
   <thead class="th-color white-text">
     <tr class="z-depth-2">
       <th class="th-sm">#
@@ -125,7 +125,7 @@ Lista de colaboradores | {{ config('app.name', 'Laravel') }}
                       <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
-                            <a onclick="eliminar_cliente({{ $colaborador->id }},'{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}')" class="text-danger m-1" 
+                            <a onclick="eliminar_colaborador({{ $colaborador->id }},'{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}')" class="text-danger m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar el colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"'>
                       <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
@@ -172,7 +172,7 @@ Lista de colaboradores | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
 
-function eliminar_cliente(id,nombre){
+function eliminar_colaborador(id,nombre){
     swal({
   title: 'Eliminar el colaborador',
   text: '¿Desea eliminar el colaborador "'+nombre+'"?',
@@ -210,7 +210,7 @@ $(document).ready(function() {
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
     var titulo_archivo = "Lista de colaboradores ("+datetime+")";
-     $('#dtclientes').DataTable( {
+     $('#dtcolaboradors').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
         [ 2, 5, 10, 20, 30, 50, 100, -1 ],

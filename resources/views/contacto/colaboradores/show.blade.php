@@ -1,8 +1,13 @@
 @extends('layouts.dashboard.main')
 @section('template_title')
-Información del colaborador "{{ $colaborador->nombre }}" | {{ config('app.name', 'Laravel') }}
+Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}" | {{ config('app.name', 'Laravel') }}
 @endsection
-
+@section('css_links')
+<link rel="stylesheet" href="{{ asset('css/addons/datatables.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/addons/bt4-datatables.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/addons/bt4-responsive-datatables.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/addons/bt4-buttons-datatables.min.css') }}" type="text/css">
+@endsection
 @section('content')
         <div class="container-fluid">
 
@@ -16,7 +21,7 @@ Información del colaborador "{{ $colaborador->nombre }}" | {{ config('app.name'
                     <span><i class="fas fa-user-tie mr-1 fa-lg"></i></span>
                         <a href="{{ route('colaboradores.index') }}">Lista de colaboradores</a>
                         <span>/</span>
-                        <span>Información del colaborador "{{ $colaborador->nombre }}"</span>
+                        <span>Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">
@@ -30,7 +35,7 @@ Información del colaborador "{{ $colaborador->nombre }}" | {{ config('app.name'
                       <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
-                                    <a onclick="eliminar_cliente({{ $colaborador->id }},'{{ $colaborador->nombre }}')"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
+                                    <a onclick="eliminar_colaborador({{ $colaborador->id }},'{{ $colaborador->nombre }}')"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title='Eliminar el colaborador "{{ $colaborador->nombre }}"'>
                       <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
@@ -60,7 +65,7 @@ Información del colaborador "{{ $colaborador->nombre }}" | {{ config('app.name'
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fas fa-user-tie  mr-2"></i><strong>Cliente #{{ $colaborador->id }}</strong>
+      <i class="fas fa-user-tie  mr-2"></i><strong>Colaborador #{{ $colaborador->id }}</strong>
     </a>
     <a class="list-group-item waves-effect hoverable"><strong>Cedula: </strong>{{ $colaborador->persona->cedula }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Primer nombre: </strong>{{ $colaborador->persona->primer_nombre }}</a>
@@ -97,6 +102,7 @@ Información del colaborador "{{ $colaborador->nombre }}" | {{ config('app.name'
                         <div class="card hoverable"> 
                             <!--Card content-->
                             <div class="card-body">
+                                <div class="d-sm-flex justify-content-between">
                                 <h4><i class="fas fa-tasks mr-2"></i>
                                 @if ($colaborador->servicios->count() === 1)
                     Un servicio de "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"
@@ -106,53 +112,61 @@ Información del colaborador "{{ $colaborador->nombre }}" | {{ config('app.name'
                    No hay servicios de "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"
                 @endif
                 </h4>
+                <div class="d-flex justify-content-center">
+                  <a data-toggle="modal" data-target="#modal_search_servicio" href="#" class="btn btn-outline-success btn-circle waves-effect hoverable" 
+                  data-toggle="tooltip" data-placement="bottom" title="Registrar un servicio">
+                    <i class="fas fa-2x fa-plus"></i>
+                          </a>                     
+                  </div>
+                </div>
                 <hr/>
                             <div class="table-responsive">
                                 <!-- Table  -->
-                                <table id="dtcategorias" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
-      <thead class="th-color white-text">
-        <tr class="z-depth-2">
-          <th class="th-sm">#
-          </th>
-          <th class="th-sm">Nombre
-          </th>
-          <th class="th-sm">Orden
-          </th>
-          <th class="th-sm">Categoria padre
-          </th>
-          <th class="th-sm">Acciones
-          </th>
-       
-        </tr>
-      </thead>
-      <tbody>
-      @foreach($colaborador->servicios as $key => $servicio)
-        <tr class="hoverable">
-          <td>{{$servicio->id}}</td>
-          <td>{{$servicio->nombre}}</td>
-          <td><i class="fas fa-business-time"></i> {{$servicio->colaborador->nombre}}</td>
-          <td>
-            @if($servicio->servicio == NULL)
-           <h5> <span class="badge badge-secondary"><i class="fas fa-tasks"></i> Categoria raiz</span><h5>
-            @else
-                <a href="{{ route('servicios.show',$servicio->servicio->id) }}" class="link-text"
-                              data-toggle="tooltip" data-placement="bottom" title='Información del servicio padre "{{ $servicio->servicio->nombre }}"'>
-                                <i class="fas fa-tasks"></i> {{$servicio->servicio->nombre}}
-                                      </a>    
-            @endif
-        </td>
-        <td>
-  
-          <a href="{{ route('servicios.show',$servicio->id) }}" class="text-primary m-1" 
-                              data-toggle="tooltip" data-placement="bottom" title='Información del servicio "{{ $servicio->nombre }}"'>
-                                <i class="fas fa-2x fa-info-circle"></i>
-                                      </a>
-                </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-                                <!-- Table  -->
+                            <table id="dtservicios" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                              <thead class="th-color white-text">
+                                <tr class="z-depth-2">
+                                  <th class="th-sm">#
+                                  </th>
+                                  <th class="th-sm">Nombre
+                                  </th>
+                                  <th class="th-sm">Valor unitario
+                                    </th>
+                                    <th class="th-sm">Descripcion
+                                  </th>
+                                  <th class="th-sm">Categoria
+                                  </th>
+                                  <th class="th-sm">Medida
+                                  </th>
+                                  <th class="th-sm">Acciones
+                                  </th>
+                               
+                                </tr>
+                              </thead>
+                              <tbody>
+                              @foreach($colaborador->servicios as $key => $servicio)
+                                <tr class="hoverable">
+                                  <td>{{$servicio->id}}</td>
+                                  <td>{{$servicio->nombre}}</td>  
+                                  <td> <h5><span class="badge badge-success hoverable">
+                                        @money($servicio->valor_unitario)
+                                        </span>
+                                        </h5>
+                                      </td>
+                                    <td>{{$servicio->descripcion}}</td>
+                                    
+                                  <td>
+                            
+                            <a href="{{ route('servicios.show', $servicio->id) }}" class="text-primary m-1" 
+                                                data-toggle="tooltip" data-placement="bottom" title='Información del servicio "{{ $servicio->nombre }}"'>
+                                                  <i class="fas fa-2x fa-info-circle"></i>
+                                                        </a>
+                            
+                                  </td>
+                                </tr>
+                                @endforeach
+                              </tbody>
+                            </table>
+                                                        <!-- Table  -->
                                 </div>
                             </div>
     
@@ -166,12 +180,25 @@ Información del colaborador "{{ $colaborador->nombre }}" | {{ config('app.name'
                 <!--Grid row-->
           
         </div>
-
+        @include('include.actividad.servicios.modal_search')
 @endsection
 @section('js_links')
 
+<script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/bt4-datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/responsive-datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/bt4-responsive-datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/buttons-datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/bt4-buttons-datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/buttons.html5.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/jszip.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/pdfmake.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/vfs_fonts.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/buttons.print.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
+
 <script type="text/javascript">
-function eliminar_cliente(id,nombre){
+function eliminar_colaborador(id,nombre){
     swal({
   title: 'Eliminar el colaborador',
   text: '¿Desea eliminar el colaborador "'+nombre+'"?',
@@ -202,6 +229,111 @@ function eliminar_cliente(id,nombre){
   }
 })
 }
+
+$(document).ready(function() {
+    var colaborador =  "{{$colaborador->persona->primer_nombre}}"; 
+    var currentdate = new Date(); 
+    moment.locale('es');
+var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
+    var titulo_archivo = 'Lista de servicios de "'+colaborador+'" ('+datetime+')';
+     $('#dtservicios').DataTable( {
+        dom: 'Bfrtip',
+    lengthMenu: [
+        [ 2, 5, 10, 20, 30, 50, 100, -1 ],
+        [ '2 registros', '5 registros', '10 registros', '20 registros','30 registros', '50 registros', '100 registros', 'Mostrar todo' ]
+    ],oLanguage:{
+	sProcessing:     'Procesando...',
+	sLengthMenu:     'Mostrar _MENU_ registros',
+	sZeroRecords:    'No se encontraron resultados',
+	sEmptyTable:     'Ningún dato disponible en esta tabla',
+	sInfo:           'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+	sInfoEmpty:      'Mostrando registros del 0 al 0 de un total de 0 registros',
+	sInfoFiltered:   '(filtrado de un total de _MAX_ registros)',
+	sInfoPostFix:    '',
+	sSearch:         'Buscar:',
+	sUrl:            '',
+	sInfoThousands:  ',',
+	sLoadingRecords: 'Cargando...',
+	oPaginate: {
+		sFirst:    'Primero',
+		sLast:     'Último',
+		sNext:     'Siguiente',
+		sPrevious: 'Anterior'
+	}
+    },
+        buttons: [
+
+            {
+                extend: 'collection',
+                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
+                titleAttr: 'Opciones',
+                buttons: [
+                    {
+                extend:    'copyHtml5',
+                text:      '<i class="fas fa-copy"></i> Copiar',
+                titleAttr: 'Copiar',
+                title: titulo_archivo
+            },
+            {
+                extend:    'print',
+                text:      '<i class="fas fa-print"></i> Imprimir',
+                titleAttr: 'Imprimir',
+                title: titulo_archivo
+            },
+            {
+                extend: 'collection',
+                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
+                titleAttr: 'Exportar',
+                buttons: [         
+            {
+                extend:    'csvHtml5',
+                text:      '<i class="fas fa-file-alt"></i> Csv',
+                titleAttr: 'Csv',
+                title: titulo_archivo
+            }, 
+            {
+                extend:    'excelHtml5',
+                text:      '<i class="fas fa-file-excel"></i> Excel',
+                titleAttr: 'Excel',
+                title: titulo_archivo
+            },
+            {
+                extend:    'pdfHtml5',
+                text:      '<i class="fas fa-file-pdf"></i> Pdf',
+                titleAttr: 'Pdf',
+                title: titulo_archivo
+            }
+        ]
+    },
+           
+            {
+                extend:    'colvis',
+                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
+                titleAttr: 'Ver/Ocultar',
+            }
+           
+                ]
+            },
+            'pageLength'
+        ],
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.modal( {
+                    header: function ( row ) {
+                        var data = row.data();
+                        return '<i class="fas fa-sitemap"></i>  Datos de la servicio "'+ data[1]+'"';
+                    }
+                } ),
+                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                    tableClass: 'table'
+                } )
+            }
+        }
+    } );
+
+
+            $('.dataTables_length').addClass('bs-select');
+        });
 
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()

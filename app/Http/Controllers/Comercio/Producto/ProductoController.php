@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comercio\Producto;
-use App\Models\Comercio\XImagen_producto;
+use App\Models\Comercio\Imagen_producto;
 use App\Models\Comercio\Marca;
 use App\Models\Clasificacion\Especialidad;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Dato_basico\Medida;
 use App\Models\Dato_basico\Tipo_medida;
-use App\Models\Dato_basico\XTipo_referencia;
+use App\Models\Dato_basico\Tipo_referencia;
 use Illuminate\Support\Facades\Validator;
 use SweetAlert;
 use DNS1D;
@@ -54,7 +54,7 @@ class ProductoController extends Controller
         $producto->medida()->associate(new Medida);
         $producto->categoria()->associate(new Categoria);
         $producto->marca()->associate(new Marca);
-        $producto->tipo_referencia()->associate(new XTipo_referencia);
+        $producto->tipo_referencia()->associate(new Tipo_referencia);
         
         $tipos_medidas = Tipo_medida::all();
         $especialidades = Especialidad::all();   
@@ -100,7 +100,7 @@ class ProductoController extends Controller
             $producto->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
             $producto->medida()->associate(Medida::findOrFail($request->medida_id));      
             $producto->marca()->associate(Marca::findOrFail($request->marca_id));      
-            $producto->tipo_referencia()->associate(XTipo_referencia::findOrFail($request->tipo_referencia_id));  
+            $producto->tipo_referencia()->associate(Tipo_referencia::findOrFail($request->tipo_referencia_id));  
             $producto->save();        
 
             SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido registrada.');
@@ -178,7 +178,7 @@ class ProductoController extends Controller
         $producto->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
         $producto->medida()->associate(Medida::findOrFail($request->medida_id));      
         $producto->marca()->associate(Marca::findOrFail($request->marca_id));      
-        $producto->tipo_referencia()->associate(XTipo_referencia::findOrFail($request->tipo_referencia_id));  
+        $producto->tipo_referencia()->associate(Tipo_referencia::findOrFail($request->tipo_referencia_id));  
        $producto->save(); 
       
         SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido editada.');
@@ -271,7 +271,7 @@ class ProductoController extends Controller
                 } 
                 $path = public_path($route);          
                     Image::make($image->getRealPath())->save($path);
-                    $imagen_producto = new XImagen_producto;
+                    $imagen_producto = new Imagen_producto;
                     $imagen_producto->nombre = $filename;
                     $imagen_producto->ruta = $route;
                     $imagen_producto->producto()->associate($producto);      
@@ -307,7 +307,7 @@ class ProductoController extends Controller
             $referencias_2d = array();
            
             if(is_numeric($content[0])){
-            foreach (XTipo_referencia::where('dimension' , '=', '1D')->get() as $key => $tipo_referencia) {
+            foreach (Tipo_referencia::where('dimension' , '=', '1D')->get() as $key => $tipo_referencia) {
                 try{
                     DNS1D::getBarcodePNG($content, $tipo_referencia->nombre);
                     $referencias_1d[] = $tipo_referencia;
@@ -316,7 +316,7 @@ class ProductoController extends Controller
       }
             }
 
-            foreach (XTipo_referencia::where('dimension' , '=', '2D')->get() as $key => $tipo_referencia) {
+            foreach (Tipo_referencia::where('dimension' , '=', '2D')->get() as $key => $tipo_referencia) {
                 try{
                         DNS2D::getBarcodePNG($content, $tipo_referencia->nombre);
                         $referencias_2d[] = $tipo_referencia;
@@ -342,7 +342,7 @@ class ProductoController extends Controller
     {
         try{
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $imagen = XImagen_producto::findOrFail($id);   
+        $imagen = Imagen_producto::findOrFail($id);   
 
         $imagen->delete();
         if (file_exists($imagen->ruta)) {

@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Contacto\Cliente;
 use App\Models\Contacto\Persona;
-use App\Models\Dato_basico\XUbicacion;
-use App\Models\Dato_basico\XPais;
-use App\Models\Dato_basico\XCiudad;
+use App\Models\Dato_basico\Ubicacion;
+use App\Models\Dato_basico\Pais;
+use App\Models\Dato_basico\Ciudad;
 use App\Models\Root\User;
 use App\Models\Root\Role;
 use Illuminate\Support\Facades\Validator;
@@ -46,12 +46,12 @@ class ClienteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $cliente = new Cliente;
         $persona = new Persona;
-        $persona->ubicacion()->associate(new XUbicacion);
-        $persona->ciudad()->associate(new XCiudad);
+        $persona->ubicacion()->associate(new Ubicacion);
+        $persona->ciudad()->associate(new Ciudad);
         $persona->usuario()->associate(new User);
         $cliente->persona()->associate($persona);
         $editar = false;
-        $paises = XPais::orderBy('nombre', 'asc')->get();
+        $paises = Pais::orderBy('nombre', 'asc')->get();
         /*$usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
@@ -109,12 +109,12 @@ class ClienteController extends Controller
 
             $cliente = new Cliente;
             $persona = new Persona;
-            $ubicacion = new XUbicacion;
+            $ubicacion = new Ubicacion;
             $ubicacion->latitud = $request->latitud;
             $ubicacion->longitud = $request->longitud;
             $ubicacion->save();
             $usuario = User::findOrFail($usuario->id);
-            $ciudad = XCiudad::findOrFail($request->ciudad_id);
+            $ciudad = Ciudad::findOrFail($request->ciudad_id);
 
             $persona->cedula = $request->cedula;
             $persona->cuenta_banco = $request->cuenta_banco;
@@ -164,7 +164,7 @@ class ClienteController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $cliente = Cliente::findOrFail($id);
         $editar = true;
-        $paises = XPais::orderBy('nombre', 'asc')->get();
+        $paises = Pais::orderBy('nombre', 'asc')->get();
         /*$usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
@@ -212,7 +212,7 @@ class ClienteController extends Controller
             $cliente->ubicacion->latitud = $request->latitud;
             $cliente->ubicacion->longitud = $request->longitud;
             $usuario = User::findOrFail($request->usuario_id);
-            $ciudad = XCiudad::findOrFail($request->ciudad_id);
+            $ciudad = Ciudad::findOrFail($request->ciudad_id);
             $cliente->persona->ciudad()->associate($ciudad);
 
             $cliente->persona->cedula = $request->cedula;

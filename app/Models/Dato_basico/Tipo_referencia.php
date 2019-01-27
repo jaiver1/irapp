@@ -2,10 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Dato_basico\XPais;
-use App\Models\Dato_basico\XCiudad;
+use App\Models\Comercio\Producto;
 
-class XDepartamento extends Model
+class Tipo_referencia extends Model
 {
   use SoftDeletes;
 
@@ -15,7 +14,7 @@ class XDepartamento extends Model
      *
      * @var string
      */
-    protected $table = 'departamentos';
+    protected $table = 'tipos_referencias';
 
     /**
      * The attributes that are not mass assignable.
@@ -31,7 +30,7 @@ class XDepartamento extends Model
      */
   protected $fillable = [
     'nombre',
-    'pais_id'
+    'dimension',
   ];
 
   /**
@@ -51,13 +50,8 @@ class XDepartamento extends Model
       'deleted_at',
   ];
 
-
-  public function ciudades(){
-    return $this->hasMany(XCiudad::class);
+  public function productos(){
+    return $this->hasMany(Producto::class);
   }
-  
-  public function pais()
-{
-    return $this->belongsTo(XPais::class);
-}
+
 }

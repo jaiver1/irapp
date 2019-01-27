@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Dato_basico\Departamento;
 
-class XUbicacion extends Model
+class Ciudad extends Model
 {
   use SoftDeletes;
 
@@ -13,7 +14,7 @@ class XUbicacion extends Model
      *
      * @var string
      */
-    protected $table = 'ubicaciones';
+    protected $table = 'ciudades';
 
     /**
      * The attributes that are not mass assignable.
@@ -28,8 +29,8 @@ class XUbicacion extends Model
      * @var array
      */
   protected $fillable = [
-    'latitud',
-    'longitud'
+    'nombre',
+    'departamento_id'
   ];
 
   /**
@@ -49,4 +50,8 @@ class XUbicacion extends Model
       'deleted_at',
   ];
 
+  public function departamento(){
+    return $this->belongsTo(Departamento::class);
+  }
+  
 }

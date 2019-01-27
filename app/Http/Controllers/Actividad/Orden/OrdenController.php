@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Orden;
 use App\Models\Actividad\Servicio;
-use App\Models\Dato_basico\XUbicacion;
-use App\Models\Dato_basico\XPais;
-use App\Models\Dato_basico\XCiudad;
+use App\Models\Dato_basico\Ubicacion;
+use App\Models\Dato_basico\Pais;
+use App\Models\Dato_basico\Ciudad;
 use App\Models\Root\User;
 use App\Models\Contacto\Cliente;
 use App\Models\Contacto\Persona;
@@ -72,12 +72,12 @@ class OrdenController extends Controller
         $orden = new Orden;
         $cliente =new Cliente;
         $cliente->persona()->associate(new Persona);
-        $orden->ciudad()->associate(new XCiudad);
-        $orden->ubicacion()->associate(new XUbicacion);
+        $orden->ciudad()->associate(new Ciudad);
+        $orden->ubicacion()->associate(new Ubicacion);
         $orden->cliente()->associate($cliente);
         $estados = Orden::getEstados();
         $editar = false;
-        $paises = XPais::orderBy('nombre', 'asc')->get();
+        $paises = Pais::orderBy('nombre', 'asc')->get();
         $clientes = DB::table('clientes')
         ->join('personas', 'clientes.persona_id', '=', 'personas.id')
         ->join('users', 'personas.usuario_id', '=', 'users.id')
@@ -119,9 +119,9 @@ class OrdenController extends Controller
                 ->withErrors($validator);
         } else {
             $orden = new Orden;
-            $ubicacion = new XUbicacion;
+            $ubicacion = new Ubicacion;
             $cliente = Cliente::findOrFail($request->cliente_id);
-            $ciudad = XCiudad::findOrFail($request->ciudad_id);
+            $ciudad = Ciudad::findOrFail($request->ciudad_id);
             $ubicacion->latitud = $request->latitud;
             $ubicacion->longitud = $request->longitud;
             $ubicacion->save();        
@@ -172,7 +172,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $orden = Orden::findOrFail($id);
         $editar = true;
-        $paises = XPais::orderBy('nombre', 'asc')->get();
+        $paises = Pais::orderBy('nombre', 'asc')->get();
         $estados = Orden::getEstados();
         $clientes = DB::table('clientes')
         ->join('personas', 'clientes.persona_id', '=', 'personas.id')
@@ -218,9 +218,9 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
             ->withErrors($validator);
     } else {
         $orden = Orden::findOrFail($request->id);
-        $ubicacion = new XUbicacion;
+        $ubicacion = new Ubicacion;
         $cliente = Cliente::findOrFail($request->cliente_id);
-        $ciudad = XCiudad::findOrFail($request->ciudad_id);
+        $ciudad = Ciudad::findOrFail($request->ciudad_id);
         $ubicacion->latitud = $request->latitud;
         $ubicacion->longitud = $request->longitud;
         $ubicacion->save();        

@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.main')
 @section('template_title')
-Información del cliente "{{ $cliente->nombre }}" | {{ config('app.name', 'Laravel') }}
+Información del cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}" | {{ config('app.name', 'Laravel') }}
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@ Información del cliente "{{ $cliente->nombre }}" | {{ config('app.name', 'Larav
                     <span><i class="fas fa-user-tie mr-1 fa-lg"></i></span>
                         <a href="{{ route('clientes.index') }}">Lista de clientes</a>
                         <span>/</span>
-                        <span>Información del cliente "{{ $cliente->nombre }}"</span>
+                        <span>Información del cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}"</span>
                     </h4>
 
                     <div class="d-flex justify-content-center">

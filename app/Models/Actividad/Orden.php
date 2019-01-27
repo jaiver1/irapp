@@ -4,8 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Contacto\Cliente;
 use App\Models\Actividad\Detalle_orden;
-use App\Models\Dato_basico\XUbicacion;
-use App\Models\Dato_basico\XCiudad;
+use App\Models\Dato_basico\Ubicacion;
+use App\Models\Dato_basico\Ciudad;
 Use DB;
 
 class Orden extends Model
@@ -75,12 +75,12 @@ class Orden extends Model
 
 public function ubicacion()
 {
-    return $this->belongsTo(XUbicacion::class);
+    return $this->belongsTo(Ubicacion::class);
 }
 
 public function ciudad()
 {
-    return $this->belongsTo(XCiudad::class);
+    return $this->belongsTo(Ciudad::class);
 }
   
   public function cliente()

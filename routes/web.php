@@ -151,3 +151,5 @@ Route::resource('ordenes/deleted', 'Actividad\Orden\OrdenSoftDeleteController',
 ]);
 
 Route::resource('ordenes', 'Actividad\Orden\OrdenController');
+
+Route::post('/productos/upload/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@upload_imagenes', 'as' => 'productos.uploadImagenes']);

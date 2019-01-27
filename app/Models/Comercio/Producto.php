@@ -3,11 +3,11 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Comercio\Marca;
-use App\Models\Comercio\XCalificacion_producto;
-use App\Models\Comercio\XImagen_producto;
+use App\Models\Comercio\Calificacion_producto;
+use App\Models\Comercio\Imagen_producto;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Dato_basico\Medida;
-use App\Models\Dato_basico\XTipo_referencia;
+use App\Models\Dato_basico\Tipo_referencia;
 
 class Producto extends Model
 {
@@ -78,14 +78,14 @@ public function medida()
 
 public function tipo_referencia()
 {
-    return $this->belongsTo(XTipo_referencia::class);
+    return $this->belongsTo(Tipo_referencia::class);
 }
 
 public function imagenes(){
-    return $this->hasMany(XImagen_producto::class);
+    return $this->hasMany(Imagen_producto::class);
   }
 
   public function calificaciones(){
-    return $this->hasMany(XCalificacion_producto::class);
+    return $this->hasMany(Calificacion_producto::class);
   }
 }

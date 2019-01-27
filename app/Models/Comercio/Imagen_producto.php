@@ -1,20 +1,19 @@
-<?php namespace App\Models\Dato_basico;
+<?php namespace App\Models\Comercio;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Dato_basico\XDepartamento;
+use App\Models\Comercio\Producto;
 
-class XCiudad extends Model
+class Imagen_producto extends Model
 {
   use SoftDeletes;
-
 
   /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'ciudades';
+    protected $table = 'imagenes_productos';
 
     /**
      * The attributes that are not mass assignable.
@@ -30,10 +29,11 @@ class XCiudad extends Model
      */
   protected $fillable = [
     'nombre',
-    'departamento_id'
+    'ruta',
+    'producto_id',
   ];
 
-  /**
+   /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -50,8 +50,8 @@ class XCiudad extends Model
       'deleted_at',
   ];
 
-  public function departamento(){
-    return $this->belongsTo(XDepartamento::class);
+  public function producto(){
+    return $this->belongsTo(Producto::class);
   }
   
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class XCreateCarritosProductosTable extends Migration
+class CreateImagenesProductosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class XCreateCarritosProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('carritos_productos', function (Blueprint $table) {
+        Schema::create('imagenes_productos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre', 50)->default("")->nullable();
+            $table->string('ruta', 255)->default("")->nullable();
             $table->unsignedBigInteger('producto_id')->default(1);
             $table->softDeletes();
             $table->timestamps();
@@ -30,6 +32,6 @@ class XCreateCarritosProductosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carritos_productos');
+        Schema::dropIfExists('imagenes_productos');
     }
 }

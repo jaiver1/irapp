@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Dato_basico\XDepartamento;
+use App\Models\Dato_basico\Pais;
+use App\Models\Dato_basico\Ciudad;
 
-class XPais extends Model
+class Departamento extends Model
 {
   use SoftDeletes;
 
@@ -14,7 +15,7 @@ class XPais extends Model
      *
      * @var string
      */
-    protected $table = 'paises';
+    protected $table = 'departamentos';
 
     /**
      * The attributes that are not mass assignable.
@@ -29,7 +30,8 @@ class XPais extends Model
      * @var array
      */
   protected $fillable = [
-    'nombre'
+    'nombre',
+    'pais_id'
   ];
 
   /**
@@ -49,9 +51,13 @@ class XPais extends Model
       'deleted_at',
   ];
 
-  public function departamentos(){
-    return $this->hasMany(XDepartamento::class);
+
+  public function ciudades(){
+    return $this->hasMany(Ciudad::class);
   }
   
-
+  public function pais()
+{
+    return $this->belongsTo(Pais::class);
+}
 }

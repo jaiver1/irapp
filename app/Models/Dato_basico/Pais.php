@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Comercio\Producto;
+use App\Models\Dato_basico\Departamento;
 
-class XTipo_referencia extends Model
+class Pais extends Model
 {
   use SoftDeletes;
 
@@ -14,7 +14,7 @@ class XTipo_referencia extends Model
      *
      * @var string
      */
-    protected $table = 'tipos_referencias';
+    protected $table = 'paises';
 
     /**
      * The attributes that are not mass assignable.
@@ -29,8 +29,7 @@ class XTipo_referencia extends Model
      * @var array
      */
   protected $fillable = [
-    'nombre',
-    'dimension',
+    'nombre'
   ];
 
   /**
@@ -50,8 +49,9 @@ class XTipo_referencia extends Model
       'deleted_at',
   ];
 
-  public function productos(){
-    return $this->hasMany(Producto::class);
+  public function departamentos(){
+    return $this->hasMany(Departamento::class);
   }
+  
 
 }

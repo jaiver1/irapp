@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Contacto\Colaborador;
 use App\Models\Contacto\Persona;
-use App\Models\Dato_basico\XUbicacion;
-use App\Models\Dato_basico\XPais;
-use App\Models\Dato_basico\XCiudad;
+use App\Models\Dato_basico\Ubicacion;
+use App\Models\Dato_basico\Pais;
+use App\Models\Dato_basico\Ciudad;
 use App\Models\Root\User;
 use App\Models\Root\Role;
+use App\Models\Actividad\Servicio;
 use Illuminate\Support\Facades\Validator;
 use SweetAlert;
 
@@ -46,12 +47,12 @@ class ColaboradorController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $colaborador = new Colaborador;
         $persona = new Persona;
-        $persona->ubicacion()->associate(new XUbicacion);
-        $persona->ciudad()->associate(new XCiudad);
+        $persona->ubicacion()->associate(new Ubicacion);
+        $persona->ciudad()->associate(new Ciudad);
         $persona->usuario()->associate(new User);
         $colaborador->persona()->associate($persona);
         $editar = false;
-        $paises = XPais::orderBy('nombre', 'asc')->get();
+        $paises = Pais::orderBy('nombre', 'asc')->get();
         /*$usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
@@ -109,12 +110,12 @@ class ColaboradorController extends Controller
 
             $colaborador = new Colaborador;
             $persona = new Persona;
-            $ubicacion = new XUbicacion;
+            $ubicacion = new Ubicacion;
             $ubicacion->latitud = $request->latitud;
             $ubicacion->longitud = $request->longitud;
             $ubicacion->save();
             $usuario = User::findOrFail($usuario->id);
-            $ciudad = XCiudad::findOrFail($request->ciudad_id);
+            $ciudad = Ciudad::findOrFail($request->ciudad_id);
 
             $persona->cedula = $request->cedula;
             $persona->cuenta_banco = $request->cuenta_banco;
@@ -148,8 +149,9 @@ class ColaboradorController extends Controller
     public function show($id)
     {  
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        $servicios = Servicio::all();
         $colaborador = Colaborador::findOrFail($id);
-        return View::make('contacto.colaboradores.show')->with(compact('colaborador'));
+        return View::make('contacto.colaboradores.show')->with(compact('servicios','colaborador'));
         
         }
 
@@ -164,7 +166,7 @@ class ColaboradorController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
         $colaborador = Colaborador::findOrFail($id);
         $editar = true;
-        $paises = XPais::orderBy('nombre', 'asc')->get();
+        $paises = Pais::orderBy('nombre', 'asc')->get();
         /*$usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
@@ -212,7 +214,7 @@ class ColaboradorController extends Controller
             $colaborador->ubicacion->latitud = $request->latitud;
             $colaborador->ubicacion->longitud = $request->longitud;
             $usuario = User::findOrFail($request->usuario_id);
-            $ciudad = XCiudad::findOrFail($request->ciudad_id);
+            $ciudad = Ciudad::findOrFail($request->ciudad_id);
             $colaborador->persona->ciudad()->associate($ciudad);
 
             $colaborador->persona->cedula = $request->cedula;

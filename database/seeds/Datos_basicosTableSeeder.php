@@ -4,10 +4,10 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Dato_basico\Medida;
 use App\Models\Dato_basico\Tipo_medida;
-use App\Models\Dato_basico\XPais;
-use App\Models\Dato_basico\XDepartamento;
-use App\Models\Dato_basico\XCiudad;
-use App\Models\Dato_basico\XTipo_referencia;
+use App\Models\Dato_basico\Pais;
+use App\Models\Dato_basico\Departamento;
+use App\Models\Dato_basico\Ciudad;
+use App\Models\Dato_basico\Tipo_referencia;
 class Datos_basicosTableSeeder extends Seeder
 {
     /**
@@ -104,225 +104,225 @@ class Datos_basicosTableSeeder extends Seeder
         $medida->tipo_medida()->associate($tipo_medida);
         $medida->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C39';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C39+';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C39E';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C39E+';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C93';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'S25';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'S25+';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'I25';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'I25+';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C128';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C128A';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C128B';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'C128C';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'EAN2';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'EAN5';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'EAN8';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'EAN13';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'UPCA';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'UPCE';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'MSI';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'MSI+';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'POSTNET';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'PLANET';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'RMS4CC';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'KIX';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'IMB';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'CODABAR';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'CODE11';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'PHARMA';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'PHARMA2T';
         $tipo_referencia->dimension = '1D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'QRCODE';
         $tipo_referencia->dimension = '2D';
         $tipo_referencia->save();
         
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'PDF417';
         $tipo_referencia->dimension = '2D';
         $tipo_referencia->save();
 
-        $tipo_referencia = new XTipo_referencia;
+        $tipo_referencia = new Tipo_referencia;
         $tipo_referencia->nombre = 'DATAMATRIX';
         $tipo_referencia->dimension = '2D';
         $tipo_referencia->save();
 
-        $pais = new XPais;
+        $pais = new Pais;
         $pais->nombre = 'Colombia';
         $pais->save();
 
-        $departamento = new XDepartamento;
+        $departamento = new Departamento;
         $departamento->nombre = 'Valle del cauca';
         $departamento->pais()->associate($pais);       
         $departamento->save();
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Cali';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Palmira';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();
 
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Cerrito';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();
 
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Pradera';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Amaime';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Guacari';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Jamundi';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();
 
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Tulua';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();
 
 
-        $ciudad = new XCiudad;
+        $ciudad = new Ciudad;
         $ciudad->nombre = 'Buga';
         $ciudad->departamento()->associate($departamento);       
         $ciudad->save();

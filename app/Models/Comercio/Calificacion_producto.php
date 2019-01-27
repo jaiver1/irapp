@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Comercio\Producto;
 
-class XImagen_producto extends Model
+class Calificacion_producto extends Model
 {
   use SoftDeletes;
 
@@ -13,7 +13,7 @@ class XImagen_producto extends Model
      *
      * @var string
      */
-    protected $table = 'imagenes_productos';
+    protected $table = 'calificaciones_productos';
 
     /**
      * The attributes that are not mass assignable.
@@ -28,8 +28,8 @@ class XImagen_producto extends Model
      * @var array
      */
   protected $fillable = [
-    'nombre',
-    'ruta',
+    'descripcion',
+    'calificacion',
     'producto_id',
   ];
 

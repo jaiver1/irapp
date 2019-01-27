@@ -1,19 +1,19 @@
-<?php namespace App\Models\Comercio;
+<?php namespace App\Models\Dato_basico;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Comercio\Producto;
 
-class XCalificacion_producto extends Model
+class Ubicacion extends Model
 {
   use SoftDeletes;
+
 
   /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'calificaciones_productos';
+    protected $table = 'ubicaciones';
 
     /**
      * The attributes that are not mass assignable.
@@ -28,12 +28,11 @@ class XCalificacion_producto extends Model
      * @var array
      */
   protected $fillable = [
-    'descripcion',
-    'calificacion',
-    'producto_id',
+    'latitud',
+    'longitud'
   ];
 
-   /**
+  /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -50,8 +49,4 @@ class XCalificacion_producto extends Model
       'deleted_at',
   ];
 
-  public function producto(){
-    return $this->belongsTo(Producto::class);
-  }
-  
 }

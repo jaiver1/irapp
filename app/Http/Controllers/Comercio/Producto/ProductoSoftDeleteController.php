@@ -43,7 +43,7 @@ class ProductoSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $productos = Producto::onlyTrashed()->get();
         return View('comercio.productos.index_deleted', compact('productos'));
     }
@@ -59,7 +59,7 @@ class ProductoSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = self::getDeletedProducto($id);
         $producto->restore();
         SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido restaurada.');
@@ -75,7 +75,7 @@ class ProductoSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = self::getDeletedProducto($id);
         $producto->forceDelete();
         SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminado permanentemente.');

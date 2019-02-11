@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use App\Models\Contacto\Persona;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -73,20 +74,25 @@ public function entrustPasswordHash()
         $this->save();
     }
 
-    public function authorizeRoles($roles)
+    public function authorizeRoles($roles,$abort)
     
     {
     
       if (is_array($roles)) {
-    
+        if ($abort) {
           return $this->hasAnyRole($roles) || 
-                 abort(401, 'No esta Autorizado.');
-    
+                 abort(401, 'No esta autorizado.');
+        }else{
+            return $this->hasAnyRole($roles);
+        }
       }
-    
+
+      if ($abort) {
       return $this->hasRole($roles) || 
-             abort(401, 'No esta Autorizado.');
-    
+             abort(401, 'No esta autorizado.');
+      }else{
+        return $this->hasRole($roles);
+      }
     }
     
     /**
@@ -121,5 +127,28 @@ public function entrustPasswordHash()
     
     }
 
+    public function getPersona()
+    
+    {
+      $persona = Persona::where('usuario_id','=',$this->id)->first();
+      return ($persona) ? $persona : new Persona;
+    
+    }
+
+    public function getCliente()
+    
+    {
+        $persona = getPersona();
+      $cliente = Cliente::where('persona_id','=',$persona->id)->first();
+      return ($cliente) ? $cliente : new Cliente;
+    }
+
+    public function getColaborador()
+    
+    {
+        $persona = getPersona();
+      $colaborador = Colaborador::where('persona_id','=',$persona->id)->first();
+      return ($colaborador) ? $colaborador : new Colaborador;
+    }
 
 }

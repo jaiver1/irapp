@@ -283,7 +283,7 @@ this.on("sending", function(file, xhr, formData) {
                             this.on("success", function(file, response) {
                               console.log(response);  
                               this.removeFile(file);  
-                                if(response.message == "OK"){
+                                if(response.status == 200){
                                   cargar_imagenes(); 
                                 }
                                 /*else{
@@ -330,14 +330,16 @@ function confirmar_eliminar(id,url_deleted){
     method: "POST",
     url: url_deleted,
     async:true,
-    data: { _method : 'DELETE',
-    _token: '{{csrf_token()}}'}
+    headers: {
+        'X-CSRF-TOKEN': _token
+    },
+    data: { _method : 'DELETE'}
   })
     .done(function(response) {
       try{
         console.log(response);
       
-    if(response.message == "OK"){
+    if(response.status == 200){
                                   cargar_imagenes(); 
                                 }else{
                                   swal({

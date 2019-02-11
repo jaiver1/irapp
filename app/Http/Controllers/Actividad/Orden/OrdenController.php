@@ -40,7 +40,7 @@ class OrdenController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $ordenes = Orden::all();
         $eventos = Orden::select(DB::raw("id AS id,nombre AS title,
         REPLACE(fecha_inicio,' ','T') AS start,
@@ -68,7 +68,7 @@ class OrdenController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $orden = new Orden;
         $cliente =new Cliente;
         $cliente->persona()->associate(new Persona);
@@ -98,7 +98,7 @@ class OrdenController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
                 'nombre'                   => 'required|max:50',
                 'barrio'                   => 'required|max:50',
@@ -154,7 +154,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $orden = Orden::findOrFail($id);
         $servicios = Servicio::all();
         return View::make('actividad.ordenes.show')->with(compact('orden'));
@@ -169,7 +169,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $orden = Orden::findOrFail($id);
         $editar = true;
         $paises = Pais::orderBy('nombre', 'asc')->get();
@@ -196,7 +196,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'nombre'                   => 'required|max:50',
             'barrio'                   => 'required|max:50',
@@ -252,7 +252,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $orden = Orden::findOrFail($id);   
         $orden->delete();
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada.');

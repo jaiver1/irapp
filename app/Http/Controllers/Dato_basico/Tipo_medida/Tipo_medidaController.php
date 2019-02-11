@@ -25,7 +25,7 @@ class Tipo_medidaController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $tipos_medidas = Tipo_medida::all();
         return View::make('dato_basico.tipos_medidas.index')->with(compact('tipos_medidas'));
     }
@@ -37,7 +37,7 @@ class Tipo_medidaController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $tipo_medida = new Tipo_medida;
         $editar = false;
         return View::make('dato_basico.tipos_medidas.create')->with(compact('tipo_medida','editar'));
@@ -50,7 +50,7 @@ class Tipo_medidaController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
                 'nombre'  => 'required|max:50',
         );
@@ -81,7 +81,7 @@ class Tipo_medidaController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $tipo_medida = Tipo_medida::findOrFail($id);
         return View::make('dato_basico.tipos_medidas.show')->with(compact('tipo_medida'));
         
@@ -95,7 +95,7 @@ class Tipo_medidaController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $tipo_medida = Tipo_medida::findOrFail($id);
         $editar = true;
         return View::make('dato_basico.tipos_medidas.edit')->with(compact('tipo_medida','editar'));
@@ -110,7 +110,7 @@ class Tipo_medidaController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'nombre' => 'required|max:50',
     );
@@ -141,7 +141,7 @@ class Tipo_medidaController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $tipo_medida = Tipo_medida::findOrFail($id);
     
         $tipo_medida->delete();

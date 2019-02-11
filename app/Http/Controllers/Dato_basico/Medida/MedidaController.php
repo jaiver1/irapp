@@ -26,7 +26,7 @@ class MedidaController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $medidas = Medida::all();
         return View::make('dato_basico.medidas.index')->with(compact('medidas'));
     }
@@ -38,7 +38,7 @@ class MedidaController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $medida = new Medida;
         $tipo_medida = new Tipo_medida;
         $medida->tipo_medida()->associate($tipo_medida);
@@ -54,7 +54,7 @@ class MedidaController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
                 'nombre'                   => 'required|max:50',
                 'etiqueta'                   => 'required|max:5',
@@ -88,7 +88,7 @@ class MedidaController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $medida = Medida::findOrFail($id);
         return View::make('dato_basico.medidas.show')->with(compact('medida'));
         
@@ -102,7 +102,7 @@ class MedidaController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $medida = Medida::findOrFail($id);
         $tipos_medidas = Tipo_medida::all();
         $editar = true;
@@ -118,7 +118,7 @@ class MedidaController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'nombre'                   => 'required|max:50',
             'etiqueta'                   => 'required|max:5',
@@ -152,7 +152,7 @@ class MedidaController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $medida = Medida::findOrFail($id);
     
         $medida->delete();

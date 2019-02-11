@@ -31,7 +31,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $clientes = Cliente::all();
         return View::make('contacto.clientes.index')->with(compact('clientes'));
     }
@@ -43,7 +43,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $cliente = new Cliente;
         $persona = new Persona;
         $persona->ubicacion()->associate(new Ubicacion);
@@ -66,11 +66,11 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
 
         $rules = array(
             'cedula'                   => 'required|max:50|unique:personas',
-            'cuenta_banco'                   => 'max:50|unique:personas',
+            'cuenta_banco'                   => 'max:50',
             'primer_nombre'                   => 'required|max:50',
             'segundo_nombre'                   => 'max:50',
             'primer_apellido'                   => 'required|max:50',
@@ -147,7 +147,7 @@ class ClienteController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $cliente = Cliente::findOrFail($id);
         return View::make('contacto.clientes.show')->with(compact('cliente'));
         
@@ -161,7 +161,7 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $cliente = Cliente::findOrFail($id);
         $editar = true;
         $paises = Pais::orderBy('nombre', 'asc')->get();
@@ -181,10 +181,10 @@ class ClienteController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'cedula'                   => 'required|max:50|unique:personas',
-            'cuenta_banco'                   => 'max:50|unique:personas',
+            'cuenta_banco'                   => 'max:50',
             'primer_nombre'                   => 'required|max:50',
             'segundo_nombre'                   => 'max:50',
             'primer_apellido'                   => 'required|max:50',
@@ -241,7 +241,7 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $cliente = Cliente::findOrFail($id);
     
         $cliente->delete();

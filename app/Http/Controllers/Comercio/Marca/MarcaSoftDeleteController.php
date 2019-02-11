@@ -43,7 +43,7 @@ class MarcaSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $marcas = Marca::onlyTrashed()->get();
         return View('comercio.marcas.index_deleted', compact('marcas'));
     }
@@ -59,7 +59,7 @@ class MarcaSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $marca = self::getDeletedMarca($id);
         $marca->restore();
         SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido restaurada.');
@@ -75,7 +75,7 @@ class MarcaSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $marca = self::getDeletedMarca($id);
         $marca->forceDelete();
         SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido eliminada permanentemente.');

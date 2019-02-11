@@ -5,10 +5,10 @@ Página principal | {{ config('app.name', 'Laravel') }}
 @section('footer_title')
 Página principal | {{ config('app.name', 'Laravel') }}
 @endsection
-@role(['ROLE_COLABORADOR'])
+@if(Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE))
 @include('home.main_colaborador')
-@endrole
+@endif
 
-@role(['ROLE_ROOT','ROLE_ADMINISTRADOR'])
+@if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
 @include('home.main_administrador')
-@endrole
+@endif

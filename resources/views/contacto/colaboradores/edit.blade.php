@@ -64,8 +64,7 @@ Editar el colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->
 
             </div>
             <!--Grid row-->
-
-          
+ 
         </div>
 
 @endsection

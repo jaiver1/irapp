@@ -27,6 +27,7 @@ class CreatePersonasTable extends Migration
             $table->string('barrio',50)->default("")->nullable();
             $table->string('direccion',50)->default("")->nullable();
             $table->string('cuenta_banco', 50)->default("")->nullable();
+            $table->string('imagen', 255)->default("")->nullable();
             $table->unsignedBigInteger('usuario_id')->default(1)->nullable();
             $table->foreign('ubicacion_id')->references('id')->on('ubicaciones')->onUpdate('cascade'); 
             $table->foreign('ciudad_id')->references('id')->on('ciudades')->onUpdate('cascade'); 

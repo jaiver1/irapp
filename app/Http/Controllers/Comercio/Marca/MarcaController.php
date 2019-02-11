@@ -25,7 +25,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $marcas = Marca::all();
         return View::make('comercio.marcas.index')->with(compact('marcas'));
     }
@@ -37,7 +37,7 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $marca = new Marca;
         $editar = false;
         return View::make('comercio.marcas.create')->with(compact('marca','editar'));
@@ -50,7 +50,7 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
                 'nombre'  => 'required|max:50'
         );
@@ -81,7 +81,7 @@ class MarcaController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $marca = Marca::findOrFail($id);
         return View::make('comercio.marcas.show')->with(compact('marca'));
         
@@ -95,7 +95,7 @@ class MarcaController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $marca = Marca::findOrFail($id);
         $editar = true;
         return View::make('comercio.marcas.edit')->with(compact('marca','editar'));
@@ -110,7 +110,7 @@ class MarcaController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'nombre'                   => 'required|max:50'
     );
@@ -140,7 +140,7 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $marca = Marca::findOrFail($id);   
         $marca->delete();
         SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido eliminada.');

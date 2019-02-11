@@ -91,7 +91,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     </td>
     <td>
             <center>
-                    <div onclick="mostrar_modal('{{ route("productos.loadReferencias",$producto->id) }}','ref')" class="cursor-zoom view overlay hoverable zoom img-border">
+                    <div class="cursor-zoom view overlay hoverable zoom img-border" onclick="mostrar_modal('{{ route("productos.loadReferencias",$producto->id) }}','ref')">
                         @if($producto->tipo_referencia->dimension == "1D")
                                             <img src="{{ 'data:image/png;base64,' .DNS1D::getBarcodePNG($producto->referencia, $producto->tipo_referencia->nombre,3,33,array(58,77,86)) }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->referencia }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                             @elseif($producto->tipo_referencia->dimension == "2D")
@@ -105,7 +105,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     </td>
       <td>
         <center>
-            <div onclick="mostrar_modal('{{ route("productos.loadImagenes",$producto->id) }}','img')" class="cursor-zoom view overlay hoverable zoom img-border">
+            <div class="cursor-zoom view overlay hoverable zoom img-border" onclick="mostrar_modal('{{ route("productos.loadImagenes",$producto->id) }}','img')">
                 @if($producto->imagenes->count())
                                     <img src="{{ asset($producto->imagenes->first()->ruta)  }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $producto->imagenes->first()->nombre  }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                     @else
@@ -208,10 +208,6 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
 <script type="text/javascript">
-
-function mostrar_modal(url_send,div_target) {
-    cargar_div(url_send,"GET",{},div_target,true,true);
-	}
 
 function eliminar_producto(id,nombre){
     swal({

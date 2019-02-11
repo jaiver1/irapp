@@ -43,7 +43,7 @@ class CategoriaSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categorias = Categoria::onlyTrashed()->get();
         return View('clasificacion.categorias.index_deleted', compact('categorias'));
     }
@@ -59,7 +59,7 @@ class CategoriaSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categoria = self::getDeletedCategoria($id);
         $categoria->restore();
         SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido restaurada.');
@@ -75,7 +75,7 @@ class CategoriaSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categoria = self::getDeletedCategoria($id);
         $categoria->forceDelete();
         SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido eliminada permanentemente.');

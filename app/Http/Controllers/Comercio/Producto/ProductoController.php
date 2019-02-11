@@ -37,7 +37,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $productos = Producto::all();
         return View::make('comercio.productos.index')->with(compact('productos'));
     }
@@ -49,7 +49,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = new Producto; 
         $producto->medida()->associate(new Medida);
         $producto->categoria()->associate(new Categoria);
@@ -71,7 +71,7 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
                 'nombre'                   => 'required|max:50',
                 'valor_unitario'                   => 'numeric|required|digits_between:1,12',
@@ -116,7 +116,7 @@ class ProductoController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = Producto::findOrFail($id);
         $grupos = $this->search_referencias($producto->referencia);
         $tipos_referencias = array_merge($grupos[0][1],$grupos[1][1]);
@@ -131,7 +131,7 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = Producto::findOrFail($id);
         $editar = true;
         $tipos_medidas = Tipo_medida::all();
@@ -150,7 +150,7 @@ class ProductoController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'nombre'                   => 'required|max:50',
             'valor_unitario'                   => 'numeric|required|digits_between:1,12',
@@ -194,7 +194,7 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = Producto::findOrFail($id);   
         $producto->delete();
         SweetAlert::success('Exito','El producto "'.$producto->nombre.'" ha sido eliminada.');
@@ -209,7 +209,7 @@ class ProductoController extends Controller
      */
     public function load_referencias($id)
     { 
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = Producto::findOrFail($id);
         return View::make('include.comercio.productos.modal_ref')->with(compact('producto'));
         
@@ -223,7 +223,7 @@ class ProductoController extends Controller
      */
     public function load_imagenes($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = Producto::findOrFail($id);
         return View::make('include.comercio.productos.modal_img')->with(compact('producto'));
         
@@ -237,7 +237,7 @@ class ProductoController extends Controller
      */
     public function load_row_imagenes($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $producto = Producto::findOrFail($id);
         return View::make('include.comercio.productos.div_row_img')->with(compact('producto'));
         
@@ -245,7 +245,7 @@ class ProductoController extends Controller
 
         public function upload_imagenes($id,Request $request)
         {  
-            Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+            Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
             try{
                 $rules = array(
                     'imagen'                   => 'required|mimes:jpeg,png|max:2000',
@@ -297,7 +297,7 @@ class ProductoController extends Controller
      */
     public function test_referencias(Request $request)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         return response()->json($this->search_referencias($request->content));    
         }
 
@@ -341,7 +341,7 @@ class ProductoController extends Controller
     public function delete_imagenes($id)
     {
         try{
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $imagen = Imagen_producto::findOrFail($id);   
 
         $imagen->delete();

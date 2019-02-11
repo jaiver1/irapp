@@ -29,7 +29,7 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicios = Servicio::all();
         return View::make('actividad.servicios.index')->with(compact('servicios'));
     }
@@ -41,7 +41,7 @@ class ServicioController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicio = new Servicio; 
         $servicio->medida()->associate(new Medida);
         $servicio->categoria()->associate(new Categoria);
@@ -58,7 +58,7 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'nombre'                   => 'required|max:50',
             'valor_unitario'                   => 'numeric|required|digits_between:1,12',
@@ -96,7 +96,7 @@ class ServicioController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicio = Servicio::findOrFail($id);
         return View::make('actividad.servicios.show')->with(compact('servicio'));
         
@@ -110,7 +110,7 @@ class ServicioController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicio = Servicio::findOrFail($id);
         $tipos_medidas = Tipo_medida::all();
         $especialidades = Especialidad::all();  
@@ -127,7 +127,7 @@ class ServicioController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
        $rules = array(
             'nombre'                   => 'required|max:50',
             'valor_unitario'                   => 'numeric|required|digits_between:1,12',
@@ -164,7 +164,7 @@ class ServicioController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicio = Servicio::findOrFail($id);   
         $servicio->delete();
         SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido eliminada.');

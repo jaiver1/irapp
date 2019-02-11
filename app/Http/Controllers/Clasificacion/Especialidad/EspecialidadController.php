@@ -24,7 +24,7 @@ class EspecialidadController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $especialidades = Especialidad::all();
         return View::make('clasificacion.especialidades.index')->with(compact('especialidades'));
     }
@@ -36,7 +36,7 @@ class EspecialidadController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $especialidad = new Especialidad;
         $editar = false;
         return View::make('clasificacion.especialidades.create')->with(compact('especialidad','editar'));
@@ -49,7 +49,7 @@ class EspecialidadController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
                 'nombre'                   => 'required|max:50'
         );
@@ -80,7 +80,7 @@ class EspecialidadController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $especialidad = Especialidad::findOrFail($id);
         return View::make('clasificacion.especialidades.show')->with(compact('especialidad'));
         
@@ -94,7 +94,7 @@ class EspecialidadController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $especialidad = Especialidad::findOrFail($id);
         $editar = true;
         return View::make('clasificacion.especialidades.edit')->with(compact('especialidad','editar'));
@@ -109,7 +109,7 @@ class EspecialidadController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'nombre'                   => 'required|max:50'
     );
@@ -140,7 +140,7 @@ class EspecialidadController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $especialidad = Especialidad::findOrFail($id);
     
         $especialidad->delete();

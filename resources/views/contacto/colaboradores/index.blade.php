@@ -84,8 +84,10 @@ Lista de colaboradores | {{ config('app.name', 'Laravel') }}
             </th>
     <th class="th-sm">Cuenta banco
     </th>
+    @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
     <th class="th-sm">Usuario
         </th>
+        @endif
       <th class="th-sm">Acciones
       </th>
       
@@ -107,12 +109,14 @@ Lista de colaboradores | {{ config('app.name', 'Laravel') }}
       <td>{{$colaborador->persona->barrio}}</td>
       <td>{{$colaborador->persona->direccion}}</td>
       <td>{{$colaborador->persona->cuenta_banco}}</td>
+      @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
       <td>
             <a href="{{ route('usuarios.show',$colaborador->persona->usuario->id) }}" class="link-text"
                 data-toggle="tooltip" data-placement="bottom" title='Información del usuario "{{ $colaborador->persona->usuario->name }}"'>
                   <i class="fas fa-user"></i> {{$colaborador->persona->usuario->name}}
                         </a> 
         </td>
+        @endif
       <td>
 
 <a href="{{ route('colaboradores.show',$colaborador->id) }}" class="text-primary m-1" 

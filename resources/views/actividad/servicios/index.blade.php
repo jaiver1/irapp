@@ -303,4 +303,6 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
             $('.dataTables_length').addClass('bs-select');
         });
 </script>
+
+@yield('js_links')
 @endsection

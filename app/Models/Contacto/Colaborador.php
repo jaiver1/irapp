@@ -32,8 +32,7 @@ class Colaborador extends Model
      * @var array
      */
     protected $fillable = [
-        'persona_id',
-        'categoria_id',
+        'persona_id'
     ];
 
     /**

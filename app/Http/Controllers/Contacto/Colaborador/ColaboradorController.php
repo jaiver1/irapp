@@ -32,7 +32,7 @@ class ColaboradorController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaboradores = Colaborador::all();
         return View::make('contacto.colaboradores.index')->with(compact('colaboradores'));
     }
@@ -44,7 +44,7 @@ class ColaboradorController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaborador = new Colaborador;
         $persona = new Persona;
         $persona->ubicacion()->associate(new Ubicacion);
@@ -67,11 +67,11 @@ class ColaboradorController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
 
         $rules = array(
             'cedula'                   => 'required|max:50|unique:personas',
-            'cuenta_banco'                   => 'max:50|unique:personas',
+            'cuenta_banco'                   => 'max:50',
             'primer_nombre'                   => 'required|max:50',
             'segundo_nombre'                   => 'max:50',
             'primer_apellido'                   => 'required|max:50',
@@ -148,10 +148,9 @@ class ColaboradorController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
-        $servicios = Servicio::all();
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaborador = Colaborador::findOrFail($id);
-        return View::make('contacto.colaboradores.show')->with(compact('servicios','colaborador'));
+        return View::make('contacto.colaboradores.show')->with(compact('colaborador'));
         
         }
 
@@ -163,7 +162,7 @@ class ColaboradorController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaborador = Colaborador::findOrFail($id);
         $editar = true;
         $paises = Pais::orderBy('nombre', 'asc')->get();
@@ -183,10 +182,10 @@ class ColaboradorController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'cedula'                   => 'required|max:50|unique:personas',
-            'cuenta_banco'                   => 'max:50|unique:personas',
+            'cuenta_banco'                   => 'max:50',
             'primer_nombre'                   => 'required|max:50',
             'segundo_nombre'                   => 'max:50',
             'primer_apellido'                   => 'required|max:50',
@@ -243,11 +242,89 @@ class ColaboradorController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaborador = Colaborador::findOrFail($id);
     
         $colaborador->delete();
         SweetAlert::success('Exito','El colaborador "'.$colaborador->nombre.'" ha sido eliminado.');
         return Redirect::to('colaboradores');
 }
+
+  /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function get_servicios($id,$isSearching)
+    {  
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
+        if($isSearching){
+            $servicios = Servicio::whereNotIn('id', function($query) use ($id){
+                $query->select('servicio_id')->from('colaborador_servicio')
+                ->where('colaborador_id','=',$id)->distinct();
+            })->get();
+        return View::make('include.actividad.servicios.modal_search')->with(compact('servicios'));
+        }else{
+            $colaborador = Colaborador::findOrFail($id);
+        return View::make('include.actividad.servicios.datatable')->with(compact('colaborador'));
+        }
+
+        }
+
+        
+        public function add_servicios(Request $request)
+        {  
+            Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
+            try{
+                $rules = array(
+                    'servicio'                   => 'numeric|required',
+                    'colaborador'                   => 'numeric|required'          
+                  );
+    
+            $validator = Validator::make($request->all(), $rules);
+    
+    
+            if ($validator->fails()) {
+                return response()->json(['status'=>500,'message'=>$validator]);
+            }else{
+                $colaborador = Colaborador::findOrFail($request->servicio);
+                $servicio = Servicio::findOrFail($request->servicio);
+                $colaborador->servicios()->attach($servicio);
+                return response()->json(['status'=>200,'message'=>'OK']);
+               
+        }
+
+        } catch (Throwable $e) {
+            return response()->json(['status'=>500,'message'=>$e->getMessage()]);
+        } 
+            }
+
+            public function delete_servicios(Request $request)
+            {  
+                Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
+                try{
+                    $rules = array(
+                        'servicio'                   => 'numeric|required',
+                        'colaborador'                   => 'numeric|required'          
+                      );
+        
+                $validator = Validator::make($request->all(), $rules);
+        
+        
+                if ($validator->fails()) {
+                    return response()->json(['status'=>500,'message'=>$validator]);
+                }else{
+                    $colaborador = Colaborador::findOrFail($request->servicio);
+                    $servicio = Servicio::findOrFail($request->servicio);
+                    $colaborador->servicios()->detach($servicio);
+                    return response()->json(['status'=>200,'message'=>'OK']);
+                   
+            }
+    
+            } catch (Throwable $e) {
+                return response()->json(['status'=>500,'message'=>$e->getMessage()]);
+            } 
+                }
+
 }

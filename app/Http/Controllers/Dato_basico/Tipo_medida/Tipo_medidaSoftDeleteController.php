@@ -43,7 +43,7 @@ class Tipo_medidaSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $tipos_medidas = Tipo_medida::onlyTrashed()->get();
         return View('dato_basico.tipos_medidas.index_deleted', compact('tipos_medidas'));
     }
@@ -59,7 +59,7 @@ class Tipo_medidaSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $tipo_medida = self::getDeletedTipo_medida($id);
         $tipo_medida->restore();
         SweetAlert::success('Exito','El tipo de medida "'.$tipo_medida->nombre.'" ha sido restaurado.');
@@ -75,7 +75,7 @@ class Tipo_medidaSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $tipo_medida = self::getDeletedTipo_medida($id);
         $tipo_medida->forceDelete();
         SweetAlert::success('Exito','El tipo de medida "'.$tipo_medida->nombre.'" ha sido eliminado permanentemente.');

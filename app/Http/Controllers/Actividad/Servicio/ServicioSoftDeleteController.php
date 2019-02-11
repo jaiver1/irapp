@@ -43,7 +43,7 @@ class ServicioSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicios = Servicio::onlyTrashed()->get();
         return View('actividad.servicios.index_deleted', compact('servicios'));
     }
@@ -59,7 +59,7 @@ class ServicioSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicio = self::getDeletedServicio($id);
         $servicio->restore();
         SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido restaurado.');
@@ -75,7 +75,7 @@ class ServicioSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicio = self::getDeletedServicio($id);
         $servicio->forceDelete();
         SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido eliminado permanentemente.');

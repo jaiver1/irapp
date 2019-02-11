@@ -43,7 +43,7 @@ class ClienteSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $clientes = Cliente::onlyTrashed()->get();
         return View('contacto.clientes.index_deleted', compact('clientes'));
     }
@@ -59,7 +59,7 @@ class ClienteSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $cliente = self::getDeletedCliente($id);
         $cliente->restore();
         SweetAlert::success('Exito','El cliente "'.$cliente->persona->primer_nombre." ".$cliente->persona->primer_apellido.'" ha sido restaurada.');
@@ -75,7 +75,7 @@ class ClienteSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $cliente = self::getDeletedCliente($id);
         $cliente->forceDelete();
         SweetAlert::success('Exito','El cliente "'.$cliente->persona->primer_nombre." ".$cliente->persona->primer_apellido.'" ha sido eliminado permanentemente.');

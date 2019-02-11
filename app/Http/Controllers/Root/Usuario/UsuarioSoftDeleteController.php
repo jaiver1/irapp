@@ -43,7 +43,7 @@ class UsuarioSoftDeleteController extends Controller
      */
     public function index()
     {
-    Auth::user()->authorizeRoles(['ROLE_ROOT']);
+    Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $usuarios = User::onlyTrashed()->get();
         return View('root.usuarios.index_deleted', compact('usuarios'));
     }
@@ -59,7 +59,7 @@ class UsuarioSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $usuario = self::getDeletedUsuario($id);
         $usuario->restore();
         SweetAlert::success('Exito','El usuario "'.$usuario->name.'" ha sido restaurado.');
@@ -75,7 +75,7 @@ class UsuarioSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $usuario = self::getDeletedUsuario($id);
         $usuario->forceDelete();
         SweetAlert::success('Exito','El usuario "'.$usuario->name.'" ha sido eliminado permanentemente.');

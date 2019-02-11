@@ -58,15 +58,19 @@ function salir(){
         <div class="sidebar-brand waves-light">
             <a href="#"><i class="fas fa-tools mr-2"></i> IRAPP</a>
             <div id="close-sidebar">
-                <i class="fas  fa-times-circle"></i>
+                <i class="fas fa-lg fa-arrow-circle-left "></i>
             </div>
         </div>
         <div class="sidebar-header">
             <div class="user-pic">
-                <img class="img-responsive img-rounded" src="{{ asset('img/dashboard/sidebar/user.jpg') }}" alt="User picture">
+                <img class="img-responsive img-circle"
+                src="{{ (Auth::user()->getPersona()->imagen) ? asset(Auth::user()->getPersona()->imagen) : asset('img/dashboard/sidebar/user.jpg') }}" 
+                alt="{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}" 
+                onerror="this.src='{{ asset('img/dashboard/sidebar/user.jpg') }}'"
+                >
             </div>
             <div class="user-info">
-                <span class="user-name"><strong>{{ Auth::user()->name }}</strong>
+                <span class="user-name"><strong>{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}</strong>
                 </span>
                 <span class="user-role">{{ (Auth::user()->roles) ? Auth::user()->roles->first()->display_name : 'Sin rol'}}</span>
                 <span class="user-status">
@@ -79,9 +83,9 @@ function salir(){
         <div class="sidebar-search">
             <div>
                 <div class="input-group">
-                    <input type="text" class="form-control search-menu" placeholder="Search...">
+                    <input type="search" class="form-control search-menu" placeholder="Buscar...">
                     <div class="input-group-append">
-                        <span class="input-group-text">
+                        <span class="input-group-text hoverable fake-link">
                             <i class="fas fa-search" aria-hidden="true"></i>
                         </span>
                     </div>
@@ -91,7 +95,7 @@ function salir(){
         <!-- sidebar-search  -->
         <div class="sidebar-menu">
             <ul>
-                    @role(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'])
+                    @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],FALSE))
             <li class="header-menu">
                     <span>Inicio</span>
                 </li>
@@ -101,8 +105,8 @@ function salir(){
                         <span>Página principal</span>
                     </a>
                 </li>
-               @endrole
-               @role(['ROLE_ROOT'])
+               @endif
+               @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
                 <li class="header-menu">
                     <span>Control de Acceso</span>
                 </li>
@@ -112,8 +116,8 @@ function salir(){
                         <span>Usuarios</span>
                     </a>
                 </li>
-                @endrole
-                @role(['ROLE_ROOT','ROLE_ADMINISTRADOR'])
+                @endif
+                @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
      <li class="header-menu">
                     <span>Administración</span>
                 </li>
@@ -206,7 +210,7 @@ function salir(){
                         </ul>
                     </div>
                 </li>
-                @endrole
+                @endif
             </ul>
         </div>
         <!-- sidebar-menu  -->

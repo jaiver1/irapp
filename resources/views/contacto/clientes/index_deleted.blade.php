@@ -86,8 +86,10 @@ Clientes eliminados | {{ config('app.name', 'Laravel') }}
           </th>
   <th class="th-sm">Cuenta banco
   </th>
+  @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
   <th class="th-sm">Usuario
     </th>
+    @endif
       <th class="th-sm">Acciones
       </th>
     </tr>
@@ -108,12 +110,14 @@ Clientes eliminados | {{ config('app.name', 'Laravel') }}
         <td>{{$cliente->persona->barrio}}</td>
         <td>{{$cliente->persona->direccion}}</td>
         <td>{{$cliente->persona->cuenta_banco}}</td>
+        @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
         <td>
                 <a href="{{ route('usuarios.show',$cliente->persona->usuario->id) }}" class="link-text"
                     data-toggle="tooltip" data-placement="bottom" title='Información del usuario "{{ $cliente->persona->usuario->name }}"'>
                       <i class="fas fa-user"></i> {{$cliente->persona->usuario->name}}
                             </a> 
             </td>
+            @endif
       <td>
 
       <a onclick="restaurar_cliente({{ $cliente->id }},'{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}')" class="text-success m-1" 

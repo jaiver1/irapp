@@ -1,6 +1,10 @@
 @extends('layouts.dashboard.main')
+@include('include.contacto.personas.img', array('persona'=>$cliente->persona))
 @section('template_title')
 Información del cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}" | {{ config('app.name', 'Laravel') }}
+@endsection
+@section('css_links')
+<link rel="stylesheet" href="{{ asset('css/dashboard/profile-img.css') }}" type="text/css">
 @endsection
 
 @section('content')
@@ -73,8 +77,9 @@ Información del cliente "{{$cliente->persona->primer_nombre}} {{$cliente->perso
   <a class="list-group-item waves-effect hoverable"><strong>Barrio: </strong>{{ $cliente->persona->barrio }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Direccion: </strong>{{ $cliente->persona->direccion }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Cuenta banco: </strong>{{ $cliente->persona->cuenta_banco }}</a>
+  @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
   <a href ="{{ route('usuarios.show' , $cliente->persona->usuario->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-user mr-2"></i>Usuario: </strong>{{ $cliente->persona->usuario->name }}</a>
-
+  @endif
 </div>
                         </div>
 
@@ -87,12 +92,14 @@ Información del cliente "{{$cliente->persona->primer_nombre}} {{$cliente->perso
             </div>
             <!--Grid row-->
 
-             
+            @yield('img_form')
           
         </div>
 
 @endsection
 @section('js_links')
+
+@yield('img_script')
 
 <script type="text/javascript">
 function eliminar_cliente(id,nombre){

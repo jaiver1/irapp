@@ -43,7 +43,7 @@ class MedidaSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $medidas = Medida::onlyTrashed()->get();
         return View('dato_basico.medidas.index_deleted', compact('medidas'));
     }
@@ -59,7 +59,7 @@ class MedidaSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $medida = self::getDeletedMedida($id);
         $medida->restore();
         SweetAlert::success('Exito','La medida "'.$medida->nombre.'" ha sido restaurada.');
@@ -75,7 +75,7 @@ class MedidaSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $medida = self::getDeletedMedida($id);
         $medida->forceDelete();
         SweetAlert::success('Exito','La medida "'.$medida->nombre.'" ha sido eliminada permanentemente.');

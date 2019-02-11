@@ -43,7 +43,7 @@ class EspecialidadSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $especialidades = Especialidad::onlyTrashed()->get();
         return View('clasificacion.especialidades.index_deleted', compact('especialidades'));
     }
@@ -59,7 +59,7 @@ class EspecialidadSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $especialidad = self::getDeletedEspecialidad($id);
         $especialidad->restore();
         Alert::success('Exito','La especialidad "'.$especialidad->nombre.'" ha sido restaurada.');
@@ -75,7 +75,7 @@ class EspecialidadSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $especialidad = self::getDeletedEspecialidad($id);
         $especialidad->forceDelete();
         Alert::success('Exito','La especialidad "'.$especialidad->nombre.'" ha sido eliminada permanentemente.');

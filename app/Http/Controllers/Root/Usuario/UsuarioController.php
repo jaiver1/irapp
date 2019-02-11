@@ -26,7 +26,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $usuarios = User::all();
         return View::make('root.usuarios.index')->with(compact('usuarios'));
     }
@@ -38,7 +38,7 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $usuario = new User;
         $roles = Role::limit(2)->get();
         $editar = false;
@@ -52,7 +52,7 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $rules = array(
                 'name'                  => 'required|max:50|unique:users',
                 'email'                 => 'required|email|max:100|unique:users',
@@ -91,7 +91,7 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $usuario = User::findOrFail($id);
         return View::make('root.usuarios.show')->with(compact('usuario'));
         
@@ -105,7 +105,7 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $usuario = User::findOrFail($id);
         $roles = Role::limit(2)->get();
         $editar = true;
@@ -129,7 +129,7 @@ class UsuarioController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $rules = array(
             'name'                  => 'required|max:50|unique:users',
             'email'                 => 'required|email|max:100|unique:users',
@@ -168,7 +168,7 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT']);
+        Auth::user()->authorizeRoles('ROLE_ROOT',TRUE);
         $usuario = User::findOrFail($id);
     
         $usuario->delete();

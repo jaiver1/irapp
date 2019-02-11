@@ -43,7 +43,7 @@ class OrdenSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $ordenes = Orden::onlyTrashed()->get();
         return View('actividad.ordenes.index_deleted', compact('ordenes'));
     }
@@ -59,7 +59,7 @@ class OrdenSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $orden = self::getDeletedOrden($id);
         $orden->restore();
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido restaurada.');
@@ -75,7 +75,7 @@ class OrdenSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $orden = self::getDeletedOrden($id);
         $orden->forceDelete();
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada permanentemente.');

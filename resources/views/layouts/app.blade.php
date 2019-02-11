@@ -38,7 +38,9 @@
   <!-- Initializations -->
   <script type="text/javascript">
     // Animations initialization
+    $(document).ready(function() {
     $("#loading").fadeOut("slow");
+    });
     new WOW().init();
   </script>
 @include('sweetalert::alert')

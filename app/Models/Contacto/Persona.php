@@ -45,6 +45,7 @@ class Persona extends Model
         'barrio',
         'direccion',
         'cuenta_banco',
+        'imagen',
         'usuario_id',
     ];
 

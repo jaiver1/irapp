@@ -41,3 +41,10 @@ function inicio_carga(){
 function fin_carga(){
   $(".se-pre-con").fadeOut("slow");
 }
+function mostrar_modal(url_send,div_target) {
+  cargar_div(url_send,"GET",{},div_target,true,true);
+}
+
+function mostrar_div(url_send,div_target) {
+  cargar_div(url_send,"GET",{},div_target,true,false);
+}

@@ -26,7 +26,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categorias = Categoria::all();
         return View::make('clasificacion.categorias.index')->with(compact('categorias'));
     }
@@ -38,7 +38,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categoria = new Categoria;
         $categoria->especialidad()->associate(new Especialidad);
         $categoria->categoria()->associate(new Categoria);
@@ -54,7 +54,7 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         if($request->raiz){
             return Redirect::to('categorias.edit');
         }else{
@@ -93,7 +93,7 @@ class CategoriaController extends Controller
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categoria = Categoria::findOrFail($id);
         return View::make('clasificacion.categorias.show')->with(compact('categoria'));
         
@@ -107,7 +107,7 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categoria = Categoria::findOrFail($id);
         $especialidades = Especialidad::all(); 
         $editar = false;
@@ -122,7 +122,7 @@ class CategoriaController extends Controller
      */
     public function update($id,Request $request)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
             'nombre'                   => 'required|max:50',
             'etiqueta'                   => 'required|max:5',
@@ -157,7 +157,7 @@ class CategoriaController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categoria = Categoria::findOrFail($id);
     
         $categoria->delete();

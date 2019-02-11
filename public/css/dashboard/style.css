@@ -366,3 +366,40 @@ width: auto; }
 .stutus-on{
   color: springgreen !important;
 }
+
+.fake-link{
+  cursor: pointer !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-transition: all 0.55s ease-in-out !important;
+  -o-transition: all 0.55s ease-in-out !important;
+  transition: all 0.55s ease-in-out !important;
+}
+.fake-link:hover,.fake-link:active,.fake-link:focus{
+  background-color: #012735 !important;
+  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+  -webkit-transition: all 0.55s ease-in-out !important;
+  -o-transition: all 0.55s ease-in-out !important;
+  transition: all 0.55s ease-in-out !important; 
+}
+
+.user-pic > img{
+  border: 3px solid #3a4d56 !important; 
+  border-radius: 100% !important; 
+}
+.user-pic{
+  width: 6rem !important; 
+  border-radius: 100% !important;
+  background-color: #bdd4de !important;
+  border: 3px solid #3a4d56 !important; 
+}
+
+.center {
+  text-align: center;
+}
+.center > div, .center > table /* insert any other block-level elements here */ {
+  margin-left: auto;
+  margin-right: auto;
+}
+

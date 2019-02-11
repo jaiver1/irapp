@@ -1,8 +1,10 @@
 @extends('layouts.dashboard.main')
+@include('include.contacto.personas.img', array('persona'=>$colaborador->persona))
 @section('template_title')
 Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('css_links')
+<link rel="stylesheet" href="{{ asset('css/dashboard/profile-img.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-responsive-datatables.min.css') }}" type="text/css">
@@ -31,12 +33,12 @@ Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colabo
                             </a>
 
                              <a href="{{ route('colaboradores.edit', $colaborador->id) }}" class="btn btn-outline-warning btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title='Editar el colaborador "{{ $colaborador->nombre }}"'>
+                    data-toggle="tooltip" data-placement="bottom" title='Editar el colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"'>
                       <i class="fas fa-2x fa-pencil-alt"></i>
                             </a>
 
-                                    <a onclick="eliminar_colaborador({{ $colaborador->id }},'{{ $colaborador->nombre }}')"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title='Eliminar el colaborador "{{ $colaborador->nombre }}"'>
+                                    <a onclick="eliminar_colaborador({{ $colaborador->id }},'{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}')"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
+                    data-toggle="tooltip" data-placement="bottom" title='Eliminar el colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"'>
                       <i class="fas fa-2x fa-trash-alt"></i>
                             </a>
                             <form id="eliminar{{ $colaborador->id }}" method="POST" action="{{ route('colaboradores.destroy', $colaborador->id) }}" accept-charset="UTF-8">
@@ -78,8 +80,9 @@ Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colabo
   <a class="list-group-item waves-effect hoverable"><strong>Barrio: </strong>{{ $colaborador->persona->barrio }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Direccion: </strong>{{ $colaborador->persona->direccion }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Cuenta banco: </strong>{{ $colaborador->persona->cuenta_banco }}</a>
+  @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
   <a href ="{{ route('usuarios.show' , $colaborador->persona->usuario->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-user mr-2"></i>Usuario: </strong>{{ $colaborador->persona->usuario->name }}</a>
-
+  @endif
 </div>
                         </div>
 
@@ -92,6 +95,8 @@ Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colabo
             </div>
             <!--Grid row-->
 
+            @yield('img_form')
+
                 <!--Grid row-->
                 <div class="row mt-5">
 
@@ -101,73 +106,8 @@ Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colabo
                         <!--Card-->
                         <div class="card hoverable"> 
                             <!--Card content-->
-                            <div class="card-body">
-                                <div class="d-sm-flex justify-content-between">
-                                <h4><i class="fas fa-tasks mr-2"></i>
-                                @if ($colaborador->servicios->count() === 1)
-                    Un servicio de "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"
-                @elseif ($colaborador->servicios->count() > 1)
-                    {{ $colaborador->servicios->count() }} servicios de "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"
-                @else
-                   No hay servicios de "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"
-                @endif
-                </h4>
-                <div class="d-flex justify-content-center">
-                  <a data-toggle="modal" data-target="#modal_search_servicio" href="#" class="btn btn-outline-success btn-circle waves-effect hoverable" 
-                  data-toggle="tooltip" data-placement="bottom" title="Registrar un servicio">
-                    <i class="fas fa-2x fa-plus"></i>
-                          </a>                     
-                  </div>
-                </div>
-                <hr/>
-                            <div class="table-responsive">
-                                <!-- Table  -->
-                            <table id="dtservicios" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
-                              <thead class="th-color white-text">
-                                <tr class="z-depth-2">
-                                  <th class="th-sm">#
-                                  </th>
-                                  <th class="th-sm">Nombre
-                                  </th>
-                                  <th class="th-sm">Valor unitario
-                                    </th>
-                                    <th class="th-sm">Descripcion
-                                  </th>
-                                  <th class="th-sm">Categoria
-                                  </th>
-                                  <th class="th-sm">Medida
-                                  </th>
-                                  <th class="th-sm">Acciones
-                                  </th>
-                               
-                                </tr>
-                              </thead>
-                              <tbody>
-                              @foreach($colaborador->servicios as $key => $servicio)
-                                <tr class="hoverable">
-                                  <td>{{$servicio->id}}</td>
-                                  <td>{{$servicio->nombre}}</td>  
-                                  <td> <h5><span class="badge badge-success hoverable">
-                                        @money($servicio->valor_unitario)
-                                        </span>
-                                        </h5>
-                                      </td>
-                                    <td>{{$servicio->descripcion}}</td>
-                                    
-                                  <td>
-                            
-                            <a href="{{ route('servicios.show', $servicio->id) }}" class="text-primary m-1" 
-                                                data-toggle="tooltip" data-placement="bottom" title='Información del servicio "{{ $servicio->nombre }}"'>
-                                                  <i class="fas fa-2x fa-info-circle"></i>
-                                                        </a>
-                            
-                                  </td>
-                                </tr>
-                                @endforeach
-                              </tbody>
-                            </table>
-                                                        <!-- Table  -->
-                                </div>
+                            <div id="container_datatable_servicio" class="card-body">
+                                
                             </div>
     
                         </div>
@@ -178,9 +118,10 @@ Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colabo
     
                 </div>
                 <!--Grid row-->
-          
+                
         </div>
-        @include('include.actividad.servicios.modal_search')
+        <div id="container_search_servicio">
+        </div>
 @endsection
 @section('js_links')
 
@@ -196,14 +137,24 @@ Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colabo
 <script type="text/javascript" src="{{ asset('js/addons/vfs_fonts.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.print.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
+
+@yield('img_script')
 
 <script type="text/javascript">
-function eliminar_colaborador(id,nombre){
+
+function reload_datatable(){
+    var url_send = "{{ route('colaboladores.getServicios',array($colaborador->id,0)) }}";
+    cargar_div(url_send,"GET",{},"datatable_servicio",true,false);
+}
+
+
+function desvincular_servicio(id,nombre){
     swal({
-  title: 'Eliminar el colaborador',
-  text: '¿Desea eliminar el colaborador "'+nombre+'"?',
+  title: 'Desvincular el servicio',
+  text: '¿Desea desvincular el servicio "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+  confirmButtonText: '<i class="fas fa-user-slash"></i> Desvincular',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,
@@ -214,7 +165,7 @@ function eliminar_colaborador(id,nombre){
   customClass: 'animated zoomIn',
 }).then((result) => {
   if (result.value) {
-    $( "#eliminar"+id ).submit();
+    delete_servicio(id);
   }else{
     swal({
   position: 'top-end',
@@ -230,111 +181,172 @@ function eliminar_colaborador(id,nombre){
 })
 }
 
-$(document).ready(function() {
-    var colaborador =  "{{$colaborador->persona->primer_nombre}}"; 
-    var currentdate = new Date(); 
-    moment.locale('es');
-var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
-    var titulo_archivo = 'Lista de servicios de "'+colaborador+'" ('+datetime+')';
-     $('#dtservicios').DataTable( {
-        dom: 'Bfrtip',
-    lengthMenu: [
-        [ 2, 5, 10, 20, 30, 50, 100, -1 ],
-        [ '2 registros', '5 registros', '10 registros', '20 registros','30 registros', '50 registros', '100 registros', 'Mostrar todo' ]
-    ],oLanguage:{
-	sProcessing:     'Procesando...',
-	sLengthMenu:     'Mostrar _MENU_ registros',
-	sZeroRecords:    'No se encontraron resultados',
-	sEmptyTable:     'Ningún dato disponible en esta tabla',
-	sInfo:           'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
-	sInfoEmpty:      'Mostrando registros del 0 al 0 de un total de 0 registros',
-	sInfoFiltered:   '(filtrado de un total de _MAX_ registros)',
-	sInfoPostFix:    '',
-	sSearch:         'Buscar:',
-	sUrl:            '',
-	sInfoThousands:  ',',
-	sLoadingRecords: 'Cargando...',
-	oPaginate: {
-		sFirst:    'Primero',
-		sLast:     'Último',
-		sNext:     'Siguiente',
-		sPrevious: 'Anterior'
-	}
-    },
-        buttons: [
+function agregar_servicio(id,nombre){
+    swal({
+  title: 'Agregar servicio',
+  text: '¿Desea agregar el servicio "'+nombre+'"?',
+  type: 'question',
+  confirmButtonText: '<i class="fas fa-plus"></i> Agregar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
+  showCancelButton: true,
+  showCloseButton: true,
+  confirmButtonClass: 'btn btn-success',
+  cancelButtonClass: 'btn btn-danger',
+  buttonsStyling: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+}).then((result) => {
+  if (result.value) {
+    $('#modal_search_servicio').modal('hide');
+add_servicio(id);
+  }else{
+    swal({
+  position: 'top-end',
+  type: 'error',
+  title: 'Operación cancelada por el usuario',
+  showConfirmButton: false,
+  toast: true,
+  animation: false,
+  customClass: 'animated lightSpeedIn',
+  timer: 3000
+})
+  }
+})
+}
 
-            {
-                extend: 'collection',
-                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
-                titleAttr: 'Opciones',
-                buttons: [
-                    {
-                extend:    'copyHtml5',
-                text:      '<i class="fas fa-copy"></i> Copiar',
-                titleAttr: 'Copiar',
-                title: titulo_archivo
-            },
-            {
-                extend:    'print',
-                text:      '<i class="fas fa-print"></i> Imprimir',
-                titleAttr: 'Imprimir',
-                title: titulo_archivo
-            },
-            {
-                extend: 'collection',
-                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
-                titleAttr: 'Exportar',
-                buttons: [         
-            {
-                extend:    'csvHtml5',
-                text:      '<i class="fas fa-file-alt"></i> Csv',
-                titleAttr: 'Csv',
-                title: titulo_archivo
-            }, 
-            {
-                extend:    'excelHtml5',
-                text:      '<i class="fas fa-file-excel"></i> Excel',
-                titleAttr: 'Excel',
-                title: titulo_archivo
-            },
-            {
-                extend:    'pdfHtml5',
-                text:      '<i class="fas fa-file-pdf"></i> Pdf',
-                titleAttr: 'Pdf',
-                title: titulo_archivo
-            }
-        ]
+function add_servicio(id_servicio){
+    var url_send = "{{ route('colaboladores.addServicios') }}";
+    var id_colaborador = "{{ $colaborador->id }}";
+    var _token = "{{ csrf_token() }}";
+    inicio_carga();
+  $.ajax({
+    method: "POST",
+    url: url_send,
+    async:true,
+    headers: {
+        'X-CSRF-TOKEN': _token
     },
-           
-            {
-                extend:    'colvis',
-                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
-                titleAttr: 'Ver/Ocultar',
-            }
-           
-                ]
-            },
-            'pageLength'
-        ],
-        responsive: {
-            details: {
-                display: $.fn.dataTable.Responsive.display.modal( {
-                    header: function ( row ) {
-                        var data = row.data();
-                        return '<i class="fas fa-sitemap"></i>  Datos de la servicio "'+ data[1]+'"';
-                    }
-                } ),
-                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                    tableClass: 'table'
-                } )
-            }
+    data: {
+        colaborador : id_colaborador,
+        servicio : id_servicio
+    }
+  })
+    .done(function(response) {
+      try{
+        console.log(response);
+        if(response.status == 200){
+          reload_datatable();
+        }   
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+    })
+    .fail(function(response) {
+      console.log(response.responseJSON);
+      swal({
+        title: 'Error '+response.status,
+        text: response.statusText,
+        type: 'error',
+        confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+        showCloseButton: true,
+        confirmButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        animation: false,
+        customClass: 'animated zoomIn',
+      });
+    })
+    .always(function() {
+      fin_carga();
+    });
+}
+
+function delete_servicio(id_servicio){
+  var url_send = "{{ route('colaboladores.deleteServicios') }}";
+    var id_colaborador = "{{ $colaborador->id }}";
+    var _token = "{{ csrf_token() }}";
+  $.ajax({
+    method: "POST",
+    url: url_send,
+    async:true,
+    headers: {
+        'X-CSRF-TOKEN': _token
+    },
+    data: {
+        colaborador : id_colaborador,
+        servicio : id_servicio,
+        _method : 'DELETE'
+    }
+  })
+    .done(function(response) {
+      try{
+        console.log(response);
+        if(response.status == 200){
+          reload_datatable();
         }
-    } );
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+    })
+    .fail(function(response) {
+      console.log(response.responseJSON);
+      swal({
+        title: 'Error '+response.status,
+        text: response.statusText,
+        type: 'error',
+        confirmButtonText: '<i class="fa fa-check"></i> Continuar',
+        showCloseButton: true,
+        confirmButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        animation: false,
+        customClass: 'animated zoomIn',
+      });
+    })
+    .always(function() {
+      fin_carga();
+    });
+}
 
 
-            $('.dataTables_length').addClass('bs-select');
+$(document).ready(function() {
+    reload_datatable();
         });
+      </script>
+      <script type="text/javascript">
 
+        function eliminar_colaborador(id,nombre){
+            swal({
+          title: 'Eliminar el colaborador',
+          text: '¿Desea eliminar el colaborador "'+nombre+'"?',
+          type: 'question',
+          confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
+          cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
+          showCancelButton: true,
+          showCloseButton: true,
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          animation: false,
+          customClass: 'animated zoomIn',
+        }).then((result) => {
+          if (result.value) {
+            $( "#eliminar"+id ).submit();
+          }else{
+            swal({
+          position: 'top-end',
+          type: 'error',
+          title: 'Operación cancelada por el usuario',
+          showConfirmButton: false,
+          toast: true,
+          animation: false,
+          customClass: 'animated lightSpeedIn',
+          timer: 3000
+        })
+          }
+        })
+        }
+        
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })

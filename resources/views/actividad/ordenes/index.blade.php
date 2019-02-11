@@ -58,14 +58,18 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                         <!--Card content-->
                         <div class="card-body">
                                 <ul class="nav nav-pills mb-3" id="views-tab" role="tablist">
-                                        <li class="nav-item hoverable waves-effect mr-2">
+                                        <li class="nav-item hoverable waves-effect mr-2 mt-2">
                                           <a class="nav-link active z-depth-5" id="pills-list-tab" data-toggle="pill" href="#pills-list" role="tab" aria-controls="pills-list" aria-selected="true">
                                             <h5> <i class="fas fa-clipboard-list mr-2"></i>Lista</h5></a>
                                         </li>
-                                        <li class="nav-item hoverable waves-effect">
+                                        <li class="nav-item hoverable waves-effect mr-2 mt-2">
                                           <a class="nav-link z-depth-5" id="pills-calendar-tab" data-toggle="pill" href="#pills-calendar" role="tab" aria-controls="pills-calendar" aria-selected="false">
                                               <h5> <i class="fas fa-calendar-alt mr-2"></i>Calendario</h5></a>
                                         </li>
+                                        <li class="nav-item hoverable waves-effect mt-2">
+                                                <a class="nav-link z-depth-5" id="pills-map-tab" data-toggle="pill" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="false">
+                                                    <h5> <i class="fas fa-map-marked-alt mr-2"></i>Mapa</h5></a>
+                                              </li>
                                       </ul>
                                 <div class="tab-content" id="pills-tab-views">
                                         <div class="tab-pane fade show active" id="pills-list" role="tabpanel" aria-labelledby="pills-list-tab">

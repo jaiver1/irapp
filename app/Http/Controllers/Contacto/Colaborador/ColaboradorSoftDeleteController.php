@@ -43,7 +43,7 @@ class ColaboradorSoftDeleteController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaboradores = colaborador::onlyTrashed()->get();
         return View('contacto.colaboradores.index_deleted', compact('colaboradores'));
     }
@@ -59,7 +59,7 @@ class ColaboradorSoftDeleteController extends Controller
      */
     public function update($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaborador = self::getDeletedCliente($id);
         $colaborador->restore();
         SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre." ".$colaborador->persona->primer_apellido.'" ha sido restaurada.');
@@ -75,7 +75,7 @@ class ColaboradorSoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR']);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaborador = self::getDeletedCliente($id);
         $colaborador->forceDelete();
         SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre." ".$colaborador->persona->primer_apellido.'" ha sido eliminado permanentemente.');

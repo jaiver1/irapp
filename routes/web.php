@@ -16,7 +16,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
-Route::post('/profile/upload/imagen/{id}', ['uses' => 'ProfileController@upload_imagen', 'as' => 'profile.uploadImagen'])->middleware('verified');
+Route::put('/profile/upload/imagen/{id}', ['uses' => 'ProfileController@upload_imagen', 'as' => 'profile.uploadImagen'])->middleware('verified');
 
 
 Route::get('/', 'StoreController@index')->name('welcome');

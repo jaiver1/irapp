@@ -99,6 +99,9 @@ Información del cliente "{{$cliente->persona->primer_nombre}} {{$cliente->perso
 @endsection
 @section('js_links')
 
+<script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
+
+
 @yield('img_script')
 
 <script type="text/javascript">

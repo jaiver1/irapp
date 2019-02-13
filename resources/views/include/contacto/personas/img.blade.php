@@ -9,7 +9,7 @@
                 <!--Card-->
                 <div class="card hoverable"> 
                     <!--Card content-->
-                    <div class="card-body pb-5">
+                    <div class="card-body card-alta">
                             <div class="d-sm-flex justify-content-between">
                                     <h4><i class="far fa-image mr-2"></i>
                                     Imagen de perfil
@@ -26,12 +26,12 @@
 <div id="targetLayer"></div>
 <img src="{{ asset('img/dashboard/profile/photo.png') }}"  class="icon-choose-image" />
 <div class="icon-choose-image" >
-<input name="file" id="userImage" type="file" class="inputFile" onChange="showPreview(this);" />
+<input name="imagen" id="userImage" type="file" class="inputFile" onChange="showPreview(this);" />
 </div>
 </div>
-<div id="targetMessage" style="margin-top:5px;margin-bottom:0px; padding-bottom:0px;"></div>
+<div id="targetMessage">errorr</div>
 <div>
-<button type="submit" class="btn btn-submit-img hoverable" style="margin-top: 5px;padding: 3px;">
+<button type="submit" class="btn btn-submit-img hoverable" style="">
 <i class="fas fa-cloud-upload-alt"></i> Subir foto
 </button>
 </div>
@@ -80,10 +80,15 @@ $(document).ready(function (e) {
       var persona_id = "{{ $persona->id }}";
       var url_send = "{{ route('profile.uploadImagen',"+persona_id+") }}";
       var _token = "{{ csrf_token() }}";
+      var error_img = "{{ asset('img/dashboard/sidebar/user.jpg') }}";
+    var default_img = "{{ ($persona->imagen ? : asset('img/dashboard/sidebar/user.jpg'))}}";
+    inicio_carga();
   $.ajax({
     method: "POST",
     url: url_send,
     async:true,
+    contentType:false, 
+    processData:false,
     headers: {
         'X-CSRF-TOKEN': _token
     },

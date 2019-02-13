@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ProfileController extends Controller
 {
@@ -29,26 +31,25 @@ class ProfileController extends Controller
         return view('home.index');
     }
 
-    public function upload_imagenes($id,Request $request)
+    public function upload_imagen($id,Request $request)
     {  
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         try{
             $rules = array(
-                'imagen'                   => 'required|mimes:jpeg,png|max:2000',
-                'url_imagenes'                   => 'url|required'          
+                'imagen'                   => 'required|mimes:jpeg,png|max:2000',          
               );
 
         $validator = Validator::make($request->all(), $rules);
 
 
         if ($validator->fails()) {
-            return response()->json(['status'=>500,'message'=>$validator]);
+            return response()->json(['status'=>500,'message'=>"El archivo no es valido"]);
         }else{
         if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {                
             $image = $request->file('imagen');
-            $producto = Producto::findOrFail($id);
-            $filename = $producto->id.'-'.$image->getClientOriginalName(); 
-            $dir = 'img/dashboard/productos/imagenes';
+            $persona = Persona::findOrFail($id);
+            $filename = $persona->id.'-'.$image->getClientOriginalName(); 
+            $dir = 'img/dashboard/personas/imagenes';
             $public_dir = public_path($dir);
             
             $route =  $dir.'/'. $filename;
@@ -57,11 +58,8 @@ class ProfileController extends Controller
             } 
             $path = public_path($route);          
                 Image::make($image->getRealPath())->save($path);
-                $imagen_producto = new Imagen_producto;
-                $imagen_producto->nombre = $filename;
-                $imagen_producto->ruta = $route;
-                $imagen_producto->producto()->associate($producto);      
-                $imagen_producto->save();
+                $persona->imagen = $route;    
+                $persona->save();
                return response()->json(['status'=>200,'message'=>'OK']);
            }else{ 
             return response()->json(['status'=>500,'message'=>'Error al subir la imagen.']);

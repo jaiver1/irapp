@@ -20,7 +20,7 @@
                                         <div class="col-xs-12">
     <div id="body-overlay"><div><img src="{{ asset('img/dashboard/profile/loading.gif') }}" width="64px" height="64px"/></div></div>
 <div class="bg-color-img">
-<form id="uploadForm" action="{{ route('profile.uploadImagen',$persona->id) }}" method="POST" accept-charset="UTF-8">
+<form id="uploadForm" action="{{ route('profile.uploadImagen',$usuario->id) }}" method="POST" accept-charset="UTF-8">
         <input name="_method" type="hidden" value="PUT">
 <div id="targetOuter">
 <div id="targetLayer"></div>
@@ -29,7 +29,7 @@
 <input name="imagen" id="userImage" type="file" class="inputFile" onChange="showPreview(this);" />
 </div>
 </div>
-<div id="targetMessage">errorr</div>
+<div id="targetMessage"></div>
 <div>
 <button type="submit" class="btn btn-submit-img hoverable" style="">
 <i class="fas fa-cloud-upload-alt"></i> Subir foto
@@ -68,7 +68,7 @@ if (objFileInput.files[0]) {
 
 $(document).ready(function (e) {
     var error_img = "{{ asset('img/dashboard/sidebar/user.jpg') }}";
-    var default_img = "{{ ($persona->imagen ? : asset('img/dashboard/sidebar/user.jpg'))}}";
+    var default_img = "{{ ($usuario->imagen ? : asset('img/dashboard/sidebar/user.jpg'))}}";
     $("#targetLayer").html('<img src="'+default_img+'" width="210px" height="210px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
     $("#targetLayer").css('opacity','1');
     $(".icon-choose-image").css('opacity','0.3');
@@ -77,11 +77,11 @@ $(document).ready(function (e) {
  $("#uploadForm").on('submit',(function(e) {
         e.preventDefault();
       //$("#body-overlay").show();
-      var persona_id = "{{ $persona->id }}";
+      var persona_id = "{{ $usuario->id }}";
       var url_send = "{{ route('profile.uploadImagen',"+persona_id+") }}";
       var _token = "{{ csrf_token() }}";
       var error_img = "{{ asset('img/dashboard/sidebar/user.jpg') }}";
-    var default_img = "{{ ($persona->imagen ? : asset('img/dashboard/sidebar/user.jpg'))}}";
+    var default_img = "{{ ($usuario->imagen ? : asset('img/dashboard/sidebar/user.jpg'))}}";
     inicio_carga();
   $.ajax({
     method: "POST",

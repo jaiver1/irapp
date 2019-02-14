@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\Models\Root\User;
 
 class ProfileController extends Controller
 {
@@ -47,9 +48,11 @@ class ProfileController extends Controller
         }else{
         if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {                
             $image = $request->file('imagen');
-            $persona = Persona::findOrFail($id);
-            $filename = $persona->id.'-'.$image->getClientOriginalName(); 
-            $dir = 'img/dashboard/personas/imagenes';
+            return response()->json(['status'=>500,'message'=>$id]);
+            $usuario = User::find($id);
+            if($usuario){
+            $filename = $usuario->id.'-'.$image->getClientOriginalName(); 
+            $dir = 'img/dashboard/usuarios/imagenes';
             $public_dir = public_path($dir);
             
             $route =  $dir.'/'. $filename;
@@ -58,9 +61,13 @@ class ProfileController extends Controller
             } 
             $path = public_path($route);          
                 Image::make($image->getRealPath())->save($path);
-                $persona->imagen = $route;    
-                $persona->save();
+                $usuario->imagen = $route;    
+                $usuario->save();
                return response()->json(['status'=>200,'message'=>'OK']);
+            }else{ 
+                return response()->json(['status'=>500,'message'=>'No se pudo encontrar el usuario.']);
+            }
+            
            }else{ 
             return response()->json(['status'=>500,'message'=>'Error al subir la imagen.']);
         }

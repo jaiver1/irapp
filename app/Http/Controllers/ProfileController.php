@@ -44,11 +44,10 @@ class ProfileController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['status'=>500,'message'=>"El archivo no es valido"]);
+            return response()->json(['status'=>500,'message'=>"Archivo no válido",'style'=>"badge-danger"]);
         }else{
         if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {                
             $image = $request->file('imagen');
-            return response()->json(['status'=>500,'message'=>$id]);
             $usuario = User::find($id);
             if($usuario){
             $filename = $usuario->id.'-'.$image->getClientOriginalName(); 
@@ -63,20 +62,20 @@ class ProfileController extends Controller
                 Image::make($image->getRealPath())->save($path);
                 $usuario->imagen = $route;    
                 $usuario->save();
-               return response()->json(['status'=>200,'message'=>'OK']);
+               return response()->json(['status'=>200,'url_img'=>asset($usuario->imagen),'message'=>'Imagen actualizada','style'=>"badge-success"]);
             }else{ 
-                return response()->json(['status'=>500,'message'=>'No se pudo encontrar el usuario.']);
+                return response()->json(['status'=>500,'message'=>'Usuario no encontrado','style'=>"badge-warning"]);
             }
             
            }else{ 
-            return response()->json(['status'=>500,'message'=>'Error al subir la imagen.']);
+            return response()->json(['status'=>500,'message'=>'Error al subir','style'=>"badge-danger"]);
         }
     }
 
     } catch (Throwable $e) {
-        return response()->json(['status'=>500,'message'=>$e->getMessage()]);
+        return response()->json(['status'=>500,'message'=>$e->getMessage(),'style'=>"badge-danger"]);
     } catch (Exception $e) {
-        return response()->json(['status'=>500,'message'=>$e->getMessage()]);
+        return response()->json(['status'=>500,'message'=>$e->getMessage(),'style'=>"badge-danger"]);
     }
         }
 }

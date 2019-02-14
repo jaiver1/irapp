@@ -67,7 +67,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
     </a>
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $producto->nombre }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Referencia: </strong>{{ $producto->referencia }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong>Valor unitario: </strong> <span class="h5"><span class="badge badge-success hoverable">@money($producto->valor_unitario)</span></span></a>
+  <a class="list-group-item waves-effect hoverable"><strong>Valor unitario: </strong> <span class="h5"><span class="badge teal hoverable">@money($producto->valor_unitario)</span></span></a>
   <a class="list-group-item waves-effect hoverable"><strong>Descripción: </strong>{{ $producto->descripcion }}</a>
   <a href ="{{ route('categorias.show', $producto->categoria->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-sitemap mr-2"></i>Categoria: </strong>{{ $producto->categoria->nombre }}</a>
   <a href ="{{ route('medidas.show', $producto->medida->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-ruler mr-2"></i>Medida: </strong>{{ $producto->medida->nombre }}</a>

@@ -403,3 +403,38 @@ width: auto; }
   margin-right: auto;
 }
 
+
+a .user-name
+{
+    color: #b3b8c1 !important;
+    -webkit-transition: all 0.33s ease-in-out !important;
+  -o-transition: all 0.33s ease-in-out !important;
+  transition: all 0.33s ease-in-out !important;
+}
+
+a .user-name:hover,
+a .user-name:active,
+a .user-name:focus
+{
+    color: #bdd4de !important;
+    -webkit-transition: all 0.33s ease-in-out !important;
+    -o-transition: all 0.33s ease-in-out !important;
+    transition: all 0.33s ease-in-out !important; 
+}
+
+a .user-pic
+{
+    -webkit-transition: all 0.55s ease-in-out !important;
+  -o-transition: all 0.55s ease-in-out !important;
+  transition: all 0.55s ease-in-out !important;
+}
+
+a .user-pic:hover,
+a .user-pic:active,
+a .user-pic:focus
+{
+  border-color: #60808f !important;
+    -webkit-transition: all 0.55s ease-in-out !important;
+    -o-transition: all 0.55s ease-in-out !important;
+    transition: all 0.55s ease-in-out !important; 
+}

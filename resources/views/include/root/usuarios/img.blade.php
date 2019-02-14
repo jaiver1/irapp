@@ -22,7 +22,8 @@
 <div class="bg-color-img">
 <form id="uploadForm" action="{{ route('profile.uploadImagen',$usuario->id) }}" method="POST" accept-charset="UTF-8">
         <input name="_method" type="hidden" value="PUT">
-<div id="targetOuter">
+        <input id="default_img" name="default_img" type="hidden" value="{{ ($usuario->imagen ? asset($usuario->imagen) : asset('img/dashboard/sidebar/user.jpg'))}}">
+<div id="targetOuter" class="hoverable">
 <div id="targetLayer"></div>
 <img src="{{ asset('img/dashboard/profile/photo.png') }}"  class="icon-choose-image" />
 <div class="icon-choose-image" >
@@ -58,9 +59,9 @@ if (objFileInput.files[0]) {
         var error_img = "{{ asset('img/dashboard/sidebar/user.jpg') }}";
         $('#blah').attr('src', e.target.result);
         $("#targetMessage").html("");
-        $("#targetLayer").html('<img src="'+e.target.result+'" width="210px" height="210px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
+        $("#targetLayer").html('<img src="'+e.target.result+'" width="213px" height="213px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
         $("#targetLayer").css('opacity','1');
-        $(".icon-choose-image").css('opacity','0.3');
+        $(".icon-choose-image").css('opacity','0.5');
     }
     fileReader.readAsDataURL(objFileInput.files[0]);
 }
@@ -68,20 +69,19 @@ if (objFileInput.files[0]) {
 
 $(document).ready(function (e) {
     var error_img = "{{ asset('img/dashboard/sidebar/user.jpg') }}";
-    var default_img = "{{ ($usuario->imagen ? : asset('img/dashboard/sidebar/user.jpg'))}}";
-    $("#targetLayer").html('<img src="'+default_img+'" width="210px" height="210px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
+    var default_img = $("#default_img").val();
+    $("#targetLayer").html('<img src="'+default_img+'" width="213px" height="213px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
     $("#targetLayer").css('opacity','1');
-    $(".icon-choose-image").css('opacity','0.3');
+    $(".icon-choose-image").css('opacity','0.5');
 });
 
  $("#uploadForm").on('submit',(function(e) {
         e.preventDefault();
       //$("#body-overlay").show();
-      var persona_id = "{{ $usuario->id }}";
-      var url_send = "{{ route('profile.uploadImagen',"+persona_id+") }}";
+      var url_send = "{{ route('profile.uploadImagen', $usuario->id) }}";
       var _token = "{{ csrf_token() }}";
       var error_img = "{{ asset('img/dashboard/sidebar/user.jpg') }}";
-    var default_img = "{{ ($usuario->imagen ? : asset('img/dashboard/sidebar/user.jpg'))}}";
+    var default_img = $("#default_img").val();
     inicio_carga();
   $.ajax({
     method: "POST",
@@ -98,11 +98,17 @@ $(document).ready(function (e) {
       try{
         console.log(response);
         $("#targetLayer").css('opacity','1');
-                $("#targetMessage").html(response.message);
-                if(response.status == 200){
-                    $("#targetLayer").html('<img src="'+response.url_img+'" width="210px" height="210px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
+                $("#targetMessage").html("<span class='h5'><span class='badge "+response.style+" hoverable'>"+response.message+"</span></span>");
+                if(response.status == 200){               
+                    $("#targetLayer").html('<img src="'+response.url_img+'" width="213px" height="213px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
+                    $("#default_img").val(response.url_img);
+                    var user = "{{ $usuario->id }}";
+                    var session_user = "{{ Auth::user()->id }}";
+                    if(user == session_user){
+                        $('#user-nav-img').attr('src',response.url_img);
+                    }
                 }else{
-                    $("#targetLayer").html('<img src="'+default_img+'" width="210px" height="210px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
+                    $("#targetLayer").html('<img src="'+default_img+'" width="213px" height="213px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');
                 }
 
             //setInterval(function() {$("#body-overlay").hide(); },500);

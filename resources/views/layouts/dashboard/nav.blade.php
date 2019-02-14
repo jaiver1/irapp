@@ -62,16 +62,18 @@ function salir(){
             </div>
         </div>
         <div class="sidebar-header">
+                <a href="{{route('profile')}}">
             <div class="user-pic">
-                <img class="img-responsive img-circle"
-                src="{{ (Auth::user()->getPersona()->imagen) ? asset(Auth::user()->getPersona()->imagen) : asset('img/dashboard/sidebar/user.jpg') }}" 
+                <img id="user-nav-img" class="img-responsive img-circle"
+                src="{{ (Auth::user()->imagen) ? asset(Auth::user()->imagen) : asset('img/dashboard/sidebar/user.jpg') }}" 
                 alt="{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}" 
                 onerror="this.src='{{ asset('img/dashboard/sidebar/user.jpg') }}'"
                 >
-            </div>
+            </div></a>
             <div class="user-info">
+                    <a href="{{route('profile')}}">
                 <span class="user-name"><strong>{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}</strong>
-                </span>
+                </span></a>
                 <span class="user-role">{{ (Auth::user()->roles) ? Auth::user()->roles->first()->display_name : 'Sin rol'}}</span>
                 <span class="user-status">
                     <i class="fas fa-circle stutus-on"></i>

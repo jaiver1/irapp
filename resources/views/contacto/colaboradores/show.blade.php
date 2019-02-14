@@ -1,5 +1,5 @@
 @extends('layouts.dashboard.main')
-@include('include.contacto.personas.img', array('persona'=>$colaborador->persona->usuario))
+@include('include.root.usuarios.img', array('usuario'=>$colaborador->persona->usuario))
 @section('template_title')
 Información del colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}" | {{ config('app.name', 'Laravel') }}
 @endsection

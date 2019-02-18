@@ -123,7 +123,7 @@ class EspecialidadController extends Controller
         return Redirect::to('especialidades/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $especialidad = Especialidad::findOrFail($request->id);
+        $especialidad = Especialidad::findOrFail($id);
         $especialidad->nombre = $request->nombre; 
         $especialidad->save();
 

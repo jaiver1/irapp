@@ -133,7 +133,7 @@ class MedidaController extends Controller
         return Redirect::to('medidas/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $medida = Medida::findOrFail($request->id);
+        $medida = Medida::findOrFail($id);
         $medida->nombre = $request->nombre; 
         $medida->etiqueta = $request->etiqueta; 
         $medida->tipo_medida()->associate(Tipo_medida::findOrFail($request->tipo_medida_id)); 

@@ -124,7 +124,7 @@ class Tipo_medidaController extends Controller
         return Redirect::to('tipos_medidas/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $tipo_medida =  Tipo_medida::findOrFail($request->id);
+        $tipo_medida =  Tipo_medida::findOrFail($id);
         $tipo_medida->nombre = $request->nombre;        
         $tipo_medida->save();
 

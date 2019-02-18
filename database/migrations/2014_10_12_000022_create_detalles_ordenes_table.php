@@ -16,6 +16,8 @@ class CreateDetallesOrdenesTable extends Migration
         Schema::create('detalles_ordenes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre', 50);
+            $table->double('valor_unitario', 12, 2);
+            $table->double('cantidad', 12, 2);
             $table->enum('estado', ['Abierta', 'Cerrada', 'Cancelada', 'Pendiente']);
             $table->dateTime('fecha_inicio');
             $table->dateTime('fecha_fin')->nullable();

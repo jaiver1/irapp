@@ -148,7 +148,7 @@ class UsuarioController extends Controller
             ->withErrors($validator);
     } else {
         $role = Role::findOrFail($request->role_id);
-        $usuario =  User::findOrFail($request->id);
+        $usuario =  User::findOrFail($id);
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->password =  bcrypt($request->password);         

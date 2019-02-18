@@ -77,10 +77,17 @@
                   </td>
       --}}
 <td>
-  <a href="#" onclick="agregar_servicio({{$servicio->id}},'{{$servicio->nombre}}')" class="text-success m-1" 
+    @if($detalle_orden)
+  <a href="#" onclick="seleccionar_servicio({{$servicio->id}},'{{$servicio->nombre}}','{{$servicio->valor_unitario}}','{{$prefix}}')" class="text-success m-1" 
+    data-toggle="tooltip" data-placement="bottom" title='Seleccionar servicio "{{$servicio->nombre}}"'>
+      <i class="fas fa-2x fa-check-circle"></i>
+            </a>
+@else
+            <a href="#" onclick="agregar_servicio({{$servicio->id}},'{{$servicio->nombre}}')" class="text-success m-1" 
     data-toggle="tooltip" data-placement="bottom" title='Agregar servicio "{{$servicio->nombre}}"'>
       <i class="fas fa-2x fa-plus-circle"></i>
             </a>
+            @endif
 </td>
 </tr>
 @endforeach

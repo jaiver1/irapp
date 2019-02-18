@@ -138,7 +138,7 @@ class CategoriaController extends Controller
         return Redirect::to('categorias/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $categoria = Categoria::findOrFail($request->id);
+        $categoria = Categoria::findOrFail($id);
         $categoria->nombre = $request->nombre; 
         $categoria->etiqueta = $request->etiqueta; 
         $categoria->tipo_categoria()->associate(Tipo_categoria::findOrFail($request->tipo_categoria_id)); 

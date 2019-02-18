@@ -1,3 +1,4 @@
+body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) { overflow-y: visible !important; }
 .alert-danger{
         background-color: #ff3547 !important;
         border-color: #ff3547 !important;

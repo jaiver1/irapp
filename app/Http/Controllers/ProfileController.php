@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['status'=>500,'message'=>"Archivo no válido",'style'=>"badge-danger"]);
+            return response()->json(['status'=>500,'message'=>"Archivo no válido",'style'=>"badge-danger",'messageJSON'=>$validator]);
         }else{
         if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {                
             $image = $request->file('imagen');

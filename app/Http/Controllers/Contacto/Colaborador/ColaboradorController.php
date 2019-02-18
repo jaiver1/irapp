@@ -100,7 +100,7 @@ class ColaboradorController extends Controller
                 ->withErrors($validator);
         } else {
 
-            $role = Role::findOrFail(4);
+            $role = Role::findOrFail(3);
             $usuario = new User;
             $usuario->name = $request->name;
             $usuario->email = $request->email;
@@ -264,7 +264,9 @@ class ColaboradorController extends Controller
                 $query->select('servicio_id')->from('colaborador_servicio')
                 ->where('colaborador_id','=',$id)->distinct();
             })->get();
-        return View::make('include.actividad.servicios.modal_search')->with(compact('servicios'));
+            $detalle_orden = false;
+            $prefix = "";
+        return View::make('include.actividad.servicios.modal_search')->with(compact('servicios','detalle_orden','prefix'));
         }else{
             $colaborador = Colaborador::findOrFail($id);
         return View::make('include.actividad.servicios.datatable')->with(compact('colaborador'));

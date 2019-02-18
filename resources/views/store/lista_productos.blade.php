@@ -14,7 +14,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     <nav class="navbar navbar-expand-lg navbar-dark unique-color-dark mt-4 mb-4 z-depth-5 hoverable  wow fadeInDown" data-wow-delay="0.3s">
 
         <!-- Navbar brand -->
-        <a class="font-weight-bold white-text mr-4" href="#">Lista de Productos</a>
+        <a class="font-weight-bold white-text mr-4" href="javascript:void(0)">Lista de Productos</a>
 
         <!-- Collapse button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"

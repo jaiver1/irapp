@@ -56,7 +56,7 @@ function salir(){
 <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
         <div class="sidebar-brand waves-light">
-            <a href="#"><i class="fas fa-tools mr-2"></i> IRAPP</a>
+            <a href="javascript:void(0)"><i class="fas fa-tools mr-2"></i> IRAPP</a>
             <div id="close-sidebar">
                 <i class="fas fa-lg fa-arrow-circle-left "></i>
             </div>
@@ -125,7 +125,7 @@ function salir(){
                 </li>
 
                 <li class="sidebar-dropdown {{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*') || \Request::is('medidas') || \Request::is('medidas/*')) ? 'active default' : 'simple' }}">
-                    <a href="#">
+                    <a href="javascript:void(0)">
                         <i class="fas fa-file-signature"></i>
                         <span>Datos basicos</span>
                     </a>
@@ -142,7 +142,7 @@ function salir(){
                 </li>
 
                 <li class="sidebar-dropdown {{ (\Request::is('especialidades') || \Request::is('especialidades/*') || \Request::is('categorias') || \Request::is('categorias/*')) ? 'active default' : 'simple' }}">
-                    <a href="#">
+                    <a href="javascript:void(0)">
                         <i class="fas fa-project-diagram "></i>
                         <span>Clasificación</span>
                     </a>
@@ -159,7 +159,7 @@ function salir(){
                 </li>
           
                 <li class="sidebar-dropdown {{ (\Request::is('marcas') || \Request::is('marcas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'active default' : 'simple' }}">
-                    <a href="#">
+                    <a href="javascript:void(0)">
                         <i class="fas fa-handshake"></i>
                         <span>Comercio</span>
                     </a>
@@ -180,7 +180,7 @@ function salir(){
                 </li>
 
                 <li class="sidebar-dropdown {{ (\Request::is('clientes') || \Request::is('clientes/*') || \Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'active default' : 'simple' }}">
-                    <a href="#">
+                    <a href="javascript:void(0)">
                         <i class="fas fa-address-book"></i>
                         <span>Contactos</span>
                     </a>
@@ -197,7 +197,7 @@ function salir(){
                 </li>
 
                 <li class="sidebar-dropdown {{ (\Request::is('servicios') || \Request::is('servicios/*') || \Request::is('ordenes') || \Request::is('ordenes/*')) ? 'active default' : 'simple' }}">
-                    <a href="#">
+                    <a href="javascript:void(0)">
                         <i class="fas fa-people-carry"></i>
                         <span>Actividades</span>
                     </a>
@@ -220,7 +220,7 @@ function salir(){
     <!-- sidebar-content  -->
     <div class="sidebar-footer">
             <div class="dropdown">
-                    <a href="#" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="javascript:void(0)" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-store"></i>
                     </a>
                     <div class="dropdown-menu messages" aria-labelledby="dropdownMenuMessage">
@@ -264,7 +264,7 @@ function salir(){
                 </div>
         <div class="dropdown">
 
-            <a href="#" class="" id="dropdownMenuNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a href="javascript:void(0)" class="" id="dropdownMenuNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell"></i>
                 <span class="badge badge-pill teal darken-1 notification">3</span>
             </a>
@@ -274,7 +274,7 @@ function salir(){
                     Notifications
                 </div>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="javascript:void(0)">
                     <div class="notification-content">
                         <div class="icon">
                             <i class="fas  fa-check text-success border border-success"></i>
@@ -287,7 +287,7 @@ function salir(){
                         </div>
                     </div>
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="javascript:void(0)">
                     <div class="notification-content">
                         <div class="icon">
                             <i class="fas  fa-exclamation text-info border border-info"></i>
@@ -300,7 +300,7 @@ function salir(){
                         </div>
                     </div>
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="javascript:void(0)">
                     <div class="notification-content">
                         <div class="icon">
                             <i class="fas  fa-exclamation-triangle text-warning border border-warning"></i>
@@ -314,19 +314,19 @@ function salir(){
                     </div>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-center" href="#">View all notifications</a>
+                <a class="dropdown-item text-center" href="javascript:void(0)">View all notifications</a>
             </div>
         </div>
      
         <div class="dropdown">
-            <a href="#" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a href="javascript:void(0)" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-cog"></i>
                 <span class="badge-sonar"></span>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
-                <a class="dropdown-item" href="#">My profile</a>
-                <a class="dropdown-item" href="#">Help</a>
-                <a class="dropdown-item" href="#">Setting</a>
+                <a class="dropdown-item" href="javascript:void(0)">My profile</a>
+                <a class="dropdown-item" href="javascript:void(0)">Help</a>
+                <a class="dropdown-item" href="javascript:void(0)">Setting</a>
             </div>
         </div>
         <div>

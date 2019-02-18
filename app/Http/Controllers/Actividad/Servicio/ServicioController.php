@@ -144,7 +144,7 @@ class ServicioController extends Controller
         return Redirect::to('servicios/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $servicio = Servicio::findOrFail($request->id);
+        $servicio = Servicio::findOrFail($id);
         $servicio->nombre = $request->nombre; 
         $servicio->valor_unitario = $request->valor_unitario; 
         $servicio->descripcion = $request->descripcion; 

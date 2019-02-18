@@ -2,7 +2,7 @@
 @section('main')
 @include('layouts.dashboard.nav')
 <div class="page-wrapper ice-theme sidebar-bg bg1 toggled">
-        <a id="show-sidebar" class="btn btn-dark" href="#">
+        <a id="show-sidebar" class="btn btn-dark" href="javascript:void(0)">
             <i class="fas  fa-2x fa-bars"></i>
         </a>
 @yield('navegation')

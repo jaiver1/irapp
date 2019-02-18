@@ -124,7 +124,7 @@ class MarcaController extends Controller
         return Redirect::to('marcas/'+$id+'/edit')
             ->withErrors($validator);
     } else {
-        $marca = Marca::findOrFail($request->id);
+        $marca = Marca::findOrFail($id);
         $marca->nombre = $request->nombre; 
         $marca->save();
         SweetAlert::success('Exito','La marca "'.$marca->nombre.'" ha sido editada.');

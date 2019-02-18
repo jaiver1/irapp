@@ -80,7 +80,7 @@
 <td>{{$cliente->direccion}}</td>
 <td>{{$cliente->cuenta_banco}}</td>
 <td>
-  <a href="#" onclick="seleccionar_cliente({{$cliente->id}},'{{$cliente->primer_nombre}} {{$cliente->primer_apellido}}','{{$cliente->primer_nombre}} {{$cliente->segundo_nombre}} {{$cliente->primer_apellido}} {{$cliente->segundo_apellido}}')" class="text-success m-1" 
+  <a href="javascript:void(0)" onclick="seleccionar_cliente({{$cliente->id}},'{{$cliente->primer_nombre}} {{$cliente->primer_apellido}}','{{$cliente->primer_nombre}} {{$cliente->segundo_nombre}} {{$cliente->primer_apellido}} {{$cliente->segundo_apellido}}')" class="text-success m-1" 
     data-toggle="tooltip" data-placement="bottom" title='Seleccionar cliente "{{$cliente->primer_nombre}} {{$cliente->primer_apellido}}"'>
       <i class="fas fa-2x fa-check-circle"></i>
             </a>

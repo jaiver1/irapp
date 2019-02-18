@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Actividad\Orden;
+use App\Models\Actividad\Servicio;
 use App\Models\Contacto\Colaborador;
 
 class Detalle_orden extends Model
@@ -34,6 +35,8 @@ class Detalle_orden extends Model
       'estado',
       'fecha_inicio',
       'fecha_fin',
+      'valor_unitario',
+      'cantidad',
       'orden_id',
       'servicio_id',  
       'colaborador_id'
@@ -56,12 +59,17 @@ class Detalle_orden extends Model
   ];
 
   public function orden(){
-    return $this->belongTo(Orden::class);
+    return $this->belongsTo(Orden::class);
   }
 
   public function colaborador()
   {
       return $this->belongsTo(Colaborador::class);
+  }
+
+  public function servicio()
+  {
+      return $this->belongsTo(Servicio::class);
   }
 
 }

@@ -170,7 +170,7 @@ class ProductoController extends Controller
         return Redirect::to('productos/'.$id.'/edit')
             ->withErrors($validator);
     } else {
-        $producto = Producto::findOrFail($request->id);
+        $producto = Producto::findOrFail($id);
         $producto->nombre = $request->nombre; 
         $producto->referencia = $request->referencia; 
         $producto->valor_unitario = $request->valor_unitario; 

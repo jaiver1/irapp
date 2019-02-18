@@ -3,6 +3,8 @@
 Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('css_links')
+<link rel="stylesheet" href="{{ asset('css/addons/select2.css') }}" type="text/css"/>
+<link rel="stylesheet" href="{{ asset('css/addons/bootstrap-material-datetimepicker.css') }}" type="text/css"/>
 <link rel="stylesheet" href="{{ asset('css/addons/datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-responsive-datatables.min.css') }}" type="text/css">
@@ -124,83 +126,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
             </div>
             <!--Grid row-->
 
-               <!--Grid row-->
-               <div class="row mt-5">
-
-                  <!--Grid column-->
-                  <div class="col-12">
-  
-                      <!--Card-->
-                      <div class="card hoverable"> 
-                          <!--Card content-->
-                          <div class="card-body">
-                              <h4><i class="fas fa-tasks mr-2"></i>
-                              @if ($orden->detalles->count() === 1)
-                  Un detalle de "{{ $orden->nombre }}"
-              @elseif ($orden->detalles->count() > 1)
-                  {{ $orden->detalles->count() }} detalles de "{{ $orden->nombre }}"
-              @else
-                 No hay detalles de "{{ $orden->nombre }}"
-              @endif
-              </h4>
-              <hr/>
-                          <div class="table-responsive">
-                              <!-- Table  -->
-                              <table id="dtcategorias" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
-    <thead class="th-color white-text">
-      <tr class="z-depth-2">
-        <th class="th-sm">#
-        </th>
-        <th class="th-sm">Nombre
-        </th>
-        <th class="th-sm">Orden
-        </th>
-        <th class="th-sm">Categoria padre
-        </th>
-        <th class="th-sm">Acciones
-        </th>
-     
-      </tr>
-    </thead>
-    <tbody>
-    @foreach($orden->detalles as $key => $detalle)
-      <tr class="hoverable">
-        <td>{{$detalle->id}}</td>
-        <td>{{$detalle->nombre}}</td>
-        <td><i class="fas fa-business-time"></i> {{$detalle->orden->nombre}}</td>
-        <td>
-          @if($detalle->detalle == NULL)
-         <h5> <span class="badge badge-secondary"><i class="fas fa-tasks"></i> Categoria raiz</span><h5>
-          @else
-              <a href="{{ route('detalles.show',$detalle->detalle->id) }}" class="link-text"
-                            data-toggle="tooltip" data-placement="bottom" title='Información del detalle padre "{{ $detalle->detalle->nombre }}"'>
-                              <i class="fas fa-tasks"></i> {{$detalle->detalle->nombre}}
-                                    </a>    
-          @endif
-      </td>
-      <td>
-
-        <a href="{{ route('detalles.show',$detalle->id) }}" class="text-primary m-1" 
-                            data-toggle="tooltip" data-placement="bottom" title='Información del detalle "{{ $detalle->nombre }}"'>
-                              <i class="fas fa-2x fa-info-circle"></i>
-                                    </a>
-              </td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
-                              <!-- Table  -->
-                              </div>
-                          </div>
-  
-                      </div>
-                      <!--/.Card-->
-  
-                  </div>
-                  <!--Grid column-->
-  
-              </div>
-              <!--Grid row-->
+            
 
               <!--Grid row-->
               <div class="row mt-5">
@@ -211,202 +137,8 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
                     <!--Card-->
                     <div class="card hoverable"> 
                         <!--Card content-->
-                        <div class="card-body">
-                            <h4><i class="far fa-calendar-plus mr-2"></i> Agregar detalle</h4>
-            <hr/>
-            <form method="POST" action="{{ route('ordenes.store') }}" accept-charset="UTF-8">
-                    
-                    
-                     {{ csrf_field() }}
-                    
-                    
-                        <!-- Grid row -->
-                        <div class="form-row">
-                    
-                    
-                          
-                    
-                            <!-- Grid column -->
-                            <div class="col-md-6">
-                              <!-- Material input -->
-                              
-                              <div class="md-form">
-                              <i class="fas {{($orden->estado == 'Abierta' ) ? 'fa-tools' : (($orden->estado == 'Cerrada' ) ? 'fa-check-circle' : (($orden->estado == 'Cancelada' ) ? 'fa-times-circle' : (($orden->estado == 'Pendiente' ) ? 'fa-stopwatch' : 'fa-asterisk')))}} "></i>
-                              <small for="estado">Estado *</small>   
-                            <select class="form-control" required id="estado" name="estado">
-                            <option value="" disabled selected>Selecciona una opción</option>
-                            @foreach($estados as $key => $estado)
-                            <option {{ old('estado') ?  ((old('estado') == $estado) ? 'selected' : '') : ( ($orden->estado == $estado) ? 'selected' : '') }} value="{{ $estado}}">{{$estado}}</option>
-                            @endforeach
-                            </select>
-                            </div> @if ($errors->has('estado'))
-                                                              <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                                             {{ $errors->first('estado') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                                                  
-                                                  @endif
-                            </div>
-                            <!-- Grid column -->
-                          
-                                    </div>
-                                <!-- Grid row -->
-                    
-                    <!-- Grid row -->
-                    <div class="form-row">
-                    
-                            <!-- Grid column -->
-                            <div class="col-md-6">
-                                <!-- Material input -->
-                                <div class="md-form">
-                        <i class="fas fa-business-time prefix"></i>
-                        <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $orden->nombre}}" name="nombre" class="form-control validate" maxlength="50">
-                        <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
-                    </div>
-                    @if ($errors->has('nombre'))
-                                                                <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                                               {{ $errors->first('nombre') }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                                                    
-                                                    @endif
-                            </div>
-                        
-                            <!-- Grid column -->
-                         
-                      <!-- Grid column -->
-                      <div class="col-md-6">
-                        <!-- Material input -->
-                        <div class="md-form">
-                    <i class="prefix far fa-calendar-alt"></i>
-                    <input type="text" required id="fecha_inicio" value="{{ old('fecha_inicio') ? old('fecha_inicio') : $orden->fecha_inicio}}" name="fecha_inicio" class="form-control validate" maxlength="50">
-                    <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha inicio *</label>
-                    </div>
-                    @if ($errors->has('fecha_inicio'))
-                                                        <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                                       {{ $errors->first('fecha_inicio') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                                            
-                                            @endif
-                    </div>
-                    
-                    <!-- Grid column -->
-                    
-                            </div>
-                        <!-- Grid row -->
-                    
-                        {{--
-                        @if ($editar)
-                         <!-- Grid row -->
-                         <div class="form-row">
-                            <!-- Grid column -->
-                            <div class="col-md-6">
-                                <!-- Material input -->
-                                <div class="md-form">
-                        <i class="prefix far fa-calendar-alt"></i>
-                        <input type="text" required id="fecha_inicio" value="{{ old('fecha_inicio') ? old('fecha_inicio') : $orden->fecha_inicio}}" name="fecha_inicio" class="form-control validate" maxlength="50">
-                        <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha inicio</label>
-                    </div>
-                    @if ($errors->has('fecha_inicio'))
-                                                                <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                                               {{ $errors->first('fecha_inicio') }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                                                    
-                                                    @endif
-                            </div>
-                        
-                            <!-- Grid column -->
-                    
-                             <!-- Grid column -->
-                             <div class="col-md-6">
-                                <!-- Material input -->
-                                <div class="md-form">
-                        <i class="prefix far fa-calendar-check"></i>
-                        <input type="text" id="fecha_fin" value="{{ old('fecha_fin') ? old('fecha_fin') : $orden->fecha_fin}}" name="fecha_fin" class="form-control validate" maxlength="50">
-                        <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha fin *</label>
-                    </div>
-                    @if ($errors->has('fecha_fin'))
-                                                                <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                                               {{ $errors->first('fecha_fin') }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                                                    
-                                                    @endif
-                            </div>
-                        
-                            <!-- Grid column -->
-                            </div>
-                        <!-- Grid row -->
-                        @endif
-                        --}}
-                    <!-- Grid row -->
-                    <div class="form-row">
-                        <!-- Grid column -->
-                        <div class="col-md-6">
-                          <!-- Material input -->
-                          
-                          <div class="md-form">
-                          <i class="fas fa-user-tie"></i>
-                          <small for="cliente_id">Cliente *</small>   
-                      <select class="form-control" required id="cliente_id" name="cliente_id">
-                      <option value="" disabled selected>Selecciona una opción</option>
-                      @if($editar)
-                        <option selected value="{{ $orden->cliente->id }}">{{$orden->cliente->persona->primer_nombre}} {{$orden->cliente->persona->segundo_nombre}} {{$orden->cliente->persona->primer_apellido}} {{$orden->cliente->persona->segundo_apellido}}</option>
-                        @endif
-                      </select>
-                      </div> @if ($errors->has('cliente_id'))
-                                                          <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                                         {{ $errors->first('cliente_id') }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                      </button>
-                      </div>
-                                              
-                                              @endif
-                      </div>
-                      <!-- Grid column -->
-                      
-                        <div class="col-md-6">
-                          <!-- Material input -->
-                          
-                          <div class="md-form">
-                          <i class="fas fa-city"></i>
-                          <small for="ciudad_id">Ciudad *</small>   
-                          @include('include.dato_basico.ciudades.select', array('ciudad_selected'=>$orden->ciudad))
-                      </div> @if ($errors->has('ciudad_id'))
-                                                          <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
-                                                         {{ $errors->first('ciudad_id') }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                      </button>
-                      </div>
-                                              
-                                              @endif
-                      </div>
-                      <!-- Grid column -->
-                        </div>
-                      <!-- Grid row -->
-                      
-                     
-                
-                    
-                        <button type="submit" class="mt-4 waves-effect btn btn-success btn-md hoverable">
-                        <i class="fas fa-2x fa-plus"></i> Registrar
-                        </button>
-                    </form>
-                    @include('include.contacto.clientes.modal_search')
+                        <div id="container_form_detalles" class="card-body">
+
                         </div>
 
                     </div>
@@ -417,9 +149,35 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 
             </div>
             <!--Grid row-->
+
+               <!--Grid row-->
+               <div class="row mt-5">
+
+                <!--Grid column-->
+                <div class="col-12">
+
+                    <!--Card-->
+                    <div class="card hoverable"> 
+                        <!--Card content-->
+                          <div id="container_datatable_detalle" class="card-body">
+                              
+                              </div>
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
           
         </div>
-
+        <div id="container_edit_detalles">
+        </div>
+        <div id="container_search_servicio">
+            </div>
+            <div id="container_search_colaborador">
+            </div>
 @endsection
 @section('js_links')
 
@@ -435,7 +193,20 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 <script type="text/javascript" src="{{ asset('js/addons/vfs_fonts.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.print.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('js/addons/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/i18n/es.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/bootstrap-material-datetimepicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/imask/imask.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
+
 <script type="text/javascript">
+
+function reload_datatable(){
+    var url_send = "{{ route('ordenes.getDetalles',array($orden->id)) }}";
+    cargar_div(url_send,"GET",{},"datatable_detalle",true,false);
+}
+
 function eliminar_orden(id,nombre){
     swal({
   title: 'Eliminar la orden',
@@ -469,114 +240,101 @@ function eliminar_orden(id,nombre){
 }
 
 $(document).ready(function() {
-    var orden =  "{{$orden->nombre}}"; 
-    var currentdate = new Date(); 
-    moment.locale('es');
-var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
-    var titulo_archivo = 'Lista de detalles de "'+orden+'" ('+datetime+')';
-     $('#dtcategorias').DataTable( {
-        dom: 'Bfrtip',
-    lengthMenu: [
-        [ 2, 5, 10, 20, 30, 50, 100, -1 ],
-        [ '2 registros', '5 registros', '10 registros', '20 registros','30 registros', '50 registros', '100 registros', 'Mostrar todo' ]
-    ],oLanguage:{
-	sProcessing:     'Procesando...',
-	sLengthMenu:     'Mostrar _MENU_ registros',
-	sZeroRecords:    'No se encontraron resultados',
-	sEmptyTable:     'Ningún dato disponible en esta tabla',
-	sInfo:           'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
-	sInfoEmpty:      'Mostrando registros del 0 al 0 de un total de 0 registros',
-	sInfoFiltered:   '(filtrado de un total de _MAX_ registros)',
-	sInfoPostFix:    '',
-	sSearch:         'Buscar:',
-	sUrl:            '',
-	sInfoThousands:  ',',
-	sLoadingRecords: 'Cargando...',
-	oPaginate: {
-		sFirst:    'Primero',
-		sLast:     'Último',
-		sNext:     'Siguiente',
-		sPrevious: 'Anterior'
-	}
-    },
-        buttons: [
-
-            {
-                extend: 'collection',
-                text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
-                titleAttr: 'Opciones',
-                buttons: [
-                    {
-                extend:    'copyHtml5',
-                text:      '<i class="fas fa-copy"></i> Copiar',
-                titleAttr: 'Copiar',
-                title: titulo_archivo
-            },
-            {
-                extend:    'print',
-                text:      '<i class="fas fa-print"></i> Imprimir',
-                titleAttr: 'Imprimir',
-                title: titulo_archivo
-            },
-            {
-                extend: 'collection',
-                text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
-                titleAttr: 'Exportar',
-                buttons: [         
-            {
-                extend:    'csvHtml5',
-                text:      '<i class="fas fa-file-alt"></i> Csv',
-                titleAttr: 'Csv',
-                title: titulo_archivo
-            }, 
-            {
-                extend:    'excelHtml5',
-                text:      '<i class="fas fa-file-excel"></i> Excel',
-                titleAttr: 'Excel',
-                title: titulo_archivo
-            },
-            {
-                extend:    'pdfHtml5',
-                text:      '<i class="fas fa-file-pdf"></i> Pdf',
-                titleAttr: 'Pdf',
-                title: titulo_archivo
-            }
-        ]
-    },
-           
-            {
-                extend:    'colvis',
-                text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
-                titleAttr: 'Ver/Ocultar',
-            }
-           
-                ]
-            },
-            'pageLength'
-        ],
-        responsive: {
-            details: {
-                display: $.fn.dataTable.Responsive.display.modal( {
-                    header: function ( row ) {
-                        var data = row.data();
-                        return '<i class="fas fa-tasks"></i>  Datos del detalle "'+ data[1]+'"';
-                    }
-                } ),
-                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                    tableClass: 'table'
-                } )
-            }
-        }
-    } );
-
-
-            $('.dataTables_length').addClass('bs-select');
+    reload_datatable();
+    var url_send = "{{ route('ordenes.formDetalles',array($orden->id,0)) }}";
+    cargar_div(url_send,"GET",{},"form_detalles",true,false);
         });
 
+function addCommas(nStr) {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+
+ $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
 
 
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+function seleccionar_servicio(id,nombre,valor_unitario,prefix){
+    swal({
+  title: 'Seleccionar servicio',
+  text: '¿Desea seleccionar el servicio "'+nombre+'"?',
+  type: 'question',
+  confirmButtonText: '<i class="fas fa-check"></i> Seleccionar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
+  showCancelButton: true,
+  showCloseButton: true,
+  confirmButtonClass: 'btn btn-success',
+  cancelButtonClass: 'btn btn-danger',
+  buttonsStyling: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+}).then((result) => {
+  if (result.value) {
+    $("#"+prefix+"servicio_id").html('<option selected value="'+id+'">'+nombre+'</option>');
+    $("#"+prefix+"valor_unitario").val(valor_unitario);
+    $("#"+prefix+"valor_unitario").attr("placeholder", valor_unitario);
+    $("#"+prefix+"valor_unitario-mask").val(addCommas(valor_unitario));
+    $("#"+prefix+"valor_unitario-mask").attr("placeholder", addCommas(valor_unitario));
+    
+    $('#modal_search_servicio').modal('hide');
+  }else{
+    swal({
+  position: 'top-end',
+  type: 'error',
+  title: 'Operación cancelada por el usuario',
+  showConfirmButton: false,
+  toast: true,
+  animation: false,
+  customClass: 'animated lightSpeedIn',
+  timer: 3000
 })
-</script>
+  }
+})
+}
+
+  function seleccionar_colaborador(id,nombre,nombre_completo,prefix){
+    swal({
+  title: 'Seleccionar colaborador',
+  text: '¿Desea seleccionar el colaborador "'+nombre+'"?',
+  type: 'question',
+  confirmButtonText: '<i class="fas fa-check"></i> Seleccionar',
+  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
+  showCancelButton: true,
+  showCloseButton: true,
+  confirmButtonClass: 'btn btn-success',
+  cancelButtonClass: 'btn btn-danger',
+  buttonsStyling: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+}).then((result) => {
+  if (result.value) {
+    $( "#"+prefix+"colaborador_id").html('<option selected value="'+id+'">'+nombre_completo+'</option>');
+    $('#modal_search_colaborador').modal('hide');
+  }else{
+    swal({
+  position: 'top-end',
+  type: 'error',
+  title: 'Operación cancelada por el usuario',
+  showConfirmButton: false,
+  toast: true,
+  animation: false,
+  customClass: 'animated lightSpeedIn',
+  timer: 3000
+})
+  }
+})
+}
+
+
+
+
+    </script>
 @endsection

@@ -80,7 +80,7 @@ Especialidades eliminadas | {{ config('app.name', 'Laravel') }}
 
       <a onclick="restaurar_especialidad({{ $especialidad->id }},'{{ $especialidad->nombre }}')" class="text-success m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Restaurar la especialidad "{{ $especialidad->nombre }}"'>
-                      <i class="fas fa-2x fa-undo"></i>
+                      <i class="fas fa-2x fa-trash-restore"></i>
                             </a>
                 
                             <a onclick="eliminar_especialidad({{ $especialidad->id }},'{{ $especialidad->nombre }}')" class="text-danger m-1" 
@@ -171,7 +171,7 @@ function restaurar_especialidad(id,nombre){
   title: 'Restaurar la especialidad',
   text: '¿Desea restaurar la especialidad "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fas fa-undo"></i> Restaurar',
+  confirmButtonText: '<i class="fas fa-trash-restore"></i> Restaurar',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,

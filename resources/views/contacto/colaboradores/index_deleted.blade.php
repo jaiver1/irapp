@@ -122,7 +122,7 @@ Colaboradores eliminados | {{ config('app.name', 'Laravel') }}
 
       <a onclick="restaurar_colaborador({{ $colaborador->id }},'{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}')" class="text-success m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Restaurar el colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"'>
-                      <i class="fas fa-2x fa-undo"></i>
+                      <i class="fas fa-2x fa-trash-restore"></i>
                             </a>
                 
                             <a onclick="eliminar_colaborador({{ $colaborador->id }},'{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}')" class="text-danger m-1" 
@@ -213,7 +213,7 @@ function restaurar_colaborador(id,nombre){
   title: 'Restaurar el colaborador',
   text: '¿Desea restaurar el colaborador "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fas fa-undo"></i> Restaurar',
+  confirmButtonText: '<i class="fas fa-trash-restore"></i> Restaurar',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,

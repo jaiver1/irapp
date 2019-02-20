@@ -79,7 +79,7 @@ Tipos de medidas eliminadas | {{ config('app.name', 'Laravel') }}
 
       <a onclick="restaurar_tipo_medida({{ $tipo_medida->id }},'{{ $tipo_medida->nombre }}')" class="text-success m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Restaurar el tipos_medida "{{ $tipo_medida->nombre }}"'>
-                      <i class="fas fa-2x fa-undo"></i>
+                      <i class="fas fa-2x fa-trash-restore"></i>
                             </a>
                 
                             <a onclick="eliminar_tipo_medida({{ $tipo_medida->id }},'{{ $tipo_medida->nombre }}')" class="text-danger m-1" 
@@ -170,7 +170,7 @@ function restaurar_tipo_medida(id,nombre){
   title: 'Restaurar el tipo de medida',
   text: '¿Desea restaurar el tipo de medida "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fas fa-undo"></i> Restaurar',
+  confirmButtonText: '<i class="fas fa-trash-restore"></i> Restaurar',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,

@@ -100,7 +100,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
 
       <a onclick="restaurar_categoria({{ $categoria->id }},'{{ $categoria->nombre }}')" class="text-success m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Restaurar la categoria "{{ $categoria->nombre }}"'>
-                      <i class="fas fa-2x fa-undo"></i>
+                      <i class="fas fa-2x fa-trash-restore"></i>
                             </a>
                 
                             <a onclick="eliminar_categoria({{ $categoria->id }},'{{ $categoria->nombre }}')" class="text-danger m-1" 
@@ -191,7 +191,7 @@ function restaurar_categoria(id,nombre){
   title: 'Restaurar la categoria',
   text: '¿Desea restaurar la categoria "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fas fa-undo"></i> Restaurar',
+  confirmButtonText: '<i class="fas fa-trash-restore"></i> Restaurar',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,

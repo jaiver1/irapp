@@ -122,7 +122,7 @@ Clientes eliminados | {{ config('app.name', 'Laravel') }}
 
       <a onclick="restaurar_cliente({{ $cliente->id }},'{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}')" class="text-success m-1" 
                     data-toggle="tooltip" data-placement="bottom" title='Restaurar el cliente "{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}"'>
-                      <i class="fas fa-2x fa-undo"></i>
+                      <i class="fas fa-2x fa-trash-restore"></i>
                             </a>
                 
                             <a onclick="eliminar_cliente({{ $cliente->id }},'{{$cliente->persona->primer_nombre}} {{$cliente->persona->primer_apellido}}')" class="text-danger m-1" 
@@ -213,7 +213,7 @@ function restaurar_cliente(id,nombre){
   title: 'Restaurar el cliente',
   text: '¿Desea restaurar el cliente "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fas fa-undo"></i> Restaurar',
+  confirmButtonText: '<i class="fas fa-trash-restore"></i> Restaurar',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,

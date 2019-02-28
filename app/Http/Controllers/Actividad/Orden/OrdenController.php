@@ -43,7 +43,8 @@ class OrdenController extends Controller
     public function index($estado = null)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $ordenes = Orden::orderBy("estado")->get();
+        $estados = Orden::getEstados();
+        $ordenes = DB::table('ordenes');
         $eventos = Orden::select(DB::raw("id AS id,nombre AS title,
         REPLACE(fecha_inicio,' ','T') AS start,
         CASE estado
@@ -58,9 +59,17 @@ class OrdenController extends Controller
         WHEN 'Cancelada' THEN 'fa-times'
         ELSE 'fa-stopwatch'
         END AS icon
-        "))->get();
-        //return $eventos;
-        return View::make('actividad.ordenes.index')->with(compact('ordenes','eventos'));
+        "));
+
+        if($estado){           
+            $ordenes = $ordenes->where('estado','=',$estado);
+            $eventos->where('estado','=',$estado);
+        }
+
+        $ordenes = $ordenes->orderBy("estado")->get();
+        $eventos->get();
+        $route = 'ordenes.index';
+        return View::make('actividad.ordenes.index')->with(compact('ordenes','eventos','estado','estados','route'));
     }
 
     /**

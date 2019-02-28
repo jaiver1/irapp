@@ -27,11 +27,11 @@
                                         <h5> <i class="fas fa-map-marked-alt mr-2"></i>Mapa</h5></a>
                                   </li>
                                   @endif
-                                  <li class="nav-item hoverable waves-effect mr-2 mt-2">
-                                  <div class="btn-group">
+                             
+                                  <div class="btn-group ">
                                         <button type="button" data-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false"
-                                          class="btn dropdown-toggle  waves-effect hoverable  @switch($url_estado)
+                                          class="btn dropdown-toggle right btn-sm mr-2 mt-2 waves-effect hoverable  @switch($estado)
                                                 @case('Abierta')
                                                     blue darken-3
                                                 @break
@@ -41,12 +41,15 @@
                                                 @case('Cancelada')
                                                     red darken-3 
                                                 @break
-                                                @default
+                                                @case('Pendiente')
                                                     amber darken-3
+                                                @break
+                                                @default
+                                                    btn-secondary
                                                 @endswitch">
                                          
 <i class="mr-1 fas fa-lg
-@switch($detalle->estado)
+@switch($estado)
 @case('Abierta')
 fa-business-time
 @break
@@ -56,16 +59,22 @@ fa-flag-checkered
 @case('Cancelada')
 fa-times  
 @break
+@case('Pendiente')
+fa-stopwatch
+@break
 @default
-fa-stopwatch 
+{{ ($estado) ? 'fa-ban' : 'fa-tasks' }}
 @endswitch
-"></i>{{ $detalle->estado }}
+"></i>{{  (!$estado || $estado == 'Abierta' || $estado == 'Cerrada' || $estado == 'Cancelada' ||$estado == 'Pendiente') ?  (($estado) ? $estado : 'Mostrar todo') : 'El estado no es valido' }}
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                                @foreach($estados as $key => $estado)
-                                                <button class="dropdown-item waves-effect hoverable {{($url_estado == $estado) ? 'ocultr' : ''}}" type="button">
+                                                <a href="{{route($route)}}" class="dropdown-item waves-effect hoverable {{(!$estado) ? 'ocultar' : ''}}" type="button">
+                                                        <i class="mr-1 fas fa-lg  fa-tasks danger-text"></i>
+                                                        Mostrar todo</a>
+                                                @foreach($estados as $key => $item)
+                                                <a href="{{route($route,array($item))}}" class="dropdown-item waves-effect hoverable {{($estado == $item) ? 'ocultar' : ''}}" type="button">
                                                         <i class="mr-1 fas fa-lg
-                                                        @switch($estado)
+                                                        @switch($item)
                                                     @case('Abierta')
                                                         fa-business-time indigo-text
                                                     @break
@@ -79,10 +88,11 @@ fa-stopwatch
                                                         fa-stopwatch orange-text
                                                     @endswitch
                                                         "></i>
-                                                    {{$estado}}</button>
+                                                    {{$item}}</a>
                                                 @endforeach
+                                               
                                         </div>
-                                      </div></li>
+                                      </div>
 
                           </ul>
                     <div class="tab-content" id="pills-tab-views">

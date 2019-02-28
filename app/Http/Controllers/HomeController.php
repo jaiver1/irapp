@@ -30,14 +30,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($estado)
+    public function index($estado = null)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR','ROLE_CLIENTE'],TRUE);
+       
+       if(Auth::user()->authorizeRoles(['ROLE_COLABORADOR','ROLE_CLIENTE'],FALSE)){
         $estados = Orden::getEstados();
-        $url_estado = $estado;
-        if(Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE)){
-            $colaborador = Auth::user()->getColaborador();
-            $ordenes = Orden::orderBy("estado")->get();
+        $ordenes = DB::table('ordenes');
         $eventos = Orden::select(DB::raw("id AS id,nombre AS title,
         REPLACE(fecha_inicio,' ','T') AS start,
         CASE estado
@@ -52,30 +51,28 @@ class HomeController extends Controller
         WHEN 'Cancelada' THEN 'fa-times'
         ELSE 'fa-stopwatch'
         END AS icon
-        "))->get();
-
-        return View::make('home.index')->with(compact('ordenes','eventos','estados','url_estado'));
+        "));
+        
+        if($estado){
+            $ordenes = $ordenes->where('estado','=',$estado);
+            $eventos = $eventos->where('estado','=',$estado);
+        }
+        
+        if(Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE)){
+            $colaborador = Auth::user()->getColaborador();      
+            $ordenes = $ordenes->where('cliente_id','=',$colaborador->id);
+            $eventos = $eventos->where('cliente_id','=',$colaborador->id);
         }
         else if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE)){
-            $cliente = Auth::user()->getCliente();
-            $ordenes = Orden::where('cliente_id','=',$cliente->id)->orderBy("estado")->get();
-        $eventos = Orden::select(DB::raw("id AS id,nombre AS title,
-        REPLACE(fecha_inicio,' ','T') AS start,
-        CASE estado
-        WHEN 'Abierta' THEN '$this->blue'
-        WHEN 'Cerrada' THEN '$this->teal'
-        WHEN 'Cancelada' THEN '$this->red'
-        ELSE '$this->amber'
-        END AS color,
-        CASE estado
-        WHEN 'Abierta' THEN 'fa-business-time'
-        WHEN 'Cerrada' THEN 'fa-flag-checkered'
-        WHEN 'Cancelada' THEN 'fa-times'
-        ELSE 'fa-stopwatch'
-        END AS icon
-        "))->where('cliente_id','=',$cliente->id)->orderBy("estado")->get();
+            $cliente = Auth::user()->getCliente();          
+            $ordenes = $ordenes->where('cliente_id','=',$cliente->id);
+            $eventos = $eventos->where('cliente_id','=',$cliente->id);
+        }
 
-        return View::make('home.index')->with(compact('ordenes','eventos','estados','url_estado'));
+        $ordenes = $ordenes->orderBy("estado")->get();
+        $eventos = $eventos->get();
+        $route = 'home';
+        return View::make('home.index')->with(compact('ordenes','eventos','estados','estado','route'));
         }
         else if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE)){
             return View::make('home.index');

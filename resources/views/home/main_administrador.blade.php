@@ -1,3 +1,6 @@
+@section('template_title')
+Página principal | {{ config('app.name', 'Laravel') }}
+@endsection
 @section('content')
 
         <div class="container-fluid">

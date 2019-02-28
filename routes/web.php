@@ -20,7 +20,7 @@ Route::get('/store/productos', 'StoreController@lista_Productos')->name('store.p
 Route::get('/store/servicios', 'StoreController@lista_Servicios')->name('store.servicios');
 
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+Route::get('/home/{estado?}', 'HomeController@index')->name('home')->middleware('verified');
 
 
 Route::get('/profile','ProfileController@index')->name('profile')->middleware('verified');
@@ -163,17 +163,24 @@ Route::resource('servicios', 'Actividad\Servicio\ServicioController')->middlewar
 
 Route::get('/servicios/detalles/{id}', ['uses' => 'Actividad\Servicio\ServicioController@get_servicios_detalles', 'as' => 'servicios.getServiciosDetalles'])->middleware('verified');
 
+Route::get('/ordenes/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenController@index', 'as' => 'ordenes.index'])->middleware('verified');
+Route::get('/ordenes/create/{fecha?}', ['uses' => 'Actividad\Orden\OrdenController@create', 'as' => 'ordenes.create'])->middleware('verified');
 
 Route::resource('ordenes/deleted', 'Actividad\Orden\OrdenSoftDeleteController',
 [
     'names' => [
-        'index' => 'ordenes.deleted.index',
         'update' => 'ordenes.deleted.update',
         'destroy' => 'ordenes.deleted.destroy'
     ]
 ])->middleware('verified');
 
-Route::resource('ordenes', 'Actividad\Orden\OrdenController')->middleware('verified');
+Route::get('/ordenes/deleted/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenSoftDeleteController@index', 'as' => 'ordenes.deleted.index'])->middleware('verified');
+
+Route::resource('ordenes', 'Actividad\Orden\OrdenController',
+[
+    'except' => ['index','create']
+])->middleware('verified');
+
 Route::get('/ordenes/detalles/{id}', ['uses' => 'Actividad\Orden\OrdenController@get_detalles', 'as' => 'ordenes.getDetalles'])->middleware('verified');
 Route::get('/ordenes/detalles/form/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@form_detalles', 'as' => 'ordenes.formDetalles'])->middleware('verified');
 Route::get('/ordenes/detalles/servicios/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@get_servicios', 'as' => 'ordenes.getServicios'])->middleware('verified');

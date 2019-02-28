@@ -97,7 +97,7 @@ function salir(){
         <!-- sidebar-search  -->
         <div class="sidebar-menu">
             <ul>
-                    @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],FALSE))
+                    @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR','ROLE_CLIENTE'],FALSE))
             <li class="header-menu">
                     <span>Inicio</span>
                 </li>

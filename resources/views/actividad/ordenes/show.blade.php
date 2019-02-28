@@ -21,11 +21,13 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
                     <span><i class="fas fa-business-time mr-1"></i></span>
+                    @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
                         <a href="{{ route('ordenes.index') }}">Lista de ordenes</a>
                         <span>/</span>
-                        <span>Información del orden "{{ $orden->nombre }}"</span>
+                        @endif
+                        <span>Información de la orden "{{ $orden->nombre }}"</span>
                     </h4>
-
+                    @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('ordenes.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de ordenes">
@@ -46,7 +48,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
     {{ csrf_field() }}
 </form>
                     </div>
-
+@endif
                 </div>
 
             </div>
@@ -103,7 +105,13 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
         "></i>{{ $orden->estado }}</span></span>
 </a>
   <a class="list-group-item waves-effect hoverable">
-    <strong>Fecha:&nbsp;</strong>
+    
+    @if($orden->fecha_fin &&  $orden->estado == "Cerrada")
+    <strong>Fecha:</strong>
+    <br/>
+    @else
+    <strong>Fecha</strong>
+    @endif
     <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($orden->fecha_inicio)->format('d/m/Y -:- h:i A') }}</span></span>
 @if($orden->fecha_fin &&  $orden->estado == "Cerrada")
 <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -127,7 +135,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
             <!--Grid row-->
 
             
-
+            @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
               <!--Grid row-->
               <div class="row mt-5">
 
@@ -149,6 +157,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 
             </div>
             <!--Grid row-->
+            @endif
 
                <!--Grid row-->
                <div class="row mt-5">
@@ -172,12 +181,14 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
             <!--Grid row-->
           
         </div>
+        @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
         <div id="container_edit_detalles">
         </div>
         <div id="container_search_servicio">
             </div>
             <div id="container_search_colaborador">
             </div>
+            @endif
 @endsection
 @section('js_links')
 
@@ -200,6 +211,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 <script type="text/javascript" src="{{ asset('js/addons/imask/imask.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
 
+@if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
 <script type="text/javascript">
 
 function reload_datatable(){
@@ -332,9 +344,14 @@ function seleccionar_servicio(id,nombre,valor_unitario,prefix){
   }
 })
 }
-
-
-
-
     </script>
+@endif
+@if(Auth::user()->authorizeRoles(['ROLE_COLABORADOR','ROLE_CLIENTE'],FALSE))
+<script type="text/javascript">
+$(document).ready(function() {
+    var url_send = "{{ route('ordenes.getDetalles',array($orden->id)) }}";
+        cargar_div(url_send,"GET",{},"datatable_detalle",true,false);
+        });
+</script>
+@endif
 @endsection

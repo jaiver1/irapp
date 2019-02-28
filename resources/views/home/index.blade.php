@@ -1,12 +1,6 @@
 @extends('layouts.dashboard.main')
-@section('template_title')
-Página principal | {{ config('app.name', 'Laravel') }}
-@endsection
-@section('footer_title')
-Página principal | {{ config('app.name', 'Laravel') }}
-@endsection
-@if(Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE))
-@include('home.main_colaborador')
+@if(Auth::user()->authorizeRoles(['ROLE_COLABORADOR','ROLE_CLIENTE'],FALSE))
+@include('home.main_usuario')
 @endif
 
 @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))

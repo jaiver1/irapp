@@ -438,3 +438,22 @@ a .user-pic:focus
     -o-transition: all 0.55s ease-in-out !important;
     transition: all 0.55s ease-in-out !important; 
 }
+
+.event-active
+{
+  color: white  !important;
+  border-color: #3a4d56  !important;
+  background-color: #3a4d56  !important;
+  text-shadow: 2px 2px 4px #1d262b !important;
+}
+
+.event-active > .fc-list-item-marker > .fc-event-dot
+{  border:1px solid white  !important;
+  box-shadow: 3px 5px 9px #1d262b !important;
+}
+.banned{
+  cursor: not-allowed !important;
+}
+.ocultar{
+  display: none !important;
+}

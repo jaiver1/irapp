@@ -40,10 +40,10 @@ class OrdenController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index($estado = null)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $ordenes = Orden::all();
+        $ordenes = Orden::orderBy("estado")->get();
         $eventos = Orden::select(DB::raw("id AS id,nombre AS title,
         REPLACE(fecha_inicio,' ','T') AS start,
         CASE estado
@@ -68,7 +68,7 @@ class OrdenController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create($fecha = null)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $orden = new Orden;
@@ -77,6 +77,7 @@ class OrdenController extends Controller
         $orden->ciudad()->associate(new Ciudad);
         $orden->ubicacion()->associate(new Ubicacion);
         $orden->cliente()->associate($cliente);
+        $orden->fecha_inicio = $fecha;
         $estados = Orden::getEstados();
         $editar = false;
         $paises = Pais::orderBy('nombre', 'asc')->get();
@@ -156,7 +157,8 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR','ROLE_CLIENTE'],TRUE);
+
         $orden = Orden::findOrFail($id);
         $estados = Orden::getEstados();
         $paises = Pais::orderBy('nombre', 'asc')->get();
@@ -271,10 +273,12 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
      */
     public function get_detalles($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR','ROLE_CLIENTE'],TRUE);
+
 
             $orden = Orden::findOrFail($id);
-        return View::make('include.actividad.detalles_ordenes.datatable')->with(compact('orden'));
+            $estados = Orden::getEstados();
+        return View::make('include.actividad.detalles_ordenes.datatable')->with(compact('orden','estados'));
 
         }
 

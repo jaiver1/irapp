@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use App\Models\Contacto\Persona;
+use App\Models\Contacto\Colaborador;
+use App\Models\Contacto\Cliente;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -139,7 +141,7 @@ public function entrustPasswordHash()
     public function getCliente()
     
     {
-        $persona = getPersona();
+        $persona = $this->getPersona();
       $cliente = Cliente::where('persona_id','=',$persona->id)->first();
       return ($cliente) ? $cliente : new Cliente;
     }
@@ -147,7 +149,7 @@ public function entrustPasswordHash()
     public function getColaborador()
     
     {
-        $persona = getPersona();
+        $persona = $this->getPersona();
       $colaborador = Colaborador::where('persona_id','=',$persona->id)->first();
       return ($colaborador) ? $colaborador : new Colaborador;
     }

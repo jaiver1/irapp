@@ -41,10 +41,10 @@ class OrdenSoftDeleteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($estado = null)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $ordenes = Orden::onlyTrashed()->get();
+        $ordenes = Orden::onlyTrashed()->orderBy("estado")->get();
         return View('actividad.ordenes.index_deleted', compact('ordenes'));
     }
 

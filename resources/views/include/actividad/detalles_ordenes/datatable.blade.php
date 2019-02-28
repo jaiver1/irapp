@@ -19,10 +19,10 @@ No hay detalles de "{{$orden->nombre}}"
                   </th>
                   <th class="th-sm">Nombre
                   </th>
-
+                  @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
                   <th class="th-sm">Estado
                 </th>
-
+@endif
                 <th class="th-sm">Fecha
                 </th>
 
@@ -40,10 +40,10 @@ No hay detalles de "{{$orden->nombre}}"
 
                 <th class="th-sm">Total
                 </th>
-                 
+                @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],FALSE))
                   <th class="th-sm">Acciones
                   </th>
-               
+               @endif
                 </tr>
               </thead>
               <tbody>
@@ -51,6 +51,7 @@ No hay detalles de "{{$orden->nombre}}"
                 <tr class="hoverable">
                   <td>{{$detalle->id}}</td>
                   <td>{{$detalle->nombre}}</td>
+                  @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
                   <td> 
                     <span class="h5"><span class="hoverable badge
                       @switch($detalle->estado)
@@ -83,7 +84,11 @@ No hay detalles de "{{$orden->nombre}}"
                           @endswitch
                               "></i>{{ $detalle->estado }}</span></span>
                  </td> 
+                 @endif
                 <td> 
+                    @if($detalle->fecha_fin &&  $detalle->estado == "Cerrada")
+                        <br/>
+                        @endif
                    <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($detalle->fecha_inicio)->format('d/m/Y -:- h:i A') }}</span></span>
                   @if($detalle->fecha_fin &&  $detalle->estado == "Cerrada")
                      <br/> <span class="h5"><span class="badge teal darken-3 hoverable"><i class="far fa-calendar-check mr-1"></i>{{ Carbon\Carbon::parse($detalle->fecha_fin)->format('d/m/Y -:- h:i A') }}</span></span>
@@ -111,10 +116,11 @@ No hay detalles de "{{$orden->nombre}}"
                     </span>
                     </h5>
                   </td>
-
+                  @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],FALSE))
                 <td>
 
-                    
+                    @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
+
                         <a onclick="mostrar_modal('{{ route('ordenes.formDetalles',array($detalle->id,1)) }}','edit_detalles');" class="text-warning m-1" 
                                 data-toggle="tooltip" data-placement="bottom" title='Editar el detalle "{{ $detalle->nombre }}"'>
                                   <i class="fas fa-2x fa-pencil-alt"></i>
@@ -123,8 +129,76 @@ No hay detalles de "{{$orden->nombre}}"
                                                             data-toggle="tooltip" data-placement="bottom" title='Desvincular el detalle "{{ $detalle->nombre }}"'>
                                                               <i class="fas fa-2x fa-times-circle"></i>
                                                                     </a>
+                                                                    @endif
+
+                                                                    @if(Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE))
+
+                                                @if(Auth::user()->getColaborador()->id == $detalle->colaborador->id)
+                          
+                                                                 
+                                                                    <div class="btn-group">
+                                                                        <button type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false"
+                                                                          class="btn dropdown-toggle  waves-effect hoverable  @switch($detalle->estado)
+                                                                                @case('Abierta')
+                                                                                    blue darken-3
+                                                                                @break
+                                                                                @case('Cerrada')
+                                                                                    teal darken-3
+                                                                                @break
+                                                                                @case('Cancelada')
+                                                                                    red darken-3 
+                                                                                @break
+                                                                                @default
+                                                                                    amber darken-3
+                                                                                @endswitch">
+                                                                         
+                              <i class="mr-1 fas fa-lg
+                              @switch($detalle->estado)
+                          @case('Abierta')
+                              fa-business-time
+                          @break
+                          @case('Cerrada')
+                              fa-flag-checkered  
+                          @break
+                          @case('Cancelada')
+                              fa-times  
+                          @break
+                          @default
+                              fa-stopwatch 
+                          @endswitch
+                              "></i>{{ $detalle->estado }}
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                                @foreach($estados as $key => $estado)
+                                                                                <button class="dropdown-item waves-effect hoverable {{($detalle->estado == $estado) ? 'ocultr' : ''}}" type="button">
+                                                                                        <i class="mr-1 fas fa-lg
+                                                                                        @switch($estado)
+                                                                                    @case('Abierta')
+                                                                                        fa-business-time indigo-text
+                                                                                    @break
+                                                                                    @case('Cerrada')
+                                                                                        fa-flag-checkered teal-text 
+                                                                                    @break
+                                                                                    @case('Cancelada')
+                                                                                        fa-times  red-text
+                                                                                    @break
+                                                                                    @default
+                                                                                        fa-stopwatch orange-text
+                                                                                    @endswitch
+                                                                                        "></i>
+                                                                                    {{$estado}}</button>
+                                                                                @endforeach
+                                                                        </div>
+                                                                      </div>
+                                                                    @else
+                                                                      <span class="banned" data-toggle="tooltip" data-placement="bottom" title=' Responsable: "{{ $detalle->colaborador->persona->primer_nombre }} {{ $detalle->colaborador->persona->primer_apellido }}"'>
+                                                                        <i class="fas fa-2x fa-user-cog"></i>
+                                                                    </span>
+                                                                    @endif
+                                                                    @endif
                               </td>
-                
+                              @endif
                 </tr>
                 @endforeach
               </tbody>
@@ -138,6 +212,19 @@ No hay detalles de "{{$orden->nombre}}"
   $('[data-toggle="tooltip"]').tooltip()
 })
     $(document).ready(function() {
+        var es_cliente =  "{{Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE)}}"; 
+        var es_colaborador =  "{{Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE)}}"; 
+if(es_cliente){
+var array_responsive = [ 1,3,4,5,6,7,8 ];
+var id_priority = 8;
+}else if(es_colaborador){
+var array_responsive = [ 2,3,4,5,6,7 ];
+var id_priority = 8;
+}else{
+var array_responsive = [ 2,3,4,5,6,7 ];
+var id_priority = 7;
+}
+        
     var orden =  "{{$orden->nombre}}"; 
     var currentdate = new Date(); 
     moment.locale('es');
@@ -225,10 +312,10 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
         ],
         responsive: true,
         columnDefs: [ {
-    targets: [ 1,3,4,5,6,7,8 ],
+    targets: array_responsive,
     className: 'none'
   } ,
-  { responsivePriority: 8, targets: -1 }
+  { responsivePriority: id_priority, targets: -1 }
 ]
     } );
 

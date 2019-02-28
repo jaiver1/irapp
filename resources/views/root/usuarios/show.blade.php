@@ -1,9 +1,11 @@
 @extends('layouts.dashboard.main')
+@include('include.root.usuarios.img', array('usuario'=>$usuario))
 @section('template_title')
 Información del usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel') }}
 @endsection
-@section('footer_title')
-Información del usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel') }}
+
+@section('css_links')
+<link rel="stylesheet" href="{{ asset('css/dashboard/profile-img.css') }}" type="text/css">
 @endsection
 @section('content')
 
@@ -120,11 +122,17 @@ Información del usuario "{{ $usuario->name }}" | {{ config('app.name', 'Laravel
             </div>
             <!--Grid row-->
 
-          
+            @yield('img_form')
         </div>
  
 @endsection
 @section('js_links')
+
+<script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
+
+
+@yield('img_script')
+
 <script type="text/javascript">
 
 function eliminar_usuario(id,nombre){

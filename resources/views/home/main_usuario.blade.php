@@ -1,15 +1,16 @@
-@extends('layouts.dashboard.main')
+@include('include.actividad.ordenes.div_ordenes', array('ordenes'=>$ordenes))
 @section('template_title')
-Ordenes eliminadas | {{ config('app.name', 'Laravel') }}
+Página principal | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('css_links')
 <link rel="stylesheet" href="{{ asset('css/addons/datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-responsive-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-buttons-datatables.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/addons/fullcalendar.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/addons/fullcalendar.print.css') }}" type="text/css" media="print">
 @endsection
 @section('content')
-
         <div class="container-fluid">
 
             <!-- Heading -->
@@ -19,27 +20,15 @@ Ordenes eliminadas | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span class="fa-stack">
-  <i class="fas fa-business-time fa-stack-1x fa-lg"></i>
-   <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i>
-</span>
-                    <a href="{{ route('ordenes.index',array(0)) }}">Lista de ordenes</a>
-                        <span>/</span>
-                        <span> @if ($ordenes->count() === 1)
-                Una orden eliminada
+                    <span><i class="fas fa-business-time fa-lg mr-1"></i></span> <span> @if ($ordenes->count() === 1)
+                Una orden de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
             @elseif ($ordenes->count() > 1)
-                {{ $ordenes->count() }} ordenes eliminadas
+                {{ $ordenes->count() }} ordenes de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
             @else
-               No hay ordenes eliminadas
+               No hay ordenes de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
             @endif
             </span>
                     </h4>
-                    <div class="d-flex justify-content-center">
-                    <a href="{{ route('ordenes.index',array(0)) }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title="Lista de ordenes">
-                      <i class="fas fa-2x fa-business-time "></i>
-                            </a>
-                    </div>
 
                 </div>
 
@@ -47,79 +36,17 @@ Ordenes eliminadas | {{ config('app.name', 'Laravel') }}
             <!-- Heading -->
 
          
-            <!--Grid row-->
-            <div class="row">
-
-                <!--Grid column-->
-                <div class="col-12">
-
-                    <!--Card-->
-                    <div class="card hoverable"> 
-                        <!--Card content-->
-                        <div class="card-body">
-                            
-                        <div class="table-responsive">
-                            <!-- Table  -->
-                            <table id="dtordenes" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
-  <thead class="bg-danger white-text">
-    <tr class="z-depth-2">
-      <th class="th-sm">#
-      </th>
-      <th class="th-sm">Nombre
-      </th>
-      <th class="th-sm">Acciones
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-  @foreach($ordenes as $key => $orden)
-    <tr class="hoverable">
-      <td>{{$orden->id}}</td>
-      <td>{{$orden->nombre}}</td>
-      <td>
-
-      <a onclick="restaurar_orden({{ $orden->id }},'{{ $orden->nombre }}')" class="text-success m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Restaurar la orden "{{ $orden->nombre }}"'>
-                      <i class="fas fa-2x fa-trash-restore"></i>
-                            </a>
-                
-                            <a onclick="eliminar_orden({{ $orden->id }},'{{ $orden->nombre }}')" class="text-danger m-1" 
-                    data-toggle="tooltip" data-placement="bottom" title='Eliminar definitivamente la orden "{{ $orden->nombre }}"'>
-                      <i class="fas fa-2x fa-trash"></i>
-                            </a>
-                            <form id="restaurar{{ $orden->id }}" method="POST" action="{{ route('ordenes.deleted.update', $orden->id) }}" accept-charset="UTF-8">
-    <input name="_method" type="hidden" value="PUT">
-    {{ csrf_field() }}
-</form>
-                            <form id="eliminar{{ $orden->id }}" method="POST" action="{{ route('ordenes.deleted.destroy', $orden->id) }}" accept-charset="UTF-8">
-    <input name="_method" type="hidden" value="DELETE">
-    {{ csrf_field() }}
-</form>
-      </td>
-    </tr>
-    @endforeach
-  </tbody>
-</table>
-                            <!-- Table  -->
-                            </div>
-                        </div>
-
-                    </div>
-                    <!--/.Card-->
-
-                </div>
-                <!--Grid column-->
-
-            </div>
-            <!--Grid row-->
+            @yield('div_ordenes')
 
           
         </div>
 
+
 @endsection
 @section('js_links')
 <!-- DataTables core JavaScript -->
-
+<script type="text/javascript" src="{{ asset('js/addons/calendar/fullcalendar.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/calendar/es.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/bt4-datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/responsive-datatables.min.js') }}"></script>
@@ -132,79 +59,28 @@ Ordenes eliminadas | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/vfs_fonts.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.print.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
+
+@if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],FALSE))
+@yield('gmaps_links')
+@endif
+
 <script type="text/javascript">
 
-function eliminar_orden(id,nombre){
-    swal({
-  title: 'Eliminar orden',
-  text: '¿Desea eliminar definitivamente la orden "'+nombre+'"?',
-  type: 'warning',
-  confirmButtonText: '<i class="fas fa-trash"></i> Eliminar',
-  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
-  showCancelButton: true,
-  showCloseButton: true,
-  confirmButtonClass: 'btn btn-success',
-  cancelButtonClass: 'btn btn-danger',
-  buttonsStyling: false,
-  animation: false,
-  customClass: 'animated zoomIn',
-}).then((result) => {
-  if (result.value) {
-    $( "#eliminar"+id ).submit();
-  }else{
-    swal({
-  position: 'top-end',
-  type: 'error',
-  title: 'Operación cancelada por el usuario',
-  showConfirmButton: false,
-  toast: true,
-  animation: false,
-  customClass: 'animated lightSpeedIn',
-  timer: 3000
-})
-  }
-})
+function cambio(view){
+  $('#calendar').fullCalendar('changeView', view);
 }
 
-function restaurar_orden(id,nombre){
-    swal({
-  title: 'Restaurar orden',
-  text: '¿Desea restaurar la orden "'+nombre+'"?',
-  type: 'question',
-  confirmButtonText: '<i class="fas fa-trash-restore"></i> Restaurar',
-  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
-  showCancelButton: true,
-  showCloseButton: true,
-  confirmButtonClass: 'btn btn-success',
-  cancelButtonClass: 'btn btn-danger',
-  buttonsStyling: false,
-  animation: false,
-  customClass: 'animated zoomIn',
-}).then((result) => {
-  if (result.value) {
-    $( "#restaurar"+id ).submit();
-  }else{
-    swal({
-  position: 'top-end',
-  type: 'error',
-  title: 'Operación cancelada por el usuario',
-  showConfirmButton: false,
-  toast: true,
-  animation: false,
-  customClass: 'animated lightSpeedIn',
-  timer: 3000
-})
-  }
-})
-}
 
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+
 $(document).ready(function() {
+    var currentdate = new Date(); 
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
-    var titulo_archivo = "Lista de ordenes eliminados ("+datetime+")";
+    var titulo_archivo = "Lista de ordenes ("+datetime+")";
      $('#dtordenes').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
@@ -294,7 +170,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<span class="fa-stack"><i class="fas fa-business-time fa-stack-1x fa-lg"></i> <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de la orden eliminada "'+ data[1]+'"';
+                        return '<i class="fas fa-business-time fa-lg"></i> Datos de la orden "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -303,9 +179,66 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
             }
         }
     } );
-
-
             $('.dataTables_length').addClass('bs-select');
+
         });
+
+$(document).ready(function() {
+var ahora = moment().local();
+var ahora_fecha = ahora.format('YYYY-MM-DD');
+var ahora_hora = ahora.format('HH:mm:ss');
+console.log(ahora);
+var calendar = $('#calendar').fullCalendar({
+       header: {
+        left: 'prev,next,today,prevYear,nextYear',
+        center: 'title',
+        right: ''
+      },
+      buttonText: {
+        listMonth: 'Mes',
+        listYear: 'Año',
+        listWeek: 'Semana',
+        listDay: 'Dia'
+    },
+      defaultDate: ahora_fecha,
+      navLinks: true, // can click day/week names to navigate views
+      editable: false,
+      eventLimit: true, // allow "more" link when too many events
+      locale: 'es',
+      themeSystem: 'bootstrap4',
+      nowIndicator: true,
+      now: ahora_fecha+'T'+ahora_hora,
+      events: @json($eventos) ,
+      timeFormat: 'HH:mm',
+      businessHours: [
+  {
+    dow: [ 1, 2, 3, 4, 5 ], // semana
+    start: '08:00', // 8am
+    end: '18:00' // 6pm
+  },
+  {
+    dow: [ 6 ], // sabado
+    start: '08:00', // 8am
+    end: '14:00' // 2pm
+  }
+], eventRender: function(eventObj, element) {
+    if(eventObj.icon){          
+        element.find(".fc-title").prepend("<i class='fas "+eventObj.icon+"'></i> &nbsp;");
+     }
+      },
+      eventClick: function(calEvent, jsEvent, view) {
+
+//alert('Event: ' + calEvent.title);
+//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+//alert('View: ' + view.name);
+
+// change the border color just for fun
+
+$(this).addClass("event-active");
+},
+      windowResize: function(view) {
+  }
+});
+    });
 </script>
 @endsection

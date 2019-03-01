@@ -31,7 +31,7 @@
                                   <div class="btn-group ">
                                         <button type="button" data-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false"
-                                          class="btn dropdown-toggle right btn-sm mr-2 mt-2 waves-effect hoverable  @switch($estado)
+                                          class="btn dropdown-toggle right mr-2 mt-2 waves-effect hoverable  @switch($estado)
                                                 @case('Abierta')
                                                     blue darken-3
                                                 @break

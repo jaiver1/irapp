@@ -166,6 +166,8 @@ Route::get('/servicios/detalles/{id}', ['uses' => 'Actividad\Servicio\ServicioCo
 Route::get('/ordenes/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenController@index', 'as' => 'ordenes.index'])->middleware('verified');
 Route::get('/ordenes/create/{fecha?}', ['uses' => 'Actividad\Orden\OrdenController@create', 'as' => 'ordenes.create'])->middleware('verified');
 
+Route::get('/ordenes/deleted/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenSoftDeleteController@index', 'as' => 'ordenes.deleted.index'])->middleware('verified');
+
 Route::resource('ordenes/deleted', 'Actividad\Orden\OrdenSoftDeleteController',
 [
     'names' => [
@@ -174,7 +176,6 @@ Route::resource('ordenes/deleted', 'Actividad\Orden\OrdenSoftDeleteController',
     ]
 ])->middleware('verified');
 
-Route::get('/ordenes/deleted/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenSoftDeleteController@index', 'as' => 'ordenes.deleted.index'])->middleware('verified');
 
 Route::resource('ordenes', 'Actividad\Orden\OrdenController',
 [

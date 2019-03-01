@@ -413,6 +413,7 @@ $('#'+prefix+"detailForm").on('submit',(function(e) {
         customClass: 'animated zoomIn',
       });
       if(prefix==""){
+        $('#'+prefix+"nombre").html('');
         $('#'+prefix+"colaborador_id").html('<option value="" disabled selected>Selecciona una opción</option>');   
         $('#'+prefix+"servicio_id").html('<option value="" disabled selected>Selecciona una opción</option>');
       }else{  

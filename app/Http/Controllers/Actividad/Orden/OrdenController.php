@@ -63,11 +63,11 @@ class OrdenController extends Controller
 
         if($estado){           
             $ordenes = $ordenes->where('estado','=',$estado);
-            $eventos->where('estado','=',$estado);
+            $eventos = $eventos->where('estado','=',$estado);
         }
 
         $ordenes = $ordenes->orderBy("estado")->get();
-        $eventos->get();
+        $eventos = $eventos->get();
         $route = 'ordenes.index';
         return View::make('actividad.ordenes.index')->with(compact('ordenes','eventos','estado','estados','route'));
     }
@@ -154,7 +154,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
            $orden->save();        
 
             SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido registrada.');
-            return Redirect::to('ordenes');
+            return Redirect::to('ordenes/index');
         }
     }
 
@@ -255,7 +255,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
         $orden->ubicacion()->associate($ubicacion);
         $orden->save();
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido editada.');
-        return Redirect::to('ordenes');
+        return Redirect::to('ordenes/index');
     }
     }
 
@@ -271,7 +271,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
         $orden = Orden::findOrFail($id);   
         $orden->delete();
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada.');
-        return Redirect::to('ordenes');
+        return Redirect::to('ordenes/index');
 }
 
 /**

@@ -11,20 +11,32 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 <!-- Main Container -->
 <div class="container mt-5 pt-3">
     <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark unique-color-dark mt-4 mb-4 z-depth-5 hoverable  wow fadeInDown" data-wow-delay="0.3s">
+    <nav class="navbar navbar-expand-lg navbar-dark unique-color-dark mt-4 mb-4 z-depth-5 hoverable" >
 
         <!-- Navbar brand -->
-        <a class="font-weight-bold white-text mr-4" href="javascript:void(0)">Lista de Productos</a>
-
+        <a class="font-weight-bold white-text mr-4 d-none d-md-block" href="javascript:void(0)">Lista de Productos</a>
+        <ul class="navbar-nav mr-auto d-none d-md-block">
+        </ul>
+        <form class="search-form" role="search">
+                <div class="form-group md-form my-0">
+                        <i class="fas fa-search prefix white-text"></i>
+                    <input type="text" class="ml-5 form-control white-text" placeholder="Buscar">
+                </div>
+            </form>
+ {{--
         <!-- Collapse button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
             aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+
 
         <!-- Collapsible content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent1">
 
             <!-- Links -->
+           
             <ul class="navbar-nav mr-auto">
+                
                 <li class="nav-item dropdown mega-dropdown active">
                     <a class="nav-link dropdown-toggle no-caret" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clasificación</a>
                     <div class="dropdown-menu mega-menu v-2 row z-depth-1 white" aria-labelledby="navbarDropdownMenuLink1">
@@ -65,18 +77,14 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                     </div>
                 </li>
             </ul>
+            
             <!-- Links -->
 
             <!-- Search form -->
-            <form class="search-form" role="search">
-                <div class="form-group md-form my-0">
-                        <i class="fas fa-search prefix white-text"></i>
-                    <input type="text" class="ml-5 form-control white-text" placeholder="Buscar">
-                </div>
-            </form>
+            
         </div>
         <!-- Collapsible content -->
-
+--}}
     </nav>
     <!--/.Navbar-->
     <div class="card mb-4 z-depth-5 hoverable">
@@ -85,12 +93,12 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     <div class="row pl-4 pt-4">
 
         <!-- Sidebar -->
-        <div class="col-lg-3">
+        <div class="col-md-4 col-lg-3">
 
             <div class="">
                 <!-- Grid row -->
                 <div class="row">
-                    <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
+                    <div class="col-6 col-md-12 mb-5" >
                         <!-- Panel -->
                         <h5 class="font-weight-bold brown-text"><i class="fas fa-sort mr-2"></i><em>Ordenar</em></h5>
                             <p class="red-text"><a><i class="fas fa-sort-alpha-down mr-2"></i><em>Nombre: A-Z</em></a></p>
@@ -100,7 +108,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                     </div>
 
   <!-- Filter by price  -->
-  <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
+  <div class="col-6 col-md-12 mb-5">
         <h5 class="font-weight-bold brown-text"><i class="fas fa-money-bill-alt mr-2"></i><em>Precio</em></h5>
 
             <small class="font-weight-bold blue-grey-text"><strong>Menor precio</strong></small>
@@ -113,13 +121,13 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
             <div class="row justify-content-center mb-3">
 
                 <!-- Grid column -->
-                <div class="col-md-6 text-left">
+                <div class="col-6 text-left">
                     <p class="dark-grey-text"><strong id="resellerEarnings">0$</strong></p>
                 </div>
                 <!-- Grid column -->
 
                 <!-- Grid column -->
-                <div class="col-md-6 text-right">
+                <div class="col-6 text-right">
                     <p class="dark-grey-text"><strong id="clientPrice">319$</strong></p>
                 </div>
                 <!-- Grid column -->
@@ -136,13 +144,13 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
             <div class="row justify-content-center">
 
                 <!-- Grid column -->
-                <div class="col-md-6 text-left">
+                <div class="col-6 text-left">
                     <p class="dark-grey-text"><strong id="resellerEarnings">0$</strong></p>
                 </div>
                 <!-- Grid column -->
 
                 <!-- Grid column -->
-                <div class="col-md-6 text-right">
+                <div class="col-6 text-right">
                     <p class="dark-grey-text"><strong id="clientPrice">319$</strong></p>
                 </div>
                 <!-- Grid column -->
@@ -153,14 +161,14 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
     <!-- /Filter by price -->
 
 <!-- Filter by brand-->
-<div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
+<div class="col-6 col-md-12 mb-5" >
         <h5 class="font-weight-bold brown-text"><i class="fas fa-trademark mr-2"></i><em>Marca</em></h5>
         @include('include.comercio.marcas.select', array('marca_selected'=>$marca_actual))
       
     </div>
     <!-- /Filter by brand-->
                     <!-- Filter by category-->
-                    <div class="col-sm-6 col-lg-12 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
+                    <div class="col-6 col-md-12 mb-5" >
                         <h5 class="font-weight-bold brown-text"><i class="fas fa-sitemap mr-2"></i><em>Categoria</em></h5>
                         @include('include.clasificacion.categorias.select', array('categoria_selected'=>$categoria_actual))
 
@@ -175,19 +183,19 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
         <!-- /.Sidebar -->
 
         <!-- Content -->
-        <div class="col-lg-9 wow fadeInUp" data-wow-delay="0.3s">
+        <div class="col-md-8 col-lg-9" >
 
           
 
             <!-- Products Grid -->
-            <section class="section pt-4 wow fadeIn" data-wow-delay="0.3s">
+            <section class="section pt-4" >
 
                 <!-- Grid row -->
                 <div class="row">
 
                     @foreach($productos as $key => $producto)
                     <!--Grid column-->
-                    <div class="wow fadeIn col-md-4 col-sm-6 col-lg-4 mb-4">
+                    <div class="col-6 col-lg-4 mb-4">
 
                         <!--Card-->
                         <div class="card card-ecommerce card-producto-img-store hoverable h-100 z-depth-1 list-card">
@@ -209,8 +217,8 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                             <div class="card-body">
                                 <!--Category & Title-->
 
-                                <h5 class="card-title mb-1"><strong><a href="" class="dark-grey-text">{{ $producto->nombre }}</a></strong></h5>
-                                <span class="badge badge-danger mb-2">Nuevo</span>
+                                <h5 class="card-title mb-1 h5-responsive"><strong><a href="" class="dark-grey-text">{{ $producto->nombre }}</a></strong>
+                                <span class="badge badge-danger ml-1">Nuevo</span></h5>
                                 <!-- Rating -->
                                 <ul class="rating">
                                     <li><i class="fas fa-star blue-text"></i></li>
@@ -224,7 +232,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                                 <div class="card-footer pb-0">
                                     <div class="row mb-0">
                                         <span class="float-left">
-                                            <h5><span class="badge badge-success hoverable">
+                                            <h5 class="h5-responsive"><span class="badge badge-success hoverable">
                                             @money($producto->valor_unitario)
                                             </span></h5>
                                         </span>

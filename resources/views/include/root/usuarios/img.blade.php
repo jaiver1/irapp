@@ -17,7 +17,7 @@
                                 </div>
                                 <hr/>
                                 <div class="row center">
-                                        <div class="col-xs-12">
+                                        <div class="col-12">
     <div id="body-overlay"><div><img src="{{ asset('img/dashboard/profile/loading.gif') }}" width="64px" height="64px"/></div></div>
 <div class="bg-color-img">
 <form id="uploadForm" action="{{ route('profile.uploadImagen',$usuario->id) }}" method="POST" accept-charset="UTF-8">

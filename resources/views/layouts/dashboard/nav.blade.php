@@ -8,7 +8,7 @@
 background-color: #eceff1;
 }
 .sidebar-bg.bg1 .sidebar-wrapper{
-    background-image: url("{{ asset('img/bg1.jpg')}}");
+    background-image: url("{{ asset('img/dashboard/sidebar/bg1.jpg')}}");
 }
 </style>
 @endsection

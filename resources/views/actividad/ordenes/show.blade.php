@@ -14,7 +14,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
         <div class="container-fluid">
 
             <!-- Heading -->
-            <div class="card mb-4 wow fadeIn hoverable">
+            <div class="card mb-4 hoverable">
 
                 <!--Card content-->
                 <div class="card-body d-sm-flex justify-content-between">
@@ -56,13 +56,13 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 
          
             <!--Grid row-->
-            <div class="row wow fadeIn">
+            <div class="row">
 
                 <!--Grid column-->
                 <div class="col-12">
 
                     <!--Card-->
-                    <div class="card wow fadeIn hoverable">
+                    <div class="card hoverable">
 
                         <!--Card content-->
                         <div class="card-body">

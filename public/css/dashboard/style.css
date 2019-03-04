@@ -447,6 +447,12 @@ a .user-pic:focus
   text-shadow: 2px 2px 4px #1d262b !important;
 }
 
+.day-active
+{
+  border-color: #ffe3e8  !important;
+  background-color: #ffe3e8  !important;
+}
+
 .event-active > .fc-list-item-marker > .fc-event-dot
 {  border:1px solid white  !important;
   box-shadow: 3px 5px 9px #1d262b !important;

@@ -106,11 +106,17 @@ mapTypeControlOptions: {
 mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 var markers = [];
-var image ="{{ asset('img/gmaps/pin.png')  }}";
+var orden ="{{ $orden->id }}";
 var image2 ="{{ asset('img/gmaps/goal.png')  }}";
+if(orden){
+  var image = image2;
+}else{
+  var image ="{{ asset('img/gmaps/pin.png')  }}";
+}
+
 
  var infowindow_gmaps = new google.maps.InfoWindow({
-    content: "<h6>"+infowindow+"</h6>"
+    content: "<h6 style='font-weight:900;'>"+infowindow+"</h6>"
   });
 
 

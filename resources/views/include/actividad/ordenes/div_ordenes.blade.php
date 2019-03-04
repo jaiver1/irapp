@@ -1,4 +1,4 @@
-@include('include.addons.gmaps.list', array('ordenes'=>json_encode($ordenes),
+@include('include.addons.gmaps.list', array('JSON_ordenes'=>$JSON_ordenes,
 'infowindow'=> ((Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name) ))
  
  @section('div_ordenes')
@@ -13,16 +13,16 @@
             <!--Card content-->
             <div class="card-body">
                     <ul class="nav nav-pills mb-3" id="views-tab" role="tablist">
-                            <li class="nav-item hoverable waves-effect mr-2 mt-2">
+                            <li class="nav-item hoverable waves-effect mr-2 mt-2"  onclick="localDB('table');">
                               <a class="nav-link active z-depth-5" id="pills-list-tab" data-toggle="pill" href="#pills-list" role="tab" aria-controls="pills-list" aria-selected="true">
                                 <h5> <i class="fas fa-clipboard-list mr-2"></i>Lista</h5></a>
                             </li>
-                            <li class="nav-item hoverable waves-effect mr-2 mt-2">
+                            <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB('calendar');">
                               <a class="nav-link z-depth-5" id="pills-calendar-tab" data-toggle="pill" href="#pills-calendar" role="tab" aria-controls="pills-calendar" aria-selected="false">
                                   <h5> <i class="fas fa-calendar-alt mr-2"></i>Calendario</h5></a>
                             </li>
                             @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],FALSE))
-                            <li class="nav-item hoverable waves-effect mr-2 mt-2">
+                            <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB('map');">
                                     <a class="nav-link z-depth-5" id="pills-map-tab" data-toggle="pill" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="false">
                                         <h5> <i class="fas fa-map-marked-alt mr-2"></i>Mapa</h5></a>
                                   </li>
@@ -68,11 +68,11 @@ fa-stopwatch
 "></i>{{  (!$estado || $estado == 'Abierta' || $estado == 'Cerrada' || $estado == 'Cancelada' ||$estado == 'Pendiente') ?  (($estado) ? $estado : 'Mostrar todo') : 'El estado no es valido' }}
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="{{route($route)}}" class="dropdown-item waves-effect hoverable {{(!$estado) ? 'ocultar' : ''}}" type="button">
+                                                <button onclick="document.location.href='{{route($route)}}'" class="dropdown-item waves-effect hoverable {{(!$estado) ? 'ocultar' : ''}}" type="button">
                                                         <i class="mr-1 fas fa-lg  fa-tasks danger-text"></i>
-                                                        Mostrar todo</a>
+                                                        Mostrar todo</button>
                                                 @foreach($estados as $key => $item)
-                                                <a href="{{route($route,array($item))}}" class="dropdown-item waves-effect hoverable {{($estado == $item) ? 'ocultar' : ''}}" type="button">
+                                                <button onclick="document.location.href='{{route($route,array($item))}}'" class="dropdown-item waves-effect hoverable {{($estado == $item) ? 'ocultar' : ''}}" type="button">
                                                         <i class="mr-1 fas fa-lg
                                                         @switch($item)
                                                     @case('Abierta')
@@ -88,7 +88,7 @@ fa-stopwatch
                                                         fa-stopwatch orange-text
                                                     @endswitch
                                                         "></i>
-                                                    {{$item}}</a>
+                                                    {{$item}}</button>
                                                 @endforeach
                                                
                                         </div>
@@ -177,7 +177,7 @@ fa-stopwatch
                       <td>{{$orden->direccion}}</td>       
                       <td>
                 
-                <a href="{{ route('ordenes.show', $orden->id) }}" class="text-primary m-1" 
+                <a target="_blank" href="{{ route('ordenes.show', $orden->id) }}" class="text-primary m-1" 
                                     data-toggle="tooltip" data-placement="bottom" title='Información de la orden "{{ $orden->nombre }}"'>
                                       <i class="fas fa-2x fa-info-circle"></i>
                                             </a>

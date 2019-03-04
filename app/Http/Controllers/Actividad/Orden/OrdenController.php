@@ -421,7 +421,8 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
                             'edit_cantidad'                   => 'numeric|required|digits_between:1,12',
                         'edit_servicio_id'                   => 'required',
                         'edit_colaborador_id'                   => 'required',
-                        'edit_fecha_inicio'                   => 'required|date'         
+                        'edit_fecha_inicio'                   => 'required|date',
+                        'edit_fecha_fin'          e         => 'required|date'          
                           );
             
                     $validator = Validator::make($request->all(), $rules);
@@ -439,7 +440,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
                         $detalle->fecha_inicio = $request->edit_fecha_inicio;
                         $detalle->estado = $request->edit_estado;
                         if($detalle->estado == "Cerrada"){
-                            $detalle->fecha_fin = Carbon::now()->format('Y-m-d H:i');
+                            $detalle->fecha_fin = $request->edit_fecha_fin;
                         }else{
                             $detalle->fecha_fin = NULL;
                         }

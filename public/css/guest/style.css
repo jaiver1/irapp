@@ -81,3 +81,13 @@ body,
   width: 90%;
   padding: 3%;
 }
+
+.center-div-link{
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 90%;
+  padding: 3%;
+}
+
+.text-intro{
+  font-weight: 300 !important;
+}

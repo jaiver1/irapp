@@ -20,20 +20,20 @@ body {
                                 <div class="text-center">
                                     <h1 class="h1-reponsive white-text text-uppercase font-weight-bold mb-3 wow fadeIn" data-wow-delay="0.3s"><strong><i class="fas fa-tools mr-2"></i>IRAPP</strong></h1>
                                     <hr class="hr-light mt-4 wow fadeIn" data-wow-delay="0.4s">
-                                    <h5 class="text-uppercase mb-5 white-text wow fadeIn" data-wow-delay="0.4s"><strong>Instalaciones, Remodelaciones y Acabados</strong></h5>
+                                    <h5 class="text-uppercase mb-3 white-text wow fadeIn" data-wow-delay="0.4s"><strong>Instalaciones, Remodelaciones y Acabados</strong></h5>
                                     @if (Auth::guest())                     
 
             <a href="{{ route('login') }}" class="btn btn-outline-white hoverable waves-light wow fadeIn" data-wow-delay="0.4s" role="button" >
-            <i class="fas fa-door-closed mr-2"></i>Iniciar sesión
+            <i class="fas fa-door-closed mr-2 fa-lg"></i>Iniciar sesión
             </a>
 
             <a href="{{ route('register') }}" class="btn btn-outline-white hoverable waves-light wow fadeIn" data-wow-delay="0.4s" role="button" >
-            <i class="fas fa-user-plus mr-2"></i>Registrarse
+            <i class="fas fa-user-plus mr-2 fa-lg"></i>Registrarse
             </a>
             @else
 
              <a href="{{ route('home') }}" class="btn btn-outline-white hoverable waves-light wow fadeInDown" data-wow-delay="0.4s" role="button">
-            <i class="fas fa-home mr-2"></i>Página principal
+            <i class="fas fa-home mr-2 fa-lg"></i>Página principal
             </a>
 
             <a class="btn btn-outline-white hoverable waves-light wow fadeInDown" data-wow-delay="0.4s" role="button" 
@@ -41,7 +41,7 @@ body {
                            <form id="logout-form2" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                        <i class="fas fa-door-open mr-2"></i> Cerrar sesión
+                                        <i class="fas fa-door-open mr-2 fa-lg"></i> Cerrar sesión
                                       </a>     
             </a>
 

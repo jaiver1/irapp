@@ -72,13 +72,13 @@ body {
                                     <!--/.Form-->
                                     
                                 </div>
-                                           <div class="text-center text-md-left  col-md-6 col-xl-5 offset-xl-1">
+                                           <div class="center-div-link text-center text-md-left  col-md-6 col-xl-5 offset-xl-1">
                                     <div class="white-text">
-                                        <h1 class="h1-responsive font-weight-bold wow fadeInRight" data-wow-delay="0.3s">Login right now! </h1>
+                                        <h1 class="h1-responsive font-weight-bold wow fadeInRight" data-wow-delay="0.3s">¡Inicia Sesion! </h1>
                                         <hr class="hr-light wow fadeInRight" data-wow-delay="0.3s">
-                                        <h6 class="wow fadeInRight" data-wow-delay="0.3s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae, quisquam iste, maiores. Nulla.</h6>
+                                        <h6 class="wow fadeInRight" data-wow-delay="0.3s">¿Ya tienes una cuenta?, inicia sesion con tu email y contraseña y empieza a disfrutar de los servicios ofrecidos por IRAPP.</h6>
                                         <br>
-                                        <a class="btn btn-outline-white wow fadeInRight" data-wow-delay="0.3s">Learn more</a>
+                                        <a href="{{ route('login') }}" class="btn btn-outline-white wow fadeInRight" data-wow-delay="0.3s"><i class="fas fa-door-closed mr-2"></i>Iniciar sesión</a>
                                     </div>
                                 </div>
 

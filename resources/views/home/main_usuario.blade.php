@@ -66,11 +66,6 @@ Página principal | {{ config('app.name', 'Laravel') }}
 
 <script type="text/javascript">
 
-function cambio(view){
-  $('#calendar').fullCalendar('changeView', view);
-}
-
-
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
@@ -78,9 +73,10 @@ function cambio(view){
 
 $(document).ready(function() {
     var currentdate = new Date(); 
+    var actual_user = "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}";
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
-    var titulo_archivo = "Lista de ordenes ("+datetime+")";
+    var titulo_archivo = "Lista ordenes de "+actual_user+" ("+datetime+")";
      $('#dtordenes').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
@@ -200,6 +196,7 @@ var calendar = $('#calendar').fullCalendar({
         listWeek: 'Semana',
         listDay: 'Dia'
     },
+    height: "auto",
       defaultDate: ahora_fecha,
       navLinks: true, // can click day/week names to navigate views
       editable: false,
@@ -208,18 +205,18 @@ var calendar = $('#calendar').fullCalendar({
       themeSystem: 'bootstrap4',
       nowIndicator: true,
       now: ahora_fecha+'T'+ahora_hora,
-      events: @json($eventos) ,
+      events: @json($JSON_ordenes) ,
       timeFormat: 'HH:mm',
       businessHours: [
   {
     dow: [ 1, 2, 3, 4, 5 ], // semana
-    start: '08:00', // 8am
-    end: '18:00' // 6pm
+    start: '04:00', // 4am
+    end: '23:00' // 11pm
   },
   {
-    dow: [ 6 ], // sabado
-    start: '08:00', // 8am
-    end: '14:00' // 2pm
+    dow: [ 6, 7 ], // sabado
+    start: '04:00', // 8am
+    end: '23:00' // 2pm
   }
 ], eventRender: function(eventObj, element) {
     if(eventObj.icon){          
@@ -227,18 +224,94 @@ var calendar = $('#calendar').fullCalendar({
      }
       },
       eventClick: function(calEvent, jsEvent, view) {
-
+        var ruta_info = "{{ route('ordenes.show',array(null)) }}";
+var ruta_edit = "{{ route('ordenes.edit',array(null)) }}";
+var is_admin = "{{ Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE) }}";
 //alert('Event: ' + calEvent.title);
 //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
 //alert('View: ' + view.name);
 
 // change the border color just for fun
-
-$(this).addClass("event-active");
+$('.fc-day').removeClass('day-active');
+$('.fc-event').removeClass('event-active');
+$(this).addClass('event-active');
+var texto_info = "<hr/><strong style='font-weight:900;'>Nombre:</strong> <em style='font-weight:400;'>"+calEvent.title+"</em>";
+      texto_info += "<br/><strong style='font-weight:900;'>Estado:</strong> <span class='h5'><span class='badge hoverable' style='background-color:"+calEvent.color+";'><i class='mr-1 fas "+calEvent.icon+"'></i>"+calEvent.estado+"</span></span>";
+      texto_info += "<br/><strong style='font-weight:900;'>Cliente:</strong> <em style='font-weight:400;'>"+calEvent.primer_nombre+" "+calEvent.segundo_nombre+" "+calEvent.primer_apellido+" "+calEvent.segundo_apellido+"</em>";
+      texto_info += "<br/><strong style='font-weight:900;'>Dirección:</strong> <em style='font-weight:400;'>"+calEvent.direccion+" ("+calEvent.barrio+")</em>"; 
+      texto_info += "<br/><strong style='font-weight:900;'>Ciudad:</strong> <em style='font-weight:400;'>"+calEvent.ciudad+" - "+calEvent.departamento+" ("+calEvent.pais+")</em>";  
+      texto_info += "<br/><strong style='font-weight:900;'>Fecha inicio:</strong> <em style='font-weight:400;'>"+calEvent.fecha_inicio+"</em>";  
+      if(calEvent.fecha_fin && calEvent.estado == "Cerrada" ){
+        texto_info += "<br/><strong style='font-weight:900;'>Fecha fin:</strong> <em style='font-weight:400;'>"+calEvent.fecha_fin+"</em>";  
+      }
+      texto_info += "<hr/><a class='text-primary m-1' target='_blank' href='"+ruta_info+"/"+calEvent.id+"'><strong style='font-weight:900;'><i class='fas fa-info-circle'></i>Mas información</strong></a>";
+      if(is_admin){
+        texto_info += "<a class='text-warning m-1' target='_blank' href='"+ruta_edit+"'><strong style='font-weight:900;'><i class='fas fa-pencil-alt'></i> Editar</strong></a>";
+        texto_info += "<a class='text-danger m-1' target='_blank' onclick='eliminar_orden("+calEvent.id+",\""+calEvent.title+"\")'><strong style='font-weight:900;'><i class='fas fa-trash-alt'></i> Eliminar</strong></a>";
+        texto_info = texto_info.replace('//edit','/'+calEvent.id+'/edit');
+      }
+      texto_info = texto_info.replace('null','');
+  swal({
+  title: 'Detalles de la orden',
+ html: texto_info,
+  showCloseButton: true,
+  showCancelButton: false,
+  showConfirmButton: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+})
 },
       windowResize: function(view) {
-  }
+  }, 
+  dayClick: function(date, jsEvent, view) {
+/*
+alert('Clicked on: ' + date.format());
+
+alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+alert('Current view: ' + view.name);
+
+// change the day's background color just for fun
+$(this).css('background-color', 'red');*/
+
+var ruta = "{{ route('ordenes.create',array(null)) }}";
+$('.fc-day').removeClass('day-active');
+$('.fc-event').removeClass('event-active');
+$(this).addClass('day-active');
+
+}
 });
+
+var id = "{{Auth::user()->id}}";
+var vista = localStorage.getItem("USER_"+id);
+  if(vista) {
+if(vista == 'table'){
+    $('a[href="#pills-list"]').tab('show');
+}else if(vista == 'map'){
+    $('a[href="#pills-map"]').tab('show');
+}else{
+$('#calendar').fullCalendar('changeView', vista);
+$('a[href="#pills-calendar"]').tab('show');
+}
+}
     });
+
+    $('a[href="#pills-calendar"]').on('shown.bs.tab', function (e) {
+        $('#calendar').fullCalendar('render');
+})
+
+    function cambio(view){
+    localDB(view);
+  $('#calendar').fullCalendar('changeView', view);
+}
+
+function localDB(view){
+    var id = "{{Auth::user()->id}}";
+  if(view == "calendar"){
+    var fc_vista = $('#calendar').fullCalendar('getView');
+    view = fc_vista.type;
+  }
+    localStorage.setItem("USER_"+id,view);
+}
 </script>
 @endsection

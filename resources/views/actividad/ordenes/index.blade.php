@@ -270,6 +270,7 @@ var is_admin = "{{ Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR
 //alert('View: ' + view.name);
 
 // change the border color just for fun
+$('.fc-day').removeClass('day-active');
 $('.fc-event').removeClass('event-active');
 $(this).addClass('event-active');
 var texto_info = "<hr/><strong style='font-weight:900;'>Nombre:</strong> <em style='font-weight:400;'>"+calEvent.title+"</em>";
@@ -312,6 +313,7 @@ alert('Current view: ' + view.name);
 $(this).css('background-color', 'red');*/
 
 var ruta = "{{ route('ordenes.create',array(null)) }}";
+$('.fc-event').removeClass('event-active');
 $('.fc-day').removeClass('day-active');
 $(this).addClass('day-active');
 if(view == 'month'){

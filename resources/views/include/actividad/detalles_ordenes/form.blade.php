@@ -65,7 +65,7 @@
 <div class="md-form">
 <i class="fas {{($detalle->estado == 'Abierta' ) ? 'fa-tools' : (($detalle->estado == 'Cerrada' ) ? 'fa-check-circle' : (($detalle->estado == 'Cancelada' ) ? 'fa-times-circle' : (($detalle->estado == 'Pendiente' ) ? 'fa-stopwatch' : 'fa-asterisk')))}} "></i>
 <small for="estado">Estado *</small>   
-<select class="form-control" required id="edit_estado" name="edit_estado">
+<select onchange="estado()" class="form-control" required id="edit_estado" name="edit_estado">
 <option value="" disabled selected>Selecciona una opción</option>
 @foreach($estados as $key => $estado)
 <option {{  ($detalle->estado == $estado) ? 'selected' : '' }} value="{{ $estado}}">{{$estado}}</option>
@@ -80,7 +80,6 @@
   <input type="text" required id="fecha_inicio" value="{{ ($editar) ? $detalle->fecha_inicio : $orden->fecha_inicio }}" name="fecha_inicio" class="form-control validate" maxlength="50">
   <label for="fecha_inicio" data-error="Error" data-success="Correcto">Fecha inicio *</label>
   </div>
-
                   @endif
 </div>
 <!-- Grid column -->
@@ -107,7 +106,7 @@
 <!-- Grid column -->
 
 <!-- Grid column -->
-<div class="col-md-6">
+<div id="fin_div" class="col-md-6">
 <!-- Material input -->
 <div class="md-form">
 <i class="prefix far fa-calendar-check"></i>
@@ -231,6 +230,18 @@
 <script type="text/javascript">
 var prefix = "{{$prefix}}";
 var edit = "{{$editar}}";
+
+function estado(){
+  var estado = $('#'+prefix+'estado').val();
+  if(estado == "Cerrada"){
+        $('#'+prefix+'fecha_fin').attr( 'required', true );
+        $("#fin_div").slideDown('fast');     
+    }else{
+        $('#'+prefix+'fecha_fin').attr( 'required', false ); 
+        $("#fin_div").slideUp('fast');
+	}
+}
+
 $(function () {
         var numberMask = new IMask(document.getElementById(prefix+'valor_unitario-mask'), {
           mask: Number,
@@ -274,6 +285,7 @@ $(function () {
         .addClass("fas fa-chevron-down");
 
 $(document).ready(function() {
+  estado();
   $('#'+prefix+'valor_unitario-mask').focus();
   $('#'+prefix+'cantidad-mask').focus();
   $('#'+prefix+'nombre').focus();

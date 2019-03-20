@@ -29,7 +29,7 @@ body {
                                         <a href="{{ route('verification.resend') }}" class="btn btn-outline-white wow fadeInRight" data-wow-delay="0.3s"><i class="fas fa-paper-plane fa-lg"></i>
                                             Enviar</a>
                                     @if (session('resent'))
-                        <div class="hoverable waves-light alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="mt-3 hoverable waves-light alert alert-success alert-dismissible fade show" role="alert">
                                 Se ha enviado un nuevo enlace de verificación a su correo electrónico.
 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 <span aria-hidden="true">&times;</span>

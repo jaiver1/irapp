@@ -104,8 +104,12 @@ $(document).ready(function (e) {
                     $("#default_img").val(response.url_img);
                     var user = "{{ $usuario->id }}";
                     var session_user = "{{ Auth::user()->id }}";
+                    var is_profile = "{{ \Request::is('profile') }}";
                     if(user == session_user){
                         $('#user-nav-img').attr('src',response.url_img);
+                        if(is_profile){
+                          $('#profile-avatar').attr('src',response.url_img);
+                        }
                     }
                 }else{
                     $("#targetLayer").html('<img src="'+default_img+'" width="213px" height="213px" class="upload-preview" onerror="this.src=\''+error_img+'\'" />');

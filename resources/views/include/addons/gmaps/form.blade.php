@@ -106,7 +106,7 @@ mapTypeControlOptions: {
 mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 var markers = [];
-var orden ="{{ $orden->id }}";
+var orden ="@isset($orden) true @endisset";
 var image2 ="{{ asset('img/gmaps/goal.png')  }}";
 if(orden){
   var image = image2;

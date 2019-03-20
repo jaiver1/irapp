@@ -390,6 +390,7 @@ width: auto; }
 }
 .user-pic{
   width: 6rem !important; 
+  height: 6rem !important;
   border-radius: 100% !important;
   background-color: #bdd4de !important;
   border: 3px solid #3a4d56 !important; 
@@ -462,4 +463,53 @@ a .user-pic:focus
 }
 .ocultar{
   display: none !important;
+}
+
+.profile-avatar{
+  border: 5px solid #BDD3DD !important; 
+  width: 12rem !important;
+  height: 12rem !important;
+  border-radius: 100% !important; 
+  left: 50% !important; 
+  margin-top: -5rem !important;
+  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important; 
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important; 
+  -webkit-transition: all 0.55s ease-in-out !important; 
+  -o-transition: all 0.55s ease-in-out !important; 
+  transition: all 0.55s ease-in-out !important;  }
+
+  .profile-avatar:hover {
+    -webkit-box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19) !important; 
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19) !important; 
+    -webkit-transition: all 0.55s ease-in-out !important; 
+    -o-transition: all 0.55s ease-in-out !important; 
+    transition: all 0.55s ease-in-out !important;  }
+
+.profile-div{
+  margin-top: 7rem !important;
+}
+
+.profile-header{
+  border-top-left-radius: 10px !important; 
+  border-top-right-radius: 10px !important; 
+  height: 8rem !important;
+  background-color: rgba(58, 77, 86, 0.4) !important;
+  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important; 
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important; 
+  -webkit-transition: all 0.55s ease-in-out !important; 
+  -o-transition: all 0.55s ease-in-out !important; 
+  transition: all 0.55s ease-in-out !important;  
+ }
+
+  .profile-header:hover{
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15) !important; 
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15) !important; 
+    -webkit-transition: all 0.55s ease-in-out !important; 
+    -o-transition: all 0.55s ease-in-out !important; 
+    transition: all 0.55s ease-in-out !important; 
+}
+
+.profile-bg-img{
+  border-top-left-radius: 10px !important; 
+  border-top-right-radius: 10px !important; 
 }

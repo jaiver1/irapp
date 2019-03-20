@@ -422,7 +422,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
                         'edit_servicio_id'                   => 'required',
                         'edit_colaborador_id'                   => 'required',
                         'edit_fecha_inicio'                   => 'required|date',
-                        'edit_fecha_fin'          e         => 'required|date'          
+                        'edit_fecha_fin'                 => 'required|date'          
                           );
             
                     $validator = Validator::make($request->all(), $rules);

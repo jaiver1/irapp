@@ -5,6 +5,14 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) { overflow-y: v
         color: #fff !important;
         outline: transparent !important;
      }
+
+     .alert-success{
+      background-color: #00796b !important;
+      border-color: #00796b !important;
+      color: #fff !important;
+      outline: transparent !important;
+   }
+
     .close{
         color: white !important;
         outline: transparent !important;

@@ -28,8 +28,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],TRUE);
-        return view('home.index');
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR','ROLE_CLIENTE'],TRUE);
+        return view('home.profile');
     }
 
     public function upload_imagen($id,Request $request)

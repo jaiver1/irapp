@@ -52,6 +52,7 @@
             <!-- Grid column -->
             <div class="col-md-12">
                     <input id="pac-input" class="mt-2 controls form-control z-depth-1 hoverable" type="search" placeholder="Buscar">
+                    <a id="pac-button" class="btn btn-md btn-primary z-depth-1 hoverable mt-2"><i class="fas fa-search fa-lg"></i></a>
                     <div id="map" class="z-depth-1 hoverable div-border" style="height: 300px"></div>
 
  </div>
@@ -62,10 +63,10 @@
 @endsection
 @section('gmaps_links')
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDShqXOrTD_donWeWH4OJQwefouQ1mGbz8&libraries=places"
-async defer></script>
-<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABNZTIj3RqipcAdvc7aZ9YM6Uv_pylqjA&libraries=places"
+<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDShqXOrTD_donWeWH4OJQwefouQ1mGbz8&libraries=places"
 async defer></script-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABNZTIj3RqipcAdvc7aZ9YM6Uv_pylqjA&libraries=places"
+async defer></script>
 
 <script type="text/javascript">
 // This example adds a search box to a map, using the Google Place Autocomplete
@@ -106,6 +107,7 @@ mapTypeControlOptions: {
 mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 var markers = [];
+var markers3 = [];
 var orden ="@isset($orden) true @endisset";
 var image2 ="{{ asset('img/gmaps/goal.png')  }}";
 if(orden){
@@ -150,6 +152,45 @@ document.getElementById("longitud").value = event.latLng.lng();
 addMarker(event.latLng);
 });
 
+
+ function add_place(place){
+	var icon = {
+
+url: place.icon,
+
+size: new google.maps.Size(71, 71),
+
+origin: new google.maps.Point(0, 0),
+
+anchor: new google.maps.Point(17, 34),
+
+scaledSize: new google.maps.Size(25, 25)
+
+};
+
+// Create a marker for each place.
+
+markers3.push(new google.maps.Marker({
+
+map: map,
+
+icon:"http://maps.google.com/mapfiles/ms/icons/ltblue-dot.png",
+
+title: place.name,
+
+position: place.geometry.location
+
+}));
+
+ }
+
+ function removeplaces(){
+	for (var i = 0; i < markers3.length; i++) {
+markers3[i].setMap(null);
+}
+markers3 = [];
+	}
+
  // Adds a marker to the map and push to the array.
  function addMarker(location) {
         var marker2 = new google.maps.Marker({
@@ -173,6 +214,9 @@ animation:google.maps.Animation.BOUNCE
       function setMapOnAll(map) {
         for (var i = 0; i < markers.length; i++) {
           markers[i].setMap(map);
+          if(map){
+            markers3[i].setMap(map);
+          }    
         }
       }
 
@@ -197,26 +241,28 @@ var input = document.getElementById('pac-input');
         var searchBox = new google.maps.places.SearchBox(input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+        var button = document.getElementById('pac-button');
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(button);
+
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function() {
           searchBox.setBounds(map.getBounds());
         });
 
-        var markers3 = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function() {
+            busqueda();
+        });
+
+function busqueda() {
+	       
           var places = searchBox.getPlaces();
 
-          if (places.length == 0) {
+          if (places.length <= 0) {
             return;
           }
-
-          // Clear out the old markers.
-          markers3.forEach(function(marker) {
-            marker.setMap(null);
-          });
-          markers3 = [];
+          removeplaces();
 
           // For each place, get the icon, name and location.
           var bounds = new google.maps.LatLngBounds();
@@ -224,36 +270,18 @@ var input = document.getElementById('pac-input');
             if (!place.geometry) {
               console.log("Returned place contains no geometry");
               return;
-            }
-            /*
-            var icon = {
-              url: place.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(25, 25)
-            };
-
-            // Create a marker for each place.
-           
-            markers3.push(new google.maps.Marker({
-              map: map,
-              icon: icon,
-              title: place.name,
-              position: place.geometry.location
-            }));
-*/
-            if (place.geometry.viewport) {
+            }else{
+        if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
             } else {
               bounds.extend(place.geometry.location);
             }
+            add_place(place);
+            }
           });
           map.fitBounds(bounds);
-        });
-
-
+}
 }
 
 
@@ -288,7 +316,16 @@ catch(err) {
   console.log(err.message);
   DefaultLocation(infowindow);
 }
+
+
 });
+
+document.getElementById('pac-button').onclick = function () {
+    var input = document.getElementById('pac-input');
+google.maps.event.trigger(input, 'focus', {});
+    google.maps.event.trigger(input, 'keydown', { keyCode: 13 });
+    google.maps.event.trigger(this, 'focus', {});
+}
 
 
 </script>

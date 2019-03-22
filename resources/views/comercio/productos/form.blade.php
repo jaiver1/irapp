@@ -4,10 +4,10 @@
 @section('crud_form')
 
 @if($editar)
-<form method="POST" action="{{ route('productos.update',$producto->id) }}" accept-charset="UTF-8">
+<form id="producto_form" method="POST" action="{{ route('productos.update',$producto->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="PUT">
     @else
-    <form method="POST" action="{{ route('productos.store') }}" accept-charset="UTF-8">
+    <form id="producto_form" method="POST" action="{{ route('productos.store') }}" accept-charset="UTF-8">
 @endif
 
  {{ csrf_field() }}
@@ -65,7 +65,8 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="fas fa-box-open prefix"></i>
-    <input type="text" required id="referencia" onchange="test_referencias('{{ route("productos.testReferencias") }}')" value="{{ old('referencia') ? old('referencia') : $producto->referencia}}" name="referencia" class="form-control validate" maxlength="50">
+    <input type="text" pattern="^[0-9]+.*$" title="El codigo debe empezar con numeros." 
+    required id="referencia" onchange="test_referencias('{{ route("productos.testReferencias") }}')" value="{{ old('referencia') ? old('referencia') : $producto->referencia}}" name="referencia" class="form-control validate" maxlength="50">
     <label for="referencia" data-error="Error" data-success="Correcto">Referencia *</label>
 </div>
 @if ($errors->has('referencia'))
@@ -209,9 +210,9 @@
         </div>
     <!-- Grid row -->
 
-    <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
+    <a onclick="validar()" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
     <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
-    </button>
+    </a>
 </form>
 @endsection
 @section('js_links')
@@ -219,7 +220,19 @@
 <script type="text/javascript" src="{{ asset('js/addons/i18n/es.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/imask/imask.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/messages_es.js') }}"></script>
 <script type="text/javascript">
+
+function validar(){
+  if($("#producto_form").validate({
+    lang: 'es',
+    errorPlacement: function(error, element){
+      $(element).parent().after(error);
+		}})){
+    $("#producto_form").submit();
+  }
+  }
 
     function test_referencias(url_send){
       inicio_carga()

@@ -5,10 +5,10 @@
 @section('crud_form')
 
 @if($editar)
-<form method="POST" action="{{ route('clientes.update', $cliente->id) }}" accept-charset="UTF-8">
+<form id="cliente_form" method="POST" action="{{ route('clientes.update', $cliente->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="PUT">
     @else
-    <form method="POST" action="{{ route('clientes.store') }}" accept-charset="UTF-8">
+    <form id="cliente_form" method="POST" action="{{ route('clientes.store') }}" accept-charset="UTF-8">
 @endif
 
  {{ csrf_field() }}
@@ -64,7 +64,7 @@
                 <!-- Material input -->
                 <div class="md-form">
         <i class="fas fa-unlock-alt prefix"></i>
-        <input type="password" required id="password" value="{{ old('password') }}" name="password" class="form-control validate" maxlength="50">
+        <input pattern=".{8,50}" title="Se requiere entre 8 y 50 caracteres" type="password" required id="password" value="{{ old('password') }}" name="password" class="form-control validate" maxlength="50">
         <label for="pass" data-error="Error" data-success="Correcto">Contraseña *</label>
     </div>
     @if ($errors->has('password'))
@@ -82,7 +82,7 @@
                 <!-- Material input -->
                 <div class="md-form">
         <i class="fas fa-lock prefix"></i>
-        <input type="password" required id="password_confirmation" value="{{ old('password_confirmation') }}" name="password_confirmation" class="form-control validate" maxlength="50">
+        <input pattern=".{8,50}" title="Se requiere entre 8 y 50 caracteres" type="password" required id="password_confirmation" value="{{ old('password_confirmation') }}" name="password_confirmation" class="form-control validate" maxlength="50">
         <label for="password_confirmation" data-error="Error" data-success="Correcto">Confirmar Contraseña *</label>
     </div>
     @if ($errors->has('password_confirmation'))
@@ -112,16 +112,29 @@
     <!-- Grid row -->
 
 
-    <button type="submit" class="mt-4 waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
+    <a onclick="validar()" class="mt-4 waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
     <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
-    </button>
+    </a>
 </form>
 @endsection
 
 @section('js_links')
 <script type="text/javascript" src="{{ asset('js/addons/select2.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/i18n/es.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/messages_es.js') }}"></script>
 <script type="text/javascript">
+
+function validar(){
+  if($("#cliente_form").validate({
+    lang: 'es',
+    errorPlacement: function(error, element){
+      $(element).parent().after(error);
+		}})){
+    $("#cliente_form").submit();
+  }
+  }
+
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })

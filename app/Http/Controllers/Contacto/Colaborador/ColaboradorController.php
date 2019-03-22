@@ -85,7 +85,7 @@ class ColaboradorController extends Controller
             'ciudad_id'              => 'required',
             'name'                  => 'required|max:50|unique:users',
                 'email'                 => 'required|email|max:100|unique:users',
-                'password'              => 'required|between:6,50|confirmed',
+                'password'              => 'required|between:8,50|confirmed',
                 'password_confirmation' => 'required|same:password',
                 // 'usuario_id'                   => 'required|unique:personas',
     );

@@ -4,10 +4,10 @@
 @section('crud_form')
 
 @if($editar)
-<form method="POST" action="{{ route('especialidades.update', $especialidad->id) }}" accept-charset="UTF-8">
+<form id="especialidad_form" method="POST" action="{{ route('especialidades.update', $especialidad->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="PUT">
     @else
-    <form method="POST" action="{{ route('especialidades.store') }}" accept-charset="UTF-8">
+    <form id="especialidad_form" method="POST" action="{{ route('especialidades.store') }}" accept-charset="UTF-8">
 @endif
 
  {{ csrf_field() }}
@@ -36,13 +36,26 @@
         </div>
     <!-- Grid row -->
 
-    <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
+    <a onclick="validar()" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
     <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
-    </button>
+    </a>
 </form>
 @endsection
 @section('js_links')
+<script type="text/javascript" src="{{ asset('js/addons/validation/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/messages_es.js') }}"></script>
 <script type="text/javascript">
+
+function validar(){
+  if($("#especialidad_form").validate({
+    lang: 'es',
+    errorPlacement: function(error, element){
+      $(element).parent().after(error);
+		}})){
+    $("#especialidad_form").submit();
+  }
+  }
+
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })

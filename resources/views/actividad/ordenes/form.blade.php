@@ -11,10 +11,10 @@
 @section('crud_form')
 
 @if($editar)
-<form method="POST" action="{{ route('ordenes.update', $orden->id) }}" accept-charset="UTF-8">
+<form id="orden_form" method="POST" action="{{ route('ordenes.update', $orden->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="PUT">
     @else
-    <form method="POST" action="{{ route('ordenes.store') }}" accept-charset="UTF-8">
+    <form id="orden_form" method="POST" action="{{ route('ordenes.store') }}" accept-charset="UTF-8">
 @endif
 
  {{ csrf_field() }}
@@ -247,9 +247,9 @@
 
     @yield('gmaps_form')
 
-    <button type="submit" class="mt-4 waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
+    <a onclick="validar()" class="mt-4 waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
     <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
-    </button>
+    </a>
 </form>
 @include('include.contacto.clientes.modal_search')
 @endsection
@@ -273,7 +273,19 @@
 <script type="text/javascript" src="{{ asset('js/addons/select2.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/i18n/es.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/bootstrap-material-datetimepicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/messages_es.js') }}"></script>
 <script type="text/javascript">
+
+function validar(){
+  if($("#orden_form").validate({
+    lang: 'es',
+    errorPlacement: function(error, element){
+      $(element).parent().after(error);
+		}})){
+    $("#orden_form").submit();
+  }
+  }
 
    $(document).ready(function() {
     var currentdate = new Date(); 

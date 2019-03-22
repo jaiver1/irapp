@@ -4,10 +4,10 @@
 @section('crud_form')
 
 @if($editar)
-<form method="POST" action="{{ route('servicios.update', $servicio->id) }}" accept-charset="UTF-8">
+<form id="servicio_form" method="POST" action="{{ route('servicios.update', $servicio->id) }}" accept-charset="UTF-8">
     <input name="_method" type="hidden" value="PUT">
     @else
-    <form method="POST" action="{{ route('servicios.store') }}" accept-charset="UTF-8">
+    <form id="servicio_form" method="POST" action="{{ route('servicios.store') }}" accept-charset="UTF-8">
 @endif
 
  {{ csrf_field() }}
@@ -136,16 +136,28 @@
     </div>
 <!-- Grid row -->
 
-    <button type="submit" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
+    <a onclick="validar()" class="waves-effect btn {{($editar) ? 'btn-warning' : 'btn-success'}} btn-md hoverable">
     <i class="fas fa-2x {{($editar) ? 'fa-pencil-alt' : 'fa-plus'}}"></i> {{($editar) ? 'Editar' : 'Registrar'}}
-    </button>
+    </a>
 </form>
 @endsection
 @section('js_links')
 <script type="text/javascript" src="{{ asset('js/addons/select2.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/i18n/es.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/imask/imask.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/messages_es.js') }}"></script>
 <script type="text/javascript">
+
+function validar(){
+  if($("#servicio_form").validate({
+    lang: 'es',
+    errorPlacement: function(error, element){
+      $(element).parent().after(error);
+		}})){
+    $("#servicio_form").submit();
+  }
+  }
 
  $(function () {
         var numberMask = new IMask(document.getElementById('valor_unitario-mask'), {

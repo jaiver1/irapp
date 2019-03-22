@@ -171,7 +171,8 @@ No hay detalles de "{{$orden->nombre}}"
                                                                         </button>
                                                                         <div class="dropdown-menu dropdown-menu-right">
                                                                                 @foreach($estados as $key => $estado)
-                                                                                <button class="dropdown-item waves-effect hoverable {{($detalle->estado == $estado) ? 'ocultr' : ''}}" type="button">
+                                                                                <button onclick="estado_detalle({{ $detalle->id }},'{{ $detalle->nombre }}','{{ $estado }}')"
+                                                                                class="dropdown-item waves-effect hoverable {{($detalle->estado == $estado) ? 'ocultr' : ''}}" type="button">
                                                                                         <i class="mr-1 fas fa-lg
                                                                                         @switch($estado)
                                                                                     @case('Abierta')

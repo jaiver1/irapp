@@ -188,3 +188,5 @@ Route::get('/ordenes/detalles/servicios/{id}/{editar}', ['uses' => 'Actividad\Or
 Route::get('/ordenes/detalles/colaboradores/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@get_colaboradores', 'as' => 'ordenes.getColaboradores'])->middleware('verified');
 Route::post('/ordenes/detalles/add', ['uses' => 'Actividad\Orden\OrdenController@add_detalles', 'as' => 'ordenes.addDetalles'])->middleware('verified');
 Route::put('/ordenes/detalles/update/{id}', ['uses' => 'Actividad\Orden\OrdenController@update_detalles', 'as' => 'ordenes.updateDetalles'])->middleware('verified');
+Route::put('/ordenes/detalles/state/{id}', ['uses' => 'Actividad\Orden\OrdenController@state_detalles', 'as' => 'ordenes.stateDetalles'])->middleware('verified');
+Route::delete('/ordenes/detalles/delete/{id}', ['uses' => 'Actividad\Orden\OrdenController@delete_detalles', 'as' => 'ordenes.deleteDetalles'])->middleware('verified');

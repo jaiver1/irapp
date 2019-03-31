@@ -62,8 +62,8 @@ body {
 @endif
 
                                             <div class="text-center">
-                                                <button class="btn btn-outline-white hoverable waves-light" data-wow-delay="0.4s" role="button">
-                                                    <i class="fas fa-user-plus mr-2"></i>Registrarse</button>
+                                                <<a onclick="validar()" class="btn btn-outline-white hoverable waves-light" data-wow-delay="0.4s" role="button">
+                                                    <i class="fas fa-user-plus mr-2"></i>Registrarse</a>
                                                    
                                             </div>
                                             </form>

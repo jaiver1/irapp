@@ -29,7 +29,7 @@ body {
                                                 <h3 class="white-text"><i class="fas fa-door-closed mr-2"></i>Iniciar sesión</h3>
                                                 <hr class="hr-light">
                                             </div>
-                                            <form method="POST" action="{{ route('login') }}">
+                                            <form id="login_form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
                                             <div class="md-form">
@@ -61,10 +61,11 @@ body {
 </div>
 @endif
 
-                                            <div class="text-center">
-                                                <button class="btn btn-outline-white hoverable waves-light" data-wow-delay="0.4s" role="button">
-                                                    <i class="fas fa-door-closed mr-2"></i>Iniciar sesión</button>
-                                                   
+                                            <div class="text-center mt-4">
+                                                <a onclick="validar()" class="btn btn-outline-white hoverable waves-light" data-wow-delay="0.4s" role="button">
+                                                    <i class="fas fa-door-closed mr-2"></i>Iniciar sesión</a>
+                                                    <a  href="{{ route('password.reset',array(null)) }}" class="btn waves-light white-text" data-wow-delay="0.4s" role="button">
+                                                    <i class="fas fa-key mr-2"></i>¿Olvido la contraseña?</a>
                                             </div>
                                             </form>
                                         </div>
@@ -87,4 +88,21 @@ body {
                     </div>
                 </div>
             </section>
+@endsection
+@section('js_links')
+<script type="text/javascript" src="{{ asset('js/addons/validation/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/addons/validation/messages_es.js') }}"></script>
+<script type="text/javascript">
+
+function validar(){
+  if($("#login_form").validate({
+    lang: 'es',
+    errorPlacement: function(error, element){
+      $(element).parent().after(error);
+		}})){
+    $("#login_form").submit();
+  }
+  }
+
+</script>
 @endsection

@@ -105,9 +105,9 @@ Lista de clientes | {{ config('app.name', 'Laravel') }}
       <td>{{$cliente->persona->segundo_apellido}}</td>
       <td>{{$cliente->persona->telefono_movil}}</td>
       <td>{{$cliente->persona->telefono_fijo}}</td>
-      <td>{{$cliente->persona->ciudad->nombre}}</td>
-      <td>{{$cliente->persona->barrio}}</td>
-      <td>{{$cliente->persona->direccion}}</td>
+      <td>{{$cliente->persona->direccion->ciudad->nombre}}</td>
+      <td>{{$cliente->persona->direccion->barrio}}</td>
+      <td>{{$cliente->persona->direccion->direccion}}</td>
       <td>{{$cliente->persona->cuenta_banco}}</td>
       @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
       <td>

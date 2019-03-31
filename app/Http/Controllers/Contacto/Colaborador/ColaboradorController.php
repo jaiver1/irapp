@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Contacto\Colaborador;
 use App\Models\Contacto\Persona;
 use App\Models\Dato_basico\Ubicacion;
+use App\Models\Dato_basico\Direccion;
 use App\Models\Dato_basico\Pais;
 use App\Models\Dato_basico\Ciudad;
 use App\Models\Root\User;
@@ -47,9 +48,11 @@ class ColaboradorController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $colaborador = new Colaborador;
         $persona = new Persona;
-        $persona->ubicacion()->associate(new Ubicacion);
-        $persona->ciudad()->associate(new Ciudad);
+        $direccion = new Direccion;
+        $direccion->ciudad()->associate(new Ciudad);
+        $direccion->ubicacion()->associate(new Ubicacion);
         $persona->usuario()->associate(new User);
+        $persona->direccion()->associate($direccion);
         $colaborador->persona()->associate($persona);
         $editar = false;
         $paises = Pais::orderBy('nombre', 'asc')->get();
@@ -111,11 +114,14 @@ class ColaboradorController extends Controller
             $colaborador = new Colaborador;
             $persona = new Persona;
             $ubicacion = new Ubicacion;
+            $direccion = new Direccion;
+            
+            $usuario = User::findOrFail($usuario->id);
+            $ciudad = Ciudad::findOrFail($request->ciudad_id);
+
             $ubicacion->latitud = $request->latitud;
             $ubicacion->longitud = $request->longitud;
             $ubicacion->save();
-            $usuario = User::findOrFail($usuario->id);
-            $ciudad = Ciudad::findOrFail($request->ciudad_id);
 
             $persona->cedula = $request->cedula;
             $persona->cuenta_banco = $request->cuenta_banco;
@@ -125,17 +131,21 @@ class ColaboradorController extends Controller
             $persona->segundo_apellido = $request->segundo_apellido;
             $persona->telefono_movil = $request->telefono_movil;
             $persona->telefono_fijo = $request->telefono_fijo;       
-            $persona->barrio = $request->barrio;
-            $persona->direccion = $request->direccion;
+
+            $direccion->barrio = $request->barrio;
+            $direccion->direccion = $request->direccion;
+            $direccion->ciudad()->associate($ciudad);
+            $direccion->ubicacion()->associate($ubicacion);
+            $direccion->save();
 
             $persona->usuario()->associate($usuario);
-            $persona->ciudad()->associate($ciudad);
-            $persona->ubicacion()->associate($ubicacion);
+            $persona->direccion()->associate($direccion);
             $persona->save();
+
             $colaborador->persona()->associate($persona);     
             $colaborador->save();        
 
-            SweetAlert::success('Exito','El colaborador "'.$colaborador->nombre.'" ha sido registrado.');
+            SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre.' '.$colaborador->persona->primer_apellido.'" ha sido registrado.');
             return Redirect::to('colaboradores');
         }
     }
@@ -184,7 +194,7 @@ class ColaboradorController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $rules = array(
-            'cedula'                   => 'required|max:50|unique:personas',
+            'cedula'                   => 'required|max:50',
             'cuenta_banco'                   => 'max:50',
             'primer_nombre'                   => 'required|max:50',
             'segundo_nombre'                   => 'max:50',
@@ -210,26 +220,37 @@ class ColaboradorController extends Controller
                 ->withErrors($validator);
         } else {
             $colaborador = Colaborador::findOrFail($id);
-            $colaborador->ubicacion->latitud = $request->latitud;
-            $colaborador->ubicacion->longitud = $request->longitud;
-            $usuario = User::findOrFail($request->usuario_id);
+            $persona = Persona::findOrFail($colaborador->persona_id);
+            $direccion = Direccion::findOrFail($persona->direccion_id);
+            $ubicacion = Ubicacion::findOrFail($direccion->ubicacion_id);
             $ciudad = Ciudad::findOrFail($request->ciudad_id);
-            $colaborador->persona->ciudad()->associate($ciudad);
 
-            $colaborador->persona->cedula = $request->cedula;
-            $colaborador->persona->cuenta_banco = $request->cuenta_banco;
-            $colaborador->persona->primer_nombre = $request->primer_nombre;
-            $colaborador->persona->segundo_nombre = $request->segundo_nombre;
-            $colaborador->colaborador->persona->primer_apellido = $request->primer_apellido;
-            $colaborador->persona->segundo_apellido = $request->segundo_apellido;
-            $colaborador->persona->telefono_movil = $request->telefono_movil;
-            $colaborador->persona->telefono_fijo = $request->telefono_fijo;       
-            $colaborador->persona->barrio = $request->barrio;
-            $colaborador->persona->direccion = $request->direccion;    
-            $colaborador->save();        
+            $ubicacion->latitud = $request->latitud;
+            $ubicacion->longitud = $request->longitud;
+            $ubicacion->save();
+
+            $direccion->barrio = $request->barrio;
+            $direccion->direccion = $request->direccion;
+            $direccion->ciudad()->associate($ciudad);
+            $direccion->ubicacion()->associate($ubicacion);
+            $direccion->save();
+
+            $persona->cedula = $request->cedula;
+            $persona->cuenta_banco = $request->cuenta_banco;
+            $persona->primer_nombre = $request->primer_nombre;
+            $persona->segundo_nombre = $request->segundo_nombre;
+            $persona->primer_apellido = $request->primer_apellido;
+            $persona->segundo_apellido = $request->segundo_apellido;
+            $persona->telefono_movil = $request->telefono_movil;
+            $persona->telefono_fijo = $request->telefono_fijo;    
+            $persona->direccion()->associate($direccion);   
+            $persona->save();
+            
+            $colaborador->persona()->associate($persona);  
+            $colaborador->save();       
 
 
-        SweetAlert::success('Exito','El colaborador "'.$colaborador->nombre.'" ha sido editado.');
+        SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre.' '.$colaborador->persona->primer_apellido.'" ha sido editado.');
         return Redirect::to('colaboradores');
     }
     }
@@ -246,7 +267,7 @@ class ColaboradorController extends Controller
         $colaborador = Colaborador::findOrFail($id);
     
         $colaborador->delete();
-        SweetAlert::success('Exito','El colaborador "'.$colaborador->nombre.'" ha sido eliminado.');
+        SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre.' '.$colaborador->persona->primer_apellido.'" ha sido eliminado.');
         return Redirect::to('colaboradores');
 }
 

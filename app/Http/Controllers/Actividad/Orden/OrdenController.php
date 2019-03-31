@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Orden;
 use App\Models\Actividad\Detalle_orden;
 use App\Models\Dato_basico\Ubicacion;
+use App\Models\Dato_basico\Direccion;
 use App\Models\Dato_basico\Pais;
 use App\Models\Dato_basico\Ciudad;
 use App\Models\Root\User;
@@ -27,7 +28,7 @@ class OrdenController extends Controller
     protected $redirectTo = '/login';
     
     private $blue = '#1565c0'; //blue darken-3
-    private $teal = '#00695c'; //teal darken-3
+    private $teal = '#00897b'; //teal darken-1
     private $red = '#c62828'; //red darken-3
     private $amber = '#ff8f00'; //amber darken-3
     
@@ -43,7 +44,7 @@ class OrdenController extends Controller
     public function index($estado = null)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $estados = Orden::getEstados();
+        $estados_ordenes = Orden::getEstados();
         $ordenes = Orden::select('*');
         $JSON_ordenes = Orden::select(DB::raw(
             "ordenes.id AS id,ordenes.nombre AS title,
@@ -62,15 +63,16 @@ class OrdenController extends Controller
             END AS icon
             ,ordenes.estado AS estado
             ,ordenes.fecha_inicio AS fecha_inicio ,ordenes.fecha_fin AS fecha_fin
-            ,ordenes.barrio AS barrio,ordenes.direccion AS direccion
+            ,direcciones.barrio AS barrio,direcciones.direccion AS direccion
             ,ciudades.nombre AS ciudad,departamentos.nombre AS departamento,paises.nombre AS pais
             ,ubicaciones.latitud AS latitud,ubicaciones.longitud AS longitud
             ,personas.primer_nombre AS primer_nombre,personas.segundo_nombre AS segundo_nombre
             ,personas.primer_apellido AS primer_apellido,personas.segundo_apellido AS segundo_apellido"))
-            ->join('ciudades', 'ordenes.ciudad_id', '=', 'ciudades.id')
+            ->join('direcciones', 'ordenes.direccion_id', '=', 'direcciones.id')
+            ->join('ciudades', 'direcciones.ciudad_id', '=', 'ciudades.id')
             ->join('departamentos', 'ciudades.departamento_id', '=', 'departamentos.id')
             ->join('paises', 'departamentos.pais_id', '=', 'paises.id')
-            ->join('ubicaciones', 'ordenes.ubicacion_id', '=', 'ubicaciones.id')
+            ->join('ubicaciones', 'direcciones.ubicacion_id', '=', 'ubicaciones.id')
             ->join('clientes', 'ordenes.cliente_id', '=', 'clientes.id')
             ->join('personas', 'clientes.persona_id', '=', 'personas.id');
 
@@ -85,7 +87,7 @@ class OrdenController extends Controller
         $ordenes = $ordenes->get();
         $JSON_ordenes = $JSON_ordenes->get();
         $route = 'ordenes.index';
-        return View::make('actividad.ordenes.index')->with(compact('ordenes','JSON_ordenes','estado','estados','route'));
+        return View::make('actividad.ordenes.index')->with(compact('ordenes','JSON_ordenes','estado','estados_ordenes','route'));
     }
 
     /**
@@ -98,25 +100,28 @@ class OrdenController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $orden = new Orden;
         $cliente =new Cliente;
+        $direccion = new Direccion;
         $cliente->persona()->associate(new Persona);
-        $orden->ciudad()->associate(new Ciudad);
-        $orden->ubicacion()->associate(new Ubicacion);
+        $direccion->ciudad()->associate(new Ciudad);
+        $direccion->ubicacion()->associate(new Ubicacion);
+        $orden->direccion()->associate($direccion);
         $orden->cliente()->associate($cliente);
         $orden->fecha_inicio = $fecha;
-        $estados = Orden::getEstados();
+        $estados_ordenes = Orden::getEstados();
         $editar = false;
         $paises = Pais::orderBy('nombre', 'asc')->get();
         $clientes = DB::table('clientes')
         ->join('personas', 'clientes.persona_id', '=', 'personas.id')
         ->join('users', 'personas.usuario_id', '=', 'users.id')
-        ->join('ciudades', 'personas.ciudad_id', '=', 'ciudades.id')
+        ->join('direcciones', 'personas.direccion_id', '=', 'direcciones.id')
+        ->join('ciudades', 'direcciones.ciudad_id', '=', 'ciudades.id')
         ->select('clientes.id', 'personas.cedula', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido'
-        , 'personas.telefono_movil', 'personas.telefono_fijo', 'personas.barrio', 'personas.direccion', 'personas.cuenta_banco'
+        , 'personas.telefono_movil', 'personas.telefono_fijo', 'direcciones.barrio', 'direcciones.direccion', 'personas.cuenta_banco'
         , 'ciudades.nombre AS ciudad', 'users.email AS email')
         ->whereIn('clientes.persona_id',Persona::distinct()->select('id')->whereIn('usuario_id',User::distinct()->select('id')->whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
 })))->get();
-       return View::make('actividad.ordenes.create')->with(compact('orden','editar','paises','clientes','estados'));
+       return View::make('actividad.ordenes.create')->with(compact('orden','editar','paises','clientes','estados_ordenes'));
     }
 
     /**
@@ -148,14 +153,13 @@ class OrdenController extends Controller
         } else {
             $orden = new Orden;
             $ubicacion = new Ubicacion;
+            $direccion = new Direccion;
             $cliente = Cliente::findOrFail($request->cliente_id);
             $ciudad = Ciudad::findOrFail($request->ciudad_id);
             $ubicacion->latitud = $request->latitud;
             $ubicacion->longitud = $request->longitud;
             $ubicacion->save();        
-            $orden->nombre = $request->nombre;
-            $orden->barrio = $request->barrio;
-            $orden->direccion = $request->direccion;   
+            $orden->nombre = $request->nombre;   
             $orden->fecha_inicio = $request->fecha_inicio;
 $carbon_fecha = Carbon::parse($orden->fecha_inicio);
             if($carbon_fecha->isFuture()){
@@ -164,13 +168,17 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
                 $orden->estado = "Abierta";
             }
 
-            $orden->ciudad()->associate($ciudad);
             $orden->cliente()->associate($cliente);
-            $orden->ubicacion()->associate($ubicacion);
+            $direccion->barrio = $request->barrio;
+            $direccion->direccion = $request->direccion;
+            $direccion->ciudad()->associate($ciudad);
+            $direccion->ubicacion()->associate($ubicacion);
+            $direccion->save();
+            $orden->direccion()->associate($direccion);
            $orden->save();        
 
             SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido registrada.');
-            return Redirect::to('ordenes/index');
+            return Redirect::to('ordenes/index/Abierta');
         }
     }
 
@@ -185,10 +193,10 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR','ROLE_CLIENTE'],TRUE);
 
         $orden = Orden::findOrFail($id);
-        $estados = Orden::getEstados();
+        $estados_ordenes = Orden::getEstados();
         $paises = Pais::orderBy('nombre', 'asc')->get();
         
-        return View::make('actividad.ordenes.show')->with(compact('orden','estados','paises'));
+        return View::make('actividad.ordenes.show')->with(compact('orden','estados_ordenes','paises'));
         
         }
 
@@ -204,18 +212,19 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
         $orden = Orden::findOrFail($id);
         $editar = true;
         $paises = Pais::orderBy('nombre', 'asc')->get();
-        $estados = Orden::getEstados();
+        $estados_ordenes = Orden::getEstados();
         $clientes = DB::table('clientes')
         ->join('personas', 'clientes.persona_id', '=', 'personas.id')
         ->join('users', 'personas.usuario_id', '=', 'users.id')
-        ->join('ciudades', 'personas.ciudad_id', '=', 'ciudades.id')
+        ->join('direcciones', 'personas.direccion_id', '=', 'direcciones.id')
+        ->join('ciudades', 'direcciones.ciudad_id', '=', 'ciudades.id')
         ->select('clientes.id', 'personas.cedula', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido'
-        , 'personas.telefono_movil', 'personas.telefono_fijo', 'personas.barrio', 'personas.direccion', 'personas.cuenta_banco'
+        , 'personas.telefono_movil', 'personas.telefono_fijo', 'direcciones.barrio', 'direcciones.direccion', 'personas.cuenta_banco'
         , 'ciudades.nombre AS ciudad', 'users.email AS email')
         ->whereIn('clientes.persona_id',Persona::distinct()->select('id')->whereIn('usuario_id',User::distinct()->select('id')->whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
 })))->get();
-        return View::make('actividad.ordenes.edit')->with(compact('orden','editar','paises','clientes','estados'));
+        return View::make('actividad.ordenes.edit')->with(compact('orden','editar','paises','clientes','estados_ordenes'));
    
     }
 
@@ -247,18 +256,17 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
         SweetAlert::error('Error','Errores en el formulario.');
         return Redirect::to('ordenes/'+$id+'/edit')
             ->withErrors($validator);
-    } else {
+    } else { 
         $orden = Orden::findOrFail($id);
-        $ubicacion = new Ubicacion;
+        $direccion = Direccion::findOrFail($orden->direccion_id);
+        $ubicacion = Ubicacion::findOrFail($direccion->ubicacion_id);
         $cliente = Cliente::findOrFail($request->cliente_id);
         $ciudad = Ciudad::findOrFail($request->ciudad_id);
         $ubicacion->latitud = $request->latitud;
         $ubicacion->longitud = $request->longitud;
-        $ubicacion->save();        
+        $ubicacion->save();       
         $orden->nombre = $request->nombre; 
-        $orden->estado = $request->estado;
-        $orden->barrio = $request->barrio;
-        $orden->direccion = $request->direccion;   
+        $orden->estado = $request->estado; 
         $orden->fecha_inicio = $request->fecha_inicio;
         
         if($orden->estado == "Cerrada"){
@@ -266,12 +274,16 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
         }else{
             $orden->fecha_fin = NULL;
         }
-        $orden->ciudad()->associate($ciudad);
         $orden->cliente()->associate($cliente);
-        $orden->ubicacion()->associate($ubicacion);
+            $direccion->barrio = $request->barrio;
+            $direccion->direccion = $request->direccion;
+            $direccion->ciudad()->associate($ciudad);
+            $direccion->ubicacion()->associate($ubicacion);
+            $direccion->save();
+            $orden->direccion()->associate($direccion);
         $orden->save();
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido editada.');
-        return Redirect::to('ordenes/index');
+        return Redirect::to('ordenes/index/Abierta');
     }
     }
 
@@ -287,7 +299,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
         $orden = Orden::findOrFail($id);   
         $orden->delete();
         SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido eliminada.');
-        return Redirect::to('ordenes/index');
+        return Redirect::to('ordenes/index/Abierta');
 }
 
 /**
@@ -302,8 +314,8 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
 
 
             $orden = Orden::findOrFail($id);
-            $estados = Orden::getEstados();
-        return View::make('include.actividad.detalles_ordenes.datatable')->with(compact('orden','estados'));
+            $estados_ordenes = Orden::getEstados();
+        return View::make('include.actividad.detalles_ordenes.datatable')->with(compact('orden','estados_ordenes'));
 
         }
 
@@ -355,8 +367,8 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
                 $prefix = "";
             }
 
-            $estados = Orden::getEstados();
-            return View::make('include.actividad.detalles_ordenes.form')->with(compact('orden','detalle','editar','estados','prefix'));
+            $estados_ordenes = Orden::getEstados();
+            return View::make('include.actividad.detalles_ordenes.form')->with(compact('orden','detalle','editar','estados_ordenes','prefix'));
             }
 
             

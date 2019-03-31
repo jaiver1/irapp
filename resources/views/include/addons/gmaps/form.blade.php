@@ -196,7 +196,7 @@ markers3 = [];
         var marker2 = new google.maps.Marker({
           position: location,
 map: map,
-icon: image2,
+icon: image,
 animation:google.maps.Animation.BOUNCE
 });
         markers.push(marker2);

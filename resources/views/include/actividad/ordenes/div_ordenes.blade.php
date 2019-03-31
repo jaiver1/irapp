@@ -9,21 +9,21 @@
     <div class="col-12">
 
         <!--Card-->
-        <div class="card hoverable"> 
+        <div class="card hoverable hoverable-cliente"> 
             <!--Card content-->
             <div class="card-body">
                     <ul class="nav nav-pills mb-3" id="views-tab" role="tablist">
-                            <li class="nav-item hoverable waves-effect mr-2 mt-2"  onclick="localDB('table');">
-                              <a class="nav-link active z-depth-5" id="pills-list-tab" data-toggle="pill" href="#pills-list" role="tab" aria-controls="pills-list" aria-selected="true">
+                            <li class="nav-item hoverable waves-effect mr-2 mt-2"  onclick="localDB_Orden('table');">
+                              <a class="nav-link active z-depth-5" id="pills-list-orden-tab" data-toggle="pill" href="#pills-list-orden" role="tab" aria-controls="pills-list-orden" aria-selected="true">
                                 <h5> <i class="fas fa-clipboard-list mr-2"></i>Lista</h5></a>
                             </li>
-                            <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB('calendar');">
-                              <a class="nav-link z-depth-5" id="pills-calendar-tab" data-toggle="pill" href="#pills-calendar" role="tab" aria-controls="pills-calendar" aria-selected="false">
+                            <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB_Orden('calendar');">
+                              <a class="nav-link z-depth-5" id="pills-calendar-orden-tab" data-toggle="pill" href="#pills-calendar-orden" role="tab" aria-controls="pills-calendar-orden" aria-selected="false">
                                   <h5> <i class="fas fa-calendar-alt mr-2"></i>Calendario</h5></a>
                             </li>
                             @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],FALSE))
-                            <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB('map');">
-                                    <a class="nav-link z-depth-5" id="pills-map-tab" data-toggle="pill" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="false">
+                            <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB_Orden('map');">
+                                    <a class="nav-link z-depth-5" id="pills-map-orden-tab" data-toggle="pill" href="#pills-map-orden" role="tab" aria-controls="pills-map-orden" aria-selected="false">
                                         <h5> <i class="fas fa-map-marked-alt mr-2"></i>Mapa</h5></a>
                                   </li>
                                   @endif
@@ -71,7 +71,7 @@ fa-stopwatch
                                                 <button onclick="document.location.href='{{route($route)}}'" class="dropdown-item waves-effect hoverable {{(!$estado) ? 'ocultar' : ''}}" type="button">
                                                         <i class="mr-1 fas fa-lg  fa-tasks danger-text"></i>
                                                         Mostrar todo</button>
-                                                @foreach($estados as $key => $item)
+                                                @foreach($estados_ordenes as $key => $item)
                                                 <button onclick="document.location.href='{{route($route,array($item))}}'" class="dropdown-item waves-effect hoverable {{($estado == $item) ? 'ocultar' : ''}}" type="button">
                                                         <i class="mr-1 fas fa-lg
                                                         @switch($item)
@@ -96,7 +96,7 @@ fa-stopwatch
 
                           </ul>
                     <div class="tab-content" id="pills-tab-views">
-                            <div class="tab-pane fade show active" id="pills-list" role="tabpanel" aria-labelledby="pills-list-tab">
+                            <div class="tab-pane fade show active" id="pills-list-orden" role="tabpanel" aria-labelledby="pills-list-orden-tab">
                                     <div class="table-responsive">
                                             <!-- Table  -->
                                             <table id="dtordenes" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
@@ -172,9 +172,9 @@ fa-stopwatch
                       <td>
                           {{$orden->cliente->persona->primer_nombre}} {{$orden->cliente->persona->segundo_nombre}} {{$orden->cliente->persona->primer_apellido}} {{$orden->cliente->persona->segundo_apellido}}
                       </td>     
-                      <td>{{$orden->ciudad->nombre}}</td>  
-                      <td>{{$orden->barrio}}</td>
-                      <td>{{$orden->direccion}}</td>       
+                      <td>{{$orden->direccion->ciudad->nombre}}</td>  
+                      <td>{{$orden->direccion->barrio}}</td>
+                      <td>{{$orden->direccion->direccion}}</td>       
                       <td>
                 
                 <a target="_blank" href="{{ route('ordenes.show', $orden->id) }}" class="text-primary m-1" 
@@ -204,7 +204,7 @@ fa-stopwatch
                                             <!-- Table  -->
                                             </div>
                             </div>
-                            <div class="tab-pane fade" id="pills-calendar" role="tabpanel" aria-labelledby="pills-calendar-tab">
+                            <div class="tab-pane fade" id="pills-calendar-orden" role="tabpanel" aria-labelledby="pills-calendar-orden-tab">
                                 <div class='fc-right'>
                                     
 <!-- Basic dropdown -->
@@ -217,28 +217,28 @@ aria-expanded="false"><i class="fas fa-eye mr-1"></i>Ver</a>
 <div class="dropdown-menu">
 <a class="dropdown-item disabled" href="#"><i class="fas fa-calendar-alt mr-1"></i>Calendario</a>
 <div class="dropdown-divider"></div>
-<a class="dropdown-item" href="#" onclick="cambio('agendaDay')">Día</a>
-<a class="dropdown-item" href="#" onclick="cambio('agendaWeek')">Semana</a>
-<a class="dropdown-item" href="#" onclick="cambio('month')">Mes</a>
+<a class="dropdown-item" href="#" onclick="cambio_Orden('agendaDay')">Día</a>
+<a class="dropdown-item" href="#" onclick="cambio_Orden('agendaWeek')">Semana</a>
+<a class="dropdown-item" href="#" onclick="cambio_Orden('month')">Mes</a>
 
 <div class="dropdown-divider"></div>
 <a class="dropdown-item disabled" href="#"><i class="fas fa-clipboard-list mr-1"></i>Listas</a>
 <div class="dropdown-divider"></div>
-<a class="dropdown-item" href="#" onclick="cambio('listDay')">Día</a>
-<a class="dropdown-item" href="#" onclick="cambio('listWeek')">Semana</a>
-<a class="dropdown-item" href="#" onclick="cambio('listMonth')">Mes</a>
-<a class="dropdown-item" href="#" onclick="cambio('listYear')">Año</a>
+<a class="dropdown-item" href="#" onclick="cambio_Orden('listDay')">Día</a>
+<a class="dropdown-item" href="#" onclick="cambio_Orden('listWeek')">Semana</a>
+<a class="dropdown-item" href="#" onclick="cambio_Orden('listMonth')">Mes</a>
+<a class="dropdown-item" href="#" onclick="cambio_Orden('listYear')">Año</a>
 </div>
 <!-- Basic dropdown -->
 </div>
 </div>
 
                                 </div>
-                                <div id='calendar'></div>
+                                <div id='calendar_ordenes'></div>
 
                             </div>
                             @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR'],FALSE))
-                            <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
+                            <div class="tab-pane fade" id="pills-map-orden" role="tabpanel" aria-labelledby="pills-map-orden-tab">
                           
                                 @yield('gmaps_list')
                             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Orden;
+use App\Models\Actividad\Solicitud;
 use Illuminate\Support\Facades\View;
 use DB;
 
@@ -12,7 +13,7 @@ class HomeController extends Controller
 {
      protected $redirectTo = '/login';
      private $blue = '#1565c0'; //blue darken-3
-     private $teal = '#00695c'; //teal darken-3
+     private $teal = '#00897b'; //teal darken-1
      private $red = '#c62828'; //red darken-3
      private $amber = '#ff8f00'; //amber darken-3
     /**
@@ -35,7 +36,7 @@ class HomeController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR','ROLE_CLIENTE'],TRUE);
        
        if(Auth::user()->authorizeRoles(['ROLE_COLABORADOR','ROLE_CLIENTE'],FALSE)){
-        $estados = Orden::getEstados();
+        $estados_ordenes = Orden::getEstados();
         $ordenes = Orden::select('*');
         $JSON_ordenes = Orden::select(DB::raw(
             "ordenes.id AS id,ordenes.nombre AS title,
@@ -54,18 +55,50 @@ class HomeController extends Controller
             END AS icon
             ,ordenes.estado AS estado
             ,ordenes.fecha_inicio AS fecha_inicio ,ordenes.fecha_fin AS fecha_fin
-            ,ordenes.barrio AS barrio,ordenes.direccion AS direccion
+            ,direcciones.barrio AS barrio,direcciones.direccion AS direccion
             ,ciudades.nombre AS ciudad,departamentos.nombre AS departamento,paises.nombre AS pais
             ,ubicaciones.latitud AS latitud,ubicaciones.longitud AS longitud
             ,personas.primer_nombre AS primer_nombre,personas.segundo_nombre AS segundo_nombre
             ,personas.primer_apellido AS primer_apellido,personas.segundo_apellido AS segundo_apellido"))
-            ->join('ciudades', 'ordenes.ciudad_id', '=', 'ciudades.id')
+            ->join('direcciones', 'ordenes.direccion_id', '=', 'direcciones.id')
+            ->join('ciudades', 'direcciones.ciudad_id', '=', 'ciudades.id')
             ->join('departamentos', 'ciudades.departamento_id', '=', 'departamentos.id')
             ->join('paises', 'departamentos.pais_id', '=', 'paises.id')
-            ->join('ubicaciones', 'ordenes.ubicacion_id', '=', 'ubicaciones.id')
+            ->join('ubicaciones', 'direcciones.ubicacion_id', '=', 'ubicaciones.id')
             ->join('clientes', 'ordenes.cliente_id', '=', 'clientes.id')
             ->join('personas', 'clientes.persona_id', '=', 'personas.id');
-        
+
+            $estados_solicitudes = Solicitud::getEstados();
+            $solicitudes = Solicitud::select('*');
+            $JSON_solicitudes = Solicitud::select(DB::raw(
+                "solicitudes.id AS id,solicitudes.nombre AS title,
+                REPLACE(solicitudes.fecha_inicio,' ','T') AS start,
+                CASE solicitudes.estado
+                WHEN 'Abierta' THEN '$this->teal'
+                WHEN 'Cancelada' THEN '$this->red'
+                ELSE '$this->amber'
+                END AS color,
+                CASE solicitudes.estado
+                WHEN 'Abierta' THEN 'fa-calendar-check'
+                WHEN 'Cancelada' THEN 'fa-calendar-times'
+                ELSE 'fa-stopwatch'
+                END AS icon
+                ,solicitudes.estado AS estado
+                ,solicitudes.fecha_inicio AS fecha_inicio ,solicitudes.fecha_fin AS fecha_fin
+                ,direcciones.barrio AS barrio,direcciones.direccion AS direccion
+                ,ciudades.nombre AS ciudad,departamentos.nombre AS departamento,paises.nombre AS pais
+                ,ubicaciones.latitud AS latitud,ubicaciones.longitud AS longitud
+                ,personas.primer_nombre AS primer_nombre,personas.segundo_nombre AS segundo_nombre
+                ,personas.primer_apellido AS primer_apellido,personas.segundo_apellido AS segundo_apellido"))
+                ->join('direcciones', 'solicitudes.direccion_id', '=', 'direcciones.id')
+                ->join('ciudades', 'direcciones.ciudad_id', '=', 'ciudades.id')
+                ->join('departamentos', 'ciudades.departamento_id', '=', 'departamentos.id')
+                ->join('paises', 'departamentos.pais_id', '=', 'paises.id')
+                ->join('ubicaciones', 'direcciones.ubicacion_id', '=', 'ubicaciones.id')
+                ->join('clientes', 'solicitudes.cliente_id', '=', 'clientes.id')
+                ->join('personas', 'clientes.persona_id', '=', 'personas.id');
+
+
         if(Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE)){
             $colaborador = Auth::user()->getColaborador();      
             $ordenes = $ordenes->where('cliente_id','=',$colaborador->id);
@@ -87,8 +120,10 @@ class HomeController extends Controller
 
         $ordenes = $ordenes->get();
         $JSON_ordenes = $JSON_ordenes->get();
+        $solicitudes = $solicitudes->get();
+        $JSON_solicitudes = $JSON_solicitudes->get();
         $route = 'home';
-        return View::make('home.index')->with(compact('ordenes','JSON_ordenes','estados','estado','route'));
+        return View::make('home.index')->with(compact('ordenes','JSON_ordenes','estados_ordenes','solicitudes','JSON_solicitudes','estados_solicitudes','estado','route'));
         }
         else if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE)){
             return View::make('home.index');

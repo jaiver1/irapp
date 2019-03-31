@@ -84,7 +84,7 @@
                 <div class="md-form">
                 <i class="fas fa-sitemap"></i>
                 <small for="categoria_id">Categorias *</small>   
-                @include('include.clasificacion.categorias.select', array('categoria_selected'=>$categoria))
+                @include('include.clasificacion.categorias_parent.select', array('categoria_selected'=>$categoria))
     </div> @if ($errors->has('categoria_id'))
                                                 <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
                                                {{ $errors->first('categoria_id') }}

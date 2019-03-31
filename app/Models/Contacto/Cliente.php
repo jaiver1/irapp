@@ -5,6 +5,8 @@ namespace App\Models\Contacto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Contacto\Persona;
+use App\Models\Actividad\Servicio;
+use App\Models\Comercio\Producto;
 
 class Cliente extends Model
 {
@@ -55,4 +57,12 @@ class Cliente extends Model
     {
         return $this->belongsTo(Persona::class);
     }
+
+    public function servicios(){
+        return $this->belongsToMany(Servicio::class);
+      }
+
+      public function productos(){
+        return $this->belongsToMany(Producto::class);
+      }
 }

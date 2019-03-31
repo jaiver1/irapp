@@ -5,7 +5,7 @@
             <!-- Grid column -->
             <div class="col-md-12">
              {{--@json($JSON_ordenes)--}} 
-                    <div id="map" class="z-depth-1 hoverable div-border" style="height: 400px"></div>
+                    <div id="map_ordenes" class="z-depth-1 hoverable div-border" style="height: 400px"></div>
 
  </div>
         
@@ -15,10 +15,10 @@
 @endsection
 @section('gmaps_links')
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDShqXOrTD_donWeWH4OJQwefouQ1mGbz8&libraries=places"
-async defer></script>
-<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABNZTIj3RqipcAdvc7aZ9YM6Uv_pylqjA&libraries=places"
+<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDShqXOrTD_donWeWH4OJQwefouQ1mGbz8&libraries=places"
 async defer></script-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABNZTIj3RqipcAdvc7aZ9YM6Uv_pylqjA&libraries=places"
+async defer></script>
 
 <script type="text/javascript">
 // This example adds a search box to a map, using the Google Place Autocomplete
@@ -31,7 +31,7 @@ async defer></script-->
 
 function GoogleMap(position) {
 var location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-var map = new google.maps.Map(document.getElementById('map'), {
+var map = new google.maps.Map(document.getElementById('map_ordenes'), {
 zoom: 15,
 center: location,
 panControl: true,
@@ -57,6 +57,7 @@ mapTypeControlOptions: {
 mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 var markers = [];
+var details = [];
 var image ="{{ asset('img/gmaps/pin.png')  }}";
 var image2 ="{{ asset('img/gmaps/goal.png')  }}";
 var infowindow = "{{ $infowindow }}";
@@ -69,7 +70,6 @@ var ordenes = @json($JSON_ordenes);
     content: "<h6 style='font-weight:900;'>"+infowindow+"</h6>"
   });
 
-
 var gps = new google.maps.Marker({
 map: map,
 position: location,
@@ -78,7 +78,6 @@ title:infowindow,
 animation:google.maps.Animation.BOUNCE
 });
 
- markers.push(gps);
 
 gps.addListener('click', function() {
   infowindow_gmaps = new google.maps.InfoWindow({
@@ -87,7 +86,46 @@ gps.addListener('click', function() {
   infowindow_gmaps.open(map, gps);
   });
 
+  gps.setMap(map)
 
+  var timer = setInterval(localize, 3000);
+
+function localize() {
+  try {
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(change_gps,error_gps);
+} 
+}
+catch(err) {
+  console.log(err.message);
+}
+}
+
+function change_gps(position){
+  gps.setMap(null);
+  location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+ gps = new google.maps.Marker({
+map: map,
+position: location,
+icon: image,
+title:infowindow,
+animation:google.maps.Animation.BOUNCE
+});
+
+
+gps.addListener('click', function() {
+  infowindow_gmaps = new google.maps.InfoWindow({
+    content: "<strong>"+infowindow+"</strong>"
+  });
+  infowindow_gmaps.open(map, gps);
+  });
+
+  gps.setMap(map)
+}
+
+function error_gps(){
+  console.log("No se pudo obtener la ubicacion");
+}
 
  // Adds a marker to the map and push to the array.
 
@@ -114,18 +152,18 @@ gps.addListener('click', function() {
 map: map,
 icon: image2,
 title:ordenes[i].direccion+" ("+ordenes[i].barrio+")",
-animation:google.maps.Animation.BOUNCE
+animation:google.maps.Animation.BOUNCE,
+info: texto_info
 });
         markers.push(marker);
 
-        marker.addListener('click', function() {
-  infowindow_marker = new google.maps.InfoWindow({
-    content: texto_info
+        infoWindow = new google.maps.InfoWindow({ content: texto_info });
+        google.maps.event.addListener( marker, 'click', function()  {
+          infoWindow.setContent( this.info );
+          infoWindow.open( map, this );
   });
-  infowindow_marker.open(map, marker);
-  });
-    }
 
+    }
 
       // Sets the map on all markers in the array.
       function setMapOnAll(map) {

@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Dato_basico\Medida;
 use App\Models\Contacto\Colaborador;
+use App\Models\Actividad\Imagen_servicio;
+use App\Models\Actividad\Calificacion_servicio;
 
 class Servicio extends Model
 {
@@ -66,5 +68,13 @@ public function medida()
   public function colaboradores()
   {
       return $this->belongsToMany(Colaborador::class);
+  }
+
+  public function imagenes(){
+    return $this->hasMany(Imagen_servicio::class);
+  }
+
+  public function calificaciones(){
+    return $this->hasMany(Calificacion_servicio::class);
   }
 }

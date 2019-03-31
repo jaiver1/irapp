@@ -4,8 +4,7 @@ namespace App\Models\Contacto;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Dato_basico\Ubicacion;
-use App\Models\Dato_basico\Ciudad;
+use App\Models\Dato_basico\Direccion;
 use App\Models\Root\User;
 
 class Persona extends Model
@@ -40,10 +39,7 @@ class Persona extends Model
         'segundo_apellido',
         'telefono_fijo',
         'telefono_movil',
-        'ciudad_id',
-        'ubicacion_id',
-        'barrio',
-        'direccion',
+        'direccion_id',
         'cuenta_banco',
         'usuario_id',
     ];
@@ -65,15 +61,10 @@ class Persona extends Model
         'deleted_at',
     ];
 
-    public function ubicacion()
-    {
-        return $this->belongsTo(Ubicacion::class);
-    }
-
-    public function ciudad()
-    {
-        return $this->belongsTo(Ciudad::class);
-    }
+    public function direccion()
+{
+    return $this->belongsTo(Direccion::class);
+}
     
     public function usuario()
     {

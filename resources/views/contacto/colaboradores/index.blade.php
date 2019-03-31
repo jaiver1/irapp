@@ -18,7 +18,7 @@ Lista de colaboradores | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-user-tie fa-lg mr-1"></i></span>   <span>@if ($colaboradores->count() === 1)
+                    <span><i class="fas fa-user-cog fa-lg mr-1"></i></span>   <span>@if ($colaboradores->count() === 1)
                 Un colaborador
             @elseif ($colaboradores->count() > 1)
                 {{ $colaboradores->count() }} colaboradores
@@ -57,7 +57,7 @@ Lista de colaboradores | {{ config('app.name', 'Laravel') }}
                         <div class="card-body">
                         <div class="table-responsive">
                             <!-- Table  -->
-                            <table id="dtcolaboradors" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="dtcolaboradores" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
   <thead class="th-color white-text">
     <tr class="z-depth-2">
       <th class="th-sm">#
@@ -105,9 +105,9 @@ Lista de colaboradores | {{ config('app.name', 'Laravel') }}
       <td>{{$colaborador->persona->segundo_apellido}}</td>
       <td>{{$colaborador->persona->telefono_movil}}</td>
       <td>{{$colaborador->persona->telefono_fijo}}</td>
-      <td>{{$colaborador->persona->ciudad->nombre}}</td>
-      <td>{{$colaborador->persona->barrio}}</td>
-      <td>{{$colaborador->persona->direccion}}</td>
+      <td>{{$colaborador->persona->direccion->ciudad->nombre}}</td>
+      <td>{{$colaborador->persona->direccion->barrio}}</td>
+      <td>{{$colaborador->persona->direccion->direccion}}</td>
       <td>{{$colaborador->persona->cuenta_banco}}</td>
       @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
       <td>
@@ -214,7 +214,7 @@ $(document).ready(function() {
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
     var titulo_archivo = "Lista de colaboradores ("+datetime+")";
-     $('#dtcolaboradors').DataTable( {
+     $('#dtcolaboradores').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
         [ 2, 5, 10, 20, 30, 50, 100, -1 ],
@@ -303,7 +303,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fas fa-user-tie fa-lg"></i> Datos del colaborador "'+ data[2]+' '+ data[4]+'"';
+                        return '<i class="fas fa-user-cog fa-lg"></i> Datos del colaborador "'+ data[2]+' '+ data[4]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

@@ -29,6 +29,7 @@ class UsuariosTableSeeder extends Seeder
         $administrador = new User;
         $administrador->name = 'Administrador';
         $administrador->email = 'administrador@example.com';
+        $root->email_verified_at = Carbon::now();
         $administrador->password = bcrypt('administrador');
         $administrador->save();
         $administrador->roles()->attach($role_administrador);

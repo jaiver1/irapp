@@ -73,9 +73,9 @@ Información del cliente "{{$cliente->persona->primer_nombre}} {{$cliente->perso
   <a class="list-group-item waves-effect hoverable"><strong>Segundo apellido: </strong>{{ $cliente->persona->segundo_apellido }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Telefono movil: </strong>{{ $cliente->persona->telefono_movil }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Telefono fijo: </strong>{{ $cliente->persona->telefono_fijo }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong>Ciudad: </strong>{{ $cliente->persona->ciudad->nombre }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong>Barrio: </strong>{{ $cliente->persona->barrio }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong>Direccion: </strong>{{ $cliente->persona->direccion }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Ciudad: </strong>{{ $cliente->persona->direccion->ciudad->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Barrio: </strong>{{ $cliente->persona->direccion->barrio }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Direccion: </strong>{{ $cliente->persona->direccion->direccion }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Cuenta banco: </strong>{{ $cliente->persona->cuenta_banco }}</a>
   @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
   <a href ="{{ route('usuarios.show' , $cliente->persona->usuario->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-user mr-2"></i>Usuario: </strong>{{ $cliente->persona->usuario->name }}</a>

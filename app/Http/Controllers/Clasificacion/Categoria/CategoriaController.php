@@ -77,7 +77,7 @@ class CategoriaController extends Controller
             $categoria = new Categoria;
             $categoria->nombre = $request->nombre; 
             $categoria->etiqueta = $request->etiqueta; 
-            $categoria->tipo_categoria()->associate(Tipo_categoria::findOrFail($request->tipo_categoria_id));      
+            $categoria->especialidad()->associate(Especialidad::findOrFail($request->especialidad_id));      
             $categoria->save();        
 
             SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido registrada.');
@@ -126,7 +126,7 @@ class CategoriaController extends Controller
         $rules = array(
             'nombre'                   => 'required|max:50',
             'etiqueta'                   => 'required|max:5',
-            'tipo_categoria_id'                   => 'required',
+            'especialidad_id'                   => 'required',
     );
 
     $validator = Validator::make($request->all(), $rules);
@@ -141,7 +141,7 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($id);
         $categoria->nombre = $request->nombre; 
         $categoria->etiqueta = $request->etiqueta; 
-        $categoria->tipo_categoria()->associate(Tipo_categoria::findOrFail($request->tipo_categoria_id)); 
+        $categoria->especialidad()->associate(Especialidad::findOrFail($request->especialidad_id)); 
         $categoria->save();
 
         SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido editada.');

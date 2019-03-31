@@ -20,10 +20,10 @@ Ordenes eliminadas | {{ config('app.name', 'Laravel') }}
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
                     <span class="fa-stack">
-  <i class="fas fa-business-time fa-stack-1x fa-lg"></i>
+  <i class="fas fa-toolbox fa-stack-1x fa-lg"></i>
    <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i>
 </span>
-                    <a href="{{ route('ordenes.index',array(0)) }}">Lista de ordenes</a>
+                    <a href="{{ route('ordenes.index',array('Abierta')) }}">Lista de ordenes</a>
                         <span>/</span>
                         <span> @if ($ordenes->count() === 1)
                 Una orden eliminada
@@ -35,9 +35,9 @@ Ordenes eliminadas | {{ config('app.name', 'Laravel') }}
             </span>
                     </h4>
                     <div class="d-flex justify-content-center">
-                    <a href="{{ route('ordenes.index',array(0)) }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
+                    <a href="{{ route('ordenes.index',array('Abierta')) }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de ordenes">
-                      <i class="fas fa-2x fa-business-time "></i>
+                      <i class="fas fa-2x fa-toolbox "></i>
                             </a>
                     </div>
 
@@ -294,7 +294,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<span class="fa-stack"><i class="fas fa-business-time fa-stack-1x fa-lg"></i> <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de la orden eliminada "'+ data[1]+'"';
+                        return '<span class="fa-stack"><i class="fas fa-toolbox fa-stack-1x fa-lg"></i> <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de la orden eliminada "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

@@ -21,7 +21,7 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-business-time fa-lg mr-1"></i></span> <span> @if ($ordenes->count() === 1)
+                    <span><i class="fas fa-toolbox fa-lg mr-1"></i></span> <span> @if ($ordenes->count() === 1)
                 Una orden
             @elseif ($ordenes->count() > 1)
                 {{ $ordenes->count() }} ordenes
@@ -36,7 +36,7 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                     data-toggle="tooltip" data-placement="bottom" title="Registrar una orden">
                       <i class="fas fa-2x fa-plus"></i>
                             </a>
-                            <a href="{{ route('ordenes.deleted.index',array(0)) }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
+                            <a href="{{ route('ordenes.deleted.index',array('Abierta')) }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Ordenes eliminadas">
                       <i class="fas fa-2x fa-recycle"></i>
                             </a>
@@ -204,7 +204,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fas fa-business-time fa-lg"></i> Datos de la orden "'+ data[1]+'"';
+                        return '<i class="fas fa-toolbox fa-lg"></i> Datos de la orden "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -222,7 +222,7 @@ var ahora = moment().local();
 var ahora_fecha = ahora.format('YYYY-MM-DD');
 var ahora_hora = ahora.format('HH:mm:ss');
 console.log(ahora);
-var calendar = $('#calendar').fullCalendar({
+var calendar = $('#calendar_ordenes').fullCalendar({
        header: {
         left: 'prev,next,today,prevYear,nextYear',
         center: 'title',
@@ -316,11 +316,12 @@ var ruta = "{{ route('ordenes.create',array(null)) }}";
 $('.fc-event').removeClass('event-active');
 $('.fc-day').removeClass('day-active');
 $(this).addClass('day-active');
-if(view == 'month'){
-    date = date.add('8', 'hours');
-}
 
- swal({
+if(view.name == 'month') {
+    $('#calendar_ordenes').fullCalendar('changeView', 'agendaDay');
+    $('#calendar_ordenes').fullCalendar('gotoDate', date);      
+  }else{
+    swal({
   title: 'Registrar orden',
   text: '¿Desea registrar una orden el dia "'+date.format("dddd DD/MMMM/YYYY")+'" a las "'+date.format("hh:mm a")+'"?',
   type: 'question',
@@ -349,39 +350,41 @@ if(view == 'month'){
 })
   }
 })
+  }
+
 }
 });
 
 var id = "{{Auth::user()->id}}";
-var vista = localStorage.getItem("USER_"+id);
+var vista = localStorage.getItem("USER_ORDEN_"+id);
   if(vista) {
 if(vista == 'table'){
-    $('a[href="#pills-list"]').tab('show');
+    $('a[href="#pills-list-orden"]').tab('show');
 }else if(vista == 'map'){
-    $('a[href="#pills-map"]').tab('show');
+    $('a[href="#pills-map-orden"]').tab('show');
 }else{
-$('#calendar').fullCalendar('changeView', vista);
-$('a[href="#pills-calendar"]').tab('show');
+$('#calendar_ordenes').fullCalendar('changeView', vista);
+$('a[href="#pills-calendar-orden"]').tab('show');
 }
 }
     });
 
-    $('a[href="#pills-calendar"]').on('shown.bs.tab', function (e) {
-        $('#calendar').fullCalendar('render');
+    $('a[href="#pills-calendar-orden"]').on('shown.bs.tab', function (e) {
+        $('#calendar_ordenes').fullCalendar('render');
 })
 
-    function cambio(view){
-    localDB(view);
-  $('#calendar').fullCalendar('changeView', view);
+    function cambio_Orden(view){
+    localDB_Orden(view);
+  $('#calendar_ordenes').fullCalendar('changeView', view);
 }
 
-function localDB(view){
+function localDB_Orden(view){
     var id = "{{Auth::user()->id}}";
   if(view == "calendar"){
-    var fc_vista = $('#calendar').fullCalendar('getView');
+    var fc_vista = $('#calendar_ordenes').fullCalendar('getView');
     view = fc_vista.type;
   }
-    localStorage.setItem("USER_"+id,view);
+    localStorage.setItem("USER_ORDEN_"+id,view);
 }
 </script>
 @endsection

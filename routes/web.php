@@ -16,9 +16,12 @@ Auth::routes(['verify' => true]);
 
 
 Route::get('/', 'StoreController@index')->name('welcome');
-Route::get('/store/productos', 'StoreController@lista_Productos')->name('store.productos');
-Route::get('/store/servicios', 'StoreController@lista_Servicios')->name('store.servicios');
-
+Route::get('/store/productos', 'StoreController@lista_productos')->name('store.productos');
+Route::get('/store/servicios', 'StoreController@lista_servicios')->name('store.servicios');
+Route::get('/store/productos/{id}', 'StoreController@show_producto')->name('store.productos.show');
+Route::get('/store/servicios/{id}', 'StoreController@show_servicio')->name('store.servicios.show');
+Route::get('/store/cart/productos', 'StoreController@cart_productos')->name('store.productos.cart');
+Route::get('/store/cart/servicios', 'StoreController@cart_servicios')->name('store.servicios.cart');
 
 Route::get('/home/{estado?}', 'HomeController@index')->name('home')->middleware('verified');
 
@@ -123,6 +126,28 @@ Route::post('/productos/upload/imagenes/{id}', ['uses' => 'Comercio\Producto\Pro
 Route::delete('/productos/delete/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@delete_imagenes', 'as' => 'productos.deleteImagenes'])->middleware('verified');
 
 
+Route::resource('compras/deleted', 'Comercio\Compra\CompraSoftDeleteController',
+[
+    'names' => [
+        'index' => 'compras.deleted.index',
+        'update' => 'compras.deleted.update',
+        'destroy' => 'compras.deleted.destroy'
+    ]
+])->middleware('verified');
+
+Route::resource('compras', 'Comercio\Compra\CompraController')->middleware('verified');
+
+Route::resource('ventas/deleted', 'Comercio\Venta\CompraSoftDeleteController',
+[
+    'names' => [
+        'index' => 'ventas.deleted.index',
+        'update' => 'ventas.deleted.update',
+        'destroy' => 'ventas.deleted.destroy'
+    ]
+])->middleware('verified');
+
+Route::resource('ventas', 'Comercio\Venta\VentaController')->middleware('verified');
+
 Route::resource('clientes/deleted', 'Contacto\Cliente\ClienteSoftDeleteController',
 [
     'names' => [
@@ -149,6 +174,22 @@ Route::get('/colaboradores/servicios/{id}/{isSearching}', ['uses' => 'Contacto\C
 Route::post('/colaboradores/servicios/add', ['uses' => 'Contacto\Colaborador\ColaboradorController@add_servicios', 'as' => 'colaboladores.addServicios'])->middleware('verified');
 Route::delete('/colaboradores/servicios/delete', ['uses' => 'Contacto\Colaborador\ColaboradorController@delete_servicios', 'as' => 'colaboladores.deleteServicios'])->middleware('verified');
 
+Route::resource('proveedores/deleted', 'Contacto\Proveedor\ProveedorSoftDeleteController',
+[
+    'names' => [
+        'index' => 'proveedores.deleted.index',
+        'update' => 'proveedores.deleted.update',
+        'destroy' => 'proveedores.deleted.destroy'
+    ]
+])->middleware('verified');
+
+Route::resource('proveedores', 'Contacto\Proveedor\ProveedorController')->middleware('verified');
+
+Route::get('/proveedores/productos/{id}/{isSearching}', ['uses' => 'Contacto\Proveedor\ProveedorController@get_productos', 'as' => 'proveedores.getProductos'])->middleware('verified');
+Route::post('/proveedores/productos/add', ['uses' => 'Contacto\Proveedor\ProveedorController@add_productos', 'as' => 'proveedores.addProductos'])->middleware('verified');
+Route::delete('/proveedores/productos/delete', ['uses' => 'Contacto\Proveedor\ProveedorController@delete_productos', 'as' => 'proveedores.deleteProductos'])->middleware('verified');
+
+
 
 Route::resource('servicios/deleted', 'Actividad\Servicio\ServicioSoftDeleteController',
 [
@@ -162,6 +203,15 @@ Route::resource('servicios/deleted', 'Actividad\Servicio\ServicioSoftDeleteContr
 Route::resource('servicios', 'Actividad\Servicio\ServicioController')->middleware('verified');
 
 Route::get('/servicios/detalles/{id}', ['uses' => 'Actividad\Servicio\ServicioController@get_servicios_detalles', 'as' => 'servicios.getServiciosDetalles'])->middleware('verified');
+
+Route::get('/servicios/load/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@load_imagenes', 'as' => 'servicios.loadImagenes'])->middleware('verified');
+
+Route::get('/servicios/load/row/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@load_row_imagenes', 'as' => 'servicios.loadRowImagenes'])->middleware('verified');
+
+Route::post('/servicios/upload/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@upload_imagenes', 'as' => 'servicios.uploadImagenes'])->middleware('verified');
+
+Route::delete('/servicios/delete/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@delete_imagenes', 'as' => 'servicios.deleteImagenes'])->middleware('verified');
+
 
 Route::get('/ordenes/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenController@index', 'as' => 'ordenes.index'])->middleware('verified');
 Route::get('/ordenes/create/{fecha?}', ['uses' => 'Actividad\Orden\OrdenController@create', 'as' => 'ordenes.create'])->middleware('verified');
@@ -190,3 +240,8 @@ Route::post('/ordenes/detalles/add', ['uses' => 'Actividad\Orden\OrdenController
 Route::put('/ordenes/detalles/update/{id}', ['uses' => 'Actividad\Orden\OrdenController@update_detalles', 'as' => 'ordenes.updateDetalles'])->middleware('verified');
 Route::put('/ordenes/detalles/state/{id}', ['uses' => 'Actividad\Orden\OrdenController@state_detalles', 'as' => 'ordenes.stateDetalles'])->middleware('verified');
 Route::delete('/ordenes/detalles/delete/{id}', ['uses' => 'Actividad\Orden\OrdenController@delete_detalles', 'as' => 'ordenes.deleteDetalles'])->middleware('verified');
+
+Route::get('/solicitudes/index/{estado?}', ['uses' => 'Actividad\Solicitud\SolicitudController@index', 'as' => 'solicitudes.index'])->middleware('verified');
+Route::get('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@show', 'as' => 'solicitudes.show'])->middleware('verified');
+Route::post('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@approve', 'as' => 'solicitudes.approve'])->middleware('verified');
+Route::put('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@cancel', 'as' => 'solicitudes.cancel'])->middleware('verified');

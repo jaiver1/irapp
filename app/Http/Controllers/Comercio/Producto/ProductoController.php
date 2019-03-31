@@ -97,6 +97,8 @@ class ProductoController extends Controller
             $producto->referencia = $request->referencia; 
             $producto->valor_unitario = $request->valor_unitario; 
             $producto->descripcion = $request->descripcion; 
+            $producto->stock = 0; 
+            $producto->alerta = false; 
             $producto->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
             $producto->medida()->associate(Medida::findOrFail($request->medida_id));      
             $producto->marca()->associate(Marca::findOrFail($request->marca_id));      
@@ -215,7 +217,7 @@ class ProductoController extends Controller
         
         }
 
-         /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

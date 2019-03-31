@@ -20,7 +20,7 @@ Colaboradores eliminados | {{ config('app.name', 'Laravel') }}
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
                             <span class="fa-stack">
-                                    <i class="fas fa-user-tie fa-stack-1x fa-lg"></i>
+                                    <i class="fas fa-user-cog fa-stack-1x fa-lg"></i>
                                      <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i>
                                   </span>
                     <a href="{{ route('colaboradores.index') }}">Lista de colaboradores</a>
@@ -37,7 +37,7 @@ Colaboradores eliminados | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('colaboradores.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de colaboradores">
-                      <i class="fas fa-2x fa-user-tie"></i>
+                      <i class="fas fa-2x fa-user-cog"></i>
                             </a>
                     </div>
 
@@ -59,7 +59,7 @@ Colaboradores eliminados | {{ config('app.name', 'Laravel') }}
                         <div class="card-body">
                         <div class="table-responsive">
                             <!-- Table  -->
-                            <table id="dtcolaboradors" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="dtcolaboradores" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
   <thead class="bg-danger white-text">
     <tr class="z-depth-2">
       <th class="th-sm">#
@@ -106,9 +106,9 @@ Colaboradores eliminados | {{ config('app.name', 'Laravel') }}
         <td>{{$colaborador->persona->telefono_movil}}</td>
         <td>{{$colaborador->persona->telefono_fijo}}</td>
         <td>{{$colaborador->persona->usuario->email}}</td>
-        <td>{{$colaborador->persona->ciudad->nombre}}</td>
-        <td>{{$colaborador->persona->barrio}}</td>
-        <td>{{$colaborador->persona->direccion}}</td>
+        <td>{{$colaborador->persona->direccion->ciudad->nombre}}</td>
+        <td>{{$colaborador->persona->direccion->barrio}}</td>
+        <td>{{$colaborador->persona->direccion->direccion}}</td>
         <td>{{$colaborador->persona->cuenta_banco}}</td>
         @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
         <td>
@@ -247,7 +247,7 @@ $(document).ready(function() {
     moment.locale('es');
 var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a'); 
     var titulo_archivo = "Lista de colaboradores eliminados ("+datetime+")";
-     $('#dtcolaboradors').DataTable( {
+     $('#dtcolaboradores').DataTable( {
         dom: 'Bfrtip',
     lengthMenu: [
         [ 2, 5, 10, 20, 30, 50, 100, -1 ],
@@ -336,7 +336,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<span class="fa-stack"><i class="fas fa-user-tie fa-stack-1x fa-lg"></i>  <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de colaborador eliminado "'+ data[2]+' '+ data[4]+'"';
+                        return '<span class="fa-stack"><i class="fas fa-user-cog fa-stack-1x fa-lg"></i>  <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos de colaborador eliminado "'+ data[2]+' '+ data[4]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

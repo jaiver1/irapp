@@ -20,18 +20,18 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-business-time mr-1"></i></span>
+                    <span><i class="fas fa-toolbox mr-1"></i></span>
                     @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
-                        <a href="{{ route('ordenes.index') }}">Lista de ordenes</a>
+                        <a href="{{ route('ordenes.index',array('Abierta')) }}">Lista de ordenes</a>
                         <span>/</span>
                         @endif
                         <span>Información de la orden "{{ $orden->nombre }}"</span>
                     </h4>
                     @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
                     <div class="d-flex justify-content-center">
-                    <a href="{{ route('ordenes.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
+                    <a href="{{ route('ordenes.index',array('Abierta')) }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de ordenes">
-                      <i class="fas fa-2x fa-business-time"></i>
+                      <i class="fas fa-2x fa-toolbox"></i>
                             </a>
 
                              <a href="{{ route('ordenes.edit', $orden->id) }}" class="btn btn-outline-warning btn-circle waves-effect hoverable" 
@@ -69,7 +69,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fas fa-business-time  mr-2"></i><strong>Orden #{{ $orden->id }}</strong>
+      <i class="fas fa-toolbox  mr-2"></i><strong>Orden #{{ $orden->id }}</strong>
     </a>
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $orden->nombre }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Estado: </strong>
@@ -79,7 +79,7 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
         blue darken-3
     @break
     @case('Cerrada')
-        teal darken-3
+        teal darken-1
     @break
     @case('Cancelada')
         red darken-3
@@ -115,13 +115,13 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
     <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($orden->fecha_inicio)->format('d/m/Y -:- h:i A') }}</span></span>
 @if($orden->fecha_fin &&  $orden->estado == "Cerrada")
 <br/> {{--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--}}
-<span class="h5"><span class="badge teal darken-3 hoverable"><i class="far fa-calendar-check mr-1"></i>{{ Carbon\Carbon::parse($orden->fecha_fin)->format('d/m/Y -:- h:i A') }}</span></span>
+<span class="h5"><span class="badge teal darken-1 hoverable"><i class="far fa-calendar-check mr-1"></i>{{ Carbon\Carbon::parse($orden->fecha_fin)->format('d/m/Y -:- h:i A') }}</span></span>
 @endif
 </a>
   <a class="list-group-item waves-effect hoverable"><strong>Cliente: </strong>{{$orden->cliente->persona->primer_nombre}} {{$orden->cliente->persona->segundo_nombre}} {{$orden->cliente->persona->primer_apellido}} {{$orden->cliente->persona->segundo_apellido}}</a>
-  <a class="list-group-item waves-effect hoverable"><strong>Ciudad: </strong>{{ $orden->ciudad->nombre }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong>Barrio: </strong>{{ $orden->barrio }}</a>
-  <a class="list-group-item waves-effect hoverable"><strong>Direccion: </strong>{{ $orden->direccion }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Ciudad: </strong>{{ $orden->direccion->ciudad->nombre }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Barrio: </strong>{{ $orden->direccion->barrio }}</a>
+  <a class="list-group-item waves-effect hoverable"><strong>Direccion: </strong>{{ $orden->direccion->direccion }}</a>
 </div>
                         </div>
 

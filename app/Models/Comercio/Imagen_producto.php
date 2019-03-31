@@ -1,12 +1,10 @@
 <?php namespace App\Models\Comercio;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Comercio\Producto;
 
 class Imagen_producto extends Model
 {
-  use SoftDeletes;
 
   /**
      * The database table used by the model.
@@ -40,14 +38,12 @@ class Imagen_producto extends Model
      */
     protected $hidden = [
       'created_at',
-      'updated_at',
-      'deleted_at',
+      'updated_at'
   ];
 
   protected $dates = [
       'created_at',
-      'updated_at',
-      'deleted_at',
+      'updated_at'
   ];
 
   public function producto(){

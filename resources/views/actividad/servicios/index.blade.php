@@ -64,6 +64,8 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
       </th>
       <th class="th-sm">Nombre
       </th>
+      <th class="th-sm">Imagen
+        </th>
       <th class="th-sm">Valor unitario
         </th>
         <th class="th-sm">Descripcion
@@ -82,6 +84,19 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
     <tr class="hoverable">
       <td>{{$servicio->id}}</td>
       <td>{{$servicio->nombre}}</td>  
+      <td>
+        <center>
+            <div class="cursor-zoom view overlay hoverable zoom img-border" onclick="mostrar_modal('{{ route("servicios.loadImagenes",$servicio->id) }}','img')">
+                @if($servicio->imagenes->count())
+                                    <img src="{{ asset($servicio->imagenes->first()->ruta)  }}" class="img-zoom img-fluid rounded img-thumbnail" alt="{{ $servicio->imagenes->first()->nombre  }}" onerror=this.src="{{ asset('img/dashboard/servicios/404.png')  }}">
+                                    @else
+                                    <img src="{{ asset('img/dashboard/servicios/404.png')  }}" class="img-zoom img-fluid rounded img-thumbnail" alt="404">
+                                    @endif
+                                  </div>
+
+                </center>
+           
+      </td>
       <td> <h5><span class="badge badge-success hoverable">
             @money($servicio->valor_unitario)
             </span>
@@ -141,7 +156,8 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
 
           
         </div>
-
+        <div id="container_img">
+        </div>
 @endsection
 @section('js_links')
 <!-- DataTables core JavaScript -->
@@ -158,6 +174,7 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
 <script type="text/javascript" src="{{ asset('js/addons/vfs_fonts.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.print.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/buttons.colVis.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/irapp.js') }}"></script>
 <script type="text/javascript">
 
 function eliminar_servicio(id,nombre){

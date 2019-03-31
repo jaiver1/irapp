@@ -14,7 +14,7 @@ Editar el colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-user-tie mr-1 fa-lg"></i></span>
+                    <span><i class="fas fa-user-cog mr-1 fa-lg"></i></span>
                         <a href="{{ route('colaboradores.index') }}">Lista de colaboradores</a>
                         <span>/</span>
                         <span>Editar el colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->persona->primer_apellido}}"</span>
@@ -23,7 +23,7 @@ Editar el colaborador "{{$colaborador->persona->primer_nombre}} {{$colaborador->
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('colaboradores.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de colaboradores">
-                      <i class="fas fa-2x fa-user-tie"></i>
+                      <i class="fas fa-2x fa-user-cog"></i>
                             </a>
 
                             <a href="{{ route('colaboradores.show', $colaborador->id) }}" class="btn btn-outline-primary btn-circle waves-effect hoverable" 

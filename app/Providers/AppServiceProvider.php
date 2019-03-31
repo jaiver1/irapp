@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Blade;
 use Carbon\Carbon;
+use Illuminate\Routing\UrlGenerator;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
         setlocale(LC_ALL,"es_ES");
         Carbon::setlocale(config('app.locale'));
@@ -25,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('cantidad', function ($amount) {
             return "<?php echo number_format($amount, 0); ?>";
         });
+
+        if(env('REDIRECT_HTTPS')) {
+            $url->formatScheme('https');
+        }
     }
 
     /**
@@ -34,6 +39,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if(env('REDIRECT_HTTPS')) {
+            $this->app['request']->server->set('HTTPS', true);
+        }
     }
 }

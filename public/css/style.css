@@ -94,7 +94,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) { overflow-y: v
   border-color: #494949 !important;
 } 
 
-#calendar{
+#calendar-ordenes,#calendar-solicitudes{
   height: auto;
 }
 
@@ -106,7 +106,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) { overflow-y: v
   display: none;
 }
 
-#map #infowindow-content {
+#map-ordenes #infowindow-content,#map-solicitudes #infowindow-content {
   display: inline;
 }
 

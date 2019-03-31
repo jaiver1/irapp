@@ -17,3 +17,8 @@
 h6 {
     line-height: 1.7;
 }
+
+.error{
+    color: #e71046;
+    font-weight: 900;
+  }

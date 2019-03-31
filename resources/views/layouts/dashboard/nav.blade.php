@@ -179,7 +179,7 @@ function salir(){
                     <span>Negocios</span>
                 </li>
 
-                <li class="sidebar-dropdown {{ (\Request::is('clientes') || \Request::is('clientes/*') || \Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'active default' : 'simple' }}">
+                <li class="sidebar-dropdown {{ (\Request::is('clientes') || \Request::is('clientes/*') || \Request::is('colaboradores') || \Request::is('colaboradores/*') || \Request::is('proveedores') || \Request::is('proveedores/*')) ? 'active default' : 'simple' }}">
                     <a href="javascript:void(0)">
                         <i class="fas fa-address-book"></i>
                         <span>Contactos</span>
@@ -192,6 +192,10 @@ function salir(){
                             <li class="hoverable waves-light {{ (\Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'default' : 'simple' }}">
                                 <a href="{{route('colaboradores.index')}}"><i class="fas fa-user-cog mr-1"></i><span>Colaboradores</span></a>
                             </li>
+                            <li class="hoverable waves-light {{ (\Request::is('proveedores') || \Request::is('proveedores/*')) ? 'default' : 'simple' }}">
+                                <a href="{{route('proveedores.index')}}"><i class="fas fa-user-tag mr-1"></i><span>Proveedores</span></a>
+                            </li>
+
                         </ul>
                     </div>
                 </li>
@@ -201,13 +205,16 @@ function salir(){
                         <i class="fas fa-people-carry"></i>
                         <span>Actividades</span>
                     </a>
-                    <div class="sidebar-submenu" style="{{ (\Request::is('servicios') || \Request::is('servicios/*') || \Request::is('ordenes') || \Request::is('ordenes/*')) ? 'display: block;' : '' }} ">
+                    <div class="sidebar-submenu" style="{{ (\Request::is('servicios') || \Request::is('servicios/*') || \Request::is('ordenes') || \Request::is('ordenes/*') || \Request::is('solicitudes') || \Request::is('solicitudes/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('servicios') || \Request::is('servicios/*')) ? 'default' : 'simple' }}">
                             <a href="{{route('servicios.index')}}"> <i class="fas fa-cogs mr-1"></i><span>Servicios</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('ordenes') || \Request::is('ordenes/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('ordenes.index')}}"><i class="fas fa-business-time mr-1"></i><span>Ordenes</span></a>
+                                <a href="{{route('ordenes.index',array('Abierta'))}}"><i class="fas fa-toolbox mr-1"></i><span>Ordenes</span></a>
+                            </li>
+                            <li class="hoverable waves-light {{ (\Request::is('solicitudes') || \Request::is('solicitudes/*')) ? 'default' : 'simple' }}">
+                                <a href="{{route('solicitudes.index',array('Pendiente'))}}"><i class="fas fa-business-time mr-1"></i><span>Solicitudes</span></a>
                             </li>
                         </ul>
                     </div>

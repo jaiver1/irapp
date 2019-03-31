@@ -52,9 +52,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right menu-sup" aria-labelledby="navbarDropdownMenuLink">
                         <a href="{{ route('home') }}" class="dropdown-item hoverable waves-light"><i class="fas fa-home mr-2"></i>Página principal</a>
-                        @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
-                        <a href="{{ route('home') }}" class="dropdown-item hoverable waves-light"><i class="fas fa-shopping-cart mr-2"></i>Carrito de compras</a>
-@endif
+                        
                         <a class="dropdown-item hoverable waves-effect"onclick="salir();">
                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}

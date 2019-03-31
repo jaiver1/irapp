@@ -4,8 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Contacto\Cliente;
 use App\Models\Actividad\Detalle_orden;
-use App\Models\Dato_basico\Ubicacion;
-use App\Models\Dato_basico\Ciudad;
+use App\Models\Dato_basico\Direccion;
 Use DB;
 
 class Orden extends Model
@@ -37,7 +36,7 @@ class Orden extends Model
     'fecha_inicio',
     'fecha_fin',
     'barrio',
-    'direccion',
+    'direccion_id',
     'ciudad_id',  
     'ubicacion_id',
     'cliente_id' 
@@ -73,14 +72,9 @@ class Orden extends Model
   return $enum;
 }
 
-public function ubicacion()
+public function direccion()
 {
-    return $this->belongsTo(Ubicacion::class);
-}
-
-public function ciudad()
-{
-    return $this->belongsTo(Ciudad::class);
+    return $this->belongsTo(Direccion::class);
 }
   
   public function cliente()

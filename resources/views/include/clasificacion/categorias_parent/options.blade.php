@@ -1,5 +1,6 @@
 
-<option value="{{ $sub->id }}" {{($categoria_selected->categoria && $categoria_selected->categoria->id == $sub->id ) ? 'selected' : '' }}>
+<option value="{{ $sub->id }}" {{($categoria_selected->categoria && $categoria_selected->categoria->id == $sub->id ) ? 'selected' : '' }} 
+        {{($categoria_selected->id == $sub->id ) ? 'disabled' : '' }}>
 @for($i=0; $i < 2*$niv; $i++)
 &nbsp;
 @endfor

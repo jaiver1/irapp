@@ -111,8 +111,6 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
       </th>
       <th class="th-sm">Etiqueta
       </th>
-      <th class="th-sm">Tipo de medida
-      </th>
       <th class="th-sm">Acciones
       </th>
    
@@ -124,7 +122,6 @@ Información del tipo de medida "{{ $tipo_medida->nombre }}" | {{ config('app.na
       <td>{{$medida->id}}</td>
       <td>{{$medida->nombre}}</td>
       <td>{{$medida->etiqueta}}</td>
-      <td><i class="fas fa-balance-scale"></i> {{$medida->tipo_medida->nombre}}</td>
       <td>
 
 <a href="{{ route('medidas.show',$medida->id) }}" class="text-primary m-1" 

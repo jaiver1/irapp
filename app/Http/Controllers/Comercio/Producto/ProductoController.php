@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Comercio\Producto;
 use App\Models\Comercio\Imagen_producto;
 use App\Models\Comercio\Marca;
-use App\Models\Clasificacion\Especialidad;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Dato_basico\Medida;
 use App\Models\Dato_basico\Tipo_medida;
@@ -57,11 +56,11 @@ class ProductoController extends Controller
         $producto->tipo_referencia()->associate(new Tipo_referencia);
         
         $tipos_medidas = Tipo_medida::all();
-        $especialidades = Especialidad::all();   
+        $categorias = Categoria::whereNull('categoria_id')->get();   
         $marcas = Marca::all(); 
         $grupos = array();
         $editar = false;
-        return View::make('comercio.productos.create')->with(compact('producto','editar','tipos_medidas','especialidades','marcas','grupos'));
+        return View::make('comercio.productos.create')->with(compact('producto','editar','tipos_medidas','categorias','marcas','grupos'));
     }
 
     /**
@@ -137,10 +136,10 @@ class ProductoController extends Controller
         $producto = Producto::findOrFail($id);
         $editar = true;
         $tipos_medidas = Tipo_medida::all();
-        $especialidades = Especialidad::all();   
+        $categorias = Categoria::whereNull('categoria_id')->get();   
         $marcas = Marca::all(); 
         $grupos = $this->search_referencias($producto->referencia);
-        return View::make('comercio.productos.edit')->with(compact('producto','editar','tipos_medidas','especialidades','marcas','grupos'));
+        return View::make('comercio.productos.edit')->with(compact('producto','editar','tipos_medidas','categorias','marcas','grupos'));
    
     }
 

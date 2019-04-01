@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Servicio;
 use App\Models\Actividad\Imagen_servicio;
-use App\Models\Clasificacion\Especialidad;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Dato_basico\Medida;
 use App\Models\Dato_basico\Tipo_medida;
@@ -50,9 +49,9 @@ class ServicioController extends Controller
         $servicio->medida()->associate(new Medida);
         $servicio->categoria()->associate(new Categoria);
         $tipos_medidas = Tipo_medida::all();
-        $especialidades = Especialidad::all();   
+        $categorias = Categoria::whereNull('categoria_id')->get();   
         $editar = false;
-        return View::make('actividad.servicios.create')->with(compact('servicio','editar','tipos_medidas','especialidades'));
+        return View::make('actividad.servicios.create')->with(compact('servicio','editar','tipos_medidas','categorias'));
     }
 
     /**
@@ -117,9 +116,9 @@ class ServicioController extends Controller
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $servicio = Servicio::findOrFail($id);
         $tipos_medidas = Tipo_medida::all();
-        $especialidades = Especialidad::all();  
+        $categorias = Categoria::whereNull('categoria_id')->get();  
         $editar = true;
-        return View::make('actividad.servicios.edit')->with(compact('servicio','editar','tipos_medidas','especialidades'));
+        return View::make('actividad.servicios.edit')->with(compact('servicio','editar','tipos_medidas','categorias'));
    
     }
 

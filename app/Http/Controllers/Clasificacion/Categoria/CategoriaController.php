@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Clasificacion\Categoria;
-use App\Models\Clasificacion\Especialidad;
+
 use Illuminate\Support\Facades\Validator;
 use SweetAlert;
 
@@ -40,11 +40,10 @@ class CategoriaController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categoria = new Categoria;
-        $categoria->especialidad()->associate(new Especialidad);
         $categoria->categoria()->associate(new Categoria);
-        $especialidades = Especialidad::all(); 
+        $categorias = Categoria::whereNull('categoria_id')->get();
         $editar = false;
-        return View::make('clasificacion.categorias.create')->with(compact('especialidades','categoria','editar'));
+        return View::make('clasificacion.categorias.create')->with(compact('categorias','categoria','editar'));
     }
 
     /**
@@ -55,11 +54,7 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        if($request->raiz){
-            return Redirect::to('categorias.edit');
-        }else{
 
-        }
         $rules = array(
                 'nombre'                   => 'required|max:50',
                 'categoria_id'                   => 'required',
@@ -77,7 +72,7 @@ class CategoriaController extends Controller
             $categoria = new Categoria;
             $categoria->nombre = $request->nombre; 
             $categoria->etiqueta = $request->etiqueta; 
-            $categoria->especialidad()->associate(Especialidad::findOrFail($request->especialidad_id));      
+            $categoria->categoria()->associate(Categoria::find($request->categoria_id));      
             $categoria->save();        
 
             SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido registrada.');
@@ -109,9 +104,9 @@ class CategoriaController extends Controller
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         $categoria = Categoria::findOrFail($id);
-        $especialidades = Especialidad::all(); 
+        $categorias = Categoria::whereNull('categoria_id')->get();
         $editar = false;
-        return View::make('clasificacion.categorias.edit')->with(compact('especialidades','categoria','editar'));
+        return View::make('clasificacion.categorias.edit')->with(compact('categorias','categoria','editar'));
     }
 
     /**
@@ -141,7 +136,7 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($id);
         $categoria->nombre = $request->nombre; 
         $categoria->etiqueta = $request->etiqueta; 
-        $categoria->especialidad()->associate(Especialidad::findOrFail($request->especialidad_id)); 
+        $categoria->categoria()->associate(Categoria::find($request->categoria_id)); 
         $categoria->save();
 
         SweetAlert::success('Exito','La categoria "'.$categoria->nombre.'" ha sido editada.');

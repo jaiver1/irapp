@@ -81,7 +81,7 @@ function salir(){
                 </span>
             </div>
         </div>
-        <!-- sidebar-header  -->
+      {{--  <!-- sidebar-header  -->
         <div class="sidebar-search">
             <div>
                 <div class="input-group">
@@ -95,11 +95,12 @@ function salir(){
             </div>
         </div>
         <!-- sidebar-search  -->
+    --}}
         <div class="sidebar-menu">
             <ul>
                     @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_COLABORADOR','ROLE_CLIENTE'],FALSE))
             <li class="header-menu">
-                    <span>Inicio</span>
+                    <span>Menu</span>
                 </li>
                 <li class="hoverable waves-light {{ \Request::is('home') ? 'default' : 'simple' }}">
                     <a href="{{route('home')}}">
@@ -109,9 +110,6 @@ function salir(){
                 </li>
                @endif
                @if(Auth::user()->authorizeRoles('ROLE_ROOT',FALSE))
-                <li class="header-menu">
-                    <span>Control de Acceso</span>
-                </li>
                 <li class="hoverable waves-light {{ (\Request::is('usuarios') || \Request::is('usuarios/*')) ? 'default' : 'simple' }}">
                     <a href="{{route('usuarios.index')}}">
                         <i class="fas fa-users"></i>
@@ -120,16 +118,14 @@ function salir(){
                 </li>
                 @endif
                 @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
-     <li class="header-menu">
-                    <span>Administración</span>
-                </li>
-
-                <li class="sidebar-dropdown {{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*') || \Request::is('medidas') || \Request::is('medidas/*')) ? 'active default' : 'simple' }}">
+                <li class="sidebar-dropdown {{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*') || \Request::is('medidas') || \Request::is('medidas/*') 
+                || \Request::is('categorias') || \Request::is('categorias/*') || \Request::is('marcas') || \Request::is('marcas/*')) ? 'active default' : 'simple' }}">
                     <a href="javascript:void(0)">
                         <i class="fas fa-file-signature"></i>
                         <span>Datos basicos</span>
                     </a>
-                    <div class="sidebar-submenu" style="{{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*') || \Request::is('medidas') || \Request::is('medidas/*')) ? 'display: block;' : '' }} ">
+                    <div class="sidebar-submenu" style="{{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*') || \Request::is('medidas') || \Request::is('medidas/*')
+                     || \Request::is('categorias') || \Request::is('categorias/*') || \Request::is('marcas') || \Request::is('marcas/*')) ? 'display: block;' : '' }} ">
                         <ul>
                             <li class="hoverable waves-light {{ (\Request::is('tipos_medidas') || \Request::is('tipos_medidas/*')) ? 'default' : 'simple' }}">
                             <a href="{{route('tipos_medidas.index')}}"> <i class="fas fa-balance-scale mr-1"></i><span>Tipos de medidas</span></a>
@@ -137,20 +133,9 @@ function salir(){
                             <li class="hoverable waves-light {{ (\Request::is('medidas') || \Request::is('medidas/*')) ? 'default' : 'simple' }}">
                                 <a href="{{route('medidas.index')}}"><i class="fas fa-ruler mr-1"></i><span>Medidas</span></a>
                             </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="sidebar-dropdown {{ (\Request::is('especialidades') || \Request::is('especialidades/*') || \Request::is('categorias') || \Request::is('categorias/*')) ? 'active default' : 'simple' }}">
-                    <a href="javascript:void(0)">
-                        <i class="fas fa-project-diagram "></i>
-                        <span>Clasificación</span>
-                    </a>
-                    <div class="sidebar-submenu" style="{{ (\Request::is('especialidades') || \Request::is('especialidades/*') || \Request::is('categorias') || \Request::is('categorias/*')) ? 'display: block;' : '' }} ">
-                        <ul>
-                            <li class="hoverable waves-light {{ (\Request::is('especialidades') || \Request::is('especialidades/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('especialidades.index')}}"> <i class="fas fa-object-group mr-1"></i><span>Especialidades</span></a>
-                            </li>
+                            <li class="hoverable waves-light {{ (\Request::is('marcas') || \Request::is('marcas/*')) ? 'default' : 'simple' }}">
+                                <a href="{{route('marcas.index')}}"> <i class="fas fa-trademark mr-1"></i><span>Marcas</span></a>
+                                </li>
                             <li class="hoverable waves-light {{ (\Request::is('categorias') || \Request::is('categorias/*')) ? 'default' : 'simple' }}">
                                 <a href="{{route('categorias.index')}}"><i class="fas fa-sitemap mr-1"></i><span>Categorias</span></a>
                             </li>
@@ -158,25 +143,18 @@ function salir(){
                     </div>
                 </li>
           
-                <li class="sidebar-dropdown {{ (\Request::is('marcas') || \Request::is('marcas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'active default' : 'simple' }}">
+                <li class="sidebar-dropdown {{ (\Request::is('ventas') || \Request::is('ventas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'active default' : 'simple' }}">
                     <a href="javascript:void(0)">
                         <i class="fas fa-handshake"></i>
                         <span>Comercio</span>
                     </a>
                     <div class="sidebar-submenu" style="{{ (\Request::is('marcas') || \Request::is('marcas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'display: block;' : '' }} ">
-                        <ul>
-                            <li class="hoverable waves-light {{ (\Request::is('marcas') || \Request::is('marcas/*')) ? 'default' : 'simple' }}">
-                            <a href="{{route('marcas.index')}}"> <i class="fas fa-trademark mr-1"></i><span>Marcas</span></a>
-                            </li>
+                        <ul>                      
                             <li class="hoverable waves-light {{ (\Request::is('productos') || \Request::is('productos/*')) ? 'default' : 'simple' }}">
                                 <a href="{{route('productos.index')}}"><i class="fas fa-box-open mr-1"></i><span>Productos</span></a>
                             </li>
                         </ul>
                     </div>
-                </li>
-
-                <li class="header-menu">
-                    <span>Negocios</span>
                 </li>
 
                 <li class="sidebar-dropdown {{ (\Request::is('clientes') || \Request::is('clientes/*') || \Request::is('colaboradores') || \Request::is('colaboradores/*') || \Request::is('proveedores') || \Request::is('proveedores/*')) ? 'active default' : 'simple' }}">

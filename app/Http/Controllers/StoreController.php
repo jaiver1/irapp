@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use App\Models\Clasificacion\Especialidad;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Comercio\Producto;
 use App\Models\Actividad\Servicio;
@@ -266,7 +265,7 @@ abort(403);
     {
         $productos = producto::select('*'); 
         $expensive = DB::table('productos');
-        $especialidades = Especialidad::all(); 
+        $categorias = Categoria::all(); 
         $filter = new Filter();
 
         if($request->input('min')){
@@ -343,14 +342,14 @@ abort(403);
 
         $productos = $productos->paginate(2);
 
-        return View::make('store.productos.list')->with(compact('productos','especialidades','filter'));
+        return View::make('store.productos.list')->with(compact('productos','categorias','filter'));
     }
 
     public function lista_servicios(Request $request)
     {
         $servicios = Servicio::select('*'); 
         $expensive = DB::table('servicios');
-        $especialidades = Especialidad::all(); 
+        $categorias = Categoria::all(); 
         $filter = new Filter();
 
         if($request->input('min')){
@@ -427,6 +426,6 @@ abort(403);
 
         $servicios = $servicios->paginate(2);
 
-        return View::make('store.servicios.list')->with(compact('servicios','especialidades','filter'));
+        return View::make('store.servicios.list')->with(compact('servicios','categorias','filter'));
     }
 }

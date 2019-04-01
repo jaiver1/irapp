@@ -66,8 +66,6 @@ Lista de categorias | {{ config('app.name', 'Laravel') }}
       </th>
       <th class="th-sm">Categoria Padre
       </th>
-      <th class="th-sm">Especialidad
-        </th>
       <th class="th-sm">Acciones
       </th>
    
@@ -90,12 +88,7 @@ Lista de categorias | {{ config('app.name', 'Laravel') }}
                                           </a>    
                 @endif
             </td>
-            <td>
-                    <a href="{{ route('especialidades.show',$categoria->especialidad->id) }}" class="link-text"
-                                  data-toggle="tooltip" data-placement="bottom" title='Información de la especialidad "{{ $categoria->especialidad->nombre }}"'>
-                                    <i class="fas fa-object-group"></i> {{$categoria->especialidad->nombre}}
-                                          </a>    
-                                      </td>
+
                     <td>
 
 <a href="{{ route('categorias.show',$categoria->id) }}" class="text-primary m-1" 

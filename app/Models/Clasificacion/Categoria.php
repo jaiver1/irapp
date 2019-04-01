@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Comercio\Producto;
 use App\Models\Actividad\Servicio;
-use App\Models\Clasificacion\Especialidad;
+
 
 
 class Categoria extends Model
@@ -32,7 +32,6 @@ class Categoria extends Model
      */
   protected $fillable = [
     'nombre',
-    'especialidad_id',
     'categoria_id'
   ];
 
@@ -53,11 +52,6 @@ class Categoria extends Model
       'deleted_at',
   ];
 
-
-public function especialidad()
-{
-    return $this->belongsTo(Especialidad::class);
-}
 
 public function categorias(){
   return $this->hasMany(Categoria::class);

@@ -77,7 +77,6 @@ Información de la categoria "{{ $categoria->nombre }}" | {{ config('app.name', 
    @else
   <a href ="{{ route('categorias.show', $categoria->categoria->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-sitemap mr-2"></i>Categoria padre: </strong>{{ $categoria->categoria->nombre }}</a>
 @endif
-<a href ="{{ route('especialidades.show', $categoria->especialidad->id) }}" class="list-group-item waves-effect hoverable item-link"><strong><i class="fas fa-object-group mr-2"></i>Especialidad: </strong>{{ $categoria->especialidad->nombre }}</a>
 
 </div>
                         </div>
@@ -120,10 +119,6 @@ Información de la categoria "{{ $categoria->nombre }}" | {{ config('app.name', 
       </th>
       <th class="th-sm">Nombre
       </th>
-      <th class="th-sm">Especialidad
-      </th>
-      <th class="th-sm">Categoria padre
-      </th>
       <th class="th-sm">Acciones
       </th>
    
@@ -134,17 +129,6 @@ Información de la categoria "{{ $categoria->nombre }}" | {{ config('app.name', 
     <tr class="hoverable">
       <td>{{$sub_categoria->id}}</td>
       <td>{{$sub_categoria->nombre}}</td>
-      <td>  <a href="{{ route('especialidades.show',$sub_categoria->especialidad->id) }}" class="link-text"
-        data-toggle="tooltip" data-placement="bottom" title='Información de la especialidad "{{ $sub_categoria->especialidad->nombre }}"'>
-        <i class="fas fa-object-group"></i> {{$sub_categoria->especialidad->nombre}} </a></td>
-      <td>
-        @if($sub_categoria->categoria == NULL)
-       <h5> <span class="badge badge-secondary"><i class="fas fa-network-wired mr-1"></i> Categoria raiz</span><h5>
-        @else
-            <i class="fas fa-sitemap"></i> {{$sub_categoria->categoria->nombre}}
-                              
-        @endif
-    </td>
     <td>
 
       <a href="{{ route('categorias.show',$sub_categoria->id) }}" class="text-primary m-1" 

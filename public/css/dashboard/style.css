@@ -518,3 +518,11 @@ a .user-pic:focus
   color: #9E3851;
   font-weight: 900;
 }
+
+.card-header{
+  background-color: #2B3A42;
+  border-color: #2B3A42;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 200px;
+}

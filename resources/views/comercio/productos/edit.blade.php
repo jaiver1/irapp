@@ -14,7 +14,7 @@ Editar el producto "{{ $producto->nombre }}" | {{ config('app.name', 'Laravel') 
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-boxes mr-1 fa-lg"></i></span> 
+                    <span><i class="fas fa-box-openmr-1 fa-lg"></i></span> 
                         <a href="{{ route('productos.index') }}">Lista de productos</a>
                         <span>/</span>
                         <span>Editar el producto "{{ $producto->nombre }}"</span>
@@ -23,7 +23,7 @@ Editar el producto "{{ $producto->nombre }}" | {{ config('app.name', 'Laravel') 
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('productos.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de productos">
-                      <i class="fas fa-2x fa-boxes "></i>
+                      <i class="fas fa-2x fa-box-open"></i>
                             </a>
 
                             <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-outline-primary btn-circle waves-effect hoverable" 

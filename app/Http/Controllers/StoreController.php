@@ -8,12 +8,26 @@ use App\Models\Clasificacion\Especialidad;
 use App\Models\Clasificacion\Categoria;
 use App\Models\Comercio\Producto;
 use App\Models\Actividad\Servicio;
+use App\Models\Actividad\Solicitud;
+use App\Models\Actividad\Detalle_solicitud;
+use App\Models\Comercio\Venta;
+use App\Models\Comercio\Detalle_venta;
+use App\Models\Dato_basico\Ubicacion;
+use App\Models\Dato_basico\Direccion;
 use App\Classes\Store\Filter;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Dato_basico\Pais;
+use App\Models\Dato_basico\Ciudad;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
+Use SweetAlert;
 
 class StoreController extends Controller
 {
+
+    protected $redirectTo = '/login';
     /**
      * Create a new controller instance.
      *
@@ -34,10 +48,193 @@ class StoreController extends Controller
         return view('store.welcome');
     }
 
-    public function cart_productos()
+    public function register_venta(Request $request)
     {  
+        if(Auth::user()){
         Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
-        return View::make('store.productos.cart');
+        $rules = array(
+            'barrio'                   => 'required|max:50',
+        'direccion'                   => 'required|max:50',
+        'latitud'                   => 'required|max:50',
+        'longitud'                   => 'required|max:50',
+        'ciudad_id'              => 'required'
+    );
+
+    $validator = Validator::make($request->all(), $rules);
+
+
+    if ($validator->fails()) {
+        SweetAlert::error('Error','Errores en el formulario.');
+        return Redirect::to('store/cart/productos')
+            ->withErrors($validator);
+    } else {
+        $venta = new Venta;
+        $ubicacion = new Ubicacion;
+        $direccion = new Direccion;
+        $cliente = Auth::user()->getCliente();
+        $ciudad = Ciudad::findOrFail($request->ciudad_id);
+        $ubicacion->latitud = $request->latitud;
+        $ubicacion->longitud = $request->longitud;
+        $ubicacion->save();          
+        $venta->fecha = Carbon::now();
+            $venta->estado = "Pendiente";
+       
+
+        $venta->cliente()->associate($cliente);
+        $direccion->barrio = $request->barrio;
+        $direccion->direccion = $request->direccion;
+        $direccion->ciudad()->associate($ciudad);
+        $direccion->ubicacion()->associate($ubicacion);
+        $direccion->save();
+        $venta->direccion()->associate($direccion);
+        $venta->save();        
+
+       for ($i=0; $i < count($request->cantidad); $i++) { 
+        $detalle = new Detalle_venta;
+        $detalle->cantidad = $request->cantidad[$i];
+        $detalle->valor_unitario = $request->valor[$i];
+        $detalle->producto()->associate(Producto::findOrFail($request->producto[$i]));
+        $detalle->venta()->associate($venta);
+        $detalle->save();  
+       }
+
+       Auth::user()->getCliente()->productos()->detach();
+
+        SweetAlert::success('Exito','La venta ha sido registrada.');
+        return Redirect::to('home');
+    }
+    }else{
+        abort(403);
+                        }
+        }
+
+    public function register_solicitud(Request $request)
+    {  
+        if(Auth::user()){
+        Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
+        $rules = array(
+            'nombre'                   => 'required|max:50',
+            'barrio'                   => 'required|max:50',
+        'direccion'                   => 'required|max:50',
+        'latitud'                   => 'required|max:50',
+        'longitud'                   => 'required|max:50',
+        'ciudad_id'              => 'required',
+        'fecha_inicio'                   => 'required|date'
+    );
+
+    $validator = Validator::make($request->all(), $rules);
+
+
+    if ($validator->fails()) {
+        SweetAlert::error('Error','Errores en el formulario.');
+        return Redirect::to('store/cart/servicios')
+            ->withErrors($validator);
+    } else {
+        $solicitud = new Solicitud;
+        $ubicacion = new Ubicacion;
+        $direccion = new Direccion;
+        $cliente = Auth::user()->getCliente();
+        $ciudad = Ciudad::findOrFail($request->ciudad_id);
+        $ubicacion->latitud = $request->latitud;
+        $ubicacion->longitud = $request->longitud;
+        $ubicacion->save();        
+        $solicitud->nombre = $request->nombre;   
+        $solicitud->fecha_inicio = $request->fecha_inicio;
+            $solicitud->estado = "Pendiente";
+       
+
+        $solicitud->cliente()->associate($cliente);
+        $direccion->barrio = $request->barrio;
+        $direccion->direccion = $request->direccion;
+        $direccion->ciudad()->associate($ciudad);
+        $direccion->ubicacion()->associate($ubicacion);
+        $direccion->save();
+        $solicitud->direccion()->associate($direccion);
+        $solicitud->save();        
+
+       for ($i=0; $i < count($request->cantidad); $i++) { 
+        $detalle = new Detalle_solicitud;
+        $detalle->nombre = $solicitud->nombre;   
+        $detalle->fecha_inicio = $solicitud->fecha_inicio;
+        $detalle->estado = $solicitud->estado;
+        $detalle->cantidad =  $request->cantidad[$i];
+        $detalle->valor_unitario =  $request->valor[$i];
+        $detalle->servicio()->associate(Servicio::findOrFail($request->servicio[$i]));
+        $detalle->solicitud()->associate($solicitud);
+        $detalle->save();  
+       }
+
+       Auth::user()->getCliente()->servicios()->detach();
+
+        SweetAlert::success('Exito','La solicitud "'.$solicitud->nombre.'" ha sido registrada.');
+        return Redirect::to('home');
+    }
+    }else{
+        abort(403);
+                        }
+        }
+
+    public function delete_cart_productos($id)
+    {  
+        if(Auth::user()){
+        Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
+        $cliente = Auth::user()->getCliente();
+        $producto = Producto::findOrFail($id);
+        $cliente->productos()->detach($producto);
+        return redirect()->back();
+    }else{
+        abort(403);
+                        }
+        }
+
+        public function delete_cart_servicios($id)
+        {  
+            if(Auth::user()){
+            Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
+            $cliente = Auth::user()->getCliente();
+            $servicio = Servicio::findOrFail($id);
+            $cliente->servicios()->detach($servicio);
+            return redirect()->back();
+        }else{
+            abort(403);
+                            }
+            }
+
+    public function add_cart_productos($id)
+    {  
+        if(Auth::user()){
+        Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
+        $cliente = Auth::user()->getCliente();
+        $producto = Producto::findOrFail($id);
+        $cliente->productos()->attach($producto);
+        return redirect()->back();
+    }else{
+        abort(403);
+                        }
+        }
+
+        public function add_cart_servicios($id)
+        {  
+            if(Auth::user()){
+            Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
+            $cliente = Auth::user()->getCliente();
+            $servicio = Servicio::findOrFail($id);
+            $cliente->servicios()->attach($servicio);
+            return redirect()->back();
+        }else{
+            abort(403);
+                            }
+            }
+
+    public function cart_productos()
+    {
+        if(Auth::user()){
+            $paises = Pais::orderBy('nombre', 'asc')->get();
+        Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
+        return View::make('store.productos.cart')->with(compact('paises'));
+    }else{
+        abort(403);
+                        }
         }
 
     public function show_productos($id)
@@ -54,14 +251,20 @@ class StoreController extends Controller
 
             public function cart_servicios()
             {  
-                Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
-                return View::make('store.servicios.cart');
+                if(Auth::user()){
+                    $paises = Pais::orderBy('nombre', 'asc')->get();
+                    Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
+                    return View::make('store.servicios.cart')->with(compact('paises'));
+                }else{
+abort(403);
+                }
+               
                 }
 
     
     public function lista_productos(Request $request)
     {
-        $productos = Producto::select('*'); 
+        $productos = producto::select('*'); 
         $expensive = DB::table('productos');
         $especialidades = Especialidad::all(); 
         $filter = new Filter();
@@ -97,7 +300,7 @@ class StoreController extends Controller
                 }
             } 
 
-            if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE)){
+            if(Auth::user() && Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE)){
             $sub_query= function($q){
                 $q->select('producto_id')
                   ->from('cliente_producto')
@@ -106,7 +309,7 @@ class StoreController extends Controller
             $productos = $productos->whereNotIn('id', $sub_query);
             $expensive = $expensive->whereNotIn('id', $sub_query);
         }
-
+        
         if($request->input('order')){
 
             $filter->order = $request->input('order');
@@ -181,7 +384,7 @@ class StoreController extends Controller
                 }
             } 
 
-            if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE)){
+            if(Auth::user() && Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE)){
             $sub_query= function($q){
                 $q->select('servicio_id')
                   ->from('cliente_servicio')

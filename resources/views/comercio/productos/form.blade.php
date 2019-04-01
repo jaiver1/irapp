@@ -17,7 +17,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fas fa-boxes prefix"></i>
+    <i class="fas fa-box-open prefix"></i>
     <input type="text" required id="nombre" value="{{ old('nombre') ? old('nombre') : $producto->nombre}}" name="nombre" class="form-control validate" maxlength="50">
     <label for="nombre" data-error="Error" data-success="Correcto">Nombre *</label>
 </div>
@@ -64,7 +64,7 @@
         <div class="col-md-6">
             <!-- Material input -->
             <div class="md-form">
-    <i class="fas fa-box-open prefix"></i>
+    <i class="fas fa-barcode prefix"></i>
     <input type="text" pattern="^[0-9]+.*$" title="El codigo debe empezar con numeros." 
     required id="referencia" onchange="test_referencias('{{ route("productos.testReferencias") }}')" value="{{ old('referencia') ? old('referencia') : $producto->referencia}}" name="referencia" class="form-control validate" maxlength="50">
     <label for="referencia" data-error="Error" data-success="Correcto">Referencia *</label>

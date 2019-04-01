@@ -21,9 +21,10 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
 
         <!-- Navbar brand -->
         <a class="font-weight-bold white-text mr-4 d-none d-md-block" href="{{ route('store.servicios') }}">Lista de servicios</a>
-        @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
+        @if(Auth::user() && Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE) && Auth::user()->getCliente()->servicios->count() > 0)
                         <a href="{{ route('store.servicios.cart') }}" class="font-weight-bold white-text mr-4 d-md-block"><i class="fas fa-shopping-cart mr-2"
-                            data-toggle="tooltip" data-placement="bottom" title="Carrito de compras"></i><span class="badge badge-pill pink darken-1 notification" style="margin-left:-15px; position: absolute;top: 0;">3</span></a>
+                            data-toggle="tooltip" data-placement="bottom" title="Carrito de compras"></i><span class="badge badge-pill pink darken-1 notification" style="margin-left:-15px; position: absolute;top: 0;">
+                                    {{Auth::user()->getCliente()->servicios->count()}}</span></a>
 @endif
         <ul class="navbar-nav mr-auto d-none d-md-block">
         </ul>
@@ -261,9 +262,12 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
                                             @money($servicio->valor_unitario)
                                             </span></h5>
                                         </span>
-                                        @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))                                        <span class="float-left">
+                                        @if(Auth::user() && Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))                                        <span class="float-left">
                                     <a onclick="agregar_servicio({{ $servicio->id }},'{{ $servicio->nombre }}')" class="float-right" data-toggle="tooltip" data-placement="bottom" title="Agregar al carrito"><i class="fas fa-2x fa-cart-plus ml-3"></i></a>
-                                    </span>
+                                    <form id="agregar{{ $servicio->id }}" method="POST" action="{{ route('store.servicios.cart.add', $servicio->id) }}" accept-charset="UTF-8">
+                                            {{ csrf_field() }}
+                                        </form>
+                                </span>
                                     @endif
                                     </div>
                                 </div>
@@ -318,7 +322,7 @@ function agregar_servicio(id,nombre){
   title: 'Agregar el servicio',
   text: '¿Desea agregar el servicio "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fas shopping-cart"></i> Agregar',
+  confirmButtonText: '<i class="fas fa-cart-plus"></i> Agregar',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,

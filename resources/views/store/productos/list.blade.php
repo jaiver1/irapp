@@ -21,19 +21,20 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 
         <!-- Navbar brand -->
         <a class="font-weight-bold white-text mr-4 d-none d-md-block" href="{{ route('store.productos') }}">Lista de productos</a>
-        @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
+        @if(Auth::user() && Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE) && Auth::user()->getCliente()->productos->count() > 0)
                         <a href="{{ route('store.productos.cart') }}" class="font-weight-bold white-text mr-4 d-md-block"><i class="fas fa-shopping-cart mr-2"
-                            data-toggle="tooltip" data-placement="bottom" title="Carrito de compras"></i><span class="badge badge-pill pink darken-1 notification" style="margin-left:-15px; position: absolute;top: 0;">3</span></a>
+                            data-toggle="tooltip" data-placement="bottom" title="Carrito de compras"></i><span class="badge badge-pill pink darken-1 notification" style="margin-left:-15px; position: absolute;top: 0;">
+                                    {{Auth::user()->getCliente()->productos->count()}}</span></a>
 @endif
         <ul class="navbar-nav mr-auto d-none d-md-block">
         </ul>
         <form id="form-query" class="search-form" role="search">
-            <div class="form-group md-form my-0">
-                    <i onclick="filtrar('{{$filter->order}}')" class="fas fa-search prefix white-text btn-icon-search hoverable"
-                        data-toggle="tooltip" data-placement="bottom" title="Buscar"></i>
-                <input id="query" type="text" value="{{$filter->query}}" class="ml-5 form-control white-text" placeholder="Buscar">
-            </div>
-        </form>
+                <div class="form-group md-form my-0">
+                        <i onclick="filtrar('{{$filter->order}}')" class="fas fa-search prefix white-text btn-icon-search hoverable"
+                            data-toggle="tooltip" data-placement="bottom" title="Buscar"></i>
+                    <input id="query" type="text" value="{{$filter->query}}" class="ml-5 form-control white-text" placeholder="Buscar">
+                </div>
+            </form>
  {{--
         <!-- Collapse button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
@@ -98,7 +99,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 --}}
     </nav>
     <!--/.Navbar-->
-    <div class="card mb-4 z-depth-5 hoverable">
+    <div class="card mb-4 z-depth-5 hoverable full-card">
             <div class="card-body">
 
     <div class="row pl-4 pt-4">
@@ -175,19 +176,18 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                 <!-- Grid column -->
             </div>
             <!-- Grid row -->
-
-            <!-- Grid row -->
-            <div class="mt-2 row justify-content-center">
-                <!-- Grid column -->
-                <div class="col-12 text-center">
-            <button onclick="filtrar('{{$filter->order}}')" class="btn btn-outline-success btn-circle waves-effect hoverable"
-                data-toggle="tooltip" data-placement="bottom" title="Aplicar filtro">
-              <i class="fas fa-2x fa-check"></i>
-                    </button>
-                </div>
-                <!-- Grid column -->
-            </div>
-            <!-- Grid row -->
+<!-- Grid row -->
+<div class="mt-2 row justify-content-center">
+    <!-- Grid column -->
+    <div class="col-12 text-center">
+<button onclick="filtrar('{{$filter->order}}')" class="btn btn-outline-success btn-circle waves-effect hoverable"
+    data-toggle="tooltip" data-placement="bottom" title="Aplicar filtro">
+  <i class="fas fa-2x fa-check"></i>
+        </button>
+    </div>
+    <!-- Grid column -->
+</div>
+<!-- Grid row -->
     </div>
     <!-- /Filter by price -->
 
@@ -262,10 +262,12 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                                             @money($producto->valor_unitario)
                                             </span></h5>
                                         </span>
-                                        @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
-                                        <span class="float-left">
-                                    <a class="float-right" data-toggle="tooltip" data-placement="top" title="Agregar al carrito"><i class="fas fa-2x fa-cart-plus ml-3"></i></a>
-                                    </span>
+                                        @if(Auth::user() && Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))                                        <span class="float-left">
+                                    <a onclick="agregar_producto({{ $producto->id }},'{{ $producto->nombre }}')" class="float-right" data-toggle="tooltip" data-placement="bottom" title="Agregar al carrito"><i class="fas fa-2x fa-cart-plus ml-3"></i></a>
+                                    <form id="agregar{{ $producto->id }}" method="POST" action="{{ route('store.productos.cart.add', $producto->id) }}" accept-charset="UTF-8">
+                                            {{ csrf_field() }}
+                                        </form>
+                                </span>
                                     @endif
                                     </div>
                                 </div>
@@ -320,7 +322,7 @@ function agregar_producto(id,nombre){
   title: 'Agregar el producto',
   text: '¿Desea agregar el producto "'+nombre+'"?',
   type: 'question',
-  confirmButtonText: '<i class="fas shopping-cart"></i> Agregar',
+  confirmButtonText: '<i class="fas fa-cart-plus"></i> Agregar',
   cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
   showCancelButton: true,
   showCloseButton: true,

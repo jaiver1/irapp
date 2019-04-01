@@ -169,7 +169,7 @@ function salir(){
                             <a href="{{route('marcas.index')}}"> <i class="fas fa-trademark mr-1"></i><span>Marcas</span></a>
                             </li>
                             <li class="hoverable waves-light {{ (\Request::is('productos') || \Request::is('productos/*')) ? 'default' : 'simple' }}">
-                                <a href="{{route('productos.index')}}"><i class="fas fa-boxes mr-1"></i><span>Productos</span></a>
+                                <a href="{{route('productos.index')}}"><i class="fas fa-box-open mr-1"></i><span>Productos</span></a>
                             </li>
                         </ul>
                     </div>
@@ -239,7 +239,7 @@ function salir(){
                         <a class="dropdown-item" href="{{ route('store.productos') }}">
                             <div class="message-content">
                                 <div class="pic">
-                                        <i class="fas fa-2x fa-boxes indigo-text"></i>
+                                        <i class="fas fa-2x fa-box-open indigo-text"></i>
                                 </div>
                                 <div class="content">
                                     <div class="message-title">

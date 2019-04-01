@@ -24,6 +24,9 @@ Información de la orden "{{ $orden->nombre }}" | {{ config('app.name', 'Laravel
                     @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
                         <a href="{{ route('ordenes.index',array('Abierta')) }}">Lista de ordenes</a>
                         <span>/</span>
+                        @elseif(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
+                        <a href="{{ route('home',array('Pendiente')) }}">Página principal</a>
+                        <span>/</span>
                         @endif
                         <span>Información de la orden "{{ $orden->nombre }}"</span>
                     </h4>

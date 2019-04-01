@@ -22,12 +22,18 @@ Route::get('/store/productos/{id}', 'StoreController@show_producto')->name('stor
 Route::get('/store/servicios/{id}', 'StoreController@show_servicio')->name('store.servicios.show');
 Route::get('/store/cart/productos', 'StoreController@cart_productos')->name('store.productos.cart');
 Route::get('/store/cart/servicios', 'StoreController@cart_servicios')->name('store.servicios.cart');
+Route::post('/store/cart/productos/{id}', 'StoreController@add_cart_productos')->name('store.productos.cart.add');
+Route::post('/store/cart/servicios/{id}', 'StoreController@add_cart_servicios')->name('store.servicios.cart.add');
+Route::delete('/store/cart/productos/{id}', 'StoreController@delete_cart_productos')->name('store.productos.cart.delete');
+Route::delete('/store/cart/servicios/{id}', 'StoreController@delete_cart_servicios')->name('store.servicios.cart.delete');
+Route::post('/store/solicitud', 'StoreController@register_solicitud')->name('store.register.solicitud');
+Route::post('/store/venta', 'StoreController@register_venta')->name('store.register.venta');
 
-Route::get('/home/{estado?}', 'HomeController@index')->name('home')->middleware('verified');
+Route::get('/home/{estado?}', 'HomeController@index')->name('home');
 
 
-Route::get('/profile','ProfileController@index')->name('profile')->middleware('verified');
-Route::put('/profile/upload/imagen/{id}', ['uses' => 'ProfileController@upload_imagen', 'as' => 'profile.uploadImagen'])->middleware('verified');
+Route::get('/profile','ProfileController@index')->name('profile');
+Route::put('/profile/upload/imagen/{id}', ['uses' => 'ProfileController@upload_imagen', 'as' => 'profile.uploadImagen']);
 
 
 Route::resource('usuarios/deleted', 'Root\Usuario\UsuarioSoftDeleteController',
@@ -37,9 +43,9 @@ Route::resource('usuarios/deleted', 'Root\Usuario\UsuarioSoftDeleteController',
         'update' => 'usuarios.deleted.update',
         'destroy' => 'usuarios.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('usuarios', 'Root\Usuario\UsuarioController')->middleware('verified');
+Route::resource('usuarios', 'Root\Usuario\UsuarioController');
 
 
 Route::resource('tipos_medidas/deleted', 'Dato_basico\Tipo_medida\Tipo_medidaSoftDeleteController',
@@ -49,9 +55,9 @@ Route::resource('tipos_medidas/deleted', 'Dato_basico\Tipo_medida\Tipo_medidaSof
         'update' => 'tipos_medidas.deleted.update',
         'destroy' => 'tipos_medidas.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('tipos_medidas', 'Dato_basico\Tipo_medida\Tipo_medidaController')->middleware('verified');
+Route::resource('tipos_medidas', 'Dato_basico\Tipo_medida\Tipo_medidaController');
 
 
 Route::resource('medidas/deleted', 'Dato_basico\Medida\MedidaSoftDeleteController',
@@ -61,9 +67,9 @@ Route::resource('medidas/deleted', 'Dato_basico\Medida\MedidaSoftDeleteControlle
         'update' => 'medidas.deleted.update',
         'destroy' => 'medidas.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('medidas', 'Dato_basico\Medida\MedidaController')->middleware('verified');
+Route::resource('medidas', 'Dato_basico\Medida\MedidaController');
 
 
 Route::resource('especialidades/deleted', 'Clasificacion\Especialidad\EspecialidadSoftDeleteController',
@@ -73,9 +79,9 @@ Route::resource('especialidades/deleted', 'Clasificacion\Especialidad\Especialid
         'update' => 'especialidades.deleted.update',
         'destroy' => 'especialidades.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('especialidades', 'Clasificacion\Especialidad\EspecialidadController')->middleware('verified');
+Route::resource('especialidades', 'Clasificacion\Especialidad\EspecialidadController');
 
 
 Route::resource('categorias/deleted', 'Clasificacion\Categoria\CategoriaSoftDeleteController',
@@ -85,9 +91,9 @@ Route::resource('categorias/deleted', 'Clasificacion\Categoria\CategoriaSoftDele
         'update' => 'categorias.deleted.update',
         'destroy' => 'categorias.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('categorias', 'Clasificacion\Categoria\CategoriaController')->middleware('verified');
+Route::resource('categorias', 'Clasificacion\Categoria\CategoriaController');
 
 
 Route::resource('marcas/deleted', 'Comercio\Marca\MarcaSoftDeleteController',
@@ -97,9 +103,9 @@ Route::resource('marcas/deleted', 'Comercio\Marca\MarcaSoftDeleteController',
         'update' => 'marcas.deleted.update',
         'destroy' => 'marcas.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('marcas', 'Comercio\Marca\MarcaController')->middleware('verified');
+Route::resource('marcas', 'Comercio\Marca\MarcaController');
 
 
 Route::resource('productos/deleted', 'Comercio\Producto\ProductoSoftDeleteController',
@@ -109,21 +115,21 @@ Route::resource('productos/deleted', 'Comercio\Producto\ProductoSoftDeleteContro
         'update' => 'productos.deleted.update',
         'destroy' => 'productos.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('productos', 'Comercio\Producto\ProductoController')->middleware('verified');
+Route::resource('productos', 'Comercio\Producto\ProductoController');
 
-Route::get('/productos/test/referencias', ['uses' => 'Comercio\Producto\ProductoController@test_referencias', 'as' => 'productos.testReferencias'])->middleware('verified');
+Route::get('/productos/test/referencias', ['uses' => 'Comercio\Producto\ProductoController@test_referencias', 'as' => 'productos.testReferencias']);
 
-Route::get('/productos/load/referencias/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_referencias', 'as' => 'productos.loadReferencias'])->middleware('verified');
+Route::get('/productos/load/referencias/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_referencias', 'as' => 'productos.loadReferencias']);
 
-Route::get('/productos/load/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_imagenes', 'as' => 'productos.loadImagenes'])->middleware('verified');
+Route::get('/productos/load/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_imagenes', 'as' => 'productos.loadImagenes']);
 
-Route::get('/productos/load/row/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_row_imagenes', 'as' => 'productos.loadRowImagenes'])->middleware('verified');
+Route::get('/productos/load/row/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@load_row_imagenes', 'as' => 'productos.loadRowImagenes']);
 
-Route::post('/productos/upload/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@upload_imagenes', 'as' => 'productos.uploadImagenes'])->middleware('verified');
+Route::post('/productos/upload/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@upload_imagenes', 'as' => 'productos.uploadImagenes']);
 
-Route::delete('/productos/delete/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@delete_imagenes', 'as' => 'productos.deleteImagenes'])->middleware('verified');
+Route::delete('/productos/delete/imagenes/{id}', ['uses' => 'Comercio\Producto\ProductoController@delete_imagenes', 'as' => 'productos.deleteImagenes']);
 
 
 Route::resource('compras/deleted', 'Comercio\Compra\CompraSoftDeleteController',
@@ -133,9 +139,9 @@ Route::resource('compras/deleted', 'Comercio\Compra\CompraSoftDeleteController',
         'update' => 'compras.deleted.update',
         'destroy' => 'compras.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('compras', 'Comercio\Compra\CompraController')->middleware('verified');
+Route::resource('compras', 'Comercio\Compra\CompraController');
 
 Route::resource('ventas/deleted', 'Comercio\Venta\CompraSoftDeleteController',
 [
@@ -144,9 +150,9 @@ Route::resource('ventas/deleted', 'Comercio\Venta\CompraSoftDeleteController',
         'update' => 'ventas.deleted.update',
         'destroy' => 'ventas.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('ventas', 'Comercio\Venta\VentaController')->middleware('verified');
+Route::resource('ventas', 'Comercio\Venta\VentaController');
 
 Route::resource('clientes/deleted', 'Contacto\Cliente\ClienteSoftDeleteController',
 [
@@ -155,8 +161,8 @@ Route::resource('clientes/deleted', 'Contacto\Cliente\ClienteSoftDeleteControlle
         'update' => 'clientes.deleted.update',
         'destroy' => 'clientes.deleted.destroy'
     ]
-])->middleware('verified');
-Route::resource('clientes', 'Contacto\Cliente\ClienteController')->middleware('verified');
+]);
+Route::resource('clientes', 'Contacto\Cliente\ClienteController');
 
 
 Route::resource('colaboradores/deleted', 'Contacto\Colaborador\ColaboradorSoftDeleteController',
@@ -166,13 +172,13 @@ Route::resource('colaboradores/deleted', 'Contacto\Colaborador\ColaboradorSoftDe
         'update' => 'colaboradores.deleted.update',
         'destroy' => 'colaboradores.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('colaboradores', 'Contacto\Colaborador\ColaboradorController')->middleware('verified');
+Route::resource('colaboradores', 'Contacto\Colaborador\ColaboradorController');
 
-Route::get('/colaboradores/servicios/{id}/{isSearching}', ['uses' => 'Contacto\Colaborador\ColaboradorController@get_servicios', 'as' => 'colaboladores.getServicios'])->middleware('verified');
-Route::post('/colaboradores/servicios/add', ['uses' => 'Contacto\Colaborador\ColaboradorController@add_servicios', 'as' => 'colaboladores.addServicios'])->middleware('verified');
-Route::delete('/colaboradores/servicios/delete', ['uses' => 'Contacto\Colaborador\ColaboradorController@delete_servicios', 'as' => 'colaboladores.deleteServicios'])->middleware('verified');
+Route::get('/colaboradores/servicios/{id}/{isSearching}', ['uses' => 'Contacto\Colaborador\ColaboradorController@get_servicios', 'as' => 'colaboladores.getServicios']);
+Route::post('/colaboradores/servicios/add', ['uses' => 'Contacto\Colaborador\ColaboradorController@add_servicios', 'as' => 'colaboladores.addServicios']);
+Route::delete('/colaboradores/servicios/delete', ['uses' => 'Contacto\Colaborador\ColaboradorController@delete_servicios', 'as' => 'colaboladores.deleteServicios']);
 
 Route::resource('proveedores/deleted', 'Contacto\Proveedor\ProveedorSoftDeleteController',
 [
@@ -181,13 +187,13 @@ Route::resource('proveedores/deleted', 'Contacto\Proveedor\ProveedorSoftDeleteCo
         'update' => 'proveedores.deleted.update',
         'destroy' => 'proveedores.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('proveedores', 'Contacto\Proveedor\ProveedorController')->middleware('verified');
+Route::resource('proveedores', 'Contacto\Proveedor\ProveedorController');
 
-Route::get('/proveedores/productos/{id}/{isSearching}', ['uses' => 'Contacto\Proveedor\ProveedorController@get_productos', 'as' => 'proveedores.getProductos'])->middleware('verified');
-Route::post('/proveedores/productos/add', ['uses' => 'Contacto\Proveedor\ProveedorController@add_productos', 'as' => 'proveedores.addProductos'])->middleware('verified');
-Route::delete('/proveedores/productos/delete', ['uses' => 'Contacto\Proveedor\ProveedorController@delete_productos', 'as' => 'proveedores.deleteProductos'])->middleware('verified');
+Route::get('/proveedores/productos/{id}/{isSearching}', ['uses' => 'Contacto\Proveedor\ProveedorController@get_productos', 'as' => 'proveedores.getProductos']);
+Route::post('/proveedores/productos/add', ['uses' => 'Contacto\Proveedor\ProveedorController@add_productos', 'as' => 'proveedores.addProductos']);
+Route::delete('/proveedores/productos/delete', ['uses' => 'Contacto\Proveedor\ProveedorController@delete_productos', 'as' => 'proveedores.deleteProductos']);
 
 
 
@@ -198,25 +204,25 @@ Route::resource('servicios/deleted', 'Actividad\Servicio\ServicioSoftDeleteContr
         'update' => 'servicios.deleted.update',
         'destroy' => 'servicios.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
-Route::resource('servicios', 'Actividad\Servicio\ServicioController')->middleware('verified');
+Route::resource('servicios', 'Actividad\Servicio\ServicioController');
 
-Route::get('/servicios/detalles/{id}', ['uses' => 'Actividad\Servicio\ServicioController@get_servicios_detalles', 'as' => 'servicios.getServiciosDetalles'])->middleware('verified');
+Route::get('/servicios/detalles/{id}', ['uses' => 'Actividad\Servicio\ServicioController@get_servicios_detalles', 'as' => 'servicios.getServiciosDetalles']);
 
-Route::get('/servicios/load/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@load_imagenes', 'as' => 'servicios.loadImagenes'])->middleware('verified');
+Route::get('/servicios/load/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@load_imagenes', 'as' => 'servicios.loadImagenes']);
 
-Route::get('/servicios/load/row/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@load_row_imagenes', 'as' => 'servicios.loadRowImagenes'])->middleware('verified');
+Route::get('/servicios/load/row/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@load_row_imagenes', 'as' => 'servicios.loadRowImagenes']);
 
-Route::post('/servicios/upload/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@upload_imagenes', 'as' => 'servicios.uploadImagenes'])->middleware('verified');
+Route::post('/servicios/upload/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@upload_imagenes', 'as' => 'servicios.uploadImagenes']);
 
-Route::delete('/servicios/delete/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@delete_imagenes', 'as' => 'servicios.deleteImagenes'])->middleware('verified');
+Route::delete('/servicios/delete/imagenes/{id}', ['uses' => 'Actividad\Servicio\ServicioController@delete_imagenes', 'as' => 'servicios.deleteImagenes']);
 
 
-Route::get('/ordenes/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenController@index', 'as' => 'ordenes.index'])->middleware('verified');
-Route::get('/ordenes/create/{fecha?}', ['uses' => 'Actividad\Orden\OrdenController@create', 'as' => 'ordenes.create'])->middleware('verified');
+Route::get('/ordenes/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenController@index', 'as' => 'ordenes.index']);
+Route::get('/ordenes/create/{fecha?}', ['uses' => 'Actividad\Orden\OrdenController@create', 'as' => 'ordenes.create']);
 
-Route::get('/ordenes/deleted/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenSoftDeleteController@index', 'as' => 'ordenes.deleted.index'])->middleware('verified');
+Route::get('/ordenes/deleted/index/{estado?}', ['uses' => 'Actividad\Orden\OrdenSoftDeleteController@index', 'as' => 'ordenes.deleted.index']);
 
 Route::resource('ordenes/deleted', 'Actividad\Orden\OrdenSoftDeleteController',
 [
@@ -224,24 +230,29 @@ Route::resource('ordenes/deleted', 'Actividad\Orden\OrdenSoftDeleteController',
         'update' => 'ordenes.deleted.update',
         'destroy' => 'ordenes.deleted.destroy'
     ]
-])->middleware('verified');
+]);
 
 
 Route::resource('ordenes', 'Actividad\Orden\OrdenController',
 [
     'except' => ['index','create']
-])->middleware('verified');
+]);
 
-Route::get('/ordenes/detalles/{id}', ['uses' => 'Actividad\Orden\OrdenController@get_detalles', 'as' => 'ordenes.getDetalles'])->middleware('verified');
-Route::get('/ordenes/detalles/form/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@form_detalles', 'as' => 'ordenes.formDetalles'])->middleware('verified');
-Route::get('/ordenes/detalles/servicios/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@get_servicios', 'as' => 'ordenes.getServicios'])->middleware('verified');
-Route::get('/ordenes/detalles/colaboradores/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@get_colaboradores', 'as' => 'ordenes.getColaboradores'])->middleware('verified');
-Route::post('/ordenes/detalles/add', ['uses' => 'Actividad\Orden\OrdenController@add_detalles', 'as' => 'ordenes.addDetalles'])->middleware('verified');
-Route::put('/ordenes/detalles/update/{id}', ['uses' => 'Actividad\Orden\OrdenController@update_detalles', 'as' => 'ordenes.updateDetalles'])->middleware('verified');
-Route::put('/ordenes/detalles/state/{id}', ['uses' => 'Actividad\Orden\OrdenController@state_detalles', 'as' => 'ordenes.stateDetalles'])->middleware('verified');
-Route::delete('/ordenes/detalles/delete/{id}', ['uses' => 'Actividad\Orden\OrdenController@delete_detalles', 'as' => 'ordenes.deleteDetalles'])->middleware('verified');
+Route::get('/ordenes/detalles/{id}', ['uses' => 'Actividad\Orden\OrdenController@get_detalles', 'as' => 'ordenes.getDetalles']);
+Route::get('/ordenes/detalles/form/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@form_detalles', 'as' => 'ordenes.formDetalles']);
+Route::get('/ordenes/detalles/servicios/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@get_servicios', 'as' => 'ordenes.getServicios']);
+Route::get('/ordenes/detalles/colaboradores/{id}/{editar}', ['uses' => 'Actividad\Orden\OrdenController@get_colaboradores', 'as' => 'ordenes.getColaboradores']);
+Route::post('/ordenes/detalles/add', ['uses' => 'Actividad\Orden\OrdenController@add_detalles', 'as' => 'ordenes.addDetalles']);
+Route::put('/ordenes/detalles/update/{id}', ['uses' => 'Actividad\Orden\OrdenController@update_detalles', 'as' => 'ordenes.updateDetalles']);
+Route::put('/ordenes/detalles/state/{id}', ['uses' => 'Actividad\Orden\OrdenController@state_detalles', 'as' => 'ordenes.stateDetalles']);
+Route::delete('/ordenes/detalles/delete/{id}', ['uses' => 'Actividad\Orden\OrdenController@delete_detalles', 'as' => 'ordenes.deleteDetalles']);
 
-Route::get('/solicitudes/index/{estado?}', ['uses' => 'Actividad\Solicitud\SolicitudController@index', 'as' => 'solicitudes.index'])->middleware('verified');
-Route::get('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@show', 'as' => 'solicitudes.show'])->middleware('verified');
-Route::post('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@approve', 'as' => 'solicitudes.approve'])->middleware('verified');
-Route::put('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@cancel', 'as' => 'solicitudes.cancel'])->middleware('verified');
+Route::get('/solicitudes/index/{estado?}', ['uses' => 'Actividad\Solicitud\SolicitudController@index', 'as' => 'solicitudes.index']);
+Route::get('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@show', 'as' => 'solicitudes.show']);
+Route::post('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@approve', 'as' => 'solicitudes.approve']);
+Route::put('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@cancel', 'as' => 'solicitudes.cancel']);
+
+Route::put('cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@approve', 'as' => 'compras.approve']);
+Route::put('cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@cancel', 'as' => 'compras.cancel']);
+
+Route::get('cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@info', 'as' => 'compras.info']);

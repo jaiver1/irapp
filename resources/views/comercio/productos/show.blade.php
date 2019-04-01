@@ -16,7 +16,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-boxes mr-1 fa-lg"></i></span>
+                    <span><i class="fas fa-box-open mr-1 fa-lg"></i></span>
                         <a href="{{ route('productos.index') }}">Lista de productos</a>
                         <span>/</span>
                         <span>Información del producto "{{ $producto->nombre }}"</span>
@@ -25,7 +25,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('productos.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de productos">
-                      <i class="fas fa-2x fa-boxes"></i>
+                      <i class="fas fa-2x fa-box-open"></i>
                             </a>
 
                              <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-outline-warning btn-circle waves-effect hoverable" 
@@ -63,7 +63,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fas fa-boxes  mr-2"></i><strong>Producto #{{ $producto->id }}</strong>
+      <i class="fas fa-box-open  mr-2"></i><strong>Producto #{{ $producto->id }}</strong>
     </a>
   <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $producto->nombre }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Referencia: </strong>{{ $producto->referencia }}</a>
@@ -140,7 +140,7 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 
             <!--Card content-->
             <div class="card-body">
-                  <h4><i class="fas fa-box-open mr-2"></i>
+                  <h4><i class="fas fa-barcode mr-2"></i>
           Referencias de "{{ $producto->nombre }}"
       </h4>
       <hr/>

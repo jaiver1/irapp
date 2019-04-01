@@ -17,30 +17,51 @@ class ClasificacionesTableSeeder extends Seeder
         $especialidad->save();
 
         $especialidad = new Especialidad;
-        $especialidad->nombre = 'Tecnologia';
+        $especialidad->nombre = 'Electrohogar';
         $especialidad->save();
 
         $categoria = new Categoria;
-        $categoria->nombre = 'Electronicos';
+        $categoria->nombre = 'Soportes De Tv';
         $categoria->especialidad()->associate($especialidad);
         $categoria->save();
 
-        $sub_categoria = new Categoria;
-        $sub_categoria->nombre = 'Electrodomesticos';
-        $sub_categoria->especialidad()->associate($especialidad);
-        $sub_categoria->categoria()->associate($categoria);
-        $sub_categoria->save();
+        $especialidad = new Especialidad;
+        $especialidad->nombre = 'Cocina';
+        $especialidad->save();
 
-        $sub_categoria = new Categoria;
-        $sub_categoria->nombre = 'Entretenimiento';
-        $sub_categoria->especialidad()->associate($especialidad);
-        $sub_categoria->categoria()->associate($categoria);
-        $sub_categoria->save();
 
-        $sub_categoria2 = new Categoria;
-        $sub_categoria2->nombre = 'Televisores';
-        $sub_categoria2->especialidad()->associate($especialidad);
-        $sub_categoria2->categoria()->associate($sub_categoria);
-        $sub_categoria2->save(); 
+        $categoria = new Categoria;
+        $categoria->nombre = 'Muebles De Cocina';
+        $categoria->especialidad()->associate($especialidad);
+        $categoria->save();
+        
+        $categoria = new Categoria;
+        $categoria->nombre = 'Accesorios De Cocina';
+        $categoria->especialidad()->associate($especialidad);
+        $categoria->save();
+
+
+        $especialidad = new Especialidad;
+        $especialidad->nombre = 'Baños';
+        $especialidad->save();
+        
+        $categoria = new Categoria;
+        $categoria->nombre = 'Muebles De Baño';
+        $categoria->especialidad()->associate($especialidad);
+        $categoria->save();
+        
+        $categoria = new Categoria;
+        $categoria->nombre = 'Duchas';
+        $categoria->especialidad()->associate($especialidad);
+        $categoria->save();
+
+        $especialidad = new Especialidad;
+        $especialidad->nombre = 'Muebles Y Decoración';
+        $especialidad->save();
+
+        $categoria = new Categoria;
+        $categoria->nombre = 'Muebles De Hogar';
+        $categoria->especialidad()->associate($especialidad);
+        $categoria->save(); 
     }
 }

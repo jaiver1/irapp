@@ -1,5 +1,6 @@
 @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
 @include('include.actividad.solicitudes.div_solicitudes', array('solicitudes'=>$solicitudes))
+@include('include.comercio.compras.div_compras', array('compras'=>$compras))
 @endif
 
 @include('include.actividad.ordenes.div_ordenes', array('ordenes'=>$ordenes))
@@ -30,7 +31,7 @@ Página principal | {{ config('app.name', 'Laravel') }}
   
         <div class="tab-2" data-toggle="tooltip" data-placement="bottom" title="Lista de ordenes">
           <label for="tab2-1" class="waves-effect"><i class="fas fa-toolbox fa-lg mr-1"></i> Ordenes</label>
-          <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
+          <input id="tab2-1" name="tabs-two" type="radio" {{($estado && ($estado == "Enviado" || $estado == "Entregado")) ? '' :'checked'}}>
           <div>
             <!-- Heading -->
             <div class="card mb-4 wow fadeIn hoverable">
@@ -70,7 +71,7 @@ Página principal | {{ config('app.name', 'Laravel') }}
      <div class="card-body d-sm-flex justify-content-between">
 
          <h4 class="mb-2 mb-sm-0 pt-1">
-         <span><i class="fas fa-business-time fa-lg mr-1"></i></span> <span> @if ($solicitudes->count() === 1)
+         <span><i class="fas fa-user-tag fa-lg mr-1"></i></span> <span> @if ($solicitudes->count() === 1)
      Una solicitud de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
  @elseif ($solicitudes->count() > 1)
      {{ $solicitudes->count() }} solicitudes de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
@@ -89,6 +90,38 @@ Página principal | {{ config('app.name', 'Laravel') }}
           </div>
  </div>
         </div>
+        <div class="tab-2"  data-toggle="tooltip" data-placement="bottom" title="Lista de compras">
+            <label for="tab2-3" class="waves-effect"><i class="fas fa-user-tag fa-lg mr-1"></i> Compras</label>
+            <input id="tab2-3" name="tabs-two" type="radio" {{($estado && ($estado == "Enviado" || $estado == "Entregado")) ? 'checked' :''}}>
+            <div>
+            <!-- Heading -->
+  
+     <!-- Heading -->
+     <div class="card mb-4 wow fadeIn hoverable">
+  
+       <!--Card content-->
+       <div class="card-body d-sm-flex justify-content-between">
+  
+           <h4 class="mb-2 mb-sm-0 pt-1">
+           <span><i class="fas fa-business-time fa-lg mr-1"></i></span> <span> @if ($compras->count() === 1)
+       Una compra de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
+   @elseif ($compras->count() > 1)
+       {{ $$compras->count() }} compras de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
+   @else
+      No hay compras de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
+   @endif
+   </span>
+           </h4>
+  
+       </div>
+  
+   </div>
+   <!-- Heading -->
+   <div class="container-fluid">
+              @yield('div_compras')
+            </div>
+   </div>
+          </div>
       </div>
 
     </div>
@@ -565,6 +598,107 @@ function localDB_Orden(view){
                 }
             }
         } );
+
+
+        $('#dtcompras').DataTable( {
+            dom: 'Bfrtip',
+        lengthMenu: [
+            [ 2, 5, 10, 20, 30, 50, 100, -1 ],
+            [ '2 registros', '5 registros', '10 registros', '20 registros','30 registros', '50 registros', '100 registros', 'Mostrar todo' ]
+        ],oLanguage:{
+        sProcessing:     'Procesando...',
+        sLengthMenu:     'Mostrar _MENU_ registros',
+        sZeroRecords:    'No se encontraron resultados',
+        sEmptyTable:     'Ningún dato disponible en esta tabla',
+        sInfo:           'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+        sInfoEmpty:      'Mostrando registros del 0 al 0 de un total de 0 registros',
+        sInfoFiltered:   '(filtrado de un total de _MAX_ registros)',
+        sInfoPostFix:    '',
+        sSearch:         'Buscar:',
+        sUrl:            '',
+        sInfoThousands:  ',',
+        sLoadingRecords: 'Cargando...',
+        oPaginate: {
+            sFirst:    'Primero',
+            sLast:     'Último',
+            sNext:     'Siguiente',
+            sPrevious: 'Anterior'
+        },
+        oAria: {
+            sSortAscending:  ': Activar para solicitudar la columna de manera ascendente',
+            sSortDescending: ': Activar para solicitudar la columna de manera descendente'
+        }
+    },
+            buttons: [
+    
+                {
+                    extend: 'collection',
+                    text:      '<i class="fas fa-2x fa-cog fa-spin"></i>',
+                    titleAttr: 'Opciones',
+                    buttons: [
+                        {
+                    extend:    'copyHtml5',
+                    text:      '<i class="fas fa-copy"></i> Copiar',
+                    titleAttr: 'Copiar',
+                    title: titulo_archivo
+                },
+                {
+                    extend:    'print',
+                    text:      '<i class="fas fa-print"></i> Imprimir',
+                    titleAttr: 'Imprimir',
+                    title: titulo_archivo
+                },
+                {
+                    extend: 'collection',
+                    text:      '<i class="fas fa-cloud-download-alt"></i> Exportar',
+                    titleAttr: 'Exportar',
+                    buttons: [         
+                {
+                    extend:    'csvHtml5',
+                    text:      '<i class="fas fa-file-csv"></i> Csv',
+                    titleAttr: 'Csv',
+                    title: titulo_archivo
+                }, 
+                {
+                    extend:    'excelHtml5',
+                    text:      '<i class="fas fa-file-excel"></i> Excel',
+                    titleAttr: 'Excel',
+                    title: titulo_archivo
+                },
+                {
+                    extend:    'pdfHtml5',
+                    text:      '<i class="fas fa-file-pdf"></i> Pdf',
+                    titleAttr: 'Pdf',
+                    title: titulo_archivo
+                }
+            ]
+        },
+               
+                {
+                    extend:    'colvis',
+                    text:      '<i class="fas fa-low-vision"></i> Ver/Ocultar',
+                    titleAttr: 'Ver/Ocultar',
+                }
+               
+                    ]
+                },
+                'pageLength'
+            ],
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal( {
+                        header: function ( row ) {
+                            var data = row.data();
+                            return '<i class="fas fa-user-tag fa-lg"></i> Datos de la compra';
+                        }
+                    } ),
+                    renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                        tableClass: 'table'
+                    } )
+                }
+            }
+        } );
+
                 $('.dataTables_length').addClass('bs-select');
     
             });

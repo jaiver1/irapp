@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Orden;
+use App\Models\Comercio\Venta;
 use App\Models\Actividad\Solicitud;
 use Illuminate\Support\Facades\View;
 use DB;
@@ -98,6 +99,8 @@ class HomeController extends Controller
                 ->join('clientes', 'solicitudes.cliente_id', '=', 'clientes.id')
                 ->join('personas', 'clientes.persona_id', '=', 'personas.id');
 
+                $estados_compras= Venta::getEstados();
+            $compras = Venta::select('*');
 
         if(Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE)){
             $colaborador = Auth::user()->getColaborador();      
@@ -108,22 +111,29 @@ class HomeController extends Controller
             $cliente = Auth::user()->getCliente();          
             $ordenes = $ordenes->where('cliente_id','=',$cliente->id);
             $JSON_ordenes = $JSON_ordenes->where('cliente_id','=',$cliente->id);
+            $compras = $compras->where('cliente_id','=',$cliente->id);
         }
 
         if($estado){
             $ordenes = $ordenes->where('estado','=',$estado);
             $JSON_ordenes = $JSON_ordenes->where('estado','=',$estado);
+
+            $solicitudes = $solicitudes->where('estado','=',$estado);
+            $JSON_solicitudes = $JSON_solicitudes->where('estado','=',$estado);
         }else{
             $ordenes = $ordenes->orderBy("estado");
             $JSON_ordenes = $JSON_ordenes->orderBy("estado");
-        }
 
+            $solicitudes = $solicitudes->orderBy("estado");
+            $JSON_solicitudes = $JSON_solicitudes->orderBy("estado");
+        }
+        $compras = $compras->get();
         $ordenes = $ordenes->get();
         $JSON_ordenes = $JSON_ordenes->get();
         $solicitudes = $solicitudes->get();
         $JSON_solicitudes = $JSON_solicitudes->get();
         $route = 'home';
-        return View::make('home.index')->with(compact('ordenes','JSON_ordenes','estados_ordenes','solicitudes','JSON_solicitudes','estados_solicitudes','estado','route'));
+        return View::make('home.index')->with(compact('ordenes','JSON_ordenes','estados_ordenes','solicitudes','JSON_solicitudes','estados_solicitudes','estado','route','compras','estados_compras'));
         }
         else if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE)){
             return View::make('home.index');

@@ -21,7 +21,7 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {{ (\Request::is('store/productos') || \Request::is('store/productos/*')) ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('store.productos') }}">
-                    <i class="fas fa-boxes mr-1"></i>Productos
+                    <i class="fas fa-box-open mr-1"></i>Productos
                 </a>
               </li>
               <li class="nav-item {{ (\Request::is('store/servicios') || \Request::is('store/servicios/*')) ? 'active' : '' }}">

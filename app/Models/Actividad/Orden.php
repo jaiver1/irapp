@@ -35,10 +35,7 @@ class Orden extends Model
     'estado',
     'fecha_inicio',
     'fecha_fin',
-    'barrio',
     'direccion_id',
-    'ciudad_id',  
-    'ubicacion_id',
     'cliente_id' 
   ];
 

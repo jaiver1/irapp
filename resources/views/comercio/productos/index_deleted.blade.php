@@ -20,7 +20,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
                     <span class="fa-stack">
-  <i class="fas fa-boxes fa-stack-1x fa-lg"></i>
+  <i class="fas fa-box-open fa-stack-1x fa-lg"></i>
    <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i>
 </span>
                     <a href="{{ route('productos.index') }}">Lista de productos</a>
@@ -37,7 +37,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('productos.index') }}" class="btn btn-outline-secondary btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Lista de productos">
-                      <i class="fas fa-2x fa-boxes "></i>
+                      <i class="fas fa-2x fa-box-open "></i>
                             </a>
                     </div>
 
@@ -89,7 +89,7 @@ Categorias eliminadas | {{ config('app.name', 'Laravel') }}
                   @else
                       <a href="{{ route('productos.show',$producto->producto->id) }}" class="link-text"
                                     data-toggle="tooltip" data-placement="bottom" title='Información del producto padre "{{ $producto->producto->nombre }}"'>
-                                      <i class="fas fa-boxes"></i> {{$producto->producto->nombre}}
+                                      <i class="fas fa-box-open"></i> {{$producto->producto->nombre}}
                                             </a>    
                   @endif
               </td>
@@ -311,7 +311,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<span class="fa-stack"><i class="fas fa-boxes fa-stack-1x fa-lg"></i>  <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos del producto eliminada"'+ data[1]+'"';
+                        return '<span class="fa-stack"><i class="fas fa-box-open fa-stack-1x fa-lg"></i>  <i class="fas fa-ban fa-stack-1x fa-2x text-danger"></i></span> Datos del producto eliminada"'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

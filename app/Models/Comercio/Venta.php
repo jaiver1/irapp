@@ -1,20 +1,22 @@
-<?php namespace App\Models\Actividad;
+<?php namespace App\Models\Comercio;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Contacto\Cliente;
-use App\Models\Actividad\Detalle_solicitud;
+use App\Models\Comercio\Detalle_venta;
 use App\Models\Dato_basico\Direccion;
+use Illuminate\Database\Eloquent\SoftDeletes;
 Use DB;
 
-class Solicitud extends Model
+class Venta extends Model
 {
+  use SoftDeletes;
 
   /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'solicitudes';
+    protected $table = 'ventas';
 
     /**
      * The attributes that are not mass assignable.
@@ -31,8 +33,7 @@ class Solicitud extends Model
   protected $fillable = [
     'nombre',
     'estado',
-    'fecha_inicio',
-    'fecha_fin',
+    'fecha',
     'direccion_id',
     'cliente_id' 
   ];
@@ -44,17 +45,19 @@ class Solicitud extends Model
      */
     protected $hidden = [
       'created_at',
-      'updated_at'
+      'updated_at',
+      'deleted_at',
   ];
 
   protected $dates = [
       'created_at',
-      'updated_at'
+      'updated_at',
+      'deleted_at',
   ];
 
   public static function getEstados()
 {
-  $type = DB::select( DB::raw("SHOW COLUMNS FROM solicitudes WHERE Field = 'estado'") )[0]->Type;
+  $type = DB::select( DB::raw("SHOW COLUMNS FROM ventas WHERE Field = 'estado'") )[0]->Type;
   preg_match('/^enum\((.*)\)$/', $type, $matches);
   $enum = array();
   foreach( explode(',', $matches[1]) as $value )
@@ -76,7 +79,7 @@ public function direccion()
   }
 
   public function detalles(){
-    return $this->hasMany(Detalle_solicitud::class);
+    return $this->hasMany(Detalle_venta::class);
   }
 
 }

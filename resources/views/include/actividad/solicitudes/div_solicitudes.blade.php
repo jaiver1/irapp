@@ -79,7 +79,7 @@ fa-stopwatch
                                                        fas fa-stopwatch orange-text
                                                     @endswitch
                                                         "></i>
-                                                    {{$item}}</button>
+                                                    {{($item == 'Abierta') ? 'Aprobado' : $item }}</button>
                                                 @endforeach
                                                
                                         </div>

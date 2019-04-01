@@ -18,6 +18,7 @@ class CreateVentasTable extends Migration
             $table->dateTime('fecha');
             $table->unsignedBigInteger('direccion_id')->default(1)->nullable();
             $table->unsignedBigInteger('cliente_id')->nullable();
+            $table->enum('estado', ['Abierta','Cancelada', 'Pendiente','Entregado', 'Enviado']);
             $table->foreign('direccion_id')->references('id')->on('direcciones')->onUpdate('cascade'); 
             $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade');
             $table->timestamps();

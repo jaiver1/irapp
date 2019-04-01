@@ -20,19 +20,8 @@ class ComerciosTableSeeder extends Seeder
         $marca->save();
 
         $marca = new Marca;
-        $marca->nombre = 'Genius';
-        $marca->save();
-        
-        $marca = new Marca;
-        $marca->nombre = 'Adidas';
+        $marca->nombre = 'Rhinox';
         $marca->save();
 
-        $marca = new Marca;
-        $marca->nombre = 'Nestle';
-        $marca->save();
-
-        $marca = new Marca;
-        $marca->nombre = 'Faber Castle';
-        $marca->save();
     }
 }

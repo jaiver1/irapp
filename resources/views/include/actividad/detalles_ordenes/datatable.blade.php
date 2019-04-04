@@ -97,7 +97,14 @@ No hay detalles de "{{$orden->nombre}}"
 
                 <td>{{$detalle->servicio->nombre}}</td> 
 
-                <td>{{$detalle->colaborador->persona->primer_nombre}} {{$detalle->colaborador->persona->segundo_nombre}}</td> 
+                <td>@if($detalle->colaborador)
+                    {{$detalle->colaborador->persona->primer_nombre}} {{$detalle->colaborador->persona->segundo_nombre}}
+                  @else
+                  <span class="h5"> <span class="hoverable badge black">
+                      <i class="mr-1 fas fa-user-times"></i>Colaborador no asignado 
+                </span> </span>
+                  @endif
+                </td> 
                 
                 <td> <h5><span class="badge badge-success hoverable">
                     @money($detalle->valor_unitario)

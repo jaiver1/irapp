@@ -123,8 +123,8 @@
             <!-- Material input -->
             <div class="md-form">
     <i class="prefix"></i>
-    <input onchange="cambiar_info()" type="text" required id="segundo_apellido" value="{{ old('segundo_apellido') ? old('segundo_apellido') : $persona->segundo_apellido}}" name="segundo_apellido" class="form-control validate" maxlength="50">
-    <label for="segundo_apellido" data-error="Error" data-success="Correcto">Segundo apellido *</label>
+    <input onchange="cambiar_info()" type="text" id="segundo_apellido" value="{{ old('segundo_apellido') ? old('segundo_apellido') : $persona->segundo_apellido}}" name="segundo_apellido" class="form-control validate" maxlength="50">
+    <label for="segundo_apellido" data-error="Error" data-success="Correcto">Segundo apellido</label>
 </div>
 @if ($errors->has('segundo_apellido'))
                                             <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">

@@ -1,6 +1,6 @@
 @if(Auth::user()->authorizeRoles('ROLE_CLIENTE',FALSE))
 @include('include.actividad.solicitudes.div_solicitudes', array('solicitudes'=>$solicitudes))
-@include('include.comercio.compras.div_compras', array('compras'=>$compras))
+@include('include.contacto.clientes.div_compras', array('compras'=>$compras))
 @endif
 
 @include('include.actividad.ordenes.div_ordenes', array('ordenes'=>$ordenes))
@@ -71,7 +71,7 @@ Página principal | {{ config('app.name', 'Laravel') }}
      <div class="card-body d-sm-flex justify-content-between">
 
          <h4 class="mb-2 mb-sm-0 pt-1">
-         <span><i class="fas fa-user-tag fa-lg mr-1"></i></span> <span> @if ($solicitudes->count() === 1)
+         <span><i class="fas fa-business-time fa-lg mr-1"></i></span> <span> @if ($solicitudes->count() === 1)
      Una solicitud de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
  @elseif ($solicitudes->count() > 1)
      {{ $solicitudes->count() }} solicitudes de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
@@ -103,10 +103,10 @@ Página principal | {{ config('app.name', 'Laravel') }}
        <div class="card-body d-sm-flex justify-content-between">
   
            <h4 class="mb-2 mb-sm-0 pt-1">
-           <span><i class="fas fa-business-time fa-lg mr-1"></i></span> <span> @if ($compras->count() === 1)
+           <span><i class="fas fa-user-tag fa-lg mr-1"></i></span> <span> @if ($compras->count() === 1)
        Una compra de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
    @elseif ($compras->count() > 1)
-       {{ $$compras->count() }} compras de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
+       {{ $compras->count() }} compras de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
    @else
       No hay compras de "{{ (Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name }}"
    @endif
@@ -457,6 +457,18 @@ function localDB_Orden(view){
       }
     })
     }
+
+    function addCommas(nStr) {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
     
     function aprobar_solicitud(id,nombre){
         swal({
@@ -475,6 +487,70 @@ function localDB_Orden(view){
     }).then((result) => {
       if (result.value) {
         $( "#aprobar"+id ).submit();
+      }else{
+        swal({
+      position: 'top-end',
+      type: 'error',
+      title: 'Operación cancelada por el usuario',
+      showConfirmButton: false,
+      toast: true,
+      animation: false,
+      customClass: 'animated lightSpeedIn',
+      timer: 3000
+    })
+      }
+    })
+    }
+
+    function pagar_compra(id,pay){
+        swal({
+      title: 'Pagar la compra',
+      text: '¿Desea pagar la compra #'+id+' ($'+addCommas(pay)+')?',
+      type: 'success',
+      confirmButtonText: '<i class="fas fa-check"></i> Si',
+      cancelButtonText: '<i class="fas fa-times"></i> No',
+      showCancelButton: true,
+      showCloseButton: true,
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-secondary',
+      buttonsStyling: false,
+      animation: false,
+      customClass: 'animated zoomIn',
+    }).then((result) => {
+      if (result.value) {
+        $( "#pagar"+id ).submit();
+      }else{
+        swal({
+      position: 'top-end',
+      type: 'error',
+      title: 'Operación cancelada por el usuario',
+      showConfirmButton: false,
+      toast: true,
+      animation: false,
+      customClass: 'animated lightSpeedIn',
+      timer: 3000
+    })
+      }
+    })
+    }
+
+    function cancelar_compra(id){
+        swal({
+      title: 'Cancelar la compra',
+      text: '¿Desea cancelar la compra #'+id+'?',
+      type: 'error',
+      confirmButtonText: '<i class="fas fa-check"></i> Si',
+      cancelButtonText: '<i class="fas fa-times"></i> No',
+      showCancelButton: true,
+      showCloseButton: true,
+      confirmButtonClass: 'btn btn-danger',
+      cancelButtonClass: 'btn btn-secondary',
+      buttonsStyling: false,
+      animation: false,
+      customClass: 'animated zoomIn',
+    }).then((result) => {
+      if (result.value) {
+        $( "#cancelar"+id ).submit();
       }else{
         swal({
       position: 'top-end',
@@ -828,6 +904,138 @@ function localDB_Orden(view){
       }
         localStorage.setItem("USER_SOLICITUD_"+id,view);
     }
+
+    $(document).ready(function() {
+var ahora = moment().local();
+var ahora_fecha = ahora.format('YYYY-MM-DD');
+var ahora_hora = ahora.format('HH:mm:ss');
+console.log(ahora);
+var calendar = $('#calendar_compras').fullCalendar({
+       header: {
+        left: 'prev,next,today,prevYear,nextYear',
+        center: 'title',
+        right: ''
+      },
+      buttonText: {
+        listMonth: 'Mes',
+        listYear: 'Año',
+        listWeek: 'Semana',
+        listDay: 'Dia'
+    },
+    height: "auto",
+      defaultDate: ahora_fecha,
+      navLinks: true, // can click day/week names to navigate views
+      editable: false,
+      eventLimit: true, // allow "more" link when too many events
+      locale: 'es',
+      themeSystem: 'bootstrap4',
+      nowIndicator: true,
+      now: ahora_fecha+'T'+ahora_hora,
+      events: @json($JSON_compras) ,
+      timeFormat: 'HH:mm',
+      businessHours: [
+  {
+    dow: [ 1, 2, 3, 4, 5 ], // semana
+    start: '04:00', // 4am
+    end: '23:00' // 11pm
+  },
+  {
+    dow: [ 6, 7 ], // sabado
+    start: '04:00', // 8am
+    end: '23:00' // 2pm
+  }
+], eventRender: function(eventObj, element) {
+    if(eventObj.icon){          
+        element.find(".fc-title").prepend("<i class='fas "+eventObj.icon+"'></i> &nbsp;");
+     }
+      },
+      eventClick: function(calEvent, jsEvent, view) {
+        var ruta_info = "{{ route('compras.show',array(null)) }}";
+var ruta_edit = "{{ route('compras.edit',array(null)) }}";
+var is_admin = "{{ Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE) }}";
+//alert('Event: ' + calEvent.title);
+//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+//alert('View: ' + view.name);
+
+// change the border color just for fun
+$('.fc-day').removeClass('day-active');
+$('.fc-event').removeClass('event-active');
+$(this).addClass('event-active');
+var texto_info = "<hr/><strong style='font-weight:900;'>Compra #</strong><em style='font-weight:400;'>"+calEvent.title+"</em>";
+       texto_info += "<br/><strong style='font-weight:900;'>Fecha:</strong> <em style='font-weight:400;'>"+calEvent.fecha+"</em>";  
+      texto_info += "<hr/><a class='text-primary m-1' target='_blank' href='"+ruta_info+"/"+calEvent.id+"'><strong style='font-weight:900;'><i class='fas fa-info-circle'></i>Mas información</strong></a>";
+      if(is_admin){
+        texto_info += "<a class='text-warning m-1' target='_blank' href='"+ruta_edit+"'><strong style='font-weight:900;'><i class='fas fa-pencil-alt'></i> Editar</strong></a>";
+        texto_info += "<a class='text-danger m-1' target='_blank' onclick='eliminar_compra("+calEvent.id+")'><strong style='font-weight:900;'><i class='fas fa-trash-alt'></i> Eliminar</strong></a>";
+        texto_info = texto_info.replace('//edit','/'+calEvent.id+'/edit');
+      }
+      texto_info = texto_info.replace('null','');
+  swal({
+  title: 'Detalles de la compra',
+ html: texto_info,
+  showCloseButton: true,
+  showCancelButton: false,
+  showConfirmButton: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+})
+},
+      windowResize: function(view) {
+  }, 
+  dayClick: function(date, jsEvent, view) {
+/*
+alert('Clicked on: ' + date.format());
+
+alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+alert('Current view: ' + view.name);
+
+// change the day's background color just for fun
+$(this).css('background-color', 'red');*/
+
+$('.fc-event').removeClass('event-active');
+$('.fc-day').removeClass('day-active');
+$(this).addClass('day-active');
+
+if(view.name == 'month') {
+    $('#calendar_compras').fullCalendar('changeView', 'agendaDay');
+    $('#calendar_compras').fullCalendar('gotoDate', date);      
+  }
+
+}
+});
+
+var id = "{{Auth::user()->id}}";
+var vista = localStorage.getItem("USER_COMPRA_"+id);
+  if(vista) {
+if(vista == 'table'){
+    $('a[href="#pills-list-compra"]').tab('show');
+}else if(vista == 'map'){
+    $('a[href="#pills-map-compra"]').tab('show');
+}else{
+$('#calendar_compras').fullCalendar('changeView', vista);
+$('a[href="#pills-calendar-compra"]').tab('show');
+}
+}
+    });
+
+    $('a[href="#pills-calendar-compra"]').on('shown.bs.tab', function (e) {
+        $('#calendar_compras').fullCalendar('render');
+})
+
+    function cambio_Compra(view){
+    localDB_Compra(view);
+  $('#calendar_compras').fullCalendar('changeView', view);
+}
+
+function localDB_Compra(view){
+    var id = "{{Auth::user()->id}}";
+  if(view == "calendar"){
+    var fc_vista = $('#calendar_compras').fullCalendar('getView');
+    view = fc_vista.type;
+  }
+    localStorage.setItem("USER_COMPRA_"+id,view);
+}
     </script>
 @endif
 @endsection

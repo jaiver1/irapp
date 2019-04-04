@@ -97,7 +97,8 @@ class ProductoController extends Controller
             $producto->valor_unitario = $request->valor_unitario; 
             $producto->descripcion = $request->descripcion; 
             $producto->stock = 0; 
-            $producto->alerta = false; 
+            $producto->limite = 0;
+            $producto->alerta = true; 
             $producto->categoria()->associate(Categoria::findOrFail($request->categoria_id));      
             $producto->medida()->associate(Medida::findOrFail($request->medida_id));      
             $producto->marca()->associate(Marca::findOrFail($request->marca_id));      

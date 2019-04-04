@@ -71,19 +71,6 @@ Route::resource('medidas/deleted', 'Dato_basico\Medida\MedidaSoftDeleteControlle
 
 Route::resource('medidas', 'Dato_basico\Medida\MedidaController');
 
-
-Route::resource('especialidades/deleted', 'Clasificacion\Especialidad\EspecialidadSoftDeleteController',
-[
-    'names' => [
-        'index' => 'especialidades.deleted.index',
-        'update' => 'especialidades.deleted.update',
-        'destroy' => 'especialidades.deleted.destroy'
-    ]
-]);
-
-Route::resource('especialidades', 'Clasificacion\Especialidad\EspecialidadController');
-
-
 Route::resource('categorias/deleted', 'Clasificacion\Categoria\CategoriaSoftDeleteController',
 [
     'names' => [
@@ -143,6 +130,20 @@ Route::resource('compras/deleted', 'Comercio\Compra\CompraSoftDeleteController',
 
 Route::resource('compras', 'Comercio\Compra\CompraController');
 
+Route::get('/compras/detalles/{id}', ['uses' => 'Comercio\Compra\CompraController@get_detalles', 'as' => 'compras.getDetalles']);
+Route::get('/compras/detalles/form/{id}/{editar}', ['uses' => 'Comercio\Compra\CompraController@form_detalles', 'as' => 'compras.formDetalles']);
+Route::get('/compras/detalles/productos/{id}/{editar}', ['uses' => 'Comercio\Compra\CompraController@get_productos', 'as' => 'compras.getProductos']);
+Route::get('/compras/detalles/proveedores/{id}/{editar}', ['uses' => 'Comercio\Compra\CompraController@get_proveedores', 'as' => 'compras.getProveedores']);
+Route::post('/compras/detalles/add', ['uses' => 'Comercio\Compra\CompraController@add_detalles', 'as' => 'compras.addDetalles']);
+Route::put('/compras/detalles/update/{id}', ['uses' => 'Comercio\Compra\CompraController@update_detalles', 'as' => 'compras.updateDetalles']);
+Route::put('/compras/detalles/state/{id}', ['uses' => 'Comercio\Compra\CompraController@state_detalles', 'as' => 'compras.stateDetalles']);
+Route::delete('/compras/detalles/delete/{id}', ['uses' => 'Comercio\Compra\CompraController@delete_detalles', 'as' => 'compras.deleteDetalles']);
+
+
+Route::get('ventas/index/{estado?}', ['uses' => 'Comercio\Venta\VentaController@dex', 'as' => 'ventas.index']);
+
+Route::get('/ventas/create/{fecha?}', ['uses' => 'Comercio\Venta\VentaController@create', 'as' => 'ventas.create']);
+
 Route::resource('ventas/deleted', 'Comercio\Venta\CompraSoftDeleteController',
 [
     'names' => [
@@ -152,7 +153,10 @@ Route::resource('ventas/deleted', 'Comercio\Venta\CompraSoftDeleteController',
     ]
 ]);
 
-Route::resource('ventas', 'Comercio\Venta\VentaController');
+Route::resource('ventas', 'Comercio\Venta\VentaController',
+[
+    'except' => ['index','create']
+]);
 
 Route::resource('clientes/deleted', 'Contacto\Cliente\ClienteSoftDeleteController',
 [
@@ -252,7 +256,7 @@ Route::get('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudControl
 Route::post('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@approve', 'as' => 'solicitudes.approve']);
 Route::put('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@cancel', 'as' => 'solicitudes.cancel']);
 
-Route::put('cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@approve', 'as' => 'compras.approve']);
-Route::put('cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@cancel', 'as' => 'compras.cancel']);
+Route::put('/cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@approve', 'as' => 'compras.approve']);
+Route::put('/cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@cancel', 'as' => 'compras.cancel']);
 
-Route::get('cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@info', 'as' => 'compras.info']);
+Route::get('/cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@info', 'as' => 'compras.info']);

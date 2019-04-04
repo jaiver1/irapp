@@ -215,6 +215,72 @@ Información del producto "{{ $producto->nombre }}" | {{ config('app.name', 'Lar
 </div>
 <!--Grid row-->
 
+ <!--Grid row-->
+ <div class="mb-4 row wow fadeIn">
+
+  <!--Grid column-->
+  <div class="col-12">
+
+      <!--Card-->
+      <div class="card wow fadeIn hoverable">
+
+          <!--Card content-->
+          <div class="card-body">
+                <h4><i class="fas fa-bell mr-2"></i>
+        Alertas de "{{ $producto->nombre }}"
+    </h4>
+    <hr/>
+    <form id="alerta_form" method="POST" action="{{ route('productos.update',$producto->id) }}" accept-charset="UTF-8">
+      <input name="_method" type="hidden" value="PUT">
+  
+   {{ csrf_field() }}
+      <!-- Grid row -->
+      <div class="form-row">
+          <!-- Grid column -->
+          <div class="col-md-6">
+              <!-- Material input -->
+              <div class="md-form">
+                <input {{ ($producto->alerta) ? 'checked' : "" }} type="checkbox" id="alerta" name="alerta" class="switch-input">
+                <label for="alerta" class="switch-label">Activar alerta: <span class="toggle--on">Si</span><span class="toggle--off">No</span></label>
+  </div>
+
+          </div>
+
+          <!-- Grid column -->
+          <div class="col-md-6">
+            <!-- Material input -->
+            <div class="md-form">
+    <i class="fas fa-box-open prefix"></i>
+    <input type="number" required id="limite" value="{{ old('limite') ? old('limite') : $producto->limite}}" name="limite" class="form-control validate" maxlength="50">
+    <label for="limite" data-error="Error" data-success="Correcto">Limite *</label>
+</div>
+@if ($errors->has('limite'))
+                                            <div class="hoverable waves-light alert alert-danger alert-dismissible fade show" role="alert">
+                                           {{ $errors->first('limite') }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+                                
+                                @endif
+        </div>
+
+          </div>
+
+              <!-- Grid row -->
+              <a onclick="validar()" class="waves-effect btn btn-warning btn-md hoverable">
+              <i class="fas fa-2x fa-pencil-alt"></i> Editar
+              </a>
+
+      </div>
+      <!--/.Card-->
+
+  </div>
+  <!--Grid column-->
+
+</div>
+<!--Grid row-->
+
 
         </div>
 

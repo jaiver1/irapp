@@ -87,7 +87,7 @@ class ServicioController extends Controller
            $servicio->save();        
 
             SweetAlert::success('Exito','El servicio "'.$servicio->nombre.'" ha sido registrada.');
-            return Redirect::to('servicios');
+            return Redirect::to('servicios/'.$servicio->id);
         }
     }
 

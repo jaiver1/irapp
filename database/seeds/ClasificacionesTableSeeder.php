@@ -11,9 +11,6 @@ class ClasificacionesTableSeeder extends Seeder
      */
     public function run()
     {
-        $categoria = new Categoria;
-        $categoria->nombre = 'Sin Clasificación';
-        $categoria->save();
 
         $categoria = new Categoria;
         $categoria->nombre = 'Electrohogar';

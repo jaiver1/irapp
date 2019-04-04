@@ -520,9 +520,10 @@ a .user-pic:focus
 }
 
 .card-header{
-  background-color: #2B3A42;
-  border-color: #2B3A42;
+  background-color: #2e414b;
+  border-color: #2e414b;
   color: #fff;
   font-weight: 500;
-  border-radius: 200px;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
 }

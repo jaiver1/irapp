@@ -148,9 +148,9 @@
 <div class="md-form">
 <i class="fas fa-user-cog"></i>
 <small for="{{$prefix}}colaborador_id">Colaborador *</small>   
-<select class="form-control" required id="{{$prefix}}colaborador_id" name="{{$prefix}}colaborador_id">
+<select class="form-control" id="{{$prefix}}colaborador_id" name="{{$prefix}}colaborador_id">
 <option value="" disabled selected>Selecciona una opción</option>
-@if($editar)
+@if($editar && $detalle->colaborador)
 <option selected value="{{ $detalle->colaborador->id }}">{{$detalle->colaborador->persona->primer_nombre}} {{$detalle->colaborador->persona->segundo_nombre}} {{$detalle->colaborador->persona->primer_apellido}} {{$detalle->colaborador->persona->segundo_apellido}}</option>
 @endif
 </select>

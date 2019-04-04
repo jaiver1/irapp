@@ -99,8 +99,8 @@ class StoreController extends Controller
 
        Auth::user()->getCliente()->productos()->detach();
 
-        SweetAlert::success('Exito','La venta ha sido registrada.');
-        return Redirect::to('home');
+        SweetAlert::success('Exito','La compra ha sido registrada.');
+        return Redirect::to('/cliente/compras/'.$venta->id);
     }
     }else{
         abort(403);
@@ -166,7 +166,7 @@ class StoreController extends Controller
        Auth::user()->getCliente()->servicios()->detach();
 
         SweetAlert::success('Exito','La solicitud "'.$solicitud->nombre.'" ha sido registrada.');
-        return Redirect::to('home');
+        return Redirect::to('/solicitudes/'.$solicitud->id);
     }
     }else{
         abort(403);

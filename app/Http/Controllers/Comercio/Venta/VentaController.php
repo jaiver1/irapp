@@ -30,6 +30,8 @@ class VentaController extends Controller
     private $teal = '#00897b'; //teal darken-1
     private $red = '#c62828'; //red darken-3
     private $amber = '#ff8f00'; //amber darken-3
+    private $cyan = '#0097a7'; //cyan darken-2
+    private $indigo = '#3f51b5'; //indigo
     
     public function __construct()
     {
@@ -46,16 +48,20 @@ class VentaController extends Controller
         $estados_ventas = Venta::getEstados();
         $ventas = Venta::select('*');
         $JSON_ventas = Venta::select(DB::raw(
-            "ventas.id AS id,ventas.nombre AS title,
-            REPLACE(ventas.fecha_inicio,' ','T') AS start,
+            "ventas.id AS id,ventas.id AS title,
+            REPLACE(ventas.fecha,' ','T') AS start,
             CASE ventas.estado
             WHEN 'Abierta' THEN '$this->teal'
-            WHEN 'Cancelada' THEN '$this->red'
+        WHEN 'Cancelada' THEN '$this->red'
+        WHEN 'Entregado' THEN '$this->indigo'
+        WHEN 'Enviado' THEN '$this->cyan'
             ELSE '$this->amber'
             END AS color,
             CASE ventas.estado
             WHEN 'Abierta' THEN 'fa-calendar-check'
             WHEN 'Cancelada' THEN 'fa-calendar-times'
+            WHEN 'Entregado' THEN 'fa-handshake'
+            WHEN 'Enviado' THEN 'fa-truck-loading'
             ELSE 'fa-stopwatch'
             END AS icon
             ,ventas.estado AS estado
@@ -72,6 +78,7 @@ class VentaController extends Controller
             ->join('ubicaciones', 'direcciones.ubicacion_id', '=', 'ubicaciones.id')
             ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
             ->join('personas', 'clientes.persona_id', '=', 'personas.id');
+
 
         if($estado){           
             $ventas = $ventas->where('estado','=',$estado);
@@ -155,7 +162,7 @@ $carbon_fecha = Carbon::parse($venta->fecha_inicio);
      */
     public function show($id)
     {  
-        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_CLIENTE'],TRUE);
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
 
         $venta = Venta::findOrFail($id);
         
@@ -163,7 +170,28 @@ $carbon_fecha = Carbon::parse($venta->fecha_inicio);
         
         }
 
-     
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function info($id,Request $request)
+    {  
+        Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
+
+        if($request->input('lapTransactionState')){
+            $venta = Venta::findOrFail($id);
+            $venta->estado = "Abierta";
+            $venta->save();
+                    }
+
+        $compra = Venta::findOrFail($id);
+        
+        return View::make('comercio.ventas.info')->with(compact('compra'));
+        
+        }
+
 
     /**
      * Update the specified resource in storage.

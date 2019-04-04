@@ -178,7 +178,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
            $orden->save();        
 
             SweetAlert::success('Exito','La orden "'.$orden->nombre.'" ha sido registrada.');
-            return Redirect::to('ordenes/index/Abierta');
+            return Redirect::to('ordenes/'.$orden->id);
         }
     }
 
@@ -340,9 +340,10 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
             $colaboradores = DB::table('colaboradores')
             ->join('personas', 'colaboradores.persona_id', '=', 'personas.id')
             ->join('users', 'personas.usuario_id', '=', 'users.id')
-            ->join('ciudades', 'personas.ciudad_id', '=', 'ciudades.id')
+            ->join('direcciones', 'personas.direccion_id', '=', 'direcciones.id')
+            ->join('ciudades', 'personas.direccion_id', '=', 'ciudades.id')
             ->select('colaboradores.id', 'personas.cedula', 'personas.primer_nombre', 'personas.segundo_nombre', 'personas.primer_apellido', 'personas.segundo_apellido'
-            , 'personas.telefono_movil', 'personas.telefono_fijo', 'personas.barrio', 'personas.direccion', 'personas.cuenta_banco'
+            , 'personas.telefono_movil', 'personas.telefono_fijo', 'direcciones.barrio', 'direcciones.direccion', 'personas.cuenta_banco'
             , 'ciudades.nombre AS ciudad', 'users.email AS email')
             ->whereIn('colaboradores.persona_id',Persona::distinct()->select('id')->whereIn('usuario_id',User::distinct()->select('id')->whereHas('roles', function ($query) {
                 $query->where('name', '=', 'ROLE_COLABORADOR');
@@ -383,7 +384,6 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
                     'cantidad'                   => 'numeric|required|digits_between:1,12',
                 'orden_id'                   => 'required',
                 'servicio_id'                   => 'required',
-                'colaborador_id'                   => 'required',
                 'fecha_inicio'                   => 'required|date'         
                   );
     
@@ -395,7 +395,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
             }else{
                 $detalle = new Detalle_orden;
                 $orden = Orden::findOrFail($request->orden_id);
-                $colaborador = Colaborador::findOrFail($request->colaborador_id);
+                $colaborador = Colaborador::find($request->colaborador_id);
                 $servicio = Servicio::findOrFail($request->servicio_id);
                 $detalle->nombre = $request->nombre;
                 $detalle->valor_unitario = $request->valor_unitario;
@@ -432,7 +432,6 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
                             'edit_valor_unitario'                   => 'numeric|required|digits_between:1,12',
                             'edit_cantidad'                   => 'numeric|required|digits_between:1,12',
                         'edit_servicio_id'                   => 'required',
-                        'edit_colaborador_id'                   => 'required',
                         'edit_fecha_inicio'                   => 'required|date',
                         'edit_fecha_fin'                 => 'required|date'          
                           );
@@ -444,7 +443,7 @@ $carbon_fecha = Carbon::parse($orden->fecha_inicio);
                         return response()->json(['status'=>500,'message'=>"Error en el formulario",'messageJSON'=>$validator]);
                     }else{
                         $detalle = Detalle_orden::findOrFail($id);
-                        $colaborador = Colaborador::findOrFail($request->edit_colaborador_id);
+                        $colaborador = Colaborador::find($request->edit_colaborador_id);
                         $servicio = Servicio::findOrFail($request->edit_servicio_id);
                         $detalle->nombre = $request->edit_nombre;
                         $detalle->valor_unitario = $request->edit_valor_unitario;

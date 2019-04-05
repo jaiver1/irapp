@@ -21,7 +21,7 @@ Lista de ventas | {{ config('app.name', 'Laravel') }}
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-tags fa-lg mr-1"></i></span> <span> @if ($ventas->count() === 1)
+                    <span><i class="fas fa-receipt fa-lg mr-1"></i></span> <span> @if ($ventas->count() === 1)
                 Una venta
             @elseif ($ventas->count() > 1)
                 {{ $ventas->count() }} ventas
@@ -30,7 +30,7 @@ Lista de ventas | {{ config('app.name', 'Laravel') }}
             @endif
             </span>
                     </h4>
-
+{{--
                     <div class="d-flex justify-content-center">
                     <a href="{{ route('ventas.create',array(null)) }}" class="btn btn-outline-success btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Registrar una venta">
@@ -41,7 +41,7 @@ Lista de ventas | {{ config('app.name', 'Laravel') }}
                       <i class="fas fa-2x fa-recycle"></i>
                             </a>
                     </div>
-
+--}}
                 </div>
 
             </div>
@@ -204,7 +204,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fas fa-tags fa-lg"></i> Datos de la venta "'+ data[1]+'"';
+                        return '<i class="fas fa-receipt fa-lg"></i> Datos de la venta "'+ data[1]+'"';
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

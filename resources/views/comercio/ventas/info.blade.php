@@ -3,8 +3,6 @@
 Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') }}
 @endsection
 @section('css_links')
-<link rel="stylesheet" href="{{ asset('css/addons/select2.css') }}" type="text/css"/>
-<link rel="stylesheet" href="{{ asset('css/addons/bootstrap-material-datetimepicker.css') }}" type="text/css"/>
 <link rel="stylesheet" href="{{ asset('css/addons/datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-datatables.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/addons/bt4-responsive-datatables.min.css') }}" type="text/css">
@@ -20,7 +18,7 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
                 <div class="card-body d-sm-flex justify-content-between">
 
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                    <span><i class="fas fa-toolbox mr-1"></i></span>
+                    <span><i class="fas fa-tags mr-1"></i></span>
                     @if(Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE))
                         <a href="{{ route('compras.index',array('Abierta')) }}">Lista de compras</a>
                         <span>/</span>
@@ -30,21 +28,21 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
                         @endif
                         <span>Información de la compra #{{ $compra->id }}</span>
                     </h4>
-                    
-                    @if($compra->estado == "Pendiente")
+                    @php
+                    $pay = 0
+                    @endphp  
+                @foreach($compra->detalles as $key => $detalle)
+                @php
+                    $pay += ($detalle->cantidad * $detalle->producto->valor_unitario)
+                    @endphp  
+                    @endforeach  
+                    @if($compra->estado == "Pendiente" && false)
                     <div class="d-flex justify-content-center">
                       <a onclick="pagar_compra({{ $compra->id }})"  class="btn btn-outline-success btn-circle waves-effect hoverable" 
                         data-toggle="tooltip" data-placement="bottom" title='Pagar la compra #{{ $compra->id }}'>
                           <i class="fas fa-2x fa-file-invoice-dollar"></i>
                                 </a>      
-                            @php
-                            $pay = 0
-                            @endphp  
-                        @foreach($compra->detalles as $key => $detalle)
-                        @php
-                            $pay += ($detalle->cantidad * $detalle->producto->valor_unitario)
-                            @endphp  
-                            @endforeach  
+                          
                             <a onclick="cancelar_compra({{ $compra->id }})"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                               data-toggle="tooltip" data-placement="bottom" title='Cancelar la compra #{{ $compra->id }}'>
                                 <i class="fas fa-2x fa-calendar-times"></i>
@@ -62,9 +60,8 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
                               <input name="test"          type="hidden"  value="1">
                               <input name="buyerEmail"    type="hidden"  value="{{$compra->cliente->persona->usuario->email}}">
                               <input name="buyerFullName"    type="hidden"  value="{{$compra->cliente->persona->primer_nombre}} {{$compra->cliente->persona->segundo_nombre}} {{$compra->cliente->persona->primer_apellido}} {{$compra->cliente->persona->segundo_apellido}}">
-                              <input name="responseUrl"    type="hidden"  value="{{ route('compras.cancel', $compra->id) }}">
-                              <input name="confirmationUrl"    type="hidden"  value="{{ route('compras.cancel', $compra->id) }}">
-                              <input name="Submit"        type="submit"  value="Enviar">
+                              <input name="responseUrl"    type="hidden"  value="{{ route('compras.pay') }}">
+                              <input name="confirmationUrl"    type="hidden"  value="{{ route('compras.pay') }}">
                             </form>
                             <form id="cancelar{{ $compra->id }}" method="POST" action="{{ route('compras.cancel', $compra->id) }}" accept-charset="UTF-8">
                               <input name="_method" type="hidden" value="PUT">
@@ -93,40 +90,45 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
                          
 <div class="list-group hoverable">
   <a class="list-group-item active z-depth-2 white-text waves-light hoverable">
-      <i class="fas fa-toolbox  mr-2"></i><strong>Compra #{{ $compra->id }}</strong>
+      <i class="fas fa-tags  mr-2"></i><strong>Compra #{{ $compra->id }}</strong>
     </a>
-  <a class="list-group-item waves-effect hoverable"><strong>Nombre: </strong>{{ $compra->nombre }}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Estado: </strong>
     <span class="h5"><span class="hoverable badge
-@switch($compra->estado)
-    @case('Abierta')
-        blue darken-3
-    @break
-    @case('Cerrada')
-        teal darken-1
-    @break
-    @case('Cancelada')
-        red darken-3
-    @break
-    @default
-        amber darken-3
-    @endswitch
-        ">
-        <i class="mr-1 fas
-        @switch($compra->estado)
-    @case('Abierta')
-        fa-business-time
-    @break
-    @case('Cerrada')
-        fa-flag-checkered  
-    @break
-    @case('Cancelada')
-        fa-times  
-    @break
-    @default
-        fa-stopwatch 
-    @endswitch
-        "></i>{{ $compra->estado }}</span></span>
+      @switch($compra->estado)
+          @case('Abierta')
+              teal darken-1
+          @break
+          @case('Cancelada')
+              red darken-3 
+          @break
+          @case('Entregado')
+          indigo
+          @break
+          @case('Enviado')
+          cyan darken-2
+          @break
+          @default
+              amber darken-3
+          @endswitch
+              ">
+              <i class="mr-1 fas
+              @switch($compra->estado)
+          @case('Abierta')
+              fa-calendar-check 
+          @break
+          @case('Cancelada')
+              fa-calendar-times  
+          @break
+          @case('Entregado')
+          fa-handshake
+          @break
+          @case('Enviado')
+          fa-truck-loading
+          @break
+          @default
+              fa-stopwatch 
+          @endswitch
+              "></i>{{ ($compra->estado == "Abierta") ? "Aprobado" : $compra->estado }}</span></span>
 </a>
   <a class="list-group-item waves-effect hoverable">
     
@@ -300,7 +302,7 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
 
 <script type="text/javascript">
 
-
+alert();
 function pagar_compra(id,pay){
         swal({
       title: 'Pagar la compra',

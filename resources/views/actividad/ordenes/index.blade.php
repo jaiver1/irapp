@@ -36,10 +36,11 @@ Lista de ordenes | {{ config('app.name', 'Laravel') }}
                     data-toggle="tooltip" data-placement="bottom" title="Registrar una orden">
                       <i class="fas fa-2x fa-plus"></i>
                             </a>
+                            {{--
                             <a href="{{ route('ordenes.deleted.index',array('Abierta')) }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                     data-toggle="tooltip" data-placement="bottom" title="Ordenes eliminadas">
                       <i class="fas fa-2x fa-recycle"></i>
-                            </a>
+                            </a>--}}
                     </div>
 
                 </div>

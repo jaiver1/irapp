@@ -65,7 +65,7 @@ class VentaController extends Controller
             ELSE 'fa-stopwatch'
             END AS icon
             ,ventas.estado AS estado
-            ,ventas.fecha_inicio AS fecha_inicio ,ventas.fecha_fin AS fecha_fin
+            ,ventas.fecha AS fecha
             ,direcciones.barrio AS barrio,direcciones.direccion AS direccion
             ,ciudades.nombre AS ciudad,departamentos.nombre AS departamento,paises.nombre AS pais
             ,ubicaciones.latitud AS latitud,ubicaciones.longitud AS longitud
@@ -176,18 +176,47 @@ $carbon_fecha = Carbon::parse($venta->fecha_inicio);
      * @param  int  $id
      * @return Response
      */
-    public function info($id,Request $request)
+    public function cancel($id)
+    {  
+
+        $venta = Venta::findOrFail($id);
+        $venta->estado = "Cancelada";
+        $venta->save();
+
+            return Redirect::to('cliente/compras/'.$id);
+        }
+
+    public function pay(Request $request)
+    {  
+
+    $id = explode("_",$request->input('referenceCode'))[1];
+    $accion = "";
+    if($request->input('lapTransactionState')){
+        $accion = $request->input('lapTransactionState');
+        if($request->input('lapTransactionState') == "APPROVED"){
+        $venta = Venta::findOrFail($id);
+        $venta->estado = "Abierta";
+        $venta->save();
+        }
+            }
+           
+            return Redirect::to('cliente/compras/'.$venta->id.'/'.$accion);
+        }
+
+    public function info($id,$estado=null)
     {  
         Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
 
-        if($request->input('lapTransactionState')){
-            $venta = Venta::findOrFail($id);
-            $venta->estado = "Abierta";
-            $venta->save();
-                    }
-
         $compra = Venta::findOrFail($id);
-        
+
+        if($estado){
+
+       if($estado == "APPROVED"){
+        SweetAlert::success('Exito','La compra #'.$compra->id.'" ha sido pagada.');
+                }else{
+                    SweetAlert::error('Error','La compra #'.$compra->id.'" ha sido rechazada.');
+                }
+            }
         return View::make('comercio.ventas.info')->with(compact('compra'));
         
         }

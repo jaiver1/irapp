@@ -140,7 +140,7 @@ Route::put('/compras/detalles/state/{id}', ['uses' => 'Comercio\Compra\CompraCon
 Route::delete('/compras/detalles/delete/{id}', ['uses' => 'Comercio\Compra\CompraController@delete_detalles', 'as' => 'compras.deleteDetalles']);
 
 
-Route::get('ventas/index/{estado?}', ['uses' => 'Comercio\Venta\VentaController@dex', 'as' => 'ventas.index']);
+Route::get('ventas/index/{estado?}', ['uses' => 'Comercio\Venta\VentaController@index', 'as' => 'ventas.index']);
 
 Route::get('/ventas/create/{fecha?}', ['uses' => 'Comercio\Venta\VentaController@create', 'as' => 'ventas.create']);
 
@@ -256,7 +256,7 @@ Route::get('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudControl
 Route::post('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@approve', 'as' => 'solicitudes.approve']);
 Route::put('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudController@cancel', 'as' => 'solicitudes.cancel']);
 
-Route::put('/cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@approve', 'as' => 'compras.approve']);
+Route::get('/cliente/compras/pay', ['uses' => 'Comercio\Venta\VentaController@pay', 'as' => 'compras.pay']);
 Route::put('/cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@cancel', 'as' => 'compras.cancel']);
 
-Route::get('/cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@info', 'as' => 'compras.info']);
+Route::get('/cliente/compras/{id}/{estado?}', ['uses' => 'Comercio\Venta\VentaController@info', 'as' => 'compras.info']);

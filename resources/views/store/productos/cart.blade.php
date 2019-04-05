@@ -187,7 +187,7 @@ Carrito de productos | {{ config('app.name', 'Laravel') }}
 </div> 
 <div class="col-md-1 text-center">
         <a onclick="validar()" class="btn btn-xl btn-outline-success btn-circle waves-effect hoverable"
-            data-toggle="tooltip" data-placement="bottom" title="Registrar venta">
+            data-toggle="tooltip" data-placement="bottom" title="Comprar">
           <i class="fas fa-2x fa-check"></i>
         </a>
             </div>
@@ -263,8 +263,8 @@ function validar(){
 		}})){
             var nombre = $("#nombre").val();
             swal({
-  title: 'Registrar venta',
-  text: '¿Desea registrar la venta "'+nombre+'"?',
+  title: 'Comprar',
+  text: '¿Desea registrar la compra?',
   type: 'success',
   confirmButtonText: '<i class="fas fa-check"></i> Si',
   cancelButtonText: '<i class="fas fa-times"></i> No',

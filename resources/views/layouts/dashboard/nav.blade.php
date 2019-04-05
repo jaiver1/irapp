@@ -143,15 +143,21 @@ function salir(){
                     </div>
                 </li>
           
-                <li class="sidebar-dropdown {{ (\Request::is('ventas') || \Request::is('ventas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'active default' : 'simple' }}">
+                <li class="sidebar-dropdown {{ (\Request::is('compras') || \Request::is('compras/*') || \Request::is('ventas') || \Request::is('ventas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'active default' : 'simple' }}">
                     <a href="javascript:void(0)">
                         <i class="fas fa-handshake"></i>
                         <span>Comercio</span>
                     </a>
-                    <div class="sidebar-submenu" style="{{ (\Request::is('marcas') || \Request::is('marcas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'display: block;' : '' }} ">
+                    <div class="sidebar-submenu" style="{{ (\Request::is('compras') || \Request::is('compras/*') || \Request::is('ventas') || \Request::is('ventas/*') || \Request::is('productos') || \Request::is('productos/*')) ? 'display: block;' : '' }} ">
                         <ul>                      
                             <li class="hoverable waves-light {{ (\Request::is('productos') || \Request::is('productos/*')) ? 'default' : 'simple' }}">
                                 <a href="{{route('productos.index')}}"><i class="fas fa-box-open mr-1"></i><span>Productos</span></a>
+                            </li>
+                            <li class="hoverable waves-light {{ (\Request::is('compras') || \Request::is('compras/*')) ? 'default' : 'simple' }}">
+                                <a href="{{route('compras.index')}}"><i class="fas fa-tags mr-1"></i><span>Compras</span></a>
+                            </li>
+                            <li class="hoverable waves-light {{ (\Request::is('ventas') || \Request::is('ventas/*')) ? 'default' : 'simple' }}">
+                                <a href="{{route('ventas.index',array('Abierta'))}}"><i class="fas fa-receipt mr-1"></i><span>Ventas</span></a>
                             </li>
                         </ul>
                     </div>

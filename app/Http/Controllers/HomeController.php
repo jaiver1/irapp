@@ -9,6 +9,7 @@ use App\Models\Comercio\Venta;
 use App\Models\Actividad\Solicitud;
 use Illuminate\Support\Facades\View;
 use DB;
+Use SweetAlert;
 
 class HomeController extends Controller
 {
@@ -40,11 +41,6 @@ class HomeController extends Controller
        
        if(Auth::user()->authorizeRoles(['ROLE_COLABORADOR','ROLE_CLIENTE'],FALSE)){
 
-        if($request->input('lapTransactionState')){
-            $venta = Venta::findOrFail($id);
-            $venta->estado = "Abierta";
-            $venta->save();
-                    }
         $estados_ordenes = Orden::getEstados();
         $ordenes = Orden::select('*');
         $JSON_ordenes = Orden::select(DB::raw(

@@ -221,8 +221,8 @@ fas fa-truck-loading cyan-text-d
                                                 <input name="test"          type="hidden"  value="1">
                                                 <input name="buyerEmail"    type="hidden"  value="{{$compra->cliente->persona->usuario->email}}">
                                                 <input name="buyerFullName"    type="hidden"  value="{{$compra->cliente->persona->primer_nombre}} {{$compra->cliente->persona->segundo_nombre}} {{$compra->cliente->persona->primer_apellido}} {{$compra->cliente->persona->segundo_apellido}}">
-                                                <input name="responseUrl"    type="hidden"  value="{{ route('compras.cancel', $compra->id) }}">
-                                                <input name="confirmationUrl"    type="hidden"  value="{{ route('compras.cancel', $compra->id) }}">
+                                                <input name="responseUrl"    type="hidden"  value="{{ route('compras.pay', $compra->id) }}">
+                                                <input name="confirmationUrl"    type="hidden"  value="{{ route('compras.pay', $compra->id) }}">
                                             </form>
                                             <form id="cancelar{{ $compra->id }}" method="POST" action="{{ route('compras.cancel', $compra->id) }}" accept-charset="UTF-8">
                     <input name="_method" type="hidden" value="PUT">

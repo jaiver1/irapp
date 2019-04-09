@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad\Solicitud;
 use App\Models\Actividad\Detalle_solicitud;
+use App\Models\Actividad\Orden;
+use App\Models\Actividad\Detalle_orden;
 use App\Models\Dato_basico\Ubicacion;
 use App\Models\Dato_basico\Direccion;
 use App\Models\Dato_basico\Pais;
@@ -223,7 +225,51 @@ $carbon_fecha = Carbon::parse($solicitud->fecha_inicio);
         return Redirect::to('solicitudes/index/Abierta');
     }
     }
+    public function approve($id)
+    {  
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_CLIENTE'],TRUE);
+$solicitud = Solicitud::findOrFail($id);
 
+$orden = new Orden;      
+            $orden->nombre = $solicitud->nombre;   
+            $orden->fecha_inicio = $solicitud->fecha_inicio;
+$carbon_fecha = Carbon::parse($orden->fecha_inicio);
+            if($carbon_fecha->isFuture()){
+                $orden->estado = "Pendiente";
+            }else{
+                $orden->estado = "Abierta";
+            }
+
+            $orden->cliente()->associate($solicitud->cliente);
+            $orden->direccion()->associate($solicitud->direccion);
+           $orden->save();  
+foreach ($solicitud->detalles as $key => $sub) {
+    $detalle = new Detalle_orden;
+    $detalle->nombre = $orden->nombre;   
+    $detalle->fecha_inicio = $orden->fecha_inicio;
+    $detalle->estado = $orden->estado;
+    $detalle->cantidad =  $sub->cantidad;
+    $detalle->valor_unitario =  $sub->valor_unitario;
+    $detalle->servicio()->associate($sub->servicio);
+    $detalle->orden()->associate($orden);
+    $detalle->save();  
+   }
+
+   $solicitud->estado = "Abierta";
+   $solicitud->save();
+
+ return Redirect::to('ordenes/'.$orden->id);
+        }
+
+        public function cancel($id)
+    {  
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR','ROLE_CLIENTE'],TRUE);
+        $solicitud = Solicitud::findOrFail($id);
+        $solicitud->estado = "Cancelada";
+        $solicitud->save();
+
+            return Redirect::to('solicitudes/'.$id);
+        }
 
 /**
      * Display the specified resource.

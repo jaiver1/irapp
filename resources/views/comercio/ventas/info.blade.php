@@ -36,9 +36,9 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
                     $pay += ($detalle->cantidad * $detalle->producto->valor_unitario)
                     @endphp  
                     @endforeach  
-                    @if($compra->estado == "Pendiente" && false)
+                    @if($compra->estado == "Pendiente")
                     <div class="d-flex justify-content-center">
-                      <a onclick="pagar_compra({{ $compra->id }})"  class="btn btn-outline-success btn-circle waves-effect hoverable" 
+                      <a onclick="pagar_compra({{ $compra->id }},{{ $pay }})"  class="btn btn-outline-success btn-circle waves-effect hoverable" 
                         data-toggle="tooltip" data-placement="bottom" title='Pagar la compra #{{ $compra->id }}'>
                           <i class="fas fa-2x fa-file-invoice-dollar"></i>
                                 </a>      
@@ -96,13 +96,13 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
     <span class="h5"><span class="hoverable badge
       @switch($compra->estado)
           @case('Abierta')
-              teal darken-1
+              indigo
           @break
           @case('Cancelada')
               red darken-3 
           @break
           @case('Entregado')
-          indigo
+          teal darken-1
           @break
           @case('Enviado')
           cyan darken-2
@@ -120,10 +120,10 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
               fa-calendar-times  
           @break
           @case('Entregado')
-          fa-handshake
+          fa-people-carry
           @break
           @case('Enviado')
-          fa-truck-loading
+          fa-dolly
           @break
           @default
               fa-stopwatch 
@@ -138,11 +138,7 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
     @else
     <strong>Fecha</strong>
     @endif
-    <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($compra->fecha_inicio)->format('d/m/Y -:- h:i A') }}</span></span>
-@if($compra->fecha_fin &&  $compra->estado == "Cerrada")
-<br/> {{--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--}}
-<span class="h5"><span class="badge teal darken-1 hoverable"><i class="far fa-calendar-check mr-1"></i>{{ Carbon\Carbon::parse($compra->fecha_fin)->format('d/m/Y -:- h:i A') }}</span></span>
-@endif
+    <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($compra->fecha)->format('d/m/Y -:- h:i A') }}</span></span>
 </a>
   <a class="list-group-item waves-effect hoverable"><strong>Cliente: </strong>{{$compra->cliente->persona->primer_nombre}} {{$compra->cliente->persona->segundo_nombre}} {{$compra->cliente->persona->primer_apellido}} {{$compra->cliente->persona->segundo_apellido}}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Ciudad: </strong>{{ $compra->direccion->ciudad->nombre }}</a>
@@ -302,7 +298,19 @@ Información de la compra #{{ $compra->id }} | {{ config('app.name', 'Laravel') 
 
 <script type="text/javascript">
 
-alert();
+
+function addCommas(nStr) {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+
 function pagar_compra(id,pay){
         swal({
       title: 'Pagar la compra',
@@ -475,5 +483,5 @@ function pagar_compra(id,pay){
  
              $('.dataTables_length').addClass('bs-select');
          });
-
+        </script>
 @endsection

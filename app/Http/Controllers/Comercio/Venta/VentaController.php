@@ -51,17 +51,17 @@ class VentaController extends Controller
             "ventas.id AS id,ventas.id AS title,
             REPLACE(ventas.fecha,' ','T') AS start,
             CASE ventas.estado
-            WHEN 'Abierta' THEN '$this->teal'
+            WHEN 'Abierta' THEN '$this->indigo'
         WHEN 'Cancelada' THEN '$this->red'
-        WHEN 'Entregado' THEN '$this->indigo'
+        WHEN 'Entregado' THEN '$this->teal'
         WHEN 'Enviado' THEN '$this->cyan'
             ELSE '$this->amber'
             END AS color,
             CASE ventas.estado
             WHEN 'Abierta' THEN 'fa-calendar-check'
             WHEN 'Cancelada' THEN 'fa-calendar-times'
-            WHEN 'Entregado' THEN 'fa-handshake'
-            WHEN 'Enviado' THEN 'fa-truck-loading'
+            WHEN 'Entregado' THEN 'fa-people-carry'
+            WHEN 'Enviado' THEN 'fa-dolly'
             ELSE 'fa-stopwatch'
             END AS icon
             ,ventas.estado AS estado
@@ -176,8 +176,42 @@ $carbon_fecha = Carbon::parse($venta->fecha_inicio);
      * @param  int  $id
      * @return Response
      */
-    public function cancel($id)
+    public function cancel_admin($id)
     {  
+        Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
+
+        $venta = Venta::findOrFail($id);
+        $venta->estado = "Cancelada";
+        $venta->save();
+
+            return Redirect::to('ventas/'.$id);
+        }
+
+        public function send($id)
+        {  
+            Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
+    
+            $venta = Venta::findOrFail($id);
+            $venta->estado = "Enviado";
+            $venta->save();
+    
+                return Redirect::to('ventas/'.$id);
+            }
+
+            public function deliver($id)
+        {  
+            Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
+    
+            $venta = Venta::findOrFail($id);
+            $venta->estado = "Entregado";
+            $venta->save();
+    
+                return Redirect::to('ventas/'.$id);
+            }
+
+        public function cancel($id)
+    {  
+        Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
 
         $venta = Venta::findOrFail($id);
         $venta->estado = "Cancelada";
@@ -188,7 +222,7 @@ $carbon_fecha = Carbon::parse($venta->fecha_inicio);
 
     public function pay(Request $request)
     {  
-
+        Auth::user()->authorizeRoles('ROLE_CLIENTE',TRUE);
     $id = explode("_",$request->input('referenceCode'))[1];
     $accion = "";
     if($request->input('lapTransactionState')){

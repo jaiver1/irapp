@@ -1,4 +1,7 @@
-
+@include('include.addons.gmaps.sale', array('JSON_ventas'=>$JSON_ventas,
+'infowindow'=> ((Auth::user()->getPersona()->primer_nombre && Auth::user()->getPersona()->primer_apellido) ? Auth::user()->getPersona()->primer_nombre .' '. Auth::user()->getPersona()->primer_apellido : Auth::user()->name) ))
+ 
+ 
  @section('div_ventas')
  <!--Grid row-->
  <div class="row">
@@ -11,20 +14,24 @@
             <!--Card content-->
             <div class="card-body">
                     <ul class="nav nav-pills mb-3" id="views-tab" role="tablist">
-                        <li class="nav-item hoverable waves-effect mr-2 mt-2"  onclick="localDB_Compra('table');">
+                        <li class="nav-item hoverable waves-effect mr-2 mt-2"  onclick="localDB_Venta('table');">
                             <a class="nav-link active z-depth-5" id="pills-list-venta-tab" data-toggle="pill" href="#pills-list-venta" role="tab" aria-controls="pills-list-venta" aria-selected="true">
                               <h5> <i class="fas fa-clipboard-list mr-2"></i>Lista</h5></a>
                           </li>
-                          <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB_Compra('calendar');">
+                          <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB_Venta('calendar');">
                             <a class="nav-link z-depth-5" id="pills-calendar-venta-tab" data-toggle="pill" href="#pills-calendar-venta" role="tab" aria-controls="pills-calendar-venta" aria-selected="false">
                                 <h5> <i class="fas fa-calendar-alt mr-2"></i>Calendario</h5></a>
+                          </li>
+                          <li class="nav-item hoverable waves-effect mr-2 mt-2" onclick="localDB_Venta('map');">
+                            <a class="nav-link z-depth-5" id="pills-map-venta-tab" data-toggle="pill" href="#pills-map-venta" role="tab" aria-controls="pills-map-venta" aria-selected="false">
+                                <h5> <i class="fas fa-map-marked-alt mr-2"></i>Mapa</h5></a>
                           </li>
                                   <div class="btn-group ">
                                         <button type="button" data-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false"
                                           class="btn dropdown-toggle right mr-2 mt-2 waves-effect hoverable  @switch($estado)
                                                 @case('Abierta')
-                                                    teal darken-1
+                                                    indigo
                                                 @break
                                                 @case('Cancelada')
                                                     red darken-3 
@@ -33,7 +40,7 @@
                                                     amber darken-3
                                                 @break
                                                 @case('Entregado')
-indigo
+teal darken-1
 @break
 @case('Enviado')
 cyan darken-2
@@ -54,10 +61,10 @@ fa-calendar-times
 fa-stopwatch
 @break
 @case('Entregado')
-fa-handshake
+fa-people-carry
 @break
 @case('Enviado')
-fa-truck-loading 
+fa-dolly 
 @break
 @default
 {{ ($estado) ? 'fa-ban' : 'fa-tasks' }}
@@ -73,16 +80,16 @@ fa-truck-loading
                                                         <i class="mr-1 fa-lg
                                                         @switch($item)
                                                     @case('Abierta')
-                                                        far fa-calendar-check teal-text
+                                                        far fa-calendar-check indigo-text
                                                     @break
                                                     @case('Cancelada')
                                                        far fa-calendar-times  red-text
                                                     @break
                                                     @case('Entregado')
-far fa-handshake indigo-text
+fas fa-people-carry teal-text
 @break
 @case('Enviado')
-fas fa-truck-loading cyan-text-d
+fas fa-dolly cyan-text-d
 @break
                                                     @default
                                                        fas fa-stopwatch orange-text
@@ -143,13 +150,13 @@ fas fa-truck-loading cyan-text-d
                           <span class="h5"><span class="hoverable badge
                             @switch($venta->estado)
                                 @case('Abierta')
-                                    teal darken-1
+                                    indigo
                                 @break
                                 @case('Cancelada')
                                     red darken-3 
                                 @break
                                 @case('Entregado')
-                                indigo
+                                teal darken-1
                                 @break
                                 @case('Enviado')
                                 cyan darken-2
@@ -167,10 +174,10 @@ fas fa-truck-loading cyan-text-d
                                     fa-calendar-times  
                                 @break
                                 @case('Entregado')
-                                fa-handshake
+                                fa-people-carry
                                 @break
                                 @case('Enviado')
-                                fa-truck-loading
+                                fa-dolly
                                 @break
                                 @default
                                     fa-stopwatch 
@@ -211,6 +218,32 @@ fas fa-truck-loading cyan-text-d
                     {{ csrf_field() }}
                 </form>
                @endif
+
+               @if($venta->estado == 'Abierta')
+               
+               <a onclick="enviar_venta({{ $venta->id }})" class="cyan-text-d m-1" 
+       data-toggle="tooltip" data-placement="bottom" title='Enviar la venta #{{ $venta->id }}'>
+         <i class="fas fa-2x fa-dolly"></i>
+               </a>
+              
+               <form id="enviar{{ $venta->id }}" method="POST" action="{{ route('ventas.send', $venta->id) }}" accept-charset="UTF-8">
+<input name="_method" type="hidden" value="PUT">
+{{ csrf_field() }}
+</form>
+@endif
+
+@if($venta->estado == 'Enviado')
+               
+<a onclick="entregar_venta({{ $venta->id }})" class="teal-text m-1" 
+data-toggle="tooltip" data-placement="bottom" title='Entregar la venta #{{ $venta->id }}'>
+<i class="fas fa-2x fa-people-carry"></i>
+</a>
+
+<form id="entregar{{ $venta->id }}" method="POST" action="{{ route('ventas.deliver', $venta->id) }}" accept-charset="UTF-8">
+<input name="_method" type="hidden" value="PUT">
+{{ csrf_field() }}
+</form>
+@endif
                       </td>
                     </tr>
                     @endforeach
@@ -232,17 +265,17 @@ fas fa-truck-loading cyan-text-d
             <div class="dropdown-menu">
             <a class="dropdown-item disabled" href="#"><i class="fas fa-calendar-alt mr-1"></i>Calendario</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" onclick="cambio_Compra('agendaDay')">Día</a>
-            <a class="dropdown-item" href="#" onclick="cambio_Compra('agendaWeek')">Semana</a>
-            <a class="dropdown-item" href="#" onclick="cambio_Compra('month')">Mes</a>
+            <a class="dropdown-item" href="#" onclick="cambio_Venta('agendaDay')">Día</a>
+            <a class="dropdown-item" href="#" onclick="cambio_Venta('agendaWeek')">Semana</a>
+            <a class="dropdown-item" href="#" onclick="cambio_Venta('month')">Mes</a>
             
             <div class="dropdown-divider"></div>
             <a class="dropdown-item disabled" href="#"><i class="fas fa-clipboard-list mr-1"></i>Listas</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" onclick="cambio_Compra('listDay')">Día</a>
-            <a class="dropdown-item" href="#" onclick="cambio_Compra('listWeek')">Semana</a>
-            <a class="dropdown-item" href="#" onclick="cambio_Compra('listMonth')">Mes</a>
-            <a class="dropdown-item" href="#" onclick="cambio_Compra('listYear')">Año</a>
+            <a class="dropdown-item" href="#" onclick="cambio_Venta('listDay')">Día</a>
+            <a class="dropdown-item" href="#" onclick="cambio_Venta('listWeek')">Semana</a>
+            <a class="dropdown-item" href="#" onclick="cambio_Venta('listMonth')">Mes</a>
+            <a class="dropdown-item" href="#" onclick="cambio_Venta('listYear')">Año</a>
             </div>
             <!-- Basic dropdown -->
             </div>
@@ -252,6 +285,10 @@ fas fa-truck-loading cyan-text-d
                                             <div id='calendar_ventas'></div>
             
                                         </div>
+                                        <div class="tab-pane fade" id="pills-map-venta" role="tabpanel" aria-labelledby="pills-map-venta-tab">
+                          
+                                          @yield('gmaps_list')
+                                      </div>
                                     
                                       </div>
             </div>

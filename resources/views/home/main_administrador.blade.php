@@ -30,34 +30,13 @@ Página principal | {{ config('app.name', 'Laravel') }}
 
             <!--Grid row-->
             <div class="row wow fadeIn">
-     <!--Grid column-->
-     <div class="col-md-6 mb-4">
-
-        <!--Card-->
-        <div class="card mb-4 hoverable" style="height: 95%;">
-
-            {{--
-            <!-- Card header -->
-            <div class="card-header text-center hoverable">
-                Alertas
-            </div>
-        --}}
-
-            <!--Card content-->
-            <div class="card-body">
-
-               
-
-            </div>
-
-        </div>
-        <!--/.Card-->
+   
 
         
-    </div>
+    
     <!--Grid column-->
                 <!--Grid column-->
-                <div class="col-md-6 mb-4">
+                <div class="col-md-12 mb-4">
 
                     <!--Card-->
                     <div class="card mb-4 hoverable">

@@ -24,7 +24,7 @@
                                           aria-expanded="false"
                                           class="btn dropdown-toggle right mr-2 mt-2 waves-effect hoverable  @switch($estado)
                                                 @case('Abierta')
-                                                    teal darken-1
+                                                    indigo
                                                 @break
                                                 @case('Cancelada')
                                                     red darken-3 
@@ -33,7 +33,7 @@
                                                     amber darken-3
                                                 @break
                                                 @case('Entregado')
-indigo
+teal darken-1
 @break
 @case('Enviado')
 cyan darken-2
@@ -54,10 +54,10 @@ fa-calendar-times
 fa-stopwatch
 @break
 @case('Entregado')
-fa-handshake
+fa-people-carry
 @break
 @case('Enviado')
-fa-truck-loading 
+fa-dolly 
 @break
 @default
 {{ ($estado) ? 'fa-ban' : 'fa-tasks' }}
@@ -73,16 +73,16 @@ fa-truck-loading
                                                         <i class="mr-1 fa-lg
                                                         @switch($item)
                                                     @case('Abierta')
-                                                        far fa-calendar-check teal-text
+                                                        far fa-calendar-check indigo-text
                                                     @break
                                                     @case('Cancelada')
                                                        far fa-calendar-times  red-text
                                                     @break
                                                     @case('Entregado')
-far fa-handshake indigo-text
+fas fa-people-carry teal-text
 @break
 @case('Enviado')
-fas fa-truck-loading cyan-text-d
+fas fa-dolly cyan-text-d
 @break
                                                     @default
                                                        fas fa-stopwatch orange-text
@@ -143,13 +143,13 @@ fas fa-truck-loading cyan-text-d
                           <span class="h5"><span class="hoverable badge
                             @switch($compra->estado)
                                 @case('Abierta')
-                                    teal darken-1
+                                    indigo
                                 @break
                                 @case('Cancelada')
                                     red darken-3 
                                 @break
                                 @case('Entregado')
-                                indigo
+                                teal darken-1
                                 @break
                                 @case('Enviado')
                                 cyan darken-2
@@ -167,10 +167,10 @@ fas fa-truck-loading cyan-text-d
                                     fa-calendar-times  
                                 @break
                                 @case('Entregado')
-                                fa-handshake
+                                fa-people-carry
                                 @break
                                 @case('Enviado')
-                                fa-truck-loading
+                                fa-dolly
                                 @break
                                 @default
                                     fa-stopwatch 
@@ -208,6 +208,7 @@ fas fa-truck-loading cyan-text-d
                                     data-toggle="tooltip" data-placement="bottom" title='Cancelar la compra #{{ $compra->id }}'>
                                       <i class="far fa-2x fa-calendar-times"></i>
                                             </a>
+                                            <input id="pay{{ $compra->id }}"  type="hidden"  value="{{ $pay }}">
                                             <form method="POST" id="pagar{{ $compra->id }}" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
                                                 <input name="merchantId"    type="hidden"  value="508029">
                                                 <input name="accountId"     type="hidden"  value="512321">

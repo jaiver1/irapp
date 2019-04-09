@@ -108,18 +108,19 @@ class HomeController extends Controller
             $JSON_compras = Venta::select(DB::raw(
                 "ventas.id AS id,ventas.id AS title,
                 REPLACE(ventas.fecha,' ','T') AS start,
+                ventas.fecha AS fecha,
                 CASE ventas.estado
-                WHEN 'Abierta' THEN '$this->teal'
+                WHEN 'Abierta' THEN '$this->indigo'
             WHEN 'Cancelada' THEN '$this->red'
-            WHEN 'Entregado' THEN '$this->indigo'
+            WHEN 'Entregado' THEN '$this->teal'
             WHEN 'Enviado' THEN '$this->cyan'
                 ELSE '$this->amber'
                 END AS color,
                 CASE ventas.estado
                 WHEN 'Abierta' THEN 'fa-calendar-check'
                 WHEN 'Cancelada' THEN 'fa-calendar-times'
-                WHEN 'Entregado' THEN 'fa-handshake'
-                WHEN 'Enviado' THEN 'fa-truck-loading'
+                WHEN 'Entregado' THEN 'fa-people-carry'
+                WHEN 'Enviado' THEN 'fa-dolly'
                 ELSE 'fa-stopwatch'
                 END AS icon
                 ,ventas.estado AS estado

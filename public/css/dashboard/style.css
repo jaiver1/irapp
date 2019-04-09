@@ -527,3 +527,7 @@ a .user-pic:focus
   border-top-left-radius: 15px !important;
   border-top-right-radius: 15px !important;
 }
+
+.cyan-text-d{
+  color: #0097a7 !important;
+}

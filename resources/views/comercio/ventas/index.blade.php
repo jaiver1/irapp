@@ -37,7 +37,7 @@ Lista de ventas | {{ config('app.name', 'Laravel') }}
                       <i class="fas fa-2x fa-plus"></i>
                             </a>
                             <a href="{{ route('ventas.deleted.index',array('Abierta')) }}" class="btn btn-outline-danger btn-circle waves-effect hoverable" 
-                    data-toggle="tooltip" data-placement="bottom" title="Compras eliminadas">
+                    data-toggle="tooltip" data-placement="bottom" title="Ventas eliminadas">
                       <i class="fas fa-2x fa-recycle"></i>
                             </a>
                     </div>
@@ -73,23 +73,23 @@ Lista de ventas | {{ config('app.name', 'Laravel') }}
 @yield('gmaps_links')
 <script type="text/javascript">
 
-function eliminar_venta(id){
+function entregar_venta(id){
     swal({
-  title: 'Eliminar la venta',
-  text: '¿Desea eliminar la venta #'+id+'?',
-  type: 'question',
-  confirmButtonText: '<i class="fas fa-trash-alt"></i> Eliminar',
-  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
+  title: 'Entregar la venta',
+  text: '¿Desea entregar la venta #'+id+'?',
+  type: 'success',
+  confirmButtonText: '<i class="fas fa-check"></i> Si',
+  cancelButtonText: '<i class="fas fa-times"></i> No',
   showCancelButton: true,
   showCloseButton: true,
   confirmButtonClass: 'btn btn-success',
-  cancelButtonClass: 'btn btn-danger',
+  cancelButtonClass: 'btn btn-secondary',
   buttonsStyling: false,
   animation: false,
   customClass: 'animated zoomIn',
 }).then((result) => {
   if (result.value) {
-    $( "#eliminar"+id ).submit();
+    $( "#entregar"+id ).submit();
   }else{
     swal({
   position: 'top-end',
@@ -104,6 +104,71 @@ function eliminar_venta(id){
   }
 })
 }
+
+function enviar_venta(id){
+    swal({
+  title: 'Enviar la venta',
+  text: '¿Desea enviar la venta #'+id+'?',
+  type: 'question',
+  confirmButtonText: '<i class="fas fa-check"></i> Si',
+  cancelButtonText: '<i class="fas fa-times"></i> No',
+  showCancelButton: true,
+  showCloseButton: true,
+  confirmButtonClass: 'btn cyan darken-2',
+  cancelButtonClass: 'btn btn-secondary',
+  buttonsStyling: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+}).then((result) => {
+  if (result.value) {
+    $( "#enviar"+id ).submit();
+  }else{
+    swal({
+  position: 'top-end',
+  type: 'error',
+  title: 'Operación cancelada por el usuario',
+  showConfirmButton: false,
+  toast: true,
+  animation: false,
+  customClass: 'animated lightSpeedIn',
+  timer: 3000
+})
+  }
+})
+}
+
+function cancelar_venta(id){
+    swal({
+  title: 'Cancelar la venta',
+  text: '¿Desea cancelar la venta #'+id+'?',
+  type: 'error',
+  confirmButtonText: '<i class="fas fa-check"></i> Si',
+  cancelButtonText: '<i class="fas fa-times"></i> No',
+  showCancelButton: true,
+  showCloseButton: true,
+  confirmButtonClass: 'btn btn-danger',
+  cancelButtonClass: 'btn btn-secondary',
+  buttonsStyling: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+}).then((result) => {
+  if (result.value) {
+    $( "#cancelar"+id ).submit();
+  }else{
+    swal({
+  position: 'top-end',
+  type: 'error',
+  title: 'Operación cancelada por el usuario',
+  showConfirmButton: false,
+  toast: true,
+  animation: false,
+  customClass: 'animated lightSpeedIn',
+  timer: 3000
+})
+  }
+})
+}
+
 
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
@@ -204,7 +269,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fas fa-receipt fa-lg"></i> Datos de la venta "'+ data[1]+'"';
+                        return '<i class="fas fa-receipt fa-lg"></i> Datos de la venta #'+ data[0];
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -263,8 +328,7 @@ var calendar = $('#calendar_ventas').fullCalendar({
       },
       eventClick: function(calEvent, jsEvent, view) {
         var ruta_info = "{{ route('ventas.show',array(null)) }}";
-var ruta_edit = "{{ route('ventas.edit',array(null)) }}";
-var is_admin = "{{ Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE) }}";
+
 //alert('Event: ' + calEvent.title);
 //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
 //alert('View: ' + view.name);
@@ -273,13 +337,25 @@ var is_admin = "{{ Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR
 $('.fc-day').removeClass('day-active');
 $('.fc-event').removeClass('event-active');
 $(this).addClass('event-active');
-var texto_info = "<hr/><strong style='font-weight:900;'>Compra #</strong><em style='font-weight:400;'>"+calEvent.title+"</em>";
+ var estado = (calEvent.estado == "Abierta")?'Aprobado':calEvent.estado;
+var texto_info = "<hr/><strong style='font-weight:900;'>Venta #</strong><em style='font-weight:400;'>"+calEvent.title+"</em>";
        texto_info += "<br/><strong style='font-weight:900;'>Fecha:</strong> <em style='font-weight:400;'>"+calEvent.fecha+"</em>";  
+       texto_info += "<br/><strong style='font-weight:900;'>Estado:</strong> <span class='h5'><span class='badge hoverable' style='background-color:"+calEvent.color+";'><i class='mr-1 fas "+calEvent.icon+"'></i>"+estado+"</span></span>";
+      texto_info += "<br/><strong style='font-weight:900;'>Cliente:</strong> <em style='font-weight:400;'>"+calEvent.primer_nombre+" "+calEvent.segundo_nombre+" "+calEvent.primer_apellido+" "+calEvent.segundo_apellido+"</em>";
+      texto_info += "<br/><strong style='font-weight:900;'>Dirección:</strong> <em style='font-weight:400;'>"+calEvent.direccion+" ("+calEvent.barrio+")</em>"; 
+      texto_info += "<br/><strong style='font-weight:900;'>Ciudad:</strong> <em style='font-weight:400;'>"+calEvent.ciudad+" - "+calEvent.departamento+" ("+calEvent.pais+")</em>";   
       texto_info += "<hr/><a class='text-primary m-1' target='_blank' href='"+ruta_info+"/"+calEvent.id+"'><strong style='font-weight:900;'><i class='fas fa-info-circle'></i>Mas información</strong></a>";
-      if(is_admin){
-        texto_info += "<a class='text-warning m-1' target='_blank' href='"+ruta_edit+"'><strong style='font-weight:900;'><i class='fas fa-pencil-alt'></i> Editar</strong></a>";
-        texto_info += "<a class='text-danger m-1' target='_blank' onclick='eliminar_venta("+calEvent.id+")'><strong style='font-weight:900;'><i class='fas fa-trash-alt'></i> Eliminar</strong></a>";
-        texto_info = texto_info.replace('//edit','/'+calEvent.id+'/edit');
+    
+      if(calEvent.estado == "Pendiente"){
+texto_info += "<a class='text-danger m-1' target='_blank' onclick='cancelar_venta("+calEvent.id+")'><strong style='font-weight:900;'><i class='far fa-calendar-times'></i> Cancelar</strong></a>";
+      }
+
+      else if(calEvent.estado == "Abierta"){
+texto_info += "<a class='cyan-text-d m-1' target='_blank' onclick='enviar_venta("+calEvent.id+")'><strong style='font-weight:900;'><i class='fas fa-dolly'></i> Enviar</strong></a>";
+      }
+
+      else if(calEvent.estado == "Enviado"){
+texto_info += "<a class='teal-text m-1' target='_blank' onclick='entregar_venta("+calEvent.id+")'><strong style='font-weight:900;'><i class='fas fa-people-carry'></i> Entregar</strong></a>";
       }
       texto_info = texto_info.replace('null','');
   swal({
@@ -313,36 +389,6 @@ $(this).addClass('day-active');
 if(view.name == 'month') {
     $('#calendar_ventas').fullCalendar('changeView', 'agendaDay');
     $('#calendar_ventas').fullCalendar('gotoDate', date);      
-  }else{
-    swal({
-  title: 'Registrar venta',
-  text: '¿Desea registrar una venta el dia "'+date.format("dddd DD/MMMM/YYYY")+'" a las "'+date.format("hh:mm a")+'"?',
-  type: 'question',
-  confirmButtonText: '<i class="fas fa-plus"></i> Registrar',
-  cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
-  showCancelButton: true,
-  showCloseButton: true,
-  confirmButtonClass: 'btn btn-success',
-  cancelButtonClass: 'btn btn-danger',
-  buttonsStyling: false,
-  animation: false,
-  customClass: 'animated zoomIn',
-}).then((result) => {
-  if (result.value) {
-    window.open(ruta+'/'+date.format("YYYY-MM-DD HH:mm"));
-  }else{
-    swal({
-  position: 'top-end',
-  type: 'error',
-  title: 'Operación cancelada por el usuario',
-  showConfirmButton: false,
-  toast: true,
-  animation: false,
-  customClass: 'animated lightSpeedIn',
-  timer: 3000
-})
-  }
-})
   }
 
 }
@@ -366,12 +412,12 @@ $('a[href="#pills-calendar-venta"]').tab('show');
         $('#calendar_ventas').fullCalendar('render');
 })
 
-    function cambio_Compra(view){
-    localDB_Compra(view);
+    function cambio_Venta(view){
+    localDB_Venta(view);
   $('#calendar_ventas').fullCalendar('changeView', view);
 }
 
-function localDB_Compra(view){
+function localDB_Venta(view){
     var id = "{{Auth::user()->id}}";
   if(view == "calendar"){
     var fc_vista = $('#calendar_ventas').fullCalendar('getView');

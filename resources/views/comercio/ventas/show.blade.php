@@ -36,37 +36,47 @@ Información de la venta #{{ $venta->id }} | {{ config('app.name', 'Laravel') }}
                     $pay += ($detalle->cantidad * $detalle->producto->valor_unitario)
                     @endphp  
                     @endforeach  
-                    @if($venta->estado == "Pendiente" && false)
-                    <div class="d-flex justify-content-center">
-                      <a onclick="pagar_venta({{ $venta->id }})"  class="btn btn-outline-success btn-circle waves-effect hoverable" 
-                        data-toggle="tooltip" data-placement="bottom" title='Pagar la venta #{{ $venta->id }}'>
-                          <i class="fas fa-2x fa-file-invoice-dollar"></i>
-                                </a>      
+                    @if($venta->estado == "Pendiente")
+                    <div class="d-flex justify-content-center">   
                           
                             <a onclick="cancelar_venta({{ $venta->id }})"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
                               data-toggle="tooltip" data-placement="bottom" title='Cancelar la venta #{{ $venta->id }}'>
                                 <i class="fas fa-2x fa-calendar-times"></i>
                                       </a>
-                            <form method="POST" id="pagar{{ $venta->id }}" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
-                              <input name="merchantId"    type="hidden"  value="508029">
-                              <input name="accountId"     type="hidden"  value="512321">
-                              <input name="description"   type="hidden"  value="Compra de productos en IRAPP">
-                              <input name="referenceCode" type="hidden"  value="IRAPP_{{$venta->id}}">
-                              <input name="amount"        type="hidden"  value="{{$pay}}">
-                              <input name="tax"           type="hidden"  value="0">
-                              <input name="taxReturnBase" type="hidden"  value="0">
-                              <input name="currency"      type="hidden"  value="COP">
-                              <input name="signature"     type="hidden"  value="{{md5('4Vj8eK4rloUd272L48hsrarnUA~508029~IRAPP_'.$venta->id.'~'.$pay.'~COP')}}">
-                              <input name="test"          type="hidden"  value="1">
-                              <input name="buyerEmail"    type="hidden"  value="{{$venta->cliente->persona->usuario->email}}">
-                              <input name="buyerFullName"    type="hidden"  value="{{$venta->cliente->persona->primer_nombre}} {{$venta->cliente->persona->segundo_nombre}} {{$venta->cliente->persona->primer_apellido}} {{$venta->cliente->persona->segundo_apellido}}">
-                              <input name="responseUrl"    type="hidden"  value="{{ route('ventas.pay') }}">
-                              <input name="confirmationUrl"    type="hidden"  value="{{ route('ventas.pay') }}">
-                            </form>
+                            
                             <form id="cancelar{{ $venta->id }}" method="POST" action="{{ route('ventas.cancel', $venta->id) }}" accept-charset="UTF-8">
                               <input name="_method" type="hidden" value="PUT">
                               {{ csrf_field() }}
                           </form>
+                    </div>
+                    @elseif($compra->estado == "Abierta")
+                    <div class="d-flex justify-content-center">
+   
+                          
+                            <a onclick="cancelar_compra({{ $compra->id }})"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
+                              data-toggle="tooltip" data-placement="bottom" title='Cancelar la compra #{{ $compra->id }}'>
+                                <i class="fas fa-2x fa-calendar-times"></i>
+                                      </a>
+                          
+                                      <form id="enviar{{ $venta->id }}" method="POST" action="{{ route('ventas.send', $venta->id) }}" accept-charset="UTF-8">
+                                        <input name="_method" type="hidden" value="PUT">
+                                        {{ csrf_field() }}
+                                        </form>
+                    </div>
+
+                    @elseif($compra->estado == "Enviado")
+                    <div class="d-flex justify-content-center">
+   
+                          
+                            <a onclick="cancelar_compra({{ $compra->id }})"  class="btn btn-outline-danger btn-circle waves-effect hoverable" 
+                              data-toggle="tooltip" data-placement="bottom" title='Cancelar la compra #{{ $compra->id }}'>
+                                <i class="fas fa-2x fa-people-carry"></i>
+                                      </a>
+                          
+                                      <form id="entregar{{ $venta->id }}" method="POST" action="{{ route('ventas.deliver', $venta->id) }}" accept-charset="UTF-8">
+                                        <input name="_method" type="hidden" value="PUT">
+                                        {{ csrf_field() }}
+                                        </form>
                     </div>
 @endif
                 </div>
@@ -96,13 +106,13 @@ Información de la venta #{{ $venta->id }} | {{ config('app.name', 'Laravel') }}
     <span class="h5"><span class="hoverable badge
       @switch($venta->estado)
           @case('Abierta')
-              teal darken-1
+              indigo
           @break
           @case('Cancelada')
               red darken-3 
           @break
           @case('Entregado')
-          indigo
+          teal darken-1
           @break
           @case('Enviado')
           cyan darken-2
@@ -120,10 +130,10 @@ Información de la venta #{{ $venta->id }} | {{ config('app.name', 'Laravel') }}
               fa-calendar-times  
           @break
           @case('Entregado')
-          fa-handshake
+          fa-people-carry
           @break
           @case('Enviado')
-          fa-truck-loading
+          fa-dolly
           @break
           @default
               fa-stopwatch 
@@ -138,11 +148,7 @@ Información de la venta #{{ $venta->id }} | {{ config('app.name', 'Laravel') }}
     @else
     <strong>Fecha</strong>
     @endif
-    <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($venta->fecha_inicio)->format('d/m/Y -:- h:i A') }}</span></span>
-@if($venta->fecha_fin &&  $venta->estado == "Cerrada")
-<br/> {{--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--}}
-<span class="h5"><span class="badge teal darken-1 hoverable"><i class="far fa-calendar-check mr-1"></i>{{ Carbon\Carbon::parse($venta->fecha_fin)->format('d/m/Y -:- h:i A') }}</span></span>
-@endif
+    <span class="h5"><span class="badge blue darken-3 hoverable"><i class="far fa-calendar-alt mr-1"></i>{{ Carbon\Carbon::parse($venta->fecha)->format('d/m/Y -:- h:i A') }}</span></span>
 </a>
   <a class="list-group-item waves-effect hoverable"><strong>Cliente: </strong>{{$venta->cliente->persona->primer_nombre}} {{$venta->cliente->persona->segundo_nombre}} {{$venta->cliente->persona->primer_apellido}} {{$venta->cliente->persona->segundo_apellido}}</a>
   <a class="list-group-item waves-effect hoverable"><strong>Ciudad: </strong>{{ $venta->direccion->ciudad->nombre }}</a>
@@ -302,70 +308,101 @@ Información de la venta #{{ $venta->id }} | {{ config('app.name', 'Laravel') }}
 
 <script type="text/javascript">
 
-alert();
-function pagar_venta(id,pay){
-        swal({
-      title: 'Pagar la venta',
-      text: '¿Desea pagar la venta #'+id+' ($'+addCommas(pay)+')?',
-      type: 'success',
-      confirmButtonText: '<i class="fas fa-check"></i> Si',
-      cancelButtonText: '<i class="fas fa-times"></i> No',
-      showCancelButton: true,
-      showCloseButton: true,
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-secondary',
-      buttonsStyling: false,
-      animation: false,
-      customClass: 'animated zoomIn',
-    }).then((result) => {
-      if (result.value) {
-        $( "#pagar"+id ).submit();
-      }else{
-        swal({
-      position: 'top-end',
-      type: 'error',
-      title: 'Operación cancelada por el usuario',
-      showConfirmButton: false,
-      toast: true,
-      animation: false,
-      customClass: 'animated lightSpeedIn',
-      timer: 3000
-    })
-      }
-    })
-    }
+function entregar_venta(id){
+    swal({
+  title: 'Entregar la venta',
+  text: '¿Desea entregar la venta #'+id+'?',
+  type: 'success',
+  confirmButtonText: '<i class="fas fa-check"></i> Si',
+  cancelButtonText: '<i class="fas fa-times"></i> No',
+  showCancelButton: true,
+  showCloseButton: true,
+  confirmButtonClass: 'btn btn-success',
+  cancelButtonClass: 'btn btn-secondary',
+  buttonsStyling: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+}).then((result) => {
+  if (result.value) {
+    $( "#entregar"+id ).submit();
+  }else{
+    swal({
+  position: 'top-end',
+  type: 'error',
+  title: 'Operación cancelada por el usuario',
+  showConfirmButton: false,
+  toast: true,
+  animation: false,
+  customClass: 'animated lightSpeedIn',
+  timer: 3000
+})
+  }
+})
+}
 
-    function cancelar_venta(id){
-        swal({
-      title: 'Cancelar la venta',
-      text: '¿Desea cancelar la venta #'+id+'?',
-      type: 'error',
-      confirmButtonText: '<i class="fas fa-check"></i> Si',
-      cancelButtonText: '<i class="fas fa-times"></i> No',
-      showCancelButton: true,
-      showCloseButton: true,
-      confirmButtonClass: 'btn btn-danger',
-      cancelButtonClass: 'btn btn-secondary',
-      buttonsStyling: false,
-      animation: false,
-      customClass: 'animated zoomIn',
-    }).then((result) => {
-      if (result.value) {
-        $( "#cancelar"+id ).submit();
-      }else{
-        swal({
-      position: 'top-end',
-      type: 'error',
-      title: 'Operación cancelada por el usuario',
-      showConfirmButton: false,
-      toast: true,
-      animation: false,
-      customClass: 'animated lightSpeedIn',
-      timer: 3000
-    })
-      }
-    })
-    }
+function enviar_venta(id){
+    swal({
+  title: 'Enviar la venta',
+  text: '¿Desea enviar la venta #'+id+'?',
+  type: 'question',
+  confirmButtonText: '<i class="fas fa-check"></i> Si',
+  cancelButtonText: '<i class="fas fa-times"></i> No',
+  showCancelButton: true,
+  showCloseButton: true,
+  confirmButtonClass: 'btn cyan darken-2',
+  cancelButtonClass: 'btn btn-secondary',
+  buttonsStyling: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+}).then((result) => {
+  if (result.value) {
+    $( "#enviar"+id ).submit();
+  }else{
+    swal({
+  position: 'top-end',
+  type: 'error',
+  title: 'Operación cancelada por el usuario',
+  showConfirmButton: false,
+  toast: true,
+  animation: false,
+  customClass: 'animated lightSpeedIn',
+  timer: 3000
+})
+  }
+})
+}
+
+function cancelar_venta(id){
+    swal({
+  title: 'Cancelar la venta',
+  text: '¿Desea cancelar la venta #'+id+'?',
+  type: 'error',
+  confirmButtonText: '<i class="fas fa-check"></i> Si',
+  cancelButtonText: '<i class="fas fa-times"></i> No',
+  showCancelButton: true,
+  showCloseButton: true,
+  confirmButtonClass: 'btn btn-danger',
+  cancelButtonClass: 'btn btn-secondary',
+  buttonsStyling: false,
+  animation: false,
+  customClass: 'animated zoomIn',
+}).then((result) => {
+  if (result.value) {
+    $( "#cancelar"+id ).submit();
+  }else{
+    swal({
+  position: 'top-end',
+  type: 'error',
+  title: 'Operación cancelada por el usuario',
+  showConfirmButton: false,
+  toast: true,
+  animation: false,
+  customClass: 'animated lightSpeedIn',
+  timer: 3000
+})
+  }
+})
+}
 
  $(function () {
       $('[data-toggle="tooltip"]').tooltip()
@@ -475,5 +512,5 @@ function pagar_venta(id,pay){
  
              $('.dataTables_length').addClass('bs-select');
          });
-
+</script>
 @endsection

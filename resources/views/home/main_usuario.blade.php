@@ -765,7 +765,7 @@ function localDB_Orden(view){
                     display: $.fn.dataTable.Responsive.display.modal( {
                         header: function ( row ) {
                             var data = row.data();
-                            return '<i class="fas fa-user-tag fa-lg"></i> Datos de la compra';
+                            return '<i class="fas fa-user-tag fa-lg"></i> Datos de la compra #'+ data[0];
                         }
                     } ),
                     renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -834,8 +834,9 @@ function localDB_Orden(view){
     $('.fc-day').removeClass('day-active');
     $('.fc-event').removeClass('event-active');
     $(this).addClass('event-active');
+    var estado = (calEvent.estado == "Abierta")?'Aprobado':calEvent.estado;
     var texto_info = "<hr/><strong style='font-weight:900;'>Nombre:</strong> <em style='font-weight:400;'>"+calEvent.title+"</em>";
-          texto_info += "<br/><strong style='font-weight:900;'>Estado:</strong> <span class='h5'><span class='badge hoverable' style='background-color:"+calEvent.color+";'><i class='mr-1 fas "+calEvent.icon+"'></i>"+calEvent.estado+"</span></span>";
+          texto_info += "<br/><strong style='font-weight:900;'>Estado:</strong> <span class='h5'><span class='badge hoverable' style='background-color:"+calEvent.color+";'><i class='mr-1 fas "+calEvent.icon+"'></i>"+estado+"</span></span>";
           texto_info += "<br/><strong style='font-weight:900;'>Cliente:</strong> <em style='font-weight:400;'>"+calEvent.primer_nombre+" "+calEvent.segundo_nombre+" "+calEvent.primer_apellido+" "+calEvent.segundo_apellido+"</em>";
           texto_info += "<br/><strong style='font-weight:900;'>Dirección:</strong> <em style='font-weight:400;'>"+calEvent.direccion+" ("+calEvent.barrio+")</em>"; 
           texto_info += "<br/><strong style='font-weight:900;'>Ciudad:</strong> <em style='font-weight:400;'>"+calEvent.ciudad+" - "+calEvent.departamento+" ("+calEvent.pais+")</em>";  
@@ -951,8 +952,7 @@ var calendar = $('#calendar_compras').fullCalendar({
       },
       eventClick: function(calEvent, jsEvent, view) {
         var ruta_info = "{{ route('compras.show',array(null)) }}";
-var ruta_edit = "{{ route('compras.edit',array(null)) }}";
-var is_admin = "{{ Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE) }}";
+      
 //alert('Event: ' + calEvent.title);
 //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
 //alert('View: ' + view.name);
@@ -961,14 +961,22 @@ var is_admin = "{{ Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR
 $('.fc-day').removeClass('day-active');
 $('.fc-event').removeClass('event-active');
 $(this).addClass('event-active');
+var estado = (calEvent.estado == "Abierta")?'Aprobado':calEvent.estado;
 var texto_info = "<hr/><strong style='font-weight:900;'>Compra #</strong><em style='font-weight:400;'>"+calEvent.title+"</em>";
-       texto_info += "<br/><strong style='font-weight:900;'>Fecha:</strong> <em style='font-weight:400;'>"+calEvent.fecha+"</em>";  
+texto_info += "<br/><strong style='font-weight:900;'>Fecha:</strong> <em style='font-weight:400;'>"+calEvent.fecha+"</em>";  
+       texto_info += "<br/><strong style='font-weight:900;'>Estado:</strong> <span class='h5'><span class='badge hoverable' style='background-color:"+calEvent.color+";'><i class='mr-1 fas "+calEvent.icon+"'></i>"+estado+"</span></span>";
+      texto_info += "<br/><strong style='font-weight:900;'>Cliente:</strong> <em style='font-weight:400;'>"+calEvent.primer_nombre+" "+calEvent.segundo_nombre+" "+calEvent.primer_apellido+" "+calEvent.segundo_apellido+"</em>";
+      texto_info += "<br/><strong style='font-weight:900;'>Dirección:</strong> <em style='font-weight:400;'>"+calEvent.direccion+" ("+calEvent.barrio+")</em>"; 
+      texto_info += "<br/><strong style='font-weight:900;'>Ciudad:</strong> <em style='font-weight:400;'>"+calEvent.ciudad+" - "+calEvent.departamento+" ("+calEvent.pais+")</em>";   
       texto_info += "<hr/><a class='text-primary m-1' target='_blank' href='"+ruta_info+"/"+calEvent.id+"'><strong style='font-weight:900;'><i class='fas fa-info-circle'></i>Mas información</strong></a>";
-      if(is_admin){
-        texto_info += "<a class='text-warning m-1' target='_blank' href='"+ruta_edit+"'><strong style='font-weight:900;'><i class='fas fa-pencil-alt'></i> Editar</strong></a>";
-        texto_info += "<a class='text-danger m-1' target='_blank' onclick='eliminar_compra("+calEvent.id+")'><strong style='font-weight:900;'><i class='fas fa-trash-alt'></i> Eliminar</strong></a>";
-        texto_info = texto_info.replace('//edit','/'+calEvent.id+'/edit');
+     
+      if(calEvent.estado == "Pendiente"){
+        var pay = $("#pay"+calEvent.title).val();
+        texto_info += "<a class='teal-text m-1' target='_blank' onclick='pagar_compra("+calEvent.id+",\""+pay+"\")'><strong style='font-weight:900;'><i class='fas fa-file-invoice-dollar'></i> Pagar</strong></a>";
+texto_info += "<a class='text-danger m-1' target='_blank' onclick='cancelar_compra("+calEvent.id+")'><strong style='font-weight:900;'><i class='far fa-calendar-times'></i> Cancelar</strong></a>";
       }
+
+      
       texto_info = texto_info.replace('null','');
   swal({
   title: 'Detalles de la compra',

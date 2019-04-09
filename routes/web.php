@@ -258,5 +258,8 @@ Route::put('/solicitudes/{id}', ['uses' => 'Actividad\Solicitud\SolicitudControl
 
 Route::get('/cliente/compras/pay', ['uses' => 'Comercio\Venta\VentaController@pay', 'as' => 'compras.pay']);
 Route::put('/cliente/compras/{id}', ['uses' => 'Comercio\Venta\VentaController@cancel', 'as' => 'compras.cancel']);
+Route::put('/ventas/cancel/{id}', ['uses' => 'Comercio\Venta\VentaController@cancel_admin', 'as' => 'ventas.cancel']);
+Route::put('/ventas/send/{id}', ['uses' => 'Comercio\Venta\VentaController@send', 'as' => 'ventas.send']);
+Route::put('/ventas/deliver/{id}', ['uses' => 'Comercio\Venta\VentaController@deliver', 'as' => 'ventas.deliver']);
 
 Route::get('/cliente/compras/{id}/{estado?}', ['uses' => 'Comercio\Venta\VentaController@info', 'as' => 'compras.info']);

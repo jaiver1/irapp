@@ -204,7 +204,7 @@ var datetime =  moment().format('DD MMMM YYYY, h-mm-ss a');
                 display: $.fn.dataTable.Responsive.display.modal( {
                     header: function ( row ) {
                         var data = row.data();
-                        return '<i class="fas fa-tags fa-lg"></i> Datos de la compra "'+ data[1]+'"';
+                        return '<i class="fas fa-tags fa-lg"></i> Datos de la compra #'+ data[0];
                     }
                 } ),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

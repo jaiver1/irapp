@@ -176,10 +176,11 @@ function salir(){
                             <li class="hoverable waves-light {{ (\Request::is('colaboradores') || \Request::is('colaboradores/*')) ? 'default' : 'simple' }}">
                                 <a href="{{route('colaboradores.index')}}"><i class="fas fa-user-cog mr-1"></i><span>Colaboradores</span></a>
                             </li>
+                            {{--
                             <li class="hoverable waves-light {{ (\Request::is('proveedores') || \Request::is('proveedores/*')) ? 'default' : 'simple' }}">
                                 <a href="{{route('proveedores.index')}}"><i class="fas fa-user-tag mr-1"></i><span>Proveedores</span></a>
                             </li>
-
+--}}
                         </ul>
                     </div>
                 </li>

@@ -139,7 +139,7 @@ No hay detalles de "{{$orden->nombre}}"
                                                                     @endif
 
                                                                     @if(Auth::user()->authorizeRoles('ROLE_COLABORADOR',FALSE))
-
+                                                                    @if($detalle->colaborador)
                                                 @if(Auth::user()->getColaborador()->id == $detalle->colaborador->id)
                           
                                                                  
@@ -177,7 +177,7 @@ No hay detalles de "{{$orden->nombre}}"
                               "></i>{{ $detalle->estado }}
                                                                         </button>
                                                                         <div class="dropdown-menu dropdown-menu-right">
-                                                                                @foreach($estados as $key => $estado)
+                                                                                @foreach($estados_ordenes as $key => $estado)
                                                                                 <button onclick="estado_detalle({{ $detalle->id }},'{{ $detalle->nombre }}','{{ $estado }}')"
                                                                                 class="dropdown-item waves-effect hoverable {{($detalle->estado == $estado) ? 'ocultr' : ''}}" type="button">
                                                                                         <i class="mr-1 fas fa-lg
@@ -203,6 +203,11 @@ No hay detalles de "{{$orden->nombre}}"
                                                                       <span class="banned" data-toggle="tooltip" data-placement="bottom" title=' Responsable: "{{ $detalle->colaborador->persona->primer_nombre }} {{ $detalle->colaborador->persona->primer_apellido }}"'>
                                                                         <i class="fas fa-2x fa-user-cog"></i>
                                                                     </span>
+                                                                    @endif
+                                                                    @else
+                                                                    <span class="h5"> <span class="hoverable badge black">
+                                                                        <i class="mr-1 fas fa-user-times"></i>Colaborador no asignado 
+                                                                  </span> </span>
                                                                     @endif
                                                                     @endif
                               </td>

@@ -67,7 +67,7 @@
 <small for="estado">Estado *</small>   
 <select onchange="estado()" class="form-control" required id="edit_estado" name="edit_estado">
 <option value="" disabled selected>Selecciona una opción</option>
-@foreach($estados as $key => $estado)
+@foreach($estados_ordenes as $key => $estado)
 <option {{  ($detalle->estado == $estado) ? 'selected' : '' }} value="{{ $estado}}">{{$estado}}</option>
 @endforeach
 </select>

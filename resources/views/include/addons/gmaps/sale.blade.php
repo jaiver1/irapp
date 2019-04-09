@@ -4,8 +4,8 @@
         <div class="form-row">
             <!-- Grid column -->
             <div class="col-md-12">
-             {{--@json($JSON_solicitudes)--}} 
-                    <div id="map_solicitudes" class="z-depth-1 hoverable div-border" style="height: 400px"></div>
+             {{--@json($JSON_ventas)--}} 
+                    <div id="map_ventas" class="z-depth-1 hoverable div-border" style="height: 400px"></div>
 
  </div>
         
@@ -31,7 +31,7 @@ async defer></script>
 
 function GoogleMap(position) {
 var location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-var map = new google.maps.Map(document.getElementById('map_solicitudes'), {
+var map = new google.maps.Map(document.getElementById('map_ventas'), {
 zoom: 15,
 center: location,
 panControl: true,
@@ -61,9 +61,8 @@ var details = [];
 var image ="{{ asset('img/gmaps/pin.png')  }}";
 var image2 ="{{ asset('img/gmaps/goal.png')  }}";
 var infowindow = "{{ $infowindow }}";
-var ruta_info = "{{ route('solicitudes.show',array(null)) }}";
-var is_admin = "{{ Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],FALSE) }}";
-var solicitudes = @json($JSON_solicitudes);
+var ruta_info = "{{ route('ventas.show',array(null)) }}";
+var ventas = @json($JSON_ventas);
 
  var infowindow_gmaps = new google.maps.InfoWindow({
     content: "<h6 style='font-weight:900;'>"+infowindow+"</h6>"
@@ -129,25 +128,31 @@ function error_gps(){
  // Adds a marker to the map and push to the array.
 
 
-    for (var i = 0; i < solicitudes.length; i++) {
-      var estado = (solicitudes[i].estado == "Abierta")?'Aprobado':solicitudes[i].estado;
-      var texto_info = "<h6 style='font-weight:900;'>"+solicitudes[i].direccion+" ("+solicitudes[i].barrio+")</h6>";
-      texto_info += "<hr/><strong style='font-weight:900;'>Nombre:</strong> <em style='font-weight:400;'>"+solicitudes[i].title+"</em>";
-      texto_info += "<br/><strong style='font-weight:900;'>Estado:</strong> <span class='h6'><span class='badge hoverable' style='background-color:"+solicitudes[i].color+";'><i class='mr-1 fas "+solicitudes[i].icon+"'></i>"+estado+"</span></span>";
-      texto_info += "<br/><strong style='font-weight:900;'>Cliente:</strong> <em style='font-weight:400;'>"+solicitudes[i].primer_nombre+" "+solicitudes[i].segundo_nombre+" "+solicitudes[i].primer_apellido+" "+solicitudes[i].segundo_apellido+"</em>";
-      texto_info += "<br/><strong style='font-weight:900;'>Ciudad:</strong> <em style='font-weight:400;'>"+solicitudes[i].ciudad+" - "+solicitudes[i].departamento+" ("+solicitudes[i].pais+")</em>";  
-      texto_info += "<br/><strong style='font-weight:900;'>Fecha inicio:</strong> <em style='font-weight:400;'>"+solicitudes[i].fecha_inicio+"</em>";  
-      texto_info += "<hr/><a class='text-primary m-1' target='_blank' href='"+ruta_info+"/"+solicitudes[i].id+"'><strong style='font-weight:900;'><i class='fas fa-info-circle'></i>Mas información</strong></a>";
-      if(is_admin){
-texto_info += "<a class='teal-text m-1' target='_blank' onclick='aprobar_solicitud("+solicitudes[i].id+",\""+solicitudes[i].title+"\")'><strong style='font-weight:900;'><i class='far fa-calendar-check'></i> Aprobar</strong></a>";
-texto_info += "<a class='text-danger m-1' target='_blank' onclick='cancelar_solicitud("+solicitudes[i].id+",\""+solicitudes[i].title+"\")'><strong style='font-weight:900;'><i class='far fa-calendar-times'></i> Cancelar</strong></a>";
+    for (var i = 0; i < ventas.length; i++) {
+      var estado = (ventas[i].estado == "Abierta")?'Aprobado':ventas[i].estado;
+      var texto_info = "<h6 style='font-weight:900;'>"+ventas[i].direccion+" ("+ventas[i].barrio+")</h6>";
+      texto_info += "<hr/><strong style='font-weight:900;'>Venta #</strong> <em style='font-weight:400;'>"+ventas[i].title+"</em>";
+      texto_info += "<br/><strong style='font-weight:900;'>Estado:</strong> <span class='h6'><span class='badge hoverable' style='background-color:"+ventas[i].color+";'><i class='mr-1 fas "+ventas[i].icon+"'></i>"+estado+"</span></span>";
+      texto_info += "<br/><strong style='font-weight:900;'>Cliente:</strong> <em style='font-weight:400;'>"+ventas[i].primer_nombre+" "+ventas[i].segundo_nombre+" "+ventas[i].primer_apellido+" "+ventas[i].segundo_apellido+"</em>";
+      texto_info += "<br/><strong style='font-weight:900;'>Ciudad:</strong> <em style='font-weight:400;'>"+ventas[i].ciudad+" - "+ventas[i].departamento+" ("+ventas[i].pais+")</em>";  
+      texto_info += "<br/><strong style='font-weight:900;'>Fecha:</strong> <em style='font-weight:400;'>"+ventas[i].fecha+"</em>";  
+      texto_info += "<hr/><a class='text-primary m-1' target='_blank' href='"+ruta_info+"/"+ventas[i].id+"'><strong style='font-weight:900;'><i class='fas fa-info-circle'></i>Mas información</strong></a>";
+      if(ventas[i].estado == "Pendiente"){
+texto_info += "<a class='text-danger m-1' target='_blank' onclick='cancelar_venta("+ventas[i].id+",\""+ventas[i].title+"\")'><strong style='font-weight:900;'><i class='far fa-calendar-times'></i> Cancelar</strong></a>";
+      }
+
+      else if(ventas[i].estado == "Abierta"){
+texto_info += "<a class='cyan-text-d m-1' target='_blank' onclick='enviar_venta("+ventas[i].id+",\""+ventas[i].title+"\")'><strong style='font-weight:900;'><i class='fas fa-dolly'></i> Enviar</strong></a>";
+      }
+      else if(ventas[i].estado == "Enviado"){
+texto_info += "<a class='teal-text m-1' target='_blank' onclick='entregar_venta("+ventas[i].id+",\""+ventas[i].title+"\")'><strong style='font-weight:900;'><i class='fas fa-people-carry'></i> Entregar</strong></a>";
       }
       texto_info = texto_info.replace('null','');
       var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(solicitudes[i].latitud, solicitudes[i].longitud),
+          position: new google.maps.LatLng(ventas[i].latitud, ventas[i].longitud),
 map: map,
 icon: image2,
-title:solicitudes[i].direccion+" ("+solicitudes[i].barrio+")",
+title:ventas[i].direccion+" ("+ventas[i].barrio+")",
 animation:google.maps.Animation.BOUNCE,
 info: texto_info
 });

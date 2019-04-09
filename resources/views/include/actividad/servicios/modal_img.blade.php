@@ -84,7 +84,7 @@
 
             <!--Footer-->
             <div class="modal-footer">
-                 
+                <small>{{ $servicio->descripcion }}</small>
                 </div>
         </div>
         <!--/.Content-->

@@ -227,7 +227,8 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
                         <div class="card card-ecommerce card-servicio-img-store hoverable h-100 z-depth-1 list-card">
 
                             <!--Card image-->
-                            <div class="view overlay hoverable waves-effect z-depth-1 zoom div img-list-card">
+                            <div class="view overlay hoverable waves-effect z-depth-1 zoom div img-list-card"
+                            onclick="mostrar_modal('{{ route("servicios.loadImagenes",$servicio->id) }}','img')">
                                 @if($servicio->imagenes->count())
                                 <img src="{{ asset($servicio->imagenes->first()->ruta) }}" class="img-fluid rounded img-thumbnail img-store"  alt="{{ $servicio->imagenes->first()->nombre }}" onerror=this.src="{{ asset('img/dashboard/servicios/404.png')  }}">
                                 @else
@@ -243,7 +244,7 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
                             <div class="card-body">
                                 <!--Category & Title-->
 
-                                <h5 class="card-title mb-1 h5-responsive"><strong><a href="" class="navy-text">{{ $servicio->nombre }}</a></strong>
+                                <h5 class="card-title mb-1 h5-responsive"><strong><a href="javascript:mostrar_modal('{{ route("servicios.loadImagenes",$servicio->id) }}','img')" class="navy-text">{{ $servicio->nombre }}</a></strong>
                                 <span class="badge store-color ml-1 hoverable">Nuevo</span></h5>
                                 <!-- Rating -->
                                 <ul class="rating">
@@ -310,12 +311,15 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
 </div>
 <!-- /.Main Container -->
 </section>
+<div id="container_img">
+    </div>
 @endsection
 
 @section('js_links')
 <script type="text/javascript" src="{{ asset('js/addons/select2.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/addons/i18n/es.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/store.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/irapp.js')}}"></script>
 <script type="text/javascript">
 function agregar_servicio(id,nombre){
     swal({

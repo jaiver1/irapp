@@ -263,3 +263,5 @@ Route::put('/ventas/send/{id}', ['uses' => 'Comercio\Venta\VentaController@send'
 Route::put('/ventas/deliver/{id}', ['uses' => 'Comercio\Venta\VentaController@deliver', 'as' => 'ventas.deliver']);
 
 Route::get('/cliente/compras/{id}/{estado?}', ['uses' => 'Comercio\Venta\VentaController@info', 'as' => 'compras.info']);
+
+Route::post('/clientes/register', ['uses' => 'Auth\RegisterController@register_cliente', 'as' => 'register_cliente']);

@@ -9,6 +9,18 @@ body {
     background: url("{{ asset('img/guest/login/background.jpg') }}")no-repeat center center;
     background-size: cover;
 }
+table{
+    color:white !important;
+}
+thead{
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+tbody{
+    background-color: rgba(0, 0, 0, 0.4) !important;
+}
+.center-div-link{
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
 </style>
 @endsection
 @section('content')
@@ -74,13 +86,42 @@ body {
                                     
                                 </div>
                                            <div class="center-div-link text-center text-md-left  col-md-6 col-xl-5 offset-xl-1">
-                                    <div class="white-text">
+                                                <div class="text-center">
+                                                        <h3 class="white-text"><i class="fas fa-users mr-2"></i>Usuarios</h3>
+                                                        <hr class="hr-light">
+                                                    </div>
+                                            <div class="table-responsive">
+                                                        <!-- Table  -->
+                                                        <table id="usuariosdt" class="table table-borderless table-hover display dt-responsive nowrap" cellspacing="0" width="100%">
+                              <thead class="th-color white-text">
+                                <tr class="z-depth-2">
+                                  <th class="th-sm">Correo
+                                  </th>
+                                  <th class="th-sm">Contraseña
+                                  </th>
+                               
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="hoverable">
+                                  <td>root@example.com</td>
+                                  <td>root1234</td>
+                                </tr>
+                                <tr class="hoverable">
+                                        <td>administrador@example.com</td>
+                                        <td>administrador</td>
+                                      </tr>
+                              </tbody>
+                            </table>
+                                                        <!-- Table  -->
+                                                        </div>
+                                  {{-- <div class="white-text">
                                         <h1 class="h1-responsive font-weight-bold wow fadeInRight" data-wow-delay="0.3s">¡Regístrate ahora! </h1>
                                         <hr class="hr-light wow fadeInRight" data-wow-delay="0.3s">
                                         <h6 class="wow fadeInRight text-intro" data-wow-delay="0.3s">¿Aún no tienes cuenta?, regístrate en simples pasos y empieza a disfrutar de los servicios ofrecidos por IRAPP.</h6>
                                         <br>
                                         <a href="{{ route('register') }}" class="btn btn-outline-white wow fadeInRight" data-wow-delay="0.3s"><i class="fas fa-user-plus mr-2"></i>Registrarse</a>
-                                    </div>
+                                    </div>--}} 
                                 </div>
 
                             </div>

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Contacto\Colaborador;
+namespace App\Http\Controllers\Contacto\Proveedor;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Contacto\Colaborador;
+use App\Models\Contacto\Proveedor;
 use App\Models\Contacto\Persona;
 use App\Models\Dato_basico\Ubicacion;
 use App\Models\Dato_basico\Direccion;
@@ -14,11 +14,11 @@ use App\Models\Dato_basico\Pais;
 use App\Models\Dato_basico\Ciudad;
 use App\Models\Root\User;
 use App\Models\Root\Role;
-use App\Models\Actividad\Servicio;
+use App\Models\Comercio\Producto;
 use Illuminate\Support\Facades\Validator;
 use SweetAlert;
 
-class ColaboradorController extends Controller
+class ProveedorController extends Controller
 {
     protected $redirectTo = '/login';
     
@@ -34,8 +34,8 @@ class ColaboradorController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $colaboradores = Colaborador::all();
-        return View::make('contacto.colaboradores.index')->with(compact('colaboradores'));
+        $proveedores = Proveedor::all();
+        return View::make('contacto.proveedores.index')->with(compact('proveedores'));
     }
 
     /**
@@ -46,21 +46,21 @@ class ColaboradorController extends Controller
     public function create()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $colaborador = new Colaborador;
+        $proveedor = new Proveedor;
         $persona = new Persona;
         $direccion = new Direccion;
         $direccion->ciudad()->associate(new Ciudad);
         $direccion->ubicacion()->associate(new Ubicacion);
         $persona->usuario()->associate(new User);
         $persona->direccion()->associate($direccion);
-        $colaborador->persona()->associate($persona);
+        $proveedor->persona()->associate($persona);
         $editar = false;
         $paises = Pais::orderBy('nombre', 'asc')->get();
         /*$usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
-        return View::make('contacto.colaboradores.create')->with(compact('colaborador','editar','paises','usuarios'));*/
-        return View::make('contacto.colaboradores.create')->with(compact('colaborador','editar','paises'));
+        return View::make('contacto.proveedores.create')->with(compact('proveedor','editar','paises','usuarios'));*/
+        return View::make('contacto.proveedores.create')->with(compact('proveedor','editar','paises'));
     }
 
     /**
@@ -99,7 +99,7 @@ class ColaboradorController extends Controller
         if ($validator->fails()) {
             $request->flash();
             SweetAlert::error('Error','Errores en el formulario.');
-            return Redirect::to('colaboradores/create')
+            return Redirect::to('proveedores/create')
                 ->withErrors($validator);
         } else {
 
@@ -111,7 +111,7 @@ class ColaboradorController extends Controller
             $usuario->save();
             $usuario->roles()->attach($role);
 
-            $colaborador = new Colaborador;
+            $proveedor = new Proveedor;
             $persona = new Persona;
             $ubicacion = new Ubicacion;
             $direccion = new Direccion;
@@ -142,11 +142,11 @@ class ColaboradorController extends Controller
             $persona->direccion()->associate($direccion);
             $persona->save();
 
-            $colaborador->persona()->associate($persona);     
-            $colaborador->save();        
+            $proveedor->persona()->associate($persona);     
+            $proveedor->save();        
 
-            SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre.' '.$colaborador->persona->primer_apellido.'" ha sido registrado.');
-            return Redirect::to('colaboradores');
+            SweetAlert::success('Exito','El proveedor "'.$proveedor->persona->primer_nombre.' '.$proveedor->persona->primer_apellido.'" ha sido registrado.');
+            return Redirect::to('proveedores');
         }
     }
 
@@ -159,8 +159,8 @@ class ColaboradorController extends Controller
     public function show($id)
     {  
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $colaborador = Colaborador::findOrFail($id);
-        return View::make('contacto.colaboradores.show')->with(compact('colaborador'));
+        $proveedor = Proveedor::findOrFail($id);
+        return View::make('contacto.proveedores.show')->with(compact('proveedor'));
         
         }
 
@@ -173,14 +173,14 @@ class ColaboradorController extends Controller
     public function edit($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $colaborador = Colaborador::findOrFail($id);
+        $proveedor = Proveedor::findOrFail($id);
         $editar = true;
         $paises = Pais::orderBy('nombre', 'asc')->get();
         /*$usuarios = User::whereHas('roles', function ($query) {
             $query->where('name', '=', 'ROLE_CLIENTE');
  })->whereNotIn('id',Persona::distinct()->select('usuario_id'))->get();
-        return View::make('contacto.colaboradores.edit')->with(compact('colaborador','editar','paises','usuarios'));*/
-           return View::make('contacto.colaboradores.edit')->with(compact('colaborador','editar','paises'));
+        return View::make('contacto.proveedores.edit')->with(compact('proveedor','editar','paises','usuarios'));*/
+           return View::make('contacto.proveedores.edit')->with(compact('proveedor','editar','paises'));
 
     }
 
@@ -216,11 +216,11 @@ class ColaboradorController extends Controller
         if ($validator->fails()) {
             $request->flash();
             SweetAlert::error('Error','Errores en el formulario.');
-            return Redirect::to('colaboradores/create')
+            return Redirect::to('proveedores/create')
                 ->withErrors($validator);
         } else {
-            $colaborador = Colaborador::findOrFail($id);
-            $persona = Persona::findOrFail($colaborador->persona_id);
+            $proveedor = Proveedor::findOrFail($id);
+            $persona = Persona::findOrFail($proveedor->persona_id);
             $direccion = Direccion::findOrFail($persona->direccion_id);
             $ubicacion = Ubicacion::findOrFail($direccion->ubicacion_id);
             $ciudad = Ciudad::findOrFail($request->ciudad_id);
@@ -246,12 +246,12 @@ class ColaboradorController extends Controller
             $persona->direccion()->associate($direccion);   
             $persona->save();
             
-            $colaborador->persona()->associate($persona);  
-            $colaborador->save();       
+            $proveedor->persona()->associate($persona);  
+            $proveedor->save();       
 
 
-        SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre.' '.$colaborador->persona->primer_apellido.'" ha sido editado.');
-        return Redirect::to('colaboradores');
+        SweetAlert::success('Exito','El proveedor "'.$proveedor->persona->primer_nombre.' '.$proveedor->persona->primer_apellido.'" ha sido editado.');
+        return Redirect::to('proveedores');
     }
     }
 
@@ -264,11 +264,11 @@ class ColaboradorController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $colaborador = Colaborador::findOrFail($id);
+        $proveedor = Proveedor::findOrFail($id);
     
-        $colaborador->delete();
-        SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre.' '.$colaborador->persona->primer_apellido.'" ha sido eliminado.');
-        return Redirect::to('colaboradores');
+        $proveedor->delete();
+        SweetAlert::success('Exito','El proveedor "'.$proveedor->persona->primer_nombre.' '.$proveedor->persona->primer_apellido.'" ha sido eliminado.');
+        return Redirect::to('proveedores');
 }
 
   /**
@@ -277,32 +277,32 @@ class ColaboradorController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function get_servicios($id,$isSearching)
+    public function get_productos($id,$isSearching)
     {  
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
         if($isSearching){
-            $servicios = Servicio::whereNotIn('id', function($query) use ($id){
-                $query->select('servicio_id')->from('colaborador_servicio')
-                ->where('colaborador_id','=',$id)->distinct();
+            $productos = Producto::whereNotIn('id', function($query) use ($id){
+                $query->select('producto_id')->from('proveedor_producto')
+                ->where('proveedor_id','=',$id)->distinct();
             })->get();
             $detalle_orden = false;
             $prefix = "";
-        return View::make('include.actividad.servicios.modal_search')->with(compact('servicios','detalle_orden','prefix'));
+        return View::make('include.comercio.productos.modal_search')->with(compact('productos','detalle_orden','prefix'));
         }else{
-            $colaborador = Colaborador::findOrFail($id);
-        return View::make('include.actividad.servicios.datatable')->with(compact('colaborador'));
+            $proveedor = Proveedor::findOrFail($id);
+        return View::make('include.comercio.productos.datatable')->with(compact('proveedor'));
         }
 
         }
 
         
-        public function add_servicios(Request $request)
+        public function add_productos(Request $request)
         {  
             Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
             try{
                 $rules = array(
-                    'servicio'                   => 'numeric|required',
-                    'colaborador'                   => 'numeric|required'          
+                    'producto'                   => 'numeric|required',
+                    'proveedor'                   => 'numeric|required'          
                   );
     
             $validator = Validator::make($request->all(), $rules);
@@ -311,9 +311,9 @@ class ColaboradorController extends Controller
             if ($validator->fails()) {
                 return response()->json(['status'=>500,'message'=>$validator]);
             }else{
-                $colaborador = Colaborador::findOrFail($request->servicio);
-                $servicio = Servicio::findOrFail($request->servicio);
-                $colaborador->servicios()->attach($servicio);
+                $proveedor = Proveedor::findOrFail($request->producto);
+                $producto = Producto::findOrFail($request->producto);
+                $proveedor->productos()->attach($producto);
                 return response()->json(['status'=>200,'message'=>'OK']);
                
         }
@@ -323,13 +323,13 @@ class ColaboradorController extends Controller
         } 
             }
 
-            public function delete_servicios(Request $request)
+            public function delete_productos(Request $request)
             {  
                 Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
                 try{
                     $rules = array(
-                        'servicio'                   => 'numeric|required',
-                        'colaborador'                   => 'numeric|required'          
+                        'producto'                   => 'numeric|required',
+                        'proveedor'                   => 'numeric|required'          
                       );
         
                 $validator = Validator::make($request->all(), $rules);
@@ -338,9 +338,9 @@ class ColaboradorController extends Controller
                 if ($validator->fails()) {
                     return response()->json(['status'=>500,'message'=>$validator]);
                 }else{
-                    $colaborador = Colaborador::findOrFail($request->servicio);
-                    $servicio = Servicio::findOrFail($request->servicio);
-                    $colaborador->servicios()->detach($servicio);
+                    $proveedor = Proveedor::findOrFail($request->producto);
+                    $producto = Producto::findOrFail($request->producto);
+                    $proveedor->productos()->detach($producto);
                     return response()->json(['status'=>200,'message'=>'OK']);
                    
             }

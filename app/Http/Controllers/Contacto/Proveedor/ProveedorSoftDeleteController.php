@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Contacto\colaborador;
+namespace App\Http\Controllers\Contacto\proveedor;
 use App\Http\Controllers\Controller;
-use App\Models\Contacto\colaborador;
+use App\Models\Contacto\Proveedor;
 use SweetAlert;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ColaboradorSoftDeleteController extends Controller
+class ProveedorSoftDeleteController extends Controller
 {
     protected $redirectTo = '/login';
     
@@ -26,14 +26,14 @@ class ColaboradorSoftDeleteController extends Controller
      */
     private static function getDeletedCliente($id)
     {
-        $colaborador = colaborador::onlyTrashed()->where('id', $id)->get();
+        $proveedor = Proveedor::onlyTrashed()->where('id', $id)->get();
         
-        if (count($colaborador) != 1) {
-            SweetAlert::error('Error','El colaborador no existe.');
-            return redirect('/colaboradores/deleted');
+        if (count($proveedor) != 1) {
+            SweetAlert::error('Error','El proveedor no existe.');
+            return redirect('/proveedores/deleted');
         }
 
-        return $colaborador[0];
+        return $proveedor[0];
     }
 
     /**
@@ -44,8 +44,8 @@ class ColaboradorSoftDeleteController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $colaboradores = colaborador::onlyTrashed()->get();
-        return View('contacto.colaboradores.index_deleted', compact('colaboradores'));
+        $proveedores = Proveedor::onlyTrashed()->get();
+        return View('contacto.proveedores.index_deleted', compact('proveedores'));
     }
 
 
@@ -60,10 +60,10 @@ class ColaboradorSoftDeleteController extends Controller
     public function update($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $colaborador = self::getDeletedCliente($id);
-        $colaborador->restore();
-        SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre." ".$colaborador->persona->primer_apellido.'" ha sido restaurada.');
-        return Redirect::to('colaboradores/deleted');
+        $proveedor = self::getDeletedCliente($id);
+        $proveedor->restore();
+        SweetAlert::success('Exito','El proveedor "'.$proveedor->persona->primer_nombre." ".$proveedor->persona->primer_apellido.'" ha sido restaurada.');
+        return Redirect::to('proveedores/deleted');
     }
 
     /**
@@ -76,9 +76,9 @@ class ColaboradorSoftDeleteController extends Controller
     public function destroy($id)
     {
         Auth::user()->authorizeRoles(['ROLE_ROOT','ROLE_ADMINISTRADOR'],TRUE);
-        $colaborador = self::getDeletedCliente($id);
-        $colaborador->forceDelete();
-        SweetAlert::success('Exito','El colaborador "'.$colaborador->persona->primer_nombre." ".$colaborador->persona->primer_apellido.'" ha sido eliminado permanentemente.');
-        return Redirect::to('colaboradores/deleted');
+        $proveedor = self::getDeletedCliente($id);
+        $proveedor->forceDelete();
+        SweetAlert::success('Exito','El proveedor "'.$proveedor->persona->primer_nombre." ".$proveedor->persona->primer_apellido.'" ha sido eliminado permanentemente.');
+        return Redirect::to('proveedores/deleted');
     }
 }

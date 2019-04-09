@@ -428,4 +428,29 @@ abort(403);
 
         return View::make('store.servicios.list')->with(compact('servicios','categorias','filter'));
     }
+
+      /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function load_servicios($id)
+    {  
+        $servicio = Servicio::findOrFail($id);
+        return View::make('include.actividad.servicios.modal_img')->with(compact('servicio'));
+        
+        }
+
+           /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function load_productos($id)
+    {  
+        $producto = Producto::findOrFail($id);
+        return View::make('include.comercio.productos.modal_img')->with(compact('producto'));   
+        }
 }

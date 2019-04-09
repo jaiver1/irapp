@@ -228,7 +228,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
 
                             <!--Card image-->
                             <div class="view overlay hoverable waves-effect z-depth-1 zoom div img-list-card"
-                            onclick="mostrar_modal('{{ route("productos.loadImagenes",$producto->id) }}','img')">
+                            onclick="mostrar_modal('{{ route("store.productos.loadImagenes",$producto->id) }}','img')">
                                 @if($producto->imagenes->count())
                                 <img src="{{ asset($producto->imagenes->first()->ruta) }}" class="img-fluid rounded img-thumbnail img-store"  alt="{{ $producto->imagenes->first()->nombre }}" onerror=this.src="{{ asset('img/dashboard/productos/404.png')  }}">
                                 @else
@@ -244,7 +244,7 @@ Lista de productos | {{ config('app.name', 'Laravel') }}
                             <div class="card-body">
                                 <!--Category & Title-->
 
-                                <h5 class="card-title mb-1 h5-responsive"><strong><a href="javascript:mostrar_modal('{{ route("productos.loadImagenes",$producto->id) }}','img')" class="navy-text">{{ $producto->nombre }}</a></strong>
+                                <h5 class="card-title mb-1 h5-responsive"><strong><a href="javascript:mostrar_modal('{{ route("store.productos.loadImagenes",$producto->id) }}','img')" class="navy-text">{{ $producto->nombre }}</a></strong>
                                 <span class="badge store-color ml-1 hoverable">Nuevo</span></h5>
                                 <!-- Rating -->
                                 <ul class="rating">

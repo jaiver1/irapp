@@ -228,7 +228,7 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
 
                             <!--Card image-->
                             <div class="view overlay hoverable waves-effect z-depth-1 zoom div img-list-card"
-                            onclick="mostrar_modal('{{ route("servicios.loadImagenes",$servicio->id) }}','img')">
+                            onclick="mostrar_modal('{{ route("store.servicios.loadImagenes",$servicio->id) }}','img')">
                                 @if($servicio->imagenes->count())
                                 <img src="{{ asset($servicio->imagenes->first()->ruta) }}" class="img-fluid rounded img-thumbnail img-store"  alt="{{ $servicio->imagenes->first()->nombre }}" onerror=this.src="{{ asset('img/dashboard/servicios/404.png')  }}">
                                 @else
@@ -244,7 +244,7 @@ Lista de servicios | {{ config('app.name', 'Laravel') }}
                             <div class="card-body">
                                 <!--Category & Title-->
 
-                                <h5 class="card-title mb-1 h5-responsive"><strong><a href="javascript:mostrar_modal('{{ route("servicios.loadImagenes",$servicio->id) }}','img')" class="navy-text">{{ $servicio->nombre }}</a></strong>
+                                <h5 class="card-title mb-1 h5-responsive"><strong><a href="javascript:mostrar_modal('{{ route("store.servicios.loadImagenes",$servicio->id) }}','img')" class="navy-text">{{ $servicio->nombre }}</a></strong>
                                 <span class="badge store-color ml-1 hoverable">Nuevo</span></h5>
                                 <!-- Rating -->
                                 <ul class="rating">

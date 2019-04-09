@@ -265,3 +265,6 @@ Route::put('/ventas/deliver/{id}', ['uses' => 'Comercio\Venta\VentaController@de
 Route::get('/cliente/compras/{id}/{estado?}', ['uses' => 'Comercio\Venta\VentaController@info', 'as' => 'compras.info']);
 
 Route::post('/clientes/register', ['uses' => 'Auth\RegisterController@register_cliente', 'as' => 'register_cliente']);
+
+Route::get('/store/productos/load/imagenes/{id}', ['uses' => 'StoreController@load_productos', 'as' => 'store.productos.loadImagenes']);
+Route::get('/store/servicios/load/imagenes/{id}', ['uses' => 'StoreController@load_servicios', 'as' => 'store.servicios.loadImagenes']);

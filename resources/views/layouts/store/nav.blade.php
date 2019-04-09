@@ -2,6 +2,7 @@
 @section('css_auth')
 <link rel="stylesheet" href="{{ asset('css/store/style.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/store/store.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/dashboard/style.css') }}" type="text/css">
 @endsection
 @section('js_auth')
 <script type="text/javascript">

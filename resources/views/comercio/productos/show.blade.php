@@ -322,10 +322,10 @@ jQuery(document).ready(function() {
         try {
             var myDropzone = new Dropzone("#producto_dropzone" , {
                 paramName: "imagen", // The name that will be used to transfer the file
-                maxFilesize: 2, // MB
+                maxFilesize: 30, // MB
                 addRemoveLinks : true,
     acceptedFiles: '.png,.jpg,.jpeg',
-    timeout: 5000,
+    timeout: 30000,
         parallelUploads: 10,
                 init: function() {
                             this.on("addedfile", function(file) {

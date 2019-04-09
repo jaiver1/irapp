@@ -13,7 +13,8 @@
         "laravel/tinker": "^1.0",
         "milon/barcode": "^5.3",
         "realrashid/sweet-alert": "^1.1",
-        "zizaco/entrust": "^1.9"
+        "zizaco/entrust": "^1.9",
+        "ext-gd":" *"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
